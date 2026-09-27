@@ -14,9 +14,14 @@
     the video (for pages whose one autoplay loop is elsewhere, such as the experiences posters on home)
   - notePosition: where the placeholder caption sits, 'bottom-left' (default), 'bottom-right',
     'top-left' or 'top-right', so it never sits under text laid over the media
+  - sizes: the img `sizes` hint for srcset. Default: 100vw for 'fill' media, otherwise a card-sized guess
   - class: extra class on the wrapper
+
+  Photos carry a srcset of the width variants listed in src/data/media/image-sizes.json (written by
+  scripts/media-variants.mjs), and their intrinsic width and height so nothing shifts while loading.
 */
 import { media as getMedia } from '../../data/media';
+import imageSizes from '../../data/media/image-sizes.json';
 
 interface Props {
   media: string;
@@ -26,10 +31,11 @@ interface Props {
   showNote?: boolean;
   still?: boolean;
   notePosition?: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
+  sizes?: string;
   class?: string;
 }
 
-const { media: slotId, aspect, priority = false, fit = 'cover', showNote = true, still = false, notePosition = 'bottom-left', class: className = '' } = Astro.props;
+const { media: slotId, aspect, priority = false, fit = 'cover', showNote = true, still = false, notePosition = 'bottom-left', sizes: sizesProp, class: className = '' } = Astro.props;
 const m = getMedia(slotId);
 const ratio = aspect ?? m.aspect ?? '4 / 5';
 const fill = ratio === 'fill';
@@ -41,6 +47,16 @@ const tone = m.tone ?? 'sand';
 const kind = m.type === 'video' ? 'Video' : 'Photograph';
 // Crop focus for cover-fit media (slot `position`), so heads and horizons stay in frame.
 const fitStyle = `object-fit: ${fit}${m.position && fit === 'cover' ? `; object-position: ${m.position}` : ''}`;
+// Responsive widths for photos (and a still video's poster).
+type SizeInfo = { w: number; h: number; variants: number[] };
+const sizeMap = imageSizes as Record<string, SizeInfo>;
+const srcsetFor = (src?: string) => {
+  const info = src ? sizeMap[src] : undefined;
+  if (!src || !info) return undefined;
+  return [...info.variants.map((w) => `${src.replace(/\.jpg$/, `-w${w}.jpg`)} ${w}w`), `${src} ${info.w}w`].join(', ');
+};
+const imgInfo = imageSrc ? sizeMap[imageSrc] : undefined;
+const sizes = sizesProp ?? (fill ? '100vw' : '(max-width: 767px) 92vw, 46vw');
 ---
 <figure
   class:list={['media', `media--${m.type}`, fill ? 'media--fill' : '', hasSrc ? 'media--real' : 'media--placeholder', `tone-${tone}`, className]}
@@ -49,9 +65,13 @@ const fitStyle = `object-fit: ${fit}${m.position && fit === 'cover' ? `; object-
 >
   {hasSrc && (m.type === 'image' || asStill) && (
     <picture>
-      {m.srcMobile && !asStill && <source media="(max-width: 767px)" srcset={m.srcMobile} />}
+      {m.srcMobile && !asStill && <source media="(max-width: 767px)" srcset={srcsetFor(m.srcMobile) ?? m.srcMobile} sizes={sizes} />}
       <img
         src={imageSrc}
+        srcset={srcsetFor(imageSrc)}
+        sizes={srcsetFor(imageSrc) ? sizes : undefined}
+        width={imgInfo?.w}
+        height={imgInfo?.h}
         alt={m.alt}
         loading={priority ? 'eager' : 'lazy'}
         decoding="async"

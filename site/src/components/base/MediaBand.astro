@@ -9,7 +9,9 @@
   - media: media slot id (required)
   - height: 'screen' (100svh), 'tall' (86svh), 'band' (a wide band, default) or 'auto' (the slot's aspect)
   - parallax: soft vertical drift bound to scroll (default true). CSS scroll-driven where supported,
-    IntersectionObserver plus rAF fallback, none under reduced motion
+    IntersectionObserver plus rAF fallback, none under reduced motion. Where scroll-driven animation
+    is supported, photos also scale: a page-opening band zooms in as it leaves, other bands settle
+    from 1.08 to 1 as they cross the screen
   - text: 'over' (salt text on the media, a local bottom gradient behind it only), 'below' (text on
     sand beneath the band) or 'none' (default)
   - eyebrow, heading, level (2), body, link { label, href }, align ('left' | 'centre')
@@ -114,11 +116,18 @@ const hasText = text !== 'none' && (heading || body || eyebrow);
     position: absolute;
     inset: auto 0 0 0;
     padding-block: clamp(6rem, 18vh, 12rem) clamp(2rem, 6vh, 4rem);
-    background: linear-gradient(to top, rgb(35 32 14 / 0.3), rgb(35 32 14 / 0));
+    /* A faint pool of shade under the words at lower left plus the bottom wash, and a soft glow on the
+       words themselves, so salt text holds over white linen, surf and sand (design review 27-09-2026).
+       Still local to the text, never a full-frame scrim. */
+    background:
+      radial-gradient(62% 85% at 18% 100%, rgb(35 32 14 / 0.24), rgb(35 32 14 / 0) 72%),
+      linear-gradient(to top, rgb(35 32 14 / 0.3), rgb(35 32 14 / 0));
     color: var(--salt-25);
     --heading: var(--salt-25);
     --focus: var(--focus-on-dark);
   }
+  .band__over-inner { text-shadow: 0 0 1.5rem rgb(35 32 14 / 0.32), 0 1px 2px rgb(35 32 14 / 0.2); }
+  .band__frame:has(.band__media .media--placeholder) .band__over-inner { text-shadow: none; }
   /* While the slot still shows its light placeholder, the words switch to sage ink and the local
      gradient goes (QA M3, CD review 02 item 1). Belle's footage brings back the salt text. */
   .band__frame:has(.band__media .media--placeholder) .band__over {
@@ -160,12 +169,28 @@ const hasText = text !== 'none' && (heading || body || eyebrow);
         animation-timeline: --band-frame;
         animation-range: cover 0% cover 100%;
       }
+      /* Photos only (a video such as the bath clip already has its own push-in). A band that opens
+         the page zooms in slowly as it leaves, like the home hero. Any other band settles from a
+         slight scale as it crosses the screen, a slow Ken Burns bound to scroll. */
+      .band__frame[data-hero] .band__media :global(.media--image) {
+        transform-origin: 50% 60%;
+        animation: band-zoom linear both;
+        animation-timeline: --band-frame;
+        animation-range: exit 0% exit 100%;
+      }
+      .band__frame:not([data-hero]) .band__media--parallax :global(.media--image) {
+        animation: band-settle linear both;
+        animation-timeline: --band-frame;
+        animation-range: cover 0% cover 70%;
+      }
     }
   }
   @keyframes band-drift {
     from { transform: translate3d(0, -6%, 0); }
     to { transform: translate3d(0, 6%, 0); }
   }
+  @keyframes band-zoom { from { scale: 1; } to { scale: 1.12; } }
+  @keyframes band-settle { from { scale: 1.08; } to { scale: 1; } }
   @media (prefers-reduced-motion: reduce) {
     .band__media--parallax { inset: 0; transform: none; }
   }

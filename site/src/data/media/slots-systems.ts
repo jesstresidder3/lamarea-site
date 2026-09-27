@@ -65,7 +65,7 @@ const raw: MediaSlot[] = [
   /* ---------------------------------------------------------------- venues: cards, map pane and galleries */
   { id: 'venue-naiko-deep-creek-card', src: '/media/coast-cove-house-drone-late.jpg', position: '32% 50%', type: 'image', alt: 'The retreat house on a green hillside above a turquoise cove at Deep Creek, seen from the air', aspect: '4 / 5', tone: 'sea',
     suggested: 'NAIKO ACCOM (22 files) or Naiko At The Bluff Content. The two Naiko sets are not yet split (S4)' },
-  { id: 'venue-naiko-deep-creek-map', src: '/media/headland-late-light-drone.jpg', position: '55% 50%', type: 'image', alt: 'Late sun breaking over the sea above a grassy headland and the retreat house', aspect: '4 / 5', tone: 'sea',
+  { id: 'venue-naiko-deep-creek-map', src: '/media/headland-late-light-drone.jpg', position: '55% 60%', type: 'image', alt: 'The retreat house on a grassy headland above the sea in late golden light, seen from the air', aspect: '4 / 5', tone: 'sea',
     suggested: 'NAIKO ACCOM, an exterior with the sea. Frame from DJI_20251109100906_0030_D.MP4 (the Naiko deep creek folder) as an alternate' },
   { id: 'venue-naiko-deep-creek-deck', src: '/media/glass-cliff-sea.jpg', position: '50% 50%', type: 'image', alt: 'A glass held out over the deck rail, the cliffs and white surf below', aspect: '5 / 4', tone: 'salt', suggested: 'NAIKO ACCOM (22 files), the front deck' },
   { id: 'venue-naiko-deep-creek-bath', src: '/media/bath-window-sea.jpg', position: '50% 65%', type: 'image', alt: 'The freestanding bath beside a tall window onto the hills and sea, a candle on the stool', aspect: '5 / 4', tone: 'dusk',

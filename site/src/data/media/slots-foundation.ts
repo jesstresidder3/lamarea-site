@@ -43,9 +43,9 @@ const raw: MediaSlot[] = [
     tone: 'sand',
   },
   {
-    id: 'menu-corporate', src: '/media/chef-kitchen-guests.jpg', position: '50% 40%',
+    id: 'menu-corporate', src: '/media/table-set-sea-light.jpg', position: '50% 45%',
     type: 'image',
-    alt: 'A chef talking two guests through a dish at the kitchen bench',
+    alt: 'Two women setting a long green linen table with lemons and wine, the sea bright beyond the glass',
     aspect: '4 / 5',
     suggested: 'Beresford Accom images (9 professional files). The Ray White shoot replaces it once the Dropbox opens and permission is given',
     tone: 'dusk',
@@ -63,9 +63,9 @@ const raw: MediaSlot[] = [
   // Zoom mosaic (build spec section 12): the centre frame is NOT beach, and the five stills around
   // it are the offer itself.
   {
-    id: 'zoom-centre', src: '/media/hills-coast-drone.jpg', position: '50% 50%',
+    id: 'zoom-centre', src: '/media/bay-cliff-walk-drone.jpg', position: '55% 55%',
     type: 'image',
-    alt: 'Farmland and hills meeting the rocky coast of the Fleurieu Peninsula, seen from the air',
+    alt: 'A walker on the clifftop track above a bright bay of turquoise water and white sand, seen from the air',
     aspect: '16 / 10',
     suggested: 'The unnumbered left pan across the hills (BD-107, X12). Alternate: a Beresford Accom images vineyard frame',
     note: 'Launch as a still (the hero is the page’s one autoplay loop). This frame ends at full screen, so use the full-resolution frame. Not a beach shot.',
@@ -106,9 +106,9 @@ const raw: MediaSlot[] = [
     tone: 'dusk',
   },
   {
-    id: 'zoom-bath', src: '/media/bath-cliff-candle.jpg', position: '50% 50%',
+    id: 'zoom-bath', src: '/media/bath-window-sea.jpg', position: '50% 72%',
     type: 'image',
-    alt: 'A guest in a freestanding bath beside the window, a candle lit and the sea breaking on the rocks below',
+    alt: 'A freestanding bath beside a tall window onto the hills and sea, a candle lit on the stool',
     aspect: '16 / 10',
     suggested: 'Bath shot landscape.jpg, Naiko Deep Creek',
     tone: 'salt',

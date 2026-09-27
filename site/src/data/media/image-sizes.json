@@ -1,0 +1,489 @@
+{
+ "/media/balance-brownies-berries.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/barrel-sauna-cliff.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/barrel-sauna-cold-tubs.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/bath-video-poster.jpg": {
+  "w": 1920,
+  "h": 1080,
+  "variants": [
+   640,
+   1024,
+   1600
+  ]
+ },
+ "/media/bath-window-sea.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/bay-cliff-walk-drone.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "variants": [
+   640,
+   1024,
+   1600
+  ]
+ },
+ "/media/beach-cliff-sun-seated.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/beach-cliff-sun.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/beach-dusk-drone.jpg": {
+  "w": 2000,
+  "h": 1123,
+  "variants": [
+   640,
+   1024,
+   1600
+  ]
+ },
+ "/media/beach-walk-bright.jpg": {
+  "w": 1333,
+  "h": 2000,
+  "variants": [
+   640,
+   1024
+  ]
+ },
+ "/media/beach-walk-cliffs.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/bowl-held.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/bowls-hands-overhead.jpg": {
+  "w": 1400,
+  "h": 933,
+  "variants": [
+   640,
+   1024
+  ]
+ },
+ "/media/breathwork-verandah-close.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/breathwork-verandah.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/chef-kitchen-guests.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/chef-plating.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/chef-pouring-oil.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/coast-cove-house-drone-late.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "variants": [
+   640,
+   1024,
+   1600
+  ]
+ },
+ "/media/coast-cove-house-drone-mobile.jpg": {
+  "w": 995,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/coast-cove-house-drone.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "variants": [
+   640,
+   1024,
+   1600
+  ]
+ },
+ "/media/cup-sea-view.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/deck-breathwork-sky.jpg": {
+  "w": 1333,
+  "h": 2000,
+  "variants": [
+   640,
+   1024
+  ]
+ },
+ "/media/deck-rest-faces.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/deck-sea-guests.jpg": {
+  "w": 1333,
+  "h": 2000,
+  "variants": [
+   640,
+   1024
+  ]
+ },
+ "/media/deck-stretch-close.jpg": {
+  "w": 1120,
+  "h": 1400,
+  "variants": [
+   640,
+   1024
+  ]
+ },
+ "/media/deck-stretch-sea.jpg": {
+  "w": 1333,
+  "h": 2000,
+  "variants": [
+   640,
+   1024
+  ]
+ },
+ "/media/fish-mussels-plate.jpg": {
+  "w": 2000,
+  "h": 1333,
+  "variants": [
+   640,
+   1024,
+   1600
+  ]
+ },
+ "/media/gift-box.jpg": {
+  "w": 1400,
+  "h": 933,
+  "variants": [
+   640,
+   1024
+  ]
+ },
+ "/media/glass-cliff-sea.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/headland-late-light-drone.jpg": {
+  "w": 2000,
+  "h": 1123,
+  "variants": [
+   640,
+   1024,
+   1600
+  ]
+ },
+ "/media/hills-coast-drone-wide.jpg": {
+  "w": 2000,
+  "h": 1123,
+  "variants": [
+   640,
+   1024,
+   1600
+  ]
+ },
+ "/media/hills-coast-drone.jpg": {
+  "w": 2000,
+  "h": 1123,
+  "variants": [
+   640,
+   1024,
+   1600
+  ]
+ },
+ "/media/hillside-walk-three.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/journal-pen-candle.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/kangaroo-paddock.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/kingfish-plate.jpg": {
+  "w": 1129,
+  "h": 1400,
+  "variants": [
+   640,
+   1024
+  ]
+ },
+ "/media/living-fire-sea.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/long-table-overhead-2.jpg": {
+  "w": 756,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/long-table-overhead-3.jpg": {
+  "w": 756,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/long-table-overhead-group.jpg": {
+  "w": 2000,
+  "h": 1128,
+  "variants": [
+   640,
+   1024,
+   1600
+  ]
+ },
+ "/media/long-table-overhead.jpg": {
+  "w": 756,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/luca-guiotto.jpg": {
+  "w": 1120,
+  "h": 1400,
+  "variants": [
+   640,
+   1024
+  ]
+ },
+ "/media/lunch-table-glasses.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/massage-face.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/massage-room-oval-window.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/massage-towel-rest.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/mat-stretch.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/mats-glass-room-sea.jpg": {
+  "w": 1333,
+  "h": 2000,
+  "variants": [
+   640,
+   1024
+  ]
+ },
+ "/media/olive-oil-bread.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/olive-oil-wine-bread.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/pasta-lemons-overhead.jpg": {
+  "w": 1400,
+  "h": 933,
+  "variants": [
+   640,
+   1024
+  ]
+ },
+ "/media/rest-eyes-closed.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/sauna-cold-tubs-cliff.jpg": {
+  "w": 1400,
+  "h": 1310,
+  "variants": [
+   640,
+   1024
+  ]
+ },
+ "/media/surf-rocks-from-above.jpg": {
+  "w": 2000,
+  "h": 1123,
+  "variants": [
+   640,
+   1024,
+   1600
+  ]
+ },
+ "/media/table-lemons-sea-2.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/table-lemons-sea-3.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/table-lemons-sea.jpg": {
+  "w": 1333,
+  "h": 2000,
+  "variants": [
+   640,
+   1024
+  ]
+ },
+ "/media/table-set-sea-light.jpg": {
+  "w": 934,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/table-setting-two.jpg": {
+  "w": 1333,
+  "h": 2000,
+  "variants": [
+   640,
+   1024
+  ]
+ },
+ "/media/table-three-women-sea.jpg": {
+  "w": 1333,
+  "h": 2000,
+  "variants": [
+   640,
+   1024
+  ]
+ },
+ "/media/tortelli-plate.jpg": {
+  "w": 1120,
+  "h": 1400,
+  "variants": [
+   640,
+   1024
+  ]
+ },
+ "/media/trail-trees-sea.jpg": {
+  "w": 933,
+  "h": 1400,
+  "variants": [
+   640
+  ]
+ },
+ "/media/tuna-plate.jpg": {
+  "w": 1120,
+  "h": 1400,
+  "variants": [
+   640,
+   1024
+  ]
+ }
+}

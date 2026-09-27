@@ -35,9 +35,9 @@ const raw: MediaSlot[] = [
 
   // Home, moment 8: one small image beside each of Belle's five differences ----------------
   {
-    id: 'home-difference-01', src: '/media/coast-cove-house-drone-late.jpg', position: '60% 70%',
+    id: 'home-difference-01', src: '/media/hills-coast-drone.jpg', position: '40% 60%',
     type: 'image',
-    alt: 'A turquoise cove below dark cliffs and green hills, seen from the air',
+    alt: 'Farmland and hills meeting the rocky coast of the Fleurieu Peninsula, seen from the air',
     aspect: '4 / 5',
     suggested: 'Still from DJI_0604.MP4 (pan away from the coastline over green water)',
     tone: 'sea',
