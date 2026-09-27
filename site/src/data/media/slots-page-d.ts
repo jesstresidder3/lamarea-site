@@ -15,9 +15,9 @@ const SUNSET = 'A Sunset Reset (May 2026 Joe’s Henley), 223 JPEGs plus a VIDS 
 const raw: MediaSlot[] = [
   // Rising Tides Collective ------------------------------------------------
   {
-    id: 'collective-hero',
+    id: 'collective-hero', src: '/media/beach-dusk-drone.jpg', position: '50% 70%',
     type: 'image',
-    alt: 'Past guests together by the water at sunset after a La maréa retreat',
+    alt: 'Two people running at the water\'s edge on a beach at dusk, seen from the air',
     aspect: '16 / 9',
     suggested: `${SUNSET}, a wide frame of the group together at sunset`,
     note: `${CONSENT} Text sits lower left, so keep the calm sky or water there.`,
@@ -33,25 +33,25 @@ const raw: MediaSlot[] = [
     grade: 'A',
   },
   {
-    id: 'collective-recipes',
+    id: 'collective-recipes', src: '/media/pasta-lemons-overhead.jpg', position: '40% 50%',
     type: 'image',
-    alt: 'A plant-based Mediterranean dish from the La maréa recipes',
+    alt: 'A bowl of filled pasta on pea purée beside fresh lemons and leaves',
     aspect: '4 / 5',
     suggested: 'Journal recipe photograph, Mediterranean Gnocchi (live /post/mediterranean-gnocchi)',
     tone: 'sand',
   },
   {
-    id: 'collective-resources',
+    id: 'collective-resources', src: '/media/gift-box.jpg', position: '50% 50%',
     type: 'image',
-    alt: 'Recipe and information sheets from a La maréa retreat, ready to take home',
+    alt: 'A gift box of olive oil, tea and treats packed in straw',
     aspect: '4 / 5',
     suggested: `${SUNSET}, the recipe and information sheets or the take-home goodie bags`,
     tone: 'salt',
   },
   {
-    id: 'collective-join',
+    id: 'collective-join', src: '/media/long-table-overhead-2.jpg', position: '50% 50%',
     type: 'image',
-    alt: 'Guests sharing a Mediterranean lunch at a long table during a retreat',
+    alt: 'A shared lunch table from above, plates, lemons and herbs along green linen',
     aspect: '4 / 5',
     suggested: 'la marea naiko jpegs, guests together at the shared table. Alternate: Food folder 229A8255.jpg',
     note: CONSENT,
@@ -70,26 +70,26 @@ const raw: MediaSlot[] = [
 
   // Gallery -----------------------------------------------------------------
   {
-    id: 'gallery-intro-1',
+    id: 'gallery-intro-1', src: '/media/mats-glass-room-sea.jpg', position: '50% 60%',
     type: 'image',
-    alt: 'Yoga mats and bolsters laid out facing the beach before sunset',
+    alt: 'A group resting on mats in a glass-walled room above the sea',
     aspect: '4 / 5',
     suggested: `${SUNSET}, the mats set out facing the water before guests arrive`,
     tone: 'dusk',
   },
   {
-    id: 'gallery-intro-2',
+    id: 'gallery-intro-2', src: '/media/coast-cove-house-drone.jpg', srcMobile: '/media/coast-cove-house-drone-mobile.jpg', position: '45% 50%',
     type: 'image',
-    alt: 'Vines rolling across the hills at Beresford Estate, McLaren Vale',
+    alt: 'The retreat house on a green hillside above a turquoise cove and dark cliffs, seen from the air',
     aspect: '3 / 2',
     suggested: 'Beresford Accom images, a wide vineyard frame',
     tone: 'sea',
     grade: 'A',
   },
   {
-    id: 'gallery-intro-3',
+    id: 'gallery-intro-3', src: '/media/long-table-overhead-2.jpg', position: '50% 50%',
     type: 'image',
-    alt: 'Seasonal Mediterranean dishes passed along a shared table',
+    alt: 'A shared lunch table from above, plates, lemons and herbs along green linen',
     aspect: '1 / 1',
     suggested: 'Food folder 229A8255.jpg, or a table frame from the 2026 retreats',
     tone: 'sand',
@@ -167,9 +167,9 @@ const raw: MediaSlot[] = [
 
   // FAQs --------------------------------------------------------------------
   {
-    id: 'faqs-intro',
+    id: 'faqs-intro', src: '/media/beach-walk-cliffs.jpg', position: '50% 60%',
     type: 'image',
-    alt: 'The coastal walk at the bottom of Naiko at the Bluff, Encounter Bay',
+    alt: 'Two people walking along a pebbled beach below the cliffs',
     aspect: '3 / 2',
     suggested: 'la marea naiko jpegs or Naiko At The Bluff Content, the coastal walk below the property',
     tone: 'sea',
@@ -178,9 +178,9 @@ const raw: MediaSlot[] = [
 
   // Waitlist ----------------------------------------------------------------
   {
-    id: 'waitlist-intro',
+    id: 'waitlist-intro', src: '/media/beach-cliff-sun-seated.jpg', position: '60% 50%',
     type: 'image',
-    alt: 'The sea at sunset from the room where the Sunset Reset is held',
+    alt: 'Sun breaking through the clouds over the sea, two people seated on the sand below a rock face',
     aspect: '4 / 5',
     suggested: `${SUNSET}, the water at sunset with no guests in frame`,
     tone: 'dusk',
@@ -188,9 +188,9 @@ const raw: MediaSlot[] = [
 
   // Gift cards --------------------------------------------------------------
   {
-    id: 'giftcards-intro',
+    id: 'giftcards-intro', src: '/media/gift-box.jpg', position: '50% 50%',
     type: 'image',
-    alt: 'A La maréa gift bag and a Fleurieu candle on linen',
+    alt: 'A gift box of olive oil, tea and treats packed in straw',
     aspect: '4 / 5',
     suggested: `${SUNSET}, the goodie bags and Fleurieu candle, or a styled still of the luxury wellness gift bag (Encounter Bay guide p.15)`,
     tone: 'sand',
@@ -216,9 +216,9 @@ const raw: MediaSlot[] = [
 
   // 404 ---------------------------------------------------------------------
   {
-    id: 'notfound-calm',
+    id: 'notfound-calm', src: '/media/hills-coast-drone-wide.jpg', position: '30% 50%',
     type: 'image',
-    alt: 'A calm sea off Encounter Bay in soft morning light',
+    alt: 'Grassy hills running down to a calm sea along the Fleurieu coast',
     aspect: '16 / 9',
     suggested: 'Naiko At The Bluff Content, the sea from the deck in morning light, no people. Alternate: a still from DJI_0604.MP4',
     note: 'Text sits lower left over calm water.',

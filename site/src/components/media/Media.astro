@@ -39,6 +39,8 @@ const imageSrc = asStill ? m.poster : m.src;
 const hasSrc = asStill ? Boolean(m.poster) : Boolean(m.src);
 const tone = m.tone ?? 'sand';
 const kind = m.type === 'video' ? 'Video' : 'Photograph';
+// Crop focus for cover-fit media (slot `position`), so heads and horizons stay in frame.
+const fitStyle = `object-fit: ${fit}${m.position && fit === 'cover' ? `; object-position: ${m.position}` : ''}`;
 ---
 <figure
   class:list={['media', `media--${m.type}`, fill ? 'media--fill' : '', hasSrc ? 'media--real' : 'media--placeholder', `tone-${tone}`, className]}
@@ -54,7 +56,7 @@ const kind = m.type === 'video' ? 'Video' : 'Photograph';
         loading={priority ? 'eager' : 'lazy'}
         decoding="async"
         fetchpriority={priority ? 'high' : 'auto'}
-        style={`object-fit: ${fit}`}
+        style={fitStyle}
       />
     </picture>
   )}
@@ -71,7 +73,7 @@ const kind = m.type === 'video' ? 'Video' : 'Photograph';
       data-src={m.src}
       data-src-mobile={m.srcMobile}
       data-priority={priority ? 'true' : undefined}
-      style={`object-fit: ${fit}`}
+      style={fitStyle}
     ></video>
   )}
 

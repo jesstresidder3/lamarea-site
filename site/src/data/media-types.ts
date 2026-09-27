@@ -14,6 +14,8 @@ export interface MediaSlot {
   src?: string;
   /** Optional portrait crop for phones (plan/10: mobile gets its own crop, never a scaled desktop shot). */
   srcMobile?: string;
+  /** CSS object-position for the crop, for example '50% 30%' to keep a head or horizon in frame. */
+  position?: string;
   /** Video poster frame, or a still that stands in when video is off (reduced motion, save-data). */
   poster?: string;
   alt: string;

@@ -16,9 +16,9 @@ const consent = 'Guest consent needed for anyone identifiable (plan/11 decision 
 const raw: MediaSlot[] = [
   /* ------------------------------------------------------------------ /places */
   {
-    id: 'places-hero',
+    id: 'places-hero', src: '/media/coast-cove-house-drone.jpg', srcMobile: '/media/coast-cove-house-drone-mobile.jpg', position: '45% 50%',
     type: 'image',
-    alt: 'Naiko at the Bluff above Encounter Bay, farmland running down to the Southern Ocean',
+    alt: 'The retreat house on a green hillside above a turquoise cove and dark cliffs, Fleurieu Peninsula, seen from the air',
     aspect: '16 / 9',
     suggested: 'Naiko At The Bluff Content, the villa exterior with the sea. Alternate: Beresford Accom images, the drone shot over the vines (plan/11 4.9)',
     note: 'A partner venue in its landscape, never a room interior. Wide frame, the building small in the land.',
@@ -28,9 +28,9 @@ const raw: MediaSlot[] = [
 
   /* ------------------------------------------------------------------ /places/<slug> heroes */
   {
-    id: 'venue-hero-naiko-deep-creek',
-    type: 'image',
-    alt: 'The free-standing bath at Naiko Retreat, Deep Creek, filling beside a window onto the trees and sea',
+    id: 'venue-hero-naiko-deep-creek', src: '/media/bath-naiko-deep-creek.mp4', srcMobile: '/media/bath-naiko-deep-creek-portrait.mp4', poster: '/media/bath-video-poster.jpg',
+    type: 'video',
+    alt: 'A freestanding bath filling beside floor-to-ceiling windows over the sea at Naiko, Deep Creek, candles and a tea tray beside it',
     aspect: '16 / 9',
     suggested: 'Bath shot landscape.jpg, Naiko Deep Creek (Belle, BD-111: "if we\'re showcasing Nicodeap Creek, maybe we have, like, a hero banner, and it\'s, like, the bath shot"). Confirm it is Deep Creek, not the Bluff (S4)',
     note: 'The bath shot belongs here and never on the home hero.',
@@ -58,9 +58,9 @@ const raw: MediaSlot[] = [
 
   /* ------------------------------------------------------------------ /places/<slug> "what is around it" */
   {
-    id: 'venue-around-naiko-deep-creek',
-    type: 'video',
-    alt: 'Drone footage over the cliffs and secluded beach below Naiko Retreat at Deep Creek',
+    id: 'venue-around-naiko-deep-creek', src: '/media/coast-cove-house-drone-late.jpg', position: '50% 62%',
+    type: 'image',
+    alt: 'A turquoise cove below dark cliffs and green hills, seen from the air',
     aspect: '21 / 9',
     suggested: 'DJI_20251109100906_0030_D.MP4, the only file in the Naiko deep creek folder (plan/11 4.10)',
     note: 'Band with a soft parallax. Poster frame first, video after grading.',
@@ -88,9 +88,9 @@ const raw: MediaSlot[] = [
 
   /* ------------------------------------------------------------------ /fleurieu-peninsula-retreats */
   {
-    id: 'fleurieu-hero',
-    type: 'video',
-    alt: 'Drone footage panning away from the Fleurieu coastline, the hills behind and green water below',
+    id: 'fleurieu-hero', src: '/media/bay-cliff-walk-drone.jpg', position: '50% 50%',
+    type: 'image',
+    alt: 'A bright bay with turquoise water below grassy cliffs, a walker on the track above',
     aspect: '16 / 9',
     suggested: 'DJI_0604.MP4, the pan away from the coastline over the hills and green water (BD-106). The home hero uses DJI_0781, so this page takes the other clip',
     note: 'Slow to about 0.6x in post only if the frame rate allows. Portrait crop for phones. The page\'s one autoplay loop.',
@@ -118,9 +118,9 @@ const raw: MediaSlot[] = [
     grade: 'C',
   },
   {
-    id: 'fleurieu-wild-kangaroos',
-    type: 'video',
-    alt: 'Kangaroos grazing on a farm paddock above the coast in the early evening',
+    id: 'fleurieu-wild-kangaroos', src: '/media/kangaroo-paddock.jpg', position: '50% 70%',
+    type: 'image',
+    alt: 'A kangaroo standing in long grass beneath the trees',
     aspect: '4 / 5',
     suggested: 'Belle\'s kangaroo footage (BD-123, "there\'s some kangaroo footage"), not yet located (S5)',
     note: 'Small frame only.',
@@ -128,9 +128,9 @@ const raw: MediaSlot[] = [
     grade: 'C',
   },
   {
-    id: 'fleurieu-wild-ocean',
-    type: 'video',
-    alt: 'A swimmer in clear green water off the Fleurieu coast, seen from above',
+    id: 'fleurieu-wild-ocean', src: '/media/surf-rocks-from-above.jpg', position: '35% 50%',
+    type: 'image',
+    alt: 'Waves rolling onto a small beach between dark rocks, seen from above',
     aspect: '4 / 5',
     suggested: 'DJI_0605.MP4, the pan inwards as a swimmer moves through the water (BD-109). Belle doubts its quality for a hero, so it lives in a small frame',
     note: 'Small frame only.',
@@ -138,9 +138,9 @@ const raw: MediaSlot[] = [
     grade: 'C',
   },
   {
-    id: 'fleurieu-wild-hiking',
+    id: 'fleurieu-wild-hiking', src: '/media/trail-trees-sea.jpg', position: '50% 50%',
     type: 'image',
-    alt: 'A walking trail along the cliff tops of the Fleurieu Peninsula above the Southern Ocean',
+    alt: 'Two women walking a track through the trees towards the sea',
     aspect: '4 / 5',
     suggested: 'NAIKO ACCOM, trail or cliff-top frames (the Heysen Trail crosses the Naiko property). Summer shoot if none',
     tone: 'sea',
@@ -164,9 +164,9 @@ const raw: MediaSlot[] = [
     tone: 'salt',
   },
   {
-    id: 'fleurieu-table',
+    id: 'fleurieu-table', src: '/media/olive-oil-wine-bread.jpg', position: '50% 50%',
     type: 'image',
-    alt: 'Seasonal South Australian produce set out on a long table for a retreat lunch',
+    alt: 'Olive oil, wine and bread on a tiered stand at a long lunch table',
     aspect: '4 / 5',
     suggested: 'Food folder 229A8255.jpg, or Aromi Dining lunch photographs. Producer photography is thin (assets-index gap 7)',
     tone: 'sand',
@@ -183,9 +183,9 @@ const raw: MediaSlot[] = [
 
   /* ------------------------------------------------------------------ /team */
   {
-    id: 'team-hero',
+    id: 'team-hero', src: '/media/table-setting-two.jpg', position: '50% 55%',
     type: 'image',
-    alt: 'Belle and the La maréa team setting up mats and a long table before guests arrive on the coast',
+    alt: 'Two women setting a long table with lemons and linen in a bright room',
     aspect: '16 / 9',
     suggested: 'A Sunset Reset (May 2026, Joe\'s Henley), 223 JPEGs, the team at work before guests arrive (plan/11 4.15). ' + consent,
     tone: 'salt',
@@ -193,9 +193,9 @@ const raw: MediaSlot[] = [
 
   /* ------------------------------------------------------------------ /journal/<slug> */
   {
-    id: 'journal-sleep-bath',
+    id: 'journal-sleep-bath', src: '/media/bath-video-poster.jpg', position: '50% 50%',
     type: 'image',
-    alt: 'A warm bath drawn at Naiko Retreat, Deep Creek, in the evening',
+    alt: 'A freestanding bath filling beside the window, a tea tray across it and a candle lit on the stool',
     aspect: '3 / 2',
     suggested: 'The image in the live sleep post credited "Naiko Retreat, Deep Creek" (lamarea.com.au blog), likely the Naiko bath shot',
     tone: 'dusk',
@@ -203,9 +203,9 @@ const raw: MediaSlot[] = [
 
   /* ------------------------------------------------------------------ /our-story */
   {
-    id: 'story-hero',
+    id: 'story-hero', src: '/media/hills-coast-drone-wide.jpg', position: '50% 50%',
     type: 'image',
-    alt: 'Belle Redden, founder of La maréa, on the Fleurieu Peninsula coast',
+    alt: 'Grassy hills running down to the sea along the Fleurieu coast',
     aspect: '16 / 9',
     suggested: 'Belle on the Fleurieu coast (plan/11 4.17). No portrait of Belle is in the inventory yet; the half-day portrait shoot covers it',
     note: 'Belle small in a wide coastal frame, room for the heading in calm sky or sea.',
