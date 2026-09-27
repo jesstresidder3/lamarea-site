@@ -94,8 +94,10 @@ const minimal = current.startsWith('/enquire');
   .site-header::before {
     content: '';
     position: absolute;
-    inset: 0 0 -40% 0;
-    background: linear-gradient(to bottom, rgb(35 32 14 / 0.3), rgb(35 32 14 / 0)); /* 0.3 for the fine logo lines on bright sky (brand pass) */
+    inset: 0 0 -90% 0;
+    /* 0.42 at the top, eased out over nearly twice the header height: the /team hero is a white
+       window frame and 0.3 left the salt links unreadable there (final check 27-09-2026). */
+    background: linear-gradient(to bottom, rgb(35 32 14 / 0.42), rgb(35 32 14 / 0.18) 45%, rgb(35 32 14 / 0));
     opacity: 0;
     pointer-events: none;
     transition: opacity var(--dur) var(--ease-soft);

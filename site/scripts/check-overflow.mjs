@@ -29,7 +29,7 @@ function pages(dir) {
 const server = spawn('npx', ['astro', 'preview', '--port', String(PORT)], { stdio: 'ignore', detached: true });
 const stopServer = () => { try { process.kill(-server.pid, 'SIGTERM'); } catch {} };
 process.on('exit', stopServer);
-await new Promise((r) => setTimeout(r, 2500));
+await new Promise((r) => setTimeout(r, 9000));
 const browser = await chromium.launch();
 const failures = [];
 const list = pages(DIST);

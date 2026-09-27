@@ -57,7 +57,9 @@ const {
   headerTone = 'solid',
   noindex = false,
   stickyCta = true,
-  mediaNotes = 'on',
+  // Off by default so the site reads as a visitor sees it. Add ?notes=on to any URL to show
+  // what belongs in each empty photo frame.
+  mediaNotes = 'off',
   class: bodyClass,
 } = Astro.props;
 
@@ -68,6 +70,7 @@ const onEnquire = path.startsWith('/enquire');
 <html lang="en-AU" data-media-notes={mediaNotes} data-header-tone={headerTone}>
   <head>
     <meta charset="utf-8" />
+    <script is:inline>if (/[?&]notes=on\b/.test(location.search)) document.documentElement.dataset.mediaNotes = 'on';</script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#f8f3e4" />
     <meta name="format-detection" content="telephone=no" />
