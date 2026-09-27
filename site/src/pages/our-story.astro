@@ -1,6 +1,10 @@
 ---
 /*
-  /our-story (plan/11 4.17 with build decision 7 and build spec 12, page builder C).
+  /our-story, the About hub (UX build 27-09-2026). Nav label "About". Five parts: hero, Belle in her
+  own words (her note, then growing up on the Fleurieu), Our difference (Belle's five lines, each
+  linking on), your hosts with the links to Our philosophy, Our team and Past retreats, Plan your day.
+  The standalone "The name" band became the philosophy link in Our difference.
+  Earlier notes, plan/11 4.17 with build decision 7 and build spec 12, page builder C:
   Belle on the Fleurieu, her note that opens with "La maréa was created as an invitation to pause.",
   growing up on the Fleurieu, the name (linking to /philosophy, where the full name story lives), the
   family business, then two marked gaps in her own words: starting La maréa on the Fleurieu (in place
@@ -18,6 +22,7 @@
 import Base from '../layouts/Base.astro';
 import Band from '../components/pages/c/Band.astro';
 import Eyebrow from '../components/base/Eyebrow.astro';
+import Breadcrumbs from '../components/base/Breadcrumbs.astro';
 import TextPair from '../components/base/TextPair.astro';
 import ArrowLink from '../components/base/ArrowLink.astro';
 import CtaBand from '../components/base/CtaBand.astro';
@@ -75,7 +80,7 @@ const chapters = [
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'AboutPage',
-  name: 'Our story',
+  name: 'About La maréa, our story',
   url: new URL('/our-story', site.url).href,
   mainEntity: {
     '@type': 'Organization',
@@ -87,12 +92,14 @@ const jsonLd = {
 };
 ---
 <Base
-  title="Our story, a family business from the Fleurieu"
+  title="About La maréa, our story"
   description="How Belle Redden's childhood on the Fleurieu Peninsula, her work in nutrition and exercise science, and the Mediterranean shaped La maréa."
   headerTone="over-media"
   jsonLd={jsonLd}
 >
-  <Band media="story-hero" height="screen" hero text="over" level={1} eyebrow="Belle Redden, founder" heading="Our story" />
+  <Band media="story-hero" height="screen" hero text="over" level={1} eyebrow="About" heading="Our story" body="A family owned business originating from the Fleurieu Peninsula, founded by Belle Redden." draft={{ body: true }} />
+
+  <div class="wrap story-crumbs"><Breadcrumbs items={[{ label: 'About' }]} /></div>
 
   <section class="section story-note" aria-labelledby="note-heading">
     <div class="wrap story-note__grid">
@@ -133,22 +140,36 @@ const jsonLd = {
     </div>
   </section>
 
-  <!-- The name story lives on /philosophy once (build/01 E, CD review 02 item 20); here it is a link. -->
-  <section class="section section--tight story-name" aria-labelledby="name-heading">
-    <div class="wrap story-name__inner">
-      <span class="story-name__mark" aria-hidden="true" set:html={submark} />
-      <Eyebrow as="h2" class="story-name__label"><span id="name-heading">The name</span></Eyebrow>
-      <ArrowLink href="/philosophy#ph-name" label="Read the story of the name" />
+  <!-- Our difference, Belle's five lines verbatim (settings.ts), each linking to the page that shows it.
+       The name story lives on /philosophy, reached from line 02. -->
+  <section class="section story-diff" aria-labelledby="diff-heading">
+    <div class="wrap story-diff__grid">
+      <div>
+        <Eyebrow>Our difference</Eyebrow>
+        <h2 class="story-diff__title" id="diff-heading" data-draft>What sets La maréa apart</h2>
+      </div>
+      <ol class="story-diff__list" role="list">
+        {differences.map((d) => (
+          <li>
+            <span class="story-diff__num" aria-hidden="true">{d.number}</span>
+            {d.href ? <a href={d.href}>{d.display}</a> : <span>{d.display}</span>}
+          </li>
+        ))}
+      </ol>
     </div>
   </section>
 
   <section class="section band-warm" aria-label="Family owned">
     <div class="wrap">
-      <TextPair eyebrow="Your hosts" heading={d5 ? d5.display.replace('Fleurieu Peninsula', '*Fleurieu Peninsula*') : 'Family owned'} mediaSide="left" split="wide" link={{ label: 'Meet the team', href: '/team' }}>
+      <TextPair eyebrow="Your hosts" heading="Our team" mediaSide="left" split="wide" link={{ label: 'Meet the team', href: '/team' }}>
         <div slot="media"><Media media="story-hosts" aspect="3 / 2" /></div>
         <p>With Belle, the Founder (left), bringing expertise in nutrition, exercise science, and lifestyle wellness coaching, supported by Zoe her sister (right), and Sarah (back), both with a background in events management, you can be assured that your retreat will be thoughtfully curated and truly unforgettable.</p>
         <p>Our mission is to combine holistic lifestyle wellness practices with luxury heartfelt hospitality, and our team is dedicated to creating personalised experiences that cater to your individual needs and wellness journey.</p>
         <p class="story-family__close">From our family to yours, we can’t wait to share our special retreats and experiences with you soon.</p>
+        <ul class="story-more" role="list">
+          <li><ArrowLink href="/philosophy" label="Our philosophy" /></li>
+          <li><ArrowLink href="/gallery" label="Past retreats" /></li>
+        </ul>
       </TextPair>
     </div>
   </section>
@@ -214,6 +235,15 @@ const jsonLd = {
     .chapter--left :global(.chapter__media) { max-width: 30rem; }
   }
 
+  .story-crumbs { padding-top: clamp(1.5rem, 3vw, 2.5rem); }
+  .story-diff__grid { display: grid; gap: var(--space-l) clamp(2rem, 7vw, 8rem); align-items: start; }
+  .story-diff__title { margin: 0; max-width: 12em; }
+  .story-diff__list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
+  .story-diff__list li { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 1rem; padding: 1.1rem 0; border-bottom: 1px solid var(--rule); font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.4; color: var(--sage-100); }
+  .story-diff__list a { color: inherit; text-decoration-color: var(--sage-40); text-underline-offset: 0.2em; }
+  .story-diff__num { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); padding-top: 0.35rem; }
+  @media (min-width: 900px) { .story-diff__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); } }
+  .story-more { display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
   .story-name__inner { display: grid; justify-items: center; text-align: center; gap: 0; max-width: 46rem; }
   .story-name__mark { display: block; width: clamp(3rem, 5vw, 4rem); color: var(--sage-40); margin-bottom: 1.75rem; }
   .story-name__mark :global(svg) { width: 100%; height: auto; }

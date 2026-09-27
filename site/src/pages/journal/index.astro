@@ -17,12 +17,13 @@ import SectionHead from '../../components/base/SectionHead.astro';
 import Eyebrow from '../../components/base/Eyebrow.astro';
 import LeadCapture from '../../components/base/LeadCapture.astro';
 import Reveal from '../../components/base/Reveal.astro';
+import CtaBand from '../../components/base/CtaBand.astro';
 import JournalCards from '../../components/journal/JournalCards.astro';
 import FeaturedPost from '../../components/pages/c/FeaturedPost.astro';
 import NoteFlag from '../../components/pages/c/NoteFlag.astro';
 import { authorOf, minutesOf } from '../../components/pages/c/lib/journal';
 import { getJournal, peopleById } from '../../lib/content';
-import { site } from '../../data/settings';
+import { site, cta } from '../../data/settings';
 
 const posts = await getJournal();
 const people = await peopleById();
@@ -43,7 +44,7 @@ const jsonLd = {
 };
 ---
 <Base
-  title="Wellness journal, research and recipes"
+  title="Journal and recipes"
   description="Research, recipes and lifestyle wellness from La maréa, rooted in the Mediterranean way of eating and the evidence behind rest, movement and food."
   jsonLd={jsonLd}
 >
@@ -51,7 +52,7 @@ const jsonLd = {
     <div class="wrap j-head__grid">
       <div>
         <Eyebrow>Research and recipes</Eyebrow>
-        <h1 class="j-head__title">Wellness journal</h1>
+        <h1 class="j-head__title">Wellness journal and recipes</h1>
       </div>
       <p class="j-head__intro">Food and nutrition are integral to our philosophy. Our lifestyle wellness retreats are deeply inspired by the Mediterranean way of living, where nourishment is simple, seasonal, and shared.</p>
     </div>
@@ -99,6 +100,7 @@ const jsonLd = {
     </div>
   </section>
 
+  <CtaBand line="Curate your 8 hour immersive retreat" params={{ source: 'journal' }} note={cta.callNote} tone="salt" draft={{ line: true }} />
 </Base>
 
 <style>

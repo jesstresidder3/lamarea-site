@@ -1,21 +1,21 @@
 ---
 /*
-  The 8 hour day, /experiences/full-day-retreat. Owner: page builder B.
+  The 8 hour immersive retreat, /experiences/full-day-retreat (URL kept). Owner: page builder B.
+  UX build 27-09-2026: one name everywhere, breadcrumb Home, Retreats, The 8 hour immersive retreat.
+  This is the one page that carries the full schedule; every other page links here. Cut for length:
+  the guest quote, the unhurried afternoon (it lives on /experiences), the reviews band (no full day
+  review exists yet) and the questions band ("What is included" now sits under the schedule).
   The flagship, and the section Belle calls the focus: "what a example sort of full day, eight hour
   immersive wellness retreat with us looks like" (BD-52), shown "through imagery, beautiful imagery,
   um, you know, animations that move" (BD-54).
 
-  Ten moments, build spec section 12 (the pre-build review’s order):
-   1 one video, the H1 naming the offer and the place
-   2 forty words of Belle’s guide and the facts a first-time visitor needs
-   3 the pinned example day (PinnedDay)
-   4 the Beresford reel in a contained 9:16 frame beside the full hour by hour table, one moment
+  Six moments:
+   1 the hero, the H1 naming the product, and who it is for
+   2 forty words of Belle's guide and the facts a first-time visitor needs
+   3 the pinned day in four parts (PinnedDay)
+   4 the full hour by hour schedule, open, with "What is included" (the one full version on the site)
    5 the morning rotation (SteppedGallery)
-   6 the unhurried afternoon (a parallax band, then the six self-led activities in a Slider)
-   7 where it can happen (venue cards)
-   8 proof, full day reviews only (a marked placeholder until one exists)
-   9 questions (Accordion), "What is included" first
-  10 Plan your day (CtaBand, format=full-day)
+   6 where it can happen (venue cards), then Plan your day (CtaBand, format=full-day)
   No question circles and no eight words on this page. TouristTrip schema (no public price, so no Product or Offer).
 */
 import Base from '../../layouts/Base.astro';
@@ -24,37 +24,22 @@ import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
 import AnswerBlock from '../../components/base/AnswerBlock.astro';
 import SectionHead from '../../components/base/SectionHead.astro';
 import DataTable from '../../components/base/DataTable.astro';
-import Accordion from '../../components/base/Accordion.astro';
 import CtaBand from '../../components/base/CtaBand.astro';
 import ArrowLink from '../../components/base/ArrowLink.astro';
 import Reveal from '../../components/base/Reveal.astro';
 import PinnedDay from '../../components/day/PinnedDay.astro';
 import SteppedGallery from '../../components/venues/SteppedGallery.astro';
 import VenueIndex from '../../components/venues/VenueIndex.astro';
-import Testimonials from '../../components/testimonials/Testimonials.astro';
 import ReelFrame from '../../components/pages/b/ReelFrame.astro';
-import AfternoonTiles from '../../components/pages/b/AfternoonTiles.astro';
 import AtAGlance from '../../components/pages/b/AtAGlance.astro';
 import Flag from '../../components/pages/b/Flag.astro';
 import { hourByHour, steps } from '../../data/day';
-import { site, cta } from '../../data/settings';
-import { getExperiences, getVenues, getTestimonials, getFaqs } from '../../lib/content';
-import { faqJsonLd } from '../../components/base/schema';
-import { includedHtml, includedText, answerHtml } from '../../components/pages/b/copy';
+import { site, cta, flagshipName } from '../../data/settings';
+import { getVenues } from '../../lib/content';
+import { includedHtml } from '../../components/pages/b/copy';
 
-const selfLed = await getExperiences('self_led');
 const venues = await getVenues();
-const fullDayReviews = await getTestimonials({ format: 'full_day' });
-const faqs = await getFaqs();
-
 const rotation = steps.find((s) => s.order === 6)!;
-
-/* Under the panels: one real guest line about how people leave, with its format (CD review 02 item 10).
-   Verbatim from the review, starting part way into the sentence so the typo before it is not shown. */
-const justin = (await getTestimonials()).find((t) => t.id === 'google-justin-kurenda');
-const leaveSentence = justin?.data.quote.split(/(?<=[.!?])\s+/).find((x) => x.includes('we left feeling'));
-const leaveLine = leaveSentence ? `…${leaveSentence.slice(leaveSentence.indexOf('we left feeling'))}` : null;
-const afternoon = steps.find((s) => s.order === 9)!;
 
 /* Moment 2: Belle's framing sentence from her full day retreat guide (p.15), verbatim. */
 const answer =
@@ -82,36 +67,21 @@ const stations = [
   },
 ];
 
-/* Moment 9: live FAQ answers that fit a day retreat, verbatim. The long transfer, refund, solo and
-   instalment answers live on /faqs. */
-const faqIds = ['faq-02', 'faq-03', 'faq-06', 'faq-05', 'faq-09', 'faq-08'];
-const chosen = faqIds.map((id) => faqs.find((f) => f.id === id)).filter(Boolean) as typeof faqs;
-const questions = [
-  { title: 'What is included', body: includedHtml(), id: 'included' },
-  ...chosen.map((f) => ({ title: f.data.question, body: answerHtml(f.data.answer), id: f.id })),
-];
-
-const jsonLd = [
-  {
-    '@context': 'https://schema.org',
-    // TouristTrip, not Product: the day is not priced publicly, and Product needs a priced Offer (QA m11).
-    '@type': 'TouristTrip',
-    name: '8 hour immersive wellness retreat',
-    description:
-      'A full day, 8 hour immersive wellness retreat on the Fleurieu Peninsula, South Australia, for private groups and corporate teams, with private return transport from Adelaide.',
-    touristType: ['Private groups', 'Corporate teams'],
-    url: `${site.url}/experiences/full-day-retreat/`,
-    provider: { '@type': 'Organization', name: site.name, url: `${site.url}/` },
-  },
-  faqJsonLd([
-    { question: 'What is included', answer: includedText() },
-    ...chosen.map((f) => ({ question: f.data.question, answer: f.data.answer.join(' ') })),
-  ]),
-];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  // TouristTrip, not Product: the day is not priced publicly, and Product needs a priced Offer (QA m11).
+  '@type': 'TouristTrip',
+  name: 'The 8 hour immersive retreat',
+  description:
+    'A full day, 8 hour immersive wellness retreat on the Fleurieu Peninsula, South Australia, for private groups and corporate teams, with private return transport from Adelaide.',
+  touristType: ['Private groups', 'Corporate teams'],
+  url: `${site.url}/experiences/full-day-retreat/`,
+  provider: { '@type': 'Organization', name: site.name, url: `${site.url}/` },
+};
 ---
 <Base
-  title="8 hour wellness retreat, Fleurieu Peninsula"
-  description="An 8 hour immersive wellness retreat on the Fleurieu Peninsula for private groups and corporate teams, with private return transport from Adelaide."
+  title="The 8 hour immersive retreat, Fleurieu Peninsula"
+  description="The 8 hour immersive retreat on the Fleurieu Peninsula for private groups and corporate teams, hour by hour, with private return transport from Adelaide."
   headerTone="over-media"
   jsonLd={jsonLd}
   class="page-day"
@@ -124,18 +94,20 @@ const jsonLd = [
     hero
     parallax={false}
     text="over"
-    eyebrow="The 8 hour day"
-    heading="An 8 hour immersive wellness retreat on the *Fleurieu Peninsula*"
+    eyebrow="Retreats"
+    heading="The 8 hour immersive retreat"
     level={1}
+    body="One curated day on the Fleurieu Peninsula for your private or corporate group, 7am to 5pm, door to door from Adelaide."
+    draft={{ body: true }}
   />
   </div>
 
   <!-- 2. What a full day retreat is, and the facts a first-time visitor needs -->
   <section class="section day-intro" aria-labelledby="day-what">
     <div class="wrap">
-      <Breadcrumbs items={[{ label: 'Experiences', href: '/experiences' }, { label: 'The 8 hour day' }]} class="day-crumbs" />
+      <Breadcrumbs items={[{ label: 'Retreats', href: '/retreats' }, { label: flagshipName }]} class="day-crumbs" />
       <Reveal>
-        <AnswerBlock id="day-what" question="What is a full day wellness retreat?" draft={{ question: true }}>
+        <AnswerBlock id="day-what" question="What is the 8 hour immersive retreat?" draft={{ question: true }}>
           <p>{answer}</p>
           <Flag>Verbatim from Belle’s full day retreat guide (p.15), including “groups objectives” without an apostrophe, left for Belle to correct. Her personalisation line sits with the example day just below, so it shows once.</Flag>
         </AnswerBlock>
@@ -155,16 +127,7 @@ const jsonLd = [
   </section>
 
   <!-- 3. The pinned example day -->
-  <PinnedDay seeFullDay={false} eyebrow="Arrive, move, nourish, restore" params={{ format: 'full-day', source: 'day-page' }} />
-
-  {leaveLine && justin && (
-    <section class="section section--tight day-leave" aria-label="How guests leave">
-      <figure class="wrap day-leave__fig">
-        <blockquote class="day-leave__quote"><p>{leaveLine}</p></blockquote>
-        <figcaption class="day-leave__by">{justin.data.descriptor}</figcaption>
-      </figure>
-    </section>
-  )}
+  <PinnedDay seeFullDay={false} heading="The day in four parts" eyebrow="Arrive, move, nourish, restore" params={{ format: 'full-day', source: 'day-page' }} />
 
   <!-- 4. The reel beside the full schedule, one moment. The table sits in "See the full schedule" so
        the panels and the reel carry the story and the day is not told three times (CD review 02 item 10). -->
@@ -180,7 +143,7 @@ const jsonLd = [
       </div>
       <div class="day-schedule__table">
         <Reveal><SectionHead heading="A day at *Beresford Estate*" id="schedule-heading" /></Reveal>
-        <details class="day-schedule__more">
+        <details class="day-schedule__more" open>
           <summary class="day-schedule__summary">
             <span>See the full schedule</span>
             <svg class="day-schedule__chev" viewBox="0 0 14 8" width="14" height="8" aria-hidden="true" focusable="false"><polyline points="1,1 7,7 13,1" /></svg>
@@ -194,6 +157,11 @@ const jsonLd = [
             rows={hourByHour}
           />
         </details>
+        <div class="day-included">
+          <h3 class="day-included__title" id="included">What is included</h3>
+          <div class="day-included__body" set:html={includedHtml()} />
+          <ArrowLink href="/faqs" label="Every question and answer" />
+        </div>
         <Flag>Belle’s published schedule reads “12 : 20 AM” twice where 12:20pm is meant (the rotations add up to 12:20pm). It shows here as 12:20pm. The reel is a private group day and the schedule a corporate day, both at Beresford Estate.</Flag>
       </div>
     </div>
@@ -207,25 +175,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <!-- 6. The unhurried afternoon -->
-  <div class="day-afternoon">
-    <MediaBand
-      media="day-afternoon"
-      height="band"
-      text="over"
-      eyebrow={afternoon.range}
-      heading="The unhurried afternoon"
-      body="There is space to rest, journal, explore the coastline, or simply unwind."
-      id="afternoon"
-      class="day-afternoon__band"
-    />
-    <div class="day-afternoon__slider">
-      <AfternoonTiles items={selfLed} />
-      <div class="wrap"><p class="day-afternoon__note" data-draft>At Beresford Estate the afternoon holds vineyard hiking, the plunge pool, the fire and the recovery lounge. At Naiko Encounter Bay it opens onto the pool, the sauna, the ocean and the coastal walks.</p></div>
-    </div>
-  </div>
-
-  <!-- 7. Where it can happen -->
+  <!-- 6. Where it can happen -->
   <section class="section band-warm day-where" id="where" aria-labelledby="where-heading">
     <div class="wrap">
       <SectionHead
@@ -234,37 +184,13 @@ const jsonLd = [
         id="where-heading"
         intro="La maréa retreats are intentionally limited and venue selection is highly considered."
       >
-        <ArrowLink slot="aside" href="/places" label="See every place" />
+        <ArrowLink slot="aside" href="/places" label="See the venues" />
       </SectionHead>
-      <VenueIndex venues={venues} label="Where the 8 hour day can happen" />
+      <VenueIndex venues={venues} label="Where the 8 hour immersive retreat can happen" />
     </div>
   </section>
 
-  <!-- 8. Proof, full day reviews only -->
-  <section class="section day-proof" aria-labelledby="proof-heading" data-notes-only={fullDayReviews.length ? undefined : ''}>
-    <div class="wrap">
-      <SectionHead eyebrow="From a full day retreat" heading="What guests say" id="proof-heading" draft={{ eyebrow: true, heading: true }}>
-        <ArrowLink slot="aside" href="/gallery" label="See past retreats" />
-      </SectionHead>
-    </div>
-    <Testimonials items={fullDayReviews} format="full_day" gallery={false} label="Reviews from full day retreats" />
-  </section>
-
-  <!-- 9. Questions -->
-  <section class="section band-salt day-questions" aria-labelledby="questions-heading">
-    <div class="wrap day-questions__grid">
-      <div class="day-questions__head">
-        <SectionHead heading="Questions" id="questions-heading" />
-        <ArrowLink href="/faqs" label="Every question and answer" />
-      </div>
-      <div class="day-questions__list">
-        <Accordion items={questions} titleTag="h3" />
-        <Flag>“What is included” is Belle’s Naiko Encounter Bay guide (p.23, p.24, p.12, p.15) without the venue-specific lines: exclusive use of Naiko at the Bluff, its sauna and plunge pool, and its coastal access. Belle confirms which of those hold at every venue.</Flag>
-      </div>
-    </div>
-  </section>
-
-  <!-- 10. Plan your day -->
+  <!-- Plan your day -->
   <CtaBand
     line="Curate your 8 hour immersive retreat"
     params={{ format: 'full-day', source: 'day-page' }}
@@ -290,12 +216,6 @@ const jsonLd = [
      (design review 27-09-2026). The notes layer keeps the frame for Jess and Belle. */
   :global(html:not([data-media-notes='on'])) .day-schedule__reel:has(.media--placeholder) { display: none; }
   :global(html:not([data-media-notes='on'])) .day-schedule__grid:has(.day-schedule__reel .media--placeholder) { grid-template-columns: minmax(0, 46rem); }
-
-  /* 3, how guests leave */
-  .day-leave__fig { margin: 0 auto; display: grid; gap: 1rem; justify-items: center; text-align: center; }
-  .day-leave__quote { margin: 0; max-width: 30ch; font-family: var(--font-serif); font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem); line-height: 1.3; color: var(--sage-80); }
-  .day-leave__quote p { margin: 0; }
-  .day-leave__by { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
 
   /* 4, the schedule behind one quiet row */
   .day-schedule__more { border-top: 1px solid var(--sage-40); border-bottom: 1px solid var(--sage-20); }
@@ -324,21 +244,12 @@ const jsonLd = [
   /* 5 */
   .day-rotation :global(.section-head) { margin-bottom: clamp(2.5rem, 4vw, 4rem); }
 
-  /* 6 */
-  .day-afternoon { padding-bottom: var(--section-y); }
-  .day-afternoon__slider { margin-top: clamp(2.5rem, 4vw, 4rem); }
-  .day-afternoon__note { margin: clamp(1.75rem, 3vw, 2.5rem) 0 0; font-size: var(--fs-small); color: var(--sage-80); max-width: 34rem; }
-
-  /* 9 */
-  .day-questions__grid { display: grid; gap: var(--space-l); }
-  .day-questions__head :global(.section-head) { margin-bottom: 1rem; }
-  @media (min-width: 900px) {
-    .day-questions__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(2rem, 6vw, 7.5rem); }
-  }
-  .day-questions :global(.b-groups) { display: grid; gap: 1.5rem 2.5rem; margin-top: 1.25rem; }
-  @media (min-width: 700px) { .day-questions :global(.b-groups) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .day-questions :global(.b-group__title) { margin: 0 0 0.5rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
-  .day-questions :global(.b-list) { margin: 0; padding: 0; list-style: none; }
-  .day-questions :global(.b-list li) { padding: 0.35rem 0; border-top: 1px solid var(--sage-20); font-size: var(--fs-small); line-height: 1.5; }
-
+  /* 4, what is included */
+  .day-included { margin-top: clamp(2rem, 4vw, 3rem); }
+  .day-included__title { margin: 0 0 0.75rem; font-family: var(--font-serif); font-size: var(--fs-card); }
+  .day-included :global(.b-groups) { display: grid; gap: 1.5rem 2.5rem; margin: 1.25rem 0 1.5rem; }
+  @media (min-width: 700px) { .day-included :global(.b-groups) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .day-included :global(.b-group__title) { margin: 0 0 0.5rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .day-included :global(.b-list) { margin: 0; padding: 0; list-style: none; }
+  .day-included :global(.b-list li) { padding: 0.35rem 0; border-top: 1px solid var(--sage-20); font-size: var(--fs-small); line-height: 1.5; }
 </style>

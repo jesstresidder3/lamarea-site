@@ -70,3 +70,13 @@ status: Internal list for Jess. Nothing here has been sent.
 37. **Ground.** Your Ground definition ends in a double full stop ("earth and ocean..") and spells "centeredness" the US way. May we correct both?
 38. **Pillar names in the infographic.** Your infographic calls two pillars "Mental, Emotional & Spiritual Wellbeing" and "Heartfelt Hospitality & Luxury", and the style guide calls them "Psychological Wellbeing" and "Luxury". Which names are current? The infographic goes on the philosophy page once you confirm.
 39. **Pillar evidence pages.** Only Sleep and recovery has its own evidence page. The other nine need their references from you before they can have one.
+
+## From the site structure review (27-09-2026)
+
+40. **Guests per venue for a day.** How many guests can each venue take for a day retreat, as opposed to how many it sleeps? A planner with 15 staff and a host with 8 friends both stop at this question. The site says "Group sizes vary by venue" until you tell us.
+41. **Smallest group.** Is there a smallest group size for the 8 hour immersive retreat?
+42. **Price.** May the site say that pricing is shared on the discovery call? Visitors who want a price then know when they will get one.
+43. **Overnight stays.** Is any retreat overnight today, apart from the Women's Wellness Weekend? The answer decides whether the venue cards lead with how many each venue sleeps.
+44. **Venues.** The top menu now says "Venues", and the page keeps your title "Places to Pause". Is that all right?
+45. **Logo position.** The logo is centred, with Home, Retreats and Experiences on its left and Venues and About on its right. Would you prefer it centred like this, or on the left with all five links in one row?
+46. **One name for the day.** The site now calls the flagship "The 8 hour immersive retreat" everywhere, from your words "curate their eight hour immersive retreat". Happy with that name?

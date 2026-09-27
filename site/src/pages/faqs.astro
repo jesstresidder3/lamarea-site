@@ -38,7 +38,7 @@ const notes: Record<number, string> = {
   1: '“HERE” is not a link on the live page. Here it opens the experiences page.',
   3: 'Mentions a pre-retreat health screening form. The new site asks for health details on the guest questionnaire after booking.',
   4: 'Says La maréa can only cater for pairs. Group sizes also conflict: 6 to 10 private and up to 20 corporate on the live retreats page, 10 to 14 in the Encounter Bay guide.',
-  7: 'Describes weekend retreats. Confirm it still reads right beside the 8 hour day.',
+  7: 'Describes weekend retreats. Confirm it still reads right beside the 8 hour immersive retreat.',
   10: 'Credit within 2 years here, 12 months in terms 3.2, 2 years on gift cards. Deposits: none in terms 2.2, 50% in the guide.',
   11: 'Confirm Afterpay is still being set up.',
   12: 'Names “La Maréa & Naiko Retreat”. The 90 to 120 minutes is the airport transfer time.',
@@ -74,8 +74,9 @@ const schema = faqJsonLd(faqs.map((f) => ({ question: f.data.question, answer: f
   jsonLd={schema}
 >
   <PageIntro
-    eyebrow="Questions"
+    eyebrow="FAQs"
     heading="Frequently asked questions"
+    crumbs={[{ label: 'FAQs' }]}
     lead="Answers to the questions guests ask most, from what a retreat includes to transfers from Adelaide Airport."
     leadDraft
     media="faqs-intro"
@@ -103,7 +104,7 @@ const schema = faqJsonLd(faqs.map((f) => ({ question: f.data.question, answer: f
     ))}
   </div>
 
-  <CtaBand line="Plan a day shaped around your group" note={cta.callNote} params={{ source: 'faqs' }} tone="salt" draft={{ line: true }} />
+  <CtaBand line="Curate your 8 hour immersive retreat" note={cta.callNote} params={{ source: 'faqs' }} tone="salt" draft={{ line: true }} />
 </Base>
 
 <style>

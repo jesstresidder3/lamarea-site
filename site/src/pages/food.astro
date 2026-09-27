@@ -1,20 +1,20 @@
 ---
 /*
-  The Table, /food. Owner: page builder B.
+  Food and sample menus, /food. Owner: page builder B. UX build 27-09-2026: renamed from "The Table",
+  sample menus moved to the second section for returning visitors, the intro line folded into the
+  food philosophy, and the chef and producers section cut (the chef is on /team).
   "really touching on our food philosophy around the Mediterranean diet and plant based eating and
   really showing guests... what food looks like on a retreat with us" (BD-84), fine dining and shared
   eating (BD-85), "breakfast to refreshments... to lunches" (BD-86), her heading "Signature culinary
   experiences" (BD-88), local producers (BD-89) and "the flavours of the Fleurieu" (BD-131).
 
-  1 full-bleed food hero, "The flavours of the Fleurieu"
-  2 "At La maréa, food is a central part of the experience."
-  3 the food philosophy: Mediterranean, plant based, seasonal (guide p.12, the live journal intro)
-  4 the day at the table (MealMoments; dinner and dessert are marked placeholders)
-  5 fine dining and the shared table
-  6 Signature culinary experiences (SignatureTabs; the masterclass carries its open question)
-  7 the example menu (Accordion, seasonal and an example) beside dietary needs (live FAQ)
-  8 the people behind the table: the chef, and the producers named in the menu
-  9 Plan your day
+  1 full-bleed food hero, "The flavours of the Fleurieu", with a link to the sample menus
+  2 sample menus (Accordion, seasonal and an example) beside dietary needs (live FAQ)
+  3 Signature culinary experiences (SignatureTabs; the masterclass carries its open question)
+  4 the food philosophy, opening with "At La maréa, food is a central part of the experience."
+  5 the day at the table (MealMoments; dinner and dessert are marked placeholders)
+  6 fine dining and the shared table
+  7 Plan your day
 */
 import Base from '../layouts/Base.astro';
 import MediaBand from '../components/base/MediaBand.astro';
@@ -27,7 +27,6 @@ import Reveal from '../components/base/Reveal.astro';
 import MealMoments from '../components/food/MealMoments.astro';
 import SignatureTabs from '../components/food/SignatureTabs.astro';
 import Media from '../components/media/Media.astro';
-import PersonCard from '../components/pages/b/PersonCard.astro';
 import Flag from '../components/pages/b/Flag.astro';
 import { getMealMoments, signatureItems, getFaqs, peopleById, experiencesById } from '../lib/content';
 import { listHtml } from '../components/pages/b/copy';
@@ -61,8 +60,8 @@ const menu = (lunch?.data.courses ?? []).map((c, i) => ({ title: c.course, body:
 const dishCount = (lunch?.data.courses ?? []).reduce((n, c) => n + c.dishes.length, 0);
 ---
 <Base
-  title="The Table, Mediterranean food on the Fleurieu"
-  description="Mediterranean inspired, plant based, seasonal food on La maréa’s Fleurieu retreats, from breakfast to a shared chef curated lunch."
+  title="Food and sample menus, Mediterranean food on the Fleurieu"
+  description="The food on a La maréa retreat on the Fleurieu Peninsula: Mediterranean inspired, plant based and seasonal, with a sample menu, from breakfast to a shared chef curated lunch."
   headerTone="over-media"
 >
   <!-- 1. The flavours of the Fleurieu -->
@@ -73,28 +72,47 @@ const dishCount = (lunch?.data.courses ?? []).reduce((n, c) => n + c.dishes.leng
       hero
       parallax={false}
       text="over"
-      eyebrow="The Table"
+      eyebrow="Food and sample menus"
       heading="The flavours of the *Fleurieu*"
       level={1}
       body="Inspired by the elements of a Mediterranean lifestyle; plant based nourishment, connection, community & longevity."
+      link={{ label: 'See the sample menus', href: '#sample-menus' }}
     />
   </div>
 
-  <!-- 2. Food at La maréa -->
-  <section class="section fd-intro" aria-labelledby="fd-intro">
-    <div class="wrap fd-intro__grid">
-      <h2 class="fd-intro__lead" id="fd-intro">At La maréa, food is a central part of the experience.</h2>
-      <Reveal class="fd-intro__body">
-        <p>It is designed to be nourishing, Mediterranean-inspired, and practical, with a touch of chef-led luxury. You will learn and taste meals that feel enjoyable and realistic to continue at home.</p>
-      </Reveal>
+  <!-- 2. Sample menus and dietary needs -->
+  <section class="section band-salt fd-menu" id="sample-menus" aria-labelledby="fd-menu">
+    <div class="wrap fd-menu__grid">
+      <div class="fd-menu__menu">
+        <SectionHead eyebrow="An example menu, seasonal" heading="Sample menus" id="fd-menu" size="small" draft={{ heading: true }} />
+        <Accordion items={menu} titleTag="h3" name="example-menu" />
+        <p class="fd-menu__note">Menu items vary depending on seasonality and produce availability.</p>
+        <Flag>Belle’s example menu from the Naiko Encounter Bay guide (p.14), {dishCount} dishes across three courses as published (plan/11 counted nine). Whether menus go public is decision 8; the public flag in the menus collection switches it off.</Flag>
+      </div>
+      {dietary && (
+        <aside class="fd-menu__diet" aria-labelledby="fd-diet">
+          <h3 class="fd-menu__diet-title" id="fd-diet">Dietary needs</h3>
+          {dietary.data.answer.map((t) => <p>{t}</p>)}
+          <ArrowLink href="/faqs" label="More questions and answers" />
+        </aside>
+      )}
     </div>
   </section>
 
-  <!-- 3. The food philosophy -->
+  <!-- 3. Signature culinary experiences -->
+  <section class="section fd-signature" aria-labelledby="fd-sig">
+    <div class="wrap">
+      <SectionHead heading="Signature culinary experiences" id="fd-sig" align="centre" />
+      <SignatureTabs items={signature} />
+    </div>
+  </section>
+
+  <!-- 4. The food philosophy -->
   <section class="section band-salt fd-philosophy" aria-labelledby="fd-phil">
     <div class="wrap fd-philosophy__grid">
       <div class="fd-philosophy__text">
         <SectionHead eyebrow="Our food philosophy" heading="Simple, seasonal and shared" id="fd-phil" />
+        <p>At La maréa, food is a central part of the experience. It is designed to be nourishing, Mediterranean-inspired, and practical, with a touch of chef-led luxury. You will learn and taste meals that feel enjoyable and realistic to continue at home.</p>
         <p>Our lifestyle wellness retreats are deeply inspired by the Mediterranean way of living, where nourishment is simple, seasonal, and shared.</p>
         <p>The Mediterranean dietary pattern is widely recognised as one of the healthiest in the world. It’s built on an abundance of fresh vegetables and fruits, whole grains, legumes, nuts, quality olive oil, herbs, and seafood, along with a naturally relaxed approach to mealtimes. It’s as much about how you eat as what you eat: slowly, socially, and with gratitude.</p>
       </div>
@@ -112,16 +130,16 @@ const dishCount = (lunch?.data.courses ?? []).reduce((n, c) => n + c.dishes.leng
     </div>
   </section>
 
-  <!-- 4. The day at the table -->
+  <!-- 5. The day at the table -->
   <section class="section fd-day" aria-labelledby="fd-day">
     <div class="wrap">
       <SectionHead eyebrow="From breakfast to lunch" heading="The day at the table" id="fd-day" draft={{ heading: true }} />
       <MealMoments moments={dayAtTable} label="The day at the table" />
-      <Flag>The lunch words are the Naiko Encounter Bay guide (p.13), where Luca Guiotto cooks; at Beresford the lunch is provided by Beresford, so no time from that day is shown here. Dinner and dessert wait on the menus in Belle’s retreat guide (BD-87); the 8 hour day itself has no dinner.</Flag>
+      <Flag>The lunch words are the Naiko Encounter Bay guide (p.13), where Luca Guiotto cooks; at Beresford the lunch is provided by Beresford, so no time from that day is shown here. Dinner and dessert wait on the menus in Belle’s retreat guide (BD-87); the 8 hour immersive retreat itself has no dinner.</Flag>
     </div>
   </section>
 
-  <!-- 5. Fine dining and the shared table -->
+  <!-- 6. Fine dining and the shared table -->
   <section class="section band-warm fd-tables" aria-labelledby="fd-tables">
     <div class="wrap fd-tables__grid">
       <figure class="fd-tables__fine">
@@ -139,59 +157,7 @@ const dishCount = (lunch?.data.courses ?? []).reduce((n, c) => n + c.dishes.leng
     </div>
   </section>
 
-  <!-- 6. Signature culinary experiences -->
-  <section class="section fd-signature" aria-labelledby="fd-sig">
-    <div class="wrap">
-      <SectionHead heading="Signature culinary experiences" id="fd-sig" align="centre" />
-      <SignatureTabs items={signature} />
-    </div>
-  </section>
-
-  <!-- 7. The example menu and dietary needs -->
-  <section class="section band-salt fd-menu" aria-labelledby="fd-menu">
-    <div class="wrap fd-menu__grid">
-      <div class="fd-menu__menu">
-        <SectionHead eyebrow="An example menu, seasonal" heading="Lunch, course by course" id="fd-menu" size="small" draft={{ heading: true }} />
-        <Accordion items={menu} titleTag="h3" name="example-menu" />
-        <p class="fd-menu__note">Menu items vary depending on seasonality and produce availability.</p>
-        <Flag>Belle’s example menu from the Naiko Encounter Bay guide (p.14), {dishCount} dishes across three courses as published (plan/11 counted nine). Whether menus go public is decision 8; the public flag in the menus collection switches it off.</Flag>
-      </div>
-      {dietary && (
-        <aside class="fd-menu__diet" aria-labelledby="fd-diet">
-          <h3 class="fd-menu__diet-title" id="fd-diet">Dietary needs</h3>
-          {dietary.data.answer.map((t) => <p>{t}</p>)}
-          <ArrowLink href="/faqs" label="More questions and answers" />
-        </aside>
-      )}
-    </div>
-  </section>
-
-  <!-- 8. The people behind the table -->
-  <section class="section fd-people" aria-labelledby="fd-people">
-    <div class="wrap">
-      <SectionHead eyebrow="The people behind the table" heading="Our chef and local producers" id="fd-people" draft={{ heading: true }}>
-        <ArrowLink slot="aside" href="/team" label="Meet the team" />
-      </SectionHead>
-      <div class="fd-people__grid">
-        {chef && <PersonCard person={chef} size="feature" />}
-        <div class="fd-producers">
-          <p class="fd-producers__lead">Partner with local South Australian companies, supporting local Fleurieu Peninsula farmers, producers & communities.</p>
-          <ul class="fd-producers__list" role="list">
-            {producers.map((name) => (
-              <li>
-                <span class="fd-producers__name">{name}</span>
-                {producerUse[name] && <span class="fd-producers__use" data-draft>{producerUse[name]}</span>}
-              </li>
-            ))}
-          </ul>
-          <p class="placeholder-line">More producer names from Belle</p>
-          <Flag>Peninsula Providore and La Vera are the two producers named in Belle’s example menu. Neither is yet verified as Fleurieu based, so neither is called that here. The live partners page shows more logos without saying which are on the Fleurieu (research/09 question 10).</Flag>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 9. Plan your day -->
+  <!-- 7. Plan your day -->
   <CtaBand
     line="Gather around the table"
     params={{ source: 'food' }}
@@ -201,14 +167,6 @@ const dishCount = (lunch?.data.courses ?? []).reduce((n, c) => n + c.dishes.leng
 </Base>
 
 <style>
-  /* 2 */
-  .fd-intro__grid { display: grid; gap: var(--space-m); }
-  .fd-intro__lead { margin: 0; max-width: 16em; font-size: var(--fs-h2); }
-  .fd-intro :global(.fd-intro__body) p { font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.5; color: var(--sage-100); max-width: 30rem; }
-  @media (min-width: 900px) {
-    .fd-intro__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(3rem, 7vw, 7rem); align-items: end; }
-  }
-
   /* 3 */
   .fd-philosophy__grid { display: grid; gap: var(--space-xl); }
   .fd-philosophy__text > p { max-width: 32rem; }
@@ -252,12 +210,4 @@ const dishCount = (lunch?.data.courses ?? []).reduce((n, c) => n + c.dishes.leng
   .fd-menu__diet-title { margin: 0 0 1rem; font-family: var(--font-serif); font-size: var(--fs-card); }
   .fd-menu__diet p { font-size: var(--fs-small); line-height: 1.65; }
 
-  /* 8 */
-  .fd-people__grid { display: grid; gap: var(--space-xl); }
-  @media (min-width: 1000px) { .fd-people__grid { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: clamp(3rem, 6vw, 6rem); align-items: end; } }
-  .fd-producers__lead { margin: 0 0 1.5rem; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.45; color: var(--sage-100); }
-  .fd-producers__list { margin: 0 0 1.25rem; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
-  .fd-producers__list li { display: grid; gap: 0.2rem; padding: 0.9rem 0; border-bottom: 1px solid var(--rule); }
-  .fd-producers__name { font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.2; color: var(--heading); }
-  .fd-producers__use { font-size: var(--fs-small); color: var(--sage-80); }
 </style>

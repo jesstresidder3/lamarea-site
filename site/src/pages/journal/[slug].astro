@@ -103,7 +103,7 @@ const jsonLd = recipe
   <article class="post">
     <div class="wrap post__grid">
       <aside class="post__aside" aria-label="About this story">
-        <Breadcrumbs items={[{ label: 'Journal', href: '/journal' }, { label: shortTitle }]} class="post__crumbs" />
+        <Breadcrumbs items={[{ label: 'Journal and recipes', href: '/journal' }, { label: shortTitle }]} class="post__crumbs" />
         <dl class="post__meta">
           <div><dt>Published</dt><dd><time datetime={d.date.toISOString().slice(0, 10)}>{formatDate(d.date)}</time></dd></div>
           <div><dt>Reading time</dt><dd>{minutes} minute{minutes === 1 ? '' : 's'}</dd></div>

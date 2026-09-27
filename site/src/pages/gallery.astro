@@ -18,8 +18,9 @@ import CtaBand from '../components/base/CtaBand.astro';
   <PageIntro
     variant="cluster"
     mediaFirst
-    eyebrow="Gallery"
+    eyebrow="About"
     heading="Past retreats"
+    crumbs={[{ label: 'About', href: '/our-story' }, { label: 'Past retreats' }]}
     lead="Photographs from the retreats and experiences we have curated so far. Open any image to read about the day."
     leadDraft
     media={['gallery-intro-1', 'gallery-intro-2', 'gallery-intro-3']}

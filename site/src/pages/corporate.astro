@@ -1,7 +1,8 @@
 ---
 /*
   Corporate (page builder A), plan/11 4.3 with build spec 12. Same layout as /private-groups in
-  different language (components/pages/a/PathPage.astro).
+  different language (pages/_parts/AudiencePage.astro, UX build 27-09-2026: five sections, no
+  timeline, one "Plan your day").
 
   Belle's words, verbatim:
   - "A strategic reset for leadership teams and high-performing professionals." and her corporate
@@ -16,7 +17,7 @@
   by venue (decision 14). Venues are ordered largest first.
 */
 import Base from '../layouts/Base.astro';
-import PathPage from '../components/pages/a/PathPage.astro';
+import AudiencePage from './_parts/AudiencePage.astro';
 import { getVenues, getFaqs, getTestimonials } from '../lib/content';
 import { faqJsonLd } from '../components/base/schema';
 import { site } from '../data/settings';
@@ -41,16 +42,17 @@ const jsonLd = [
 ---
 <Base
   title="Corporate wellness retreats, Fleurieu Peninsula"
-  description="Corporate wellness retreats on the Fleurieu Peninsula, South Australia: an 8 hour team day of movement, recovery and a shared Mediterranean lunch."
+  description="Corporate wellness retreats on the Fleurieu Peninsula, South Australia: the 8 hour immersive retreat for leadership teams, with transport from your Adelaide office."
   headerTone="over-media"
   jsonLd={jsonLd}
 >
-  <PathPage
+  <AudiencePage
     audience="corporate"
+    crumb="For corporate teams"
     hero={{
       slot: 'corporate-hero',
-      eyebrow: 'Corporate teams',
-      heading: 'Corporate wellness retreats on the *Fleurieu Peninsula*',
+      eyebrow: 'For corporate teams',
+      heading: 'Corporate wellness retreats',
       body: 'A strategic reset for leadership teams and high-performing professionals.',
     }}
     who={{
@@ -59,19 +61,21 @@ const jsonLd = [
         'Drawing from La maréa’s ten evidence-based pillars each retreat integrates structured movement, restorative wellness practices, Mediterranean-inspired nourishment and practical lifestyle wellness education. The experience is private by design, creating psychological safety and space for meaningful conversation without distraction.',
       ],
     }}
-    dayBrief={{
-      heading: 'Your team’s day on the *Fleurieu*',
-      steps: { arrive: [1], move: [6], nourish: [8], restore: [{ order: 9, lines: [1], items: false }] },
-    }}
+    includes={[
+      'Energising group vinyasa yoga flow or mat pilates',
+      'Individual restorative massage therapy',
+      'Group lifestyle wellness workshop',
+      'Shared private chef curated Mediterranean-inspired lunch',
+      'Luxury private return group transport from Adelaide',
+    ]}
     venues={{
       heading: 'Places to Pause for your team',
       intro: 'Guided by our personalisation pillar, each retreat location is carefully matched to the group and the retreat intention.',
       items: venues,
       filters: false,
     }}
+    proof={{ heading: 'In our guests’ words', items: reviews }}
     questions={{ heading: 'Practical answers for planners', faqs }}
     guide={{ title: 'The corporate group guide', list: 'guide:corporate-group-guide' }}
-    proof={{ heading: 'In our guests’ words', items: reviews }}
-    closing={{ line: 'A day shaped around your team' }}
   />
 </Base>

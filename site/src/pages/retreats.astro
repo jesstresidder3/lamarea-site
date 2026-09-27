@@ -1,9 +1,11 @@
 ---
 /*
-  Retreat formats (page builder A), the hub: plan/11 4.5 with build spec 12 and the page brief.
-  Belle's intro, the 8 hour day featured first and largest, then a simple menu of the other formats
-  from the formats collection (name, duration, one line, who it suits) as tiles that open in place,
-  waitlist links only where the harvest shows a waitlist open, no prices, then "Plan your day".
+  Retreats, the hub every buyer starts from (UX build 27-09-2026, build/design/
+  ux-information-architecture-27-09-2026.md section 5). Five sections:
+  1 hero, what the page is and who it is for, 2 who it is for (the two paths), 3 the 8 hour
+  immersive retreat in brief (Belle's guide lines and the three facts, "See the full day"),
+  4 shorter retreats and weekends (the other formats and the two waitlists), 5 Plan your day.
+  One "Plan your day" in the body, in the closing band. The formats tiles ask about a format instead.
 
   Belle's words, verbatim (dashes replaced, source in brackets):
   - "There are different seasons that call us to pause. Time with friends, time with family, time to
@@ -29,9 +31,10 @@ import SectionHead from '../components/base/SectionHead.astro';
 import ExpandTile from '../components/base/ExpandTile.astro';
 import Reveal from '../components/base/Reveal.astro';
 import CtaBand from '../components/base/CtaBand.astro';
+import Breadcrumbs from '../components/base/Breadcrumbs.astro';
 import { getFormats } from '../lib/content';
 import { day } from '../data/day';
-import { cta, site } from '../data/settings';
+import { cta, site, flagshipName } from '../data/settings';
 import { withParams } from '../components/base/text';
 
 const formats = await getFormats('format');
@@ -50,7 +53,7 @@ const menu: Record<string, { title: string; eyebrow: string; media: string; summ
     eyebrow: '5 hours',
     media: 'retreats-format-half-day',
     body: who('Suits corporate teams') + gap('One line from Belle on the half day retreat'),
-    link: { label: 'Plan your day', href: withParams(cta.plan.href, { format: 'half-day', source: 'retreats' }) },
+    link: { label: 'Ask about a half day', href: withParams(cta.plan.href, { format: 'half-day', source: 'retreats' }) },
   },
   'wake-up-to-wellness': {
     title: 'Wake Up To Wellness',
@@ -60,7 +63,7 @@ const menu: Record<string, { title: string; eyebrow: string; media: string; summ
     body:
       who('Suits corporate teams and private groups of professionals') +
       para('Through yoga, a seasonal healthy breakfast, nervous system regulation practices, breathwork and evidence-based wellbeing education, we explored practical lifestyle wellness strategies to support energy, stress resilience, recovery and sustainable workplace performance.'),
-    link: { label: 'Plan your day', href: withParams(cta.plan.href, { format: 'wake-up-to-wellness', source: 'retreats' }) },
+    link: { label: 'Ask about Wake Up To Wellness', href: withParams(cta.plan.href, { format: 'wake-up-to-wellness', source: 'retreats' }) },
   },
   'sunset-reset': {
     title: 'Sunset Reset',
@@ -80,7 +83,7 @@ const menu: Record<string, { title: string; eyebrow: string; media: string; summ
     body:
       who('Suits corporate teams, family and friends') +
       gap('Length and inclusions of a personalised retreat, from Belle'),
-    link: { label: 'Plan your day', href: withParams(cta.plan.href, { format: 'personalised', source: 'retreats' }) },
+    link: { label: 'Ask about a personalised retreat', href: withParams(cta.plan.href, { format: 'personalised', source: 'retreats' }) },
   },
   'womens-wellness-weekend': {
     title: 'Women’s Wellness Weekend',
@@ -101,42 +104,71 @@ const tiles = formats
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  name: 'La maréa retreat formats',
+  name: 'La maréa retreats',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, item: { '@type': 'Service', name: 'Full day retreat, 8 hours', provider: { '@type': 'Organization', name: site.name }, areaServed: 'Fleurieu Peninsula, South Australia', url: `${site.url}${cta.seeFullDay.href}` } },
+    { '@type': 'ListItem', position: 1, item: { '@type': 'Service', name: '8 hour immersive retreat', provider: { '@type': 'Organization', name: site.name }, areaServed: 'Fleurieu Peninsula, South Australia', url: `${site.url}${cta.seeFullDay.href}` } },
     ...tiles.map((t, i) => ({ '@type': 'ListItem', position: i + 2, item: { '@type': 'Service', name: t.title, provider: { '@type': 'Organization', name: site.name }, areaServed: 'Fleurieu Peninsula, South Australia' } })),
   ],
 };
 ---
 <Base
-  title="Retreat formats, Fleurieu Peninsula"
-  description="La maréa retreat formats on the Fleurieu Peninsula, South Australia: the 8 hour full day retreat, shorter mornings and evenings, and weekends."
+  title="Retreats for private groups and corporate teams"
+  description="La maréa retreats on the Fleurieu Peninsula, South Australia: the 8 hour immersive retreat for private groups and corporate teams, with transport from Adelaide, plus shorter retreats and weekends."
   headerTone="over-media"
   jsonLd={jsonLd}
 >
+  <!-- 1. What this page is, and who it is for -->
   <div class="hero-f">
     <MediaBand
       media="retreats-hero"
       height="tall"
       hero
       text="over"
-      eyebrow="Retreat formats"
-      heading="Wellness retreats on the *Fleurieu Peninsula*"
+      eyebrow="Retreats"
+      heading="Retreat days for private groups and corporate teams"
       level={1}
-      body="There are different seasons that call us to pause. Time with friends, time with family, time to reconnect as a team."
-      draft={{ heading: true }}
+      body="8 hour immersive retreats on the Fleurieu Peninsula, with transport from Adelaide and everything taken care of."
+      draft={{ heading: true, body: true }}
     />
   </div>
 
-  <!-- The 8 hour day, first and largest -->
+  <!-- 2. Who it is for, the two paths -->
+  <section class="paths" aria-labelledby="paths-heading">
+    <div class="wrap">
+      <Breadcrumbs items={[{ label: 'Retreats' }]} class="paths__crumbs" />
+      <Reveal>
+        <SectionHead
+          id="paths-heading"
+          eyebrow="Who it is for"
+          heading="Choose your retreat"
+          intro="There are different seasons that call us to pause. Time with friends, time with family, time to reconnect as a team."
+          draft={{ heading: true }}
+        />
+      </Reveal>
+      <ul class="paths__list" role="list">
+        <li class="paths__card">
+          <h3 class="paths__name"><a href="/private-groups">For private groups</a></h3>
+          <p>Birthdays, milestone celebrations, sister weekends, family resets or simply time with people who matter.</p>
+          <ArrowLink href="/private-groups" label="See private group retreats" />
+        </li>
+        <li class="paths__card">
+          <h3 class="paths__name"><a href="/corporate">For corporate teams</a></h3>
+          <p>A strategic reset for leadership teams and high-performing professionals.</p>
+          <ArrowLink href="/corporate" label="See corporate retreats" />
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3. The 8 hour immersive retreat in brief -->
   <section class="flag" aria-labelledby="flag-heading">
     <div class="wrap flag__grid">
       <Reveal class="flag__media">
         <div class="flag__img"><Media media="retreats-flagship" aspect="fill" /></div>
       </Reveal>
       <Reveal class="flag__text" delay={120}>
-        <Eyebrow>{flagship ? 'Full day retreat, 8 hours' : 'The 8 hour day'}</Eyebrow>
-        <h2 class="flag__heading" id="flag-heading">An 8 hour immersive full day retreat</h2>
+        <Eyebrow>8 hours, 7am to 5pm</Eyebrow>
+        <h2 class="flag__heading" id="flag-heading">{flagshipName}</h2>
         <p class="flag__lead">Your luxury retreat includes a curated day program designed around movement, recovery, nourishing food, nervous system support, nature immersion, education and connection.</p>
         <p>A completely curated luxury experience where everything is taken care of, venue, meals, wellness sessions, experiences, and clean-up, allowing your group to simply arrive, relax, and enjoy quality time together.</p>
         <dl class="flag__facts">
@@ -147,19 +179,18 @@ const jsonLd = {
         <p class="flag__note">{day.note}</p>
         <div class="flag__actions">
           <ArrowLink href={cta.seeFullDay.href} label={cta.seeFullDay.label} size="large" />
-          <ArrowLink href={withParams(cta.planFullDay.href, { source: 'retreats' })} label={cta.planFullDay.label} />
         </div>
       </Reveal>
     </div>
   </section>
 
-  <!-- The formats menu -->
-  <section class="menu-f" aria-labelledby="formats-heading">
+  <!-- 4. Shorter retreats and weekends. The only place the waitlists sit. -->
+  <section class="menu-f" id="shorter" aria-labelledby="formats-heading">
     <div class="wrap">
       <Reveal>
         <SectionHead
           id="formats-heading"
-          eyebrow="Retreat formats"
+          eyebrow="Shorter retreats and weekends"
           heading="Mornings, evenings and weekends"
           intro="La maréa has been designed to meet each of these moments with intention."
           draft={{ heading: true }}
@@ -173,9 +204,10 @@ const jsonLd = {
     </div>
   </section>
 
+  <!-- 5. How booking works, and the one Plan your day -->
   <CtaBand
-    line="Your retreat, your rhythm, your routine"
-    params={{ source: 'retreats' }}
+    line="Curate your 8 hour immersive retreat"
+    params={{ format: 'full-day', source: 'retreats' }}
     note={cta.callNote}
     tone="warm"
     draft={{ line: true }}
@@ -183,6 +215,15 @@ const jsonLd = {
 </Base>
 
 <style>
+  .paths { padding-block: clamp(1.5rem, 3vw, 2.5rem) var(--section-y); background: var(--salt-25); }
+  .paths :global(.paths__crumbs) { margin-bottom: clamp(2rem, 4vw, 3.5rem); }
+  .paths__list { display: grid; gap: var(--space-l); margin: clamp(2rem, 4vw, 3rem) 0 0; padding: 0; list-style: none; }
+  .paths__card { padding-top: 1.25rem; border-top: 1px solid var(--sage-20); max-width: 34rem; }
+  .paths__name { margin: 0 0 0.75rem; font-size: var(--fs-h3, 1.6rem); }
+  .paths__name a { color: inherit; text-decoration: none; }
+  .paths__card p { margin: 0 0 1.25rem; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.45; color: var(--sage-100); }
+  @media (min-width: 900px) { .paths__list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2.5rem, 6vw, 6rem); } }
+
   .flag { padding-block: var(--section-y); background: var(--sand-30); }
   .flag__grid { display: grid; gap: var(--space-l); align-items: center; }
   .flag__img { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--sand-40); }

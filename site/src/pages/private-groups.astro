@@ -1,7 +1,8 @@
 ---
 /*
   Private groups (page builder A), plan/11 4.2 with build spec 12. Same layout as /corporate in
-  different language (components/pages/a/PathPage.astro).
+  different language (pages/_parts/AudiencePage.astro, UX build 27-09-2026: five sections, no
+  timeline, one "Plan your day").
 
   Belle's words, verbatim:
   - "Birthdays, milestone celebrations, sister weekends, family resets or simply time with people who
@@ -17,7 +18,7 @@
   by venue (decision 14).
 */
 import Base from '../layouts/Base.astro';
-import PathPage from '../components/pages/a/PathPage.astro';
+import AudiencePage from './_parts/AudiencePage.astro';
 import { getVenues, getFaqs, getTestimonials } from '../lib/content';
 import { faqJsonLd } from '../components/base/schema';
 import { site } from '../data/settings';
@@ -47,39 +48,42 @@ const jsonLd = [
 ---
 <Base
   title="Private group retreats, Fleurieu Peninsula"
-  description="Private group wellness retreats on the Fleurieu Peninsula, South Australia: an 8 hour day of movement, treatments and a Mediterranean table."
+  description="Private group retreats on the Fleurieu Peninsula, South Australia: the 8 hour immersive retreat for friends and family, with transport from Adelaide."
   headerTone="over-media"
   jsonLd={jsonLd}
 >
-  <PathPage
+  <AudiencePage
     audience="private"
+    crumb="For private groups"
     hero={{
       slot: 'private-hero',
-      eyebrow: 'Private groups and retreats',
-      heading: 'Private group wellness retreats on the *Fleurieu Peninsula*',
+      eyebrow: 'For private groups',
+      heading: 'Private group retreats',
       body: 'Birthdays, milestone celebrations, sister weekends, family resets or simply time with people who matter.',
     }}
     who={{
       statement: 'Intimate, privately curated retreats for friends, families and aligned groups seeking meaningful time away together.',
       paragraphs: ['Each experience is tailored to your group and hosted across our luxury coastal and vineyard partner properties.'],
     }}
-    dayBrief={{
-      heading: 'Your group’s day on the *Fleurieu*',
-      steps: { arrive: [2], move: [3, 5], nourish: [8], restore: [{ order: 9, lines: [0] }] },
-    }}
+    includes={[
+      'Energising group vinyasa yoga flow or mat pilates',
+      'Individual restorative massage therapy',
+      'Guided group contrast therapy experience',
+      'Shared private chef curated Mediterranean-inspired lunch',
+      'Luxury private return group transport from Adelaide',
+    ]}
     venues={{
       heading: 'Places to Pause for your group',
       intro: 'Guided by our personalisation pillar, each retreat location is carefully matched to the group and the retreat intention.',
       items: venues,
       filters: true,
     }}
-    questions={{ heading: 'Questions private groups ask', faqs }}
-    guide={{ title: 'The private group guide', list: 'guide:private-group-guide' }}
     proof={{
       heading: 'In our guests’ words',
       items: reviews,
       placeholder: 'A review from a private group day, to be selected by Belle once a group has written one',
     }}
-    closing={{ line: 'A day shaped around your group' }}
+    questions={{ heading: 'Questions private groups ask', faqs }}
+    guide={{ title: 'The private group guide', list: 'guide:private-group-guide' }}
   />
 </Base>

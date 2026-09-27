@@ -35,7 +35,7 @@ import { site } from '../data/settings';
 const venues = await getVenues();
 
 const where = {
-  question: 'Where is the *Fleurieu Peninsula*?',
+  question: 'How far is it from *Adelaide*?',
   answer:
     'The Fleurieu Peninsula runs south of Adelaide in South Australia, from the vineyards of McLaren Vale down to the coast at Deep Creek, Victor Harbor and Encounter Bay. McLaren Vale is about 50 minutes from Adelaide and Deep Creek about 90 minutes. From Adelaide Airport, the transfer typically takes 90 to 120 minutes, depending on traffic and time of day.',
 };
@@ -64,12 +64,12 @@ const jsonLd = [
 ];
 ---
 <Base
-  title="Wellness retreats on the Fleurieu Peninsula"
+  title="Where is the Fleurieu Peninsula? Retreats south of Adelaide"
   description="The Fleurieu Peninsula, south of Adelaide: its coast, vineyards and wildlife, the drive from the city, and the local businesses behind a La maréa retreat."
   headerTone="over-media"
   jsonLd={jsonLd}
 >
-  <Band media="fleurieu-hero" height="screen" hero text="over" level={1} eyebrow="South Australia" heading="Wellness retreats on the *Fleurieu Peninsula*" />
+  <Band media="fleurieu-hero" height="screen" hero text="over" level={1} eyebrow="The Fleurieu Peninsula, South Australia" heading="Where is the *Fleurieu Peninsula*?" body="The coast and vineyards south of Adelaide where every La maréa retreat happens, for guests coming from interstate." draft={{ body: true }} />
 
   <section class="section fl-where">
     <div class="wrap">

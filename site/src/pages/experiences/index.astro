@@ -8,35 +8,25 @@
   1 hero (MediaBand, one video)
   2 the ten guided experiences (PaneSlider, video plays on the tile in view)
   3 the six self-led activities (a full-width Slider, a different mechanic on purpose)
-  4 how they come together (one block, linking to the 8 hour day)
-  5 who leads them (the local businesses behind the day, a compact row)
-  6 Plan your day
+  4 the food, one block linking to /food (UX build 27-09-2026: Experiences means what you do on
+    the day, so the day summary and the team row came off; the team lives under About)
+  5 Plan your day
 */
 import Base from '../../layouts/Base.astro';
 import MediaBand from '../../components/base/MediaBand.astro';
 import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
 import SectionHead from '../../components/base/SectionHead.astro';
 import TextPair from '../../components/base/TextPair.astro';
-import ArrowLink from '../../components/base/ArrowLink.astro';
 import CtaBand from '../../components/base/CtaBand.astro';
 import PaneSlider from '../../components/experiences/PaneSlider.astro';
 import Media from '../../components/media/Media.astro';
 import AfternoonTiles from '../../components/pages/b/AfternoonTiles.astro';
-import PeopleRow from '../../components/pages/b/PeopleRow.astro';
-import Flag from '../../components/pages/b/Flag.astro';
-import { getExperiences, getPeople } from '../../lib/content';
+import { getExperiences } from '../../lib/content';
 import { day } from '../../data/day';
 import { site, cta } from '../../data/settings';
 
 const guided = await getExperiences('guided');
 const selfLed = await getExperiences('self_led');
-const everyone = await getPeople();
-// Belle hosts every day, so she sits in a line above the row rather than among the partner
-// practitioners (CD review 02 item 23).
-const order = ['courtney-selfe', 'jaimi-baker', 'kristian-ryan', 'luca-guiotto'];
-const belle = everyone.find((p) => p.id === 'belle-redden');
-const leads = order.map((id) => everyone.find((p) => p.id === id)).filter(Boolean) as typeof everyone;
-
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
@@ -50,8 +40,8 @@ const jsonLd = {
 };
 ---
 <Base
-  title="Wellness experiences on the Fleurieu Peninsula"
-  description="Sauna, massage, contrast therapy, yoga, pilates, meditation, chef curated Mediterranean dining and more, led by qualified South Australian practitioners."
+  title="Wellness experiences and food on the day"
+  description="What you do on a La maréa retreat on the Fleurieu Peninsula: sauna, massage, contrast therapy, yoga, pilates, meditation, self-led afternoons and chef curated Mediterranean dining."
   headerTone="over-media"
   jsonLd={jsonLd}
 >
@@ -63,9 +53,10 @@ const jsonLd = {
       parallax={false}
       text="over"
       eyebrow="Experiences"
-      heading="Wellness experiences on the *Fleurieu Peninsula*"
+      heading="The experiences"
       level={1}
-      draft={{ heading: true }}
+      body="What you do on the day: ten guided experiences, six to enjoy at your own pace, and the food."
+      draft={{ body: true }}
     />
   </div>
 
@@ -96,48 +87,28 @@ const jsonLd = {
     <AfternoonTiles items={selfLed} id="self-led" />
   </section>
 
-  <section class="section ex-together" aria-labelledby="together-heading">
+  <section class="section ex-food" aria-labelledby="food-heading">
     <div class="wrap">
-      <TextPair eyebrow="How they come together" heading="One day, from 7am to 5pm" headingId="together-heading" mediaSide="left" split="wide" draft={{ heading: true }} link={{ label: 'See the 8 hour day', href: '/experiences/full-day-retreat' }}>
-        <div slot="media" class="ex-together__media"><Media media="experiences-together" aspect="3 / 2" /></div>
-        <p>Your luxury retreat includes a curated day program designed around movement, recovery, nourishing food, nervous system support, nature immersion, education and connection.</p>
-        <p class="ex-together__small" data-draft>Yoga or pilates and breathwork in the morning, then massage, contrast therapy and a workshop in three small groups, a shared lunch and an unhurried afternoon.</p>
+      <TextPair eyebrow="Food and sample menus" heading="Signature culinary experiences" headingId="food-heading" mediaSide="left" split="wide" link={{ label: 'See the food and sample menus', href: '/food' }}>
+        <div slot="media" class="ex-food__media"><Media media="food-fine-dining" aspect="3 / 2" /></div>
+        <p>Inspired by the elements of a Mediterranean lifestyle; plant based nourishment, connection, community & longevity.</p>
+        <p class="ex-food__small">A three course Mediterranean chef curated dining experience and a pasta making masterclass.</p>
       </TextPair>
     </div>
   </section>
 
-  <section class="section band-salt ex-people" aria-labelledby="people-heading">
-    <div class="wrap">
-      <SectionHead
-        eyebrow="Who leads them"
-        heading="Wellness and hospitality practitioners"
-        id="people-heading"
-        intro="Run by qualified health professionals & experts in their chosen field."
-      >
-        <ArrowLink slot="aside" href="/team" label="Meet the team" />
-      </SectionHead>
-      {belle && (
-        <p class="ex-people__host" data-draft>Every day is hosted by <a class="text-link" href="/team/belle-redden">Belle Redden</a>, founder and lead host.</p>
-      )}
-      <PeopleRow people={leads} experiences={[...guided, ...selfLed]} />
-      <Flag>Kristian Ryan’s title is as published on the live partners page. Who delivers contrast therapy is still to confirm (partners page: Kristian Ryan, Third Spaces; Encounter Bay guide: Jaimi Baker, PEAQ Performance), so no experience is linked to either for it. Portraits are to come (plan/11 Q9).</Flag>
-    </div>
-  </section>
-
   <CtaBand
-    line="Curate a day for your group"
+    line="Curate your 8 hour immersive retreat"
     params={{ source: 'experiences' }}
     note={cta.callNote}
-    draft={{ line: true, note: true }}
+    draft={{ line: true }}
   />
 </Base>
 
 <style>
-  .ex-people__host { margin: 0 0 clamp(1.5rem, 3vw, 2.25rem); font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.45; color: var(--sage-100); max-width: 34rem; }
   .ex-crumbs { padding-top: clamp(1rem, 2vw, 1.5rem); }
   :global(.pane-slider.ex-guided) { padding-top: clamp(2rem, 4vw, 3.5rem); }
   .ex-self :global(.section-head) { margin-bottom: clamp(2.5rem, 4vw, 3.5rem); }
-  .ex-together__media { width: 100%; }
-  .ex-together__small { margin-top: 1.25rem; font-size: var(--fs-small); color: var(--sage-80); }
-  .ex-people :global(.flag) { margin-top: 2.5rem; }
+  .ex-food__media { width: 100%; }
+  .ex-food__small { margin-top: 1.25rem; font-size: var(--fs-small); color: var(--sage-80); }
 </style>

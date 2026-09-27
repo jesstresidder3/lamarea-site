@@ -23,7 +23,7 @@ export const site = {
   /** Belle's positioning line, from the style guide tagline lockup. */
   tagline: 'luxury coastal wellness reimagined',
   defaultDescription:
-    'Luxury coastal wellness retreats on the Fleurieu Peninsula, South Australia. 8 hour retreats for private groups and corporate teams, south of Adelaide.',
+    'Luxury coastal wellness on the Fleurieu Peninsula, South Australia. 8 hour immersive retreats for private groups and corporate teams, with transport from Adelaide.',
   defaultImage: '/og-default.jpg',
 } as const;
 
@@ -45,68 +45,93 @@ export const cta = {
   callNote: 'A few short questions about your group, then a discovery call with Belle.',
 } as const;
 
-/* Header navigation, split either side of the centred logo (build spec section 12).
-   Left: the two paths and the flagship. Right: two links, then Menu and "Plan your day".
-   The Table, Philosophy and everything else live in the menu. */
-export const navLeft: NavLink[] = [
-  { label: 'Private groups', href: '/private-groups' },
-  { label: 'Corporate', href: '/corporate' },
-  { label: 'The 8 hour day', href: '/experiences/full-day-retreat' },
-];
+/* Navigation, UX build 27-09-2026 (build/design/ux-information-architecture-27-09-2026.md section 5).
+   One name for the flagship everywhere: "The 8 hour immersive retreat", Belle's own phrase
+   ("book a discovery call with me to curate their eight hour immersive retreat", T33).
+   Five primary items with a visible Home, then one "Plan your day" (cta.plan). The nav says "Venues"
+   while the /places page keeps Belle's title "Places to Pause" (question for Belle, UX section 6). */
+export const flagshipName = 'The 8 hour immersive retreat';
 
-export const navRight: NavLink[] = [
+export interface NavItem extends NavLink {
+  /** Second level in the menu overlay. Two levels only, no group titles. */
+  children?: NavLink[];
+}
+
+/** The primary row, in the order a first visit needs it. Home is a text link, not only the logo. */
+export const primaryNav: NavLink[] = [
+  { label: 'Home', href: '/' },
+  { label: 'Retreats', href: '/retreats' },
   { label: 'Experiences', href: '/experiences' },
-  { label: 'Places to Pause', href: '/places' },
+  { label: 'Venues', href: '/places' },
+  { label: 'About', href: '/our-story' },
 ];
 
-/* Menu overlay. The two paths and The Day large in the display serif (build spec section 3),
-   then grouped links. Hints are fragments of Belle's own live copy, chosen by us, so marked draft. */
+/** The menu overlay as one two-level list (UX section 5), ending in cta.plan and the contact lines. */
+export const menuTree: NavItem[] = [
+  { label: 'Home', href: '/' },
+  {
+    label: 'Retreats',
+    href: '/retreats',
+    media: 'menu-the-day',
+    children: [
+      { label: 'For private groups', href: '/private-groups', media: 'menu-private-groups' },
+      { label: 'For corporate teams', href: '/corporate', media: 'menu-corporate' },
+      { label: flagshipName, href: '/experiences/full-day-retreat', media: 'menu-the-day' },
+      { label: 'Shorter retreats and weekends', href: '/retreats#shorter' },
+    ],
+  },
+  {
+    label: 'Experiences',
+    href: '/experiences',
+    children: [{ label: 'Food and sample menus', href: '/food' }],
+  },
+  { label: 'Venues', href: '/places' },
+  {
+    label: 'About',
+    href: '/our-story',
+    children: [
+      { label: 'Our philosophy', href: '/philosophy' },
+      { label: 'Our team', href: '/team' },
+    ],
+  },
+  { label: 'Journal and recipes', href: '/journal' },
+  { label: 'FAQs', href: '/faqs' },
+  { label: 'Gift cards', href: '/gift-cards' },
+];
+
+/* Legacy shapes, kept so the current Header and Menu render the new structure until the designer's
+   rebuild reads primaryNav and menuTree directly (build/notes/requests.md, UX builder 27-09-2026).
+   Header: Home, Retreats, Experiences, then the centred logo, then Venues and About (the UX fallback
+   that keeps the centred logo). */
+export const navLeft: NavLink[] = primaryNav.slice(0, 3);
+export const navRight: NavLink[] = primaryNav.slice(3);
+
+/* Menu overlay, legacy: the five primary items large, then each item's second level. */
 export const menuPrimary: NavLink[] = [
-  { label: 'Private groups and retreats', href: '/private-groups', media: 'menu-private-groups', hint: 'Time with friends, time with family', draft: true },
-  { label: 'Corporate teams', href: '/corporate', media: 'menu-corporate', hint: 'A strategic reset for leadership teams', draft: true },
-  { label: 'The 8 hour day', href: '/experiences/full-day-retreat', media: 'menu-the-day', hint: 'Arrive, move, nourish, restore' },
+  { label: 'Home', href: '/' },
+  { label: 'Retreats', href: '/retreats', media: 'menu-the-day', hint: 'For private groups and corporate teams', draft: true },
+  { label: 'Experiences', href: '/experiences', media: 'menu-private-groups', hint: 'What you do on the day, and the food', draft: true },
+  { label: 'Venues', href: '/places', hint: 'Places to Pause, on the coast and in the vineyards', draft: true },
+  { label: 'About', href: '/our-story', media: 'menu-corporate', hint: 'Belle, our philosophy and our team', draft: true },
 ];
 
 export const menuGroups: { title: string; links: NavLink[] }[] = [
-  {
-    title: 'The retreat',
-    links: [
-      { label: 'Experiences', href: '/experiences' },
-      { label: 'Places to Pause', href: '/places' },
-      { label: 'The Table', href: '/food' },
-      { label: 'Philosophy', href: '/philosophy' },
-      { label: 'Retreat formats', href: '/retreats' },
-    ],
-  },
-  {
-    title: 'Discover',
-    links: [
-      { label: 'The Fleurieu', href: '/fleurieu-peninsula-retreats' },
-      { label: 'Journal', href: '/journal' },
-      { label: 'Gallery', href: '/gallery' },
-    ],
-  },
-  {
-    title: 'La maréa',
-    links: [
-      { label: 'Our story', href: '/our-story' },
-      { label: 'Team', href: '/team' },
-      { label: 'Rising Tides Collective', href: '/rising-tides-collective' },
-      { label: 'The app', href: '/app' },
-      { label: 'FAQs', href: '/faqs' },
-    ],
-  },
+  { title: 'Retreats', links: menuTree[1].children! },
+  { title: 'Experiences', links: menuTree[2].children! },
+  { title: 'About', links: menuTree[4].children! },
+  { title: 'More', links: menuTree.slice(5) },
 ];
 
-/* Footer columns, plan/11 Part 3. */
+/* Footer: the complete index (UX section 5). Anything not in the header or menu is here. */
 export const footerGroups: { title: string; links: NavLink[] }[] = [
   {
-    title: 'Plan a retreat',
+    title: 'Retreats',
     links: [
-      { label: 'Private groups', href: '/private-groups' },
-      { label: 'Corporate', href: '/corporate' },
-      { label: 'The 8 hour day', href: '/experiences/full-day-retreat' },
-      { label: 'Retreat formats', href: '/retreats' },
+      { label: 'For private groups', href: '/private-groups' },
+      { label: 'For corporate teams', href: '/corporate' },
+      { label: flagshipName, href: '/experiences/full-day-retreat' },
+      { label: 'Shorter retreats and waitlists', href: '/retreats#shorter' },
+      { label: 'Gift cards', href: '/gift-cards' },
       { label: 'Plan your day', href: '/enquire' },
     ],
   },
@@ -114,20 +139,21 @@ export const footerGroups: { title: string; links: NavLink[] }[] = [
     title: 'Explore',
     links: [
       { label: 'Experiences', href: '/experiences' },
-      { label: 'Places to Pause', href: '/places' },
-      { label: 'The Table', href: '/food' },
-      { label: 'The Fleurieu', href: '/fleurieu-peninsula-retreats' },
-      { label: 'Journal', href: '/journal' },
+      { label: 'Food and sample menus', href: '/food' },
+      { label: 'Venues', href: '/places' },
+      { label: 'The Fleurieu Peninsula', href: '/fleurieu-peninsula-retreats' },
+      { label: 'Journal and recipes', href: '/journal' },
+      { label: 'Past retreats', href: '/gallery' },
     ],
   },
   {
-    title: 'La maréa',
+    title: 'About',
     links: [
       { label: 'Our story', href: '/our-story' },
-      { label: 'Philosophy', href: '/philosophy' },
-      { label: 'Team', href: '/team' },
+      { label: 'Our philosophy', href: '/philosophy' },
+      { label: 'Our team', href: '/team' },
       { label: 'Rising Tides Collective', href: '/rising-tides-collective' },
-      { label: 'Gift cards', href: '/gift-cards' },
+      { label: 'The app, coming 2027', href: '/app' },
       { label: 'FAQs', href: '/faqs' },
     ],
   },
