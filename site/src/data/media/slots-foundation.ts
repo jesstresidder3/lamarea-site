@@ -152,9 +152,11 @@ const raw: MediaSlot[] = [
     tone: 'sand',
   },
   {
-    id: 'day-restore', src: '/media/bath-naiko-deep-creek.mp4', srcMobile: '/media/bath-naiko-deep-creek-portrait.mp4', poster: '/media/bath-video-poster.jpg',
-    type: 'video',
-    alt: 'A freestanding bath filling beside floor-to-ceiling windows over the sea, candles and a tea tray set beside it',
+    // Redesign 27-09-2026: Belle does not want the bath as a home image (T55, "that isn't, like, a summary
+    // travel vibes"). Restore now shows guests by the fire, which is one of the Restore lines in her schedule.
+    id: 'day-restore', src: '/media/living-fire-sea.jpg', position: '50% 55%',
+    type: 'image',
+    alt: 'Two guests resting by the wood fire in a living room with the sea beyond the windows',
     aspect: '16 / 9',
     suggested: 'Beresford Accom images, the venue in late light (full-bleed panel, text sits lower left)',
     tone: 'sand',

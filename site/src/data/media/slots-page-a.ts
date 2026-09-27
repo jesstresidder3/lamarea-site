@@ -14,6 +14,16 @@ const GRADE = 'Grade: lift shadows, warm white balance, keep the water green and
 const CONSENT = 'Guest consent needed before any retreat photograph with faces is used.';
 
 const raw: MediaSlot[] = [
+  // Home closing band, redesign 27-09-2026: the page ends at dusk.
+  {
+    id: 'home-close', src: '/media/beach-dusk-drone.jpg', position: '50% 60%',
+    type: 'image',
+    alt: 'Two people at the water’s edge on a long beach in the last evening light, seen from the air',
+    aspect: '16 / 9',
+    suggested: 'Summer drone footage at dusk, slowed',
+    tone: 'dusk',
+  },
+
   // Home, moment 6: the shared table beside the two signature culinary experiences ----------
   {
     id: 'home-table-shared', src: '/media/long-table-overhead.jpg', position: '50% 45%',

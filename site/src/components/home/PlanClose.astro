@@ -1,0 +1,36 @@
+---
+/*
+  Home, closing band: the page ends at dusk. A full-bleed evening frame that opens from an inset as it
+  rises, then Belle's words on sand and the one "Plan your day" pill in the page body.
+  Copy: "Restore. Reconnect. Realign." (Belle's wording ideas, T63 to 66, set in sentence case) and
+  "La maréa was created as an invitation to pause." (her note in the Encounter Bay guide, p.5).
+*/
+import Media from '../media/Media.astro';
+import { withParams } from '../base/text';
+import { cta } from '../../data/settings';
+
+interface Props { media?: string; params?: Record<string, string>; }
+const { media = 'home-close', params = { source: 'home' } } = Astro.props;
+---
+<section class="pc" aria-labelledby="pc-heading">
+  <div class="pc__frame" data-widen="6" data-no-blind>
+    <Media media={media} aspect="fill" sizes="100vw" />
+  </div>
+  <div class="wrap pc__text">
+    <h2 class="pc__heading" id="pc-heading"><span>Restore.</span> <span>Reconnect.</span> <span>Realign.</span></h2>
+    <p class="pc__lead">La maréa was created as an invitation to pause.</p>
+    <a class="btn-filled btn-filled--large pc__cta" href={withParams(cta.plan.href, params)} data-magnetic>{cta.plan.label}</a>
+    <p class="pc__call">{cta.callNote}</p>
+  </div>
+</section>
+
+<style>
+  .pc { padding-top: var(--section-y); }
+  .pc__frame { position: relative; height: clamp(22rem, 78svh, 54rem); overflow: hidden; background: var(--sand-40); }
+  .pc__text { display: grid; justify-items: center; text-align: center; padding-block: clamp(4rem, 9vw, 8rem) var(--section-y); }
+  .pc__heading { margin: 0; font-size: var(--fs-section); line-height: 1.04; }
+  .pc__heading span:nth-child(2) { font-style: italic; }
+  .pc__lead { margin: clamp(1.5rem, 3vw, 2.25rem) auto 0; font-family: var(--font-editorial); font-style: italic; font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem); line-height: 1.4; color: var(--sage-100); }
+  .pc__cta { margin-top: clamp(2rem, 4vw, 3rem); }
+  .pc__call { margin: 1.25rem auto 0; font-size: var(--fs-small); color: var(--sage-80); }
+</style>

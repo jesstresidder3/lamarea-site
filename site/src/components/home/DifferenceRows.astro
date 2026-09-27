@@ -1,0 +1,137 @@
+---
+/*
+  Home, "Our difference": Belle's five lines, verbatim (settings.ts `differences`, display text).
+  Five editorial rows, each a numeral, her line in HV Muse and a quiet link to its proof. On pointer
+  devices the row's photograph floats beside the pointer as you move along the row, like turning a
+  page in a magazine. On touch and with reduced motion each row shows a small photograph instead.
+*/
+import Media from '../media/Media.astro';
+import { media as getMedia } from '../../data/media';
+
+interface Row { text: string; href?: string; linkLabel?: string; media: string }
+interface Props { items: Row[]; heading?: string; id?: string }
+const { items, heading = 'Our difference', id = 'difference' } = Astro.props;
+---
+<section class="df" id={id} aria-labelledby={`${id}-heading`} data-df>
+  <div class="wrap">
+    <h2 class="df__heading" id={`${id}-heading`}>{heading}</h2>
+    <ol class="df__list" role="list">
+      {items.map((r, i) => {
+        const has = Boolean(getMedia(r.media).src);
+        return (
+          <li class="df__row" data-df-row={i}>
+            <span class="df__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            {has && <span class="df__thumb" aria-hidden="true"><Media media={r.media} aspect="1 / 1" sizes="96px" /></span>}
+            <p class="df__text">{r.text}</p>
+            {r.href && <a class="df__link text-link" href={r.href}>{r.linkLabel ?? 'Read more'}</a>}
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+  <div class="df__float" aria-hidden="true" data-df-float data-no-blind>
+    {items.map((r, i) => getMedia(r.media).src && (
+      <div class="df__float-img" data-df-img={i}><Media media={r.media} aspect="fill" sizes="22rem" /></div>
+    ))}
+  </div>
+</section>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  document.querySelectorAll<HTMLElement>('[data-df]').forEach((root) => {
+    const float = root.querySelector<HTMLElement>('[data-df-float]');
+    if (!float || reduce || !fine) return;
+    root.classList.add('has-float');
+    const imgs = Array.from(float.querySelectorAll<HTMLElement>('[data-df-img]'));
+    let x = 0, y = 0, cx = 0, cy = 0, raf = 0, on = false;
+    const loop = () => {
+      cx += (x - cx) * 0.12;
+      cy += (y - cy) * 0.12;
+      float.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+      raf = on || Math.abs(x - cx) + Math.abs(y - cy) > 0.5 ? requestAnimationFrame(loop) : 0;
+    };
+    root.querySelectorAll<HTMLElement>('[data-df-row]').forEach((row) => {
+      row.addEventListener('pointerenter', (e) => {
+        const i = row.dataset.dfRow;
+        const hit = imgs.some((im) => im.dataset.dfImg === i);
+        imgs.forEach((im) => im.classList.toggle('is-on', im.dataset.dfImg === i));
+        float.classList.toggle('is-on', hit);
+        if (!on) { cx = x = e.clientX; cy = y = e.clientY; }
+        on = hit;
+        if (!raf) raf = requestAnimationFrame(loop);
+      });
+      row.addEventListener('pointermove', (e) => { x = e.clientX; y = e.clientY; });
+    });
+    root.querySelector('.df__list')?.addEventListener('pointerleave', () => { float.classList.remove('is-on'); on = false; });
+  });
+</script>
+
+<style>
+  .df { position: relative; padding-block: var(--section-y); }
+  .df__heading { margin: 0 0 clamp(2.5rem, 5vw, 4.5rem); font-size: var(--fs-section); line-height: 1.02; }
+  .df__list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
+  .df__row {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: 0.5rem 1rem;
+    align-items: baseline;
+    padding: clamp(1.5rem, 3vw, 2.5rem) 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .df__num { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.12em; color: var(--sage-80); }
+  .df__thumb { display: none; }
+  .df__text {
+    grid-column: 2;
+    margin: 0;
+    max-width: 30em;
+    font-family: var(--font-display);
+    font-size: clamp(1.375rem, 1.05rem + 1.05vw, 2.125rem);
+    line-height: 1.22;
+    color: var(--sage-80);
+    text-wrap: pretty;
+    transition: color 400ms var(--ease-settle), translate 600ms var(--ease-settle);
+  }
+  .df__link { grid-column: 2; justify-self: start; margin-top: 0.5rem; font-size: var(--fs-small); letter-spacing: 0.04em; }
+
+  @media (min-width: 900px) {
+    .df__row { grid-template-columns: 5rem minmax(0, 1fr) 16rem; }
+    .df__link { grid-column: 3; justify-self: end; margin: 0; }
+  }
+  /* Touch and reduced motion: a small photograph in each row. */
+  .df:not(.has-float) .df__row { grid-template-columns: 2.5rem 4.5rem minmax(0, 1fr); }
+  .df:not(.has-float) .df__thumb { display: block; grid-row: span 2; align-self: start; }
+  .df:not(.has-float) .df__text, .df:not(.has-float) .df__link { grid-column: 3; }
+  .df:not(.has-float) .df__row:not(:has(.df__thumb)) .df__text,
+  .df:not(.has-float) .df__row:not(:has(.df__thumb)) .df__link { grid-column: 2 / -1; }
+  @media (min-width: 900px) {
+    .df:not(.has-float) .df__row { grid-template-columns: 5rem 6rem minmax(0, 1fr) 16rem; }
+    .df:not(.has-float) .df__link { grid-column: 4; }
+  }
+
+  @media (hover: hover) {
+    .df.has-float .df__list:hover .df__row:not(:hover) .df__text { color: var(--sage-60); }
+    .df.has-float .df__row:hover .df__text { translate: 0.75rem 0; }
+  }
+
+  .df__float {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 5;
+    width: clamp(14rem, 18vw, 20rem);
+    aspect-ratio: 4 / 5;
+    margin: -12rem 0 0 2.5rem;
+    pointer-events: none;
+    display: none;
+  }
+  .df.has-float .df__float { display: block; }
+  .df__float-img {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 700ms var(--ease-tide);
+  }
+  .df__float.is-on .df__float-img.is-on { clip-path: inset(0 0 0 0); }
+</style>

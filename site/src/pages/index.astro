@@ -1,59 +1,55 @@
 ---
 /*
-  Home (page builder A). The twelve moments of build spec section 12, in order:
-  1 Hero, 2 an invitation to pause, 3 the Fleurieu zoom, 4 an 8 hour day on the Fleurieu,
-  5 experiences (posters only), 6 the Table, 7 Places to Pause (the map), 8 our difference,
-  9 proof, 10 plan your day (the customise prompts), 11 the journal and staying close, 12 footer.
-  Belle's four beats thread the scroll as small labels: the day, then Move, Nourish, Restore.
-  Copy is Belle's, verbatim and sourced in each component; drafted lines carry data-draft.
+  Home, Salt and Sun (redesign build 27-09-2026). The seven sections of the UX document
+  (build/design/ux-information-architecture-27-09-2026.md section 5), in the visual language of
+  build/design/luxury-redesign-direction-27-09-2026.md. The ground drifts from morning salt at the top
+  to dusk sand at the bottom (Base dayTone).
+
+  1 Hero: the framed horizon, Belle's line, the product line, two doors
+  2 The 8 hour immersive retreat in brief: the sticky split day, four beats, the tide line
+  3 Experiences: the pinned sideways gallery, guided and self-led together (the culinary two included)
+  4 Places to Pause: the arch, the venue list and the pinned map
+  5 Our difference: Belle's five, then her ten pillar names drifting past
+  6 In our guests' words: one review at a time
+  7 Plan your day: the page ends at dusk, with the one pill in the body
+
+  Every word is Belle's or already on the site; drafted lines keep their data-draft marker.
 */
 import Base from '../layouts/Base.astro';
 import Hero from '../components/hero/Hero.astro';
-import ZoomMosaic from '../components/hero/ZoomMosaic.astro';
 import PinnedDay from '../components/day/PinnedDay.astro';
-import PaneSlider from '../components/experiences/PaneSlider.astro';
-import FleurieuMap from '../components/map/FleurieuMap.astro';
-import SectionHead from '../components/base/SectionHead.astro';
-import ArrowLink from '../components/base/ArrowLink.astro';
-import Reveal from '../components/base/Reveal.astro';
-import QuestionCircles from '../components/base/QuestionCircles.astro';
-import Testimonials from '../components/testimonials/Testimonials.astro';
-import Invitation from '../components/pages/a/Invitation.astro';
-import TableMoment from '../components/pages/a/TableMoment.astro';
-import StayClose from '../components/pages/a/StayClose.astro';
-import Differences from '../components/pages/a/Differences.astro';
+import ExperienceGallery from '../components/experiences/ExperienceGallery.astro';
+import PlacesArches from '../components/venues/PlacesArches.astro';
+import DifferenceRows from '../components/home/DifferenceRows.astro';
+import PillarDrift from '../components/home/PillarDrift.astro';
+import GuestWords from '../components/home/GuestWords.astro';
+import PlanClose from '../components/home/PlanClose.astro';
 import { getExperiences, getVenues, getTestimonials } from '../lib/content';
 import { differences, site } from '../data/settings';
 
 const guided = await getExperiences('guided');
+const selfLed = await getExperiences('self_led');
 const venues = await getVenues();
 const reviews = await getTestimonials();
 
-// Belle's ten line icons, in the style guide's order, under difference 2 (build spec 12).
-const pillarIcons = ['nutrition', 'movement', 'sleep-recovery', 'psychological-wellbeing', 'nature-immersion', 'connection', 'personalisation', 'balance', 'evidence-based-education', 'luxury'];
-
-// Each difference links to its proof. Difference 4 goes to the team, where the local businesses
-// behind the day are named (The Earth House and Spa, PEAQ Performance, Aromi Dining, Third Spaces).
+// Each difference links to its proof (as before). Difference 4 goes to the team, where the local
+// businesses behind the day are named.
 const proof: Record<string, { href: string; label: string }> = {
-  'difference-01': { href: '/fleurieu-peninsula-retreats', label: 'The Fleurieu' },
+  'difference-01': { href: '/fleurieu-peninsula-retreats', label: 'The Fleurieu Peninsula' },
   'difference-02': { href: '/philosophy', label: 'Our philosophy' },
   'difference-03': { href: '/team', label: 'Meet the team' },
   'difference-04': { href: '/team', label: 'The local businesses behind the day' },
   'difference-05': { href: '/our-story', label: 'Our story' },
 };
-const moments = differences.map((d, i) => ({
+const rows = differences.map((d, i) => ({
   text: d.display,
   href: proof[d.id]?.href ?? d.href,
   linkLabel: proof[d.id]?.label,
   media: `home-difference-${String(i + 1).padStart(2, '0')}`,
-  icons: d.id === 'difference-02' ? pillarIcons : undefined,
-  iconsHref: '/philosophy',
-  iconsLabel: 'Our ten philosophy pillars, on the philosophy page',
 }));
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  // WebSite beside the site-wide Organization. LocalBusiness waits until an address publishes (QA m11).
   '@type': 'WebSite',
   name: site.name,
   alternateName: ['La Marea', 'Lamarea'],
@@ -67,87 +63,30 @@ const jsonLd = {
   title="Luxury wellness retreats, Fleurieu Peninsula"
   description="8 hour luxury wellness retreats for private groups and corporate teams on the Fleurieu Peninsula, south of Adelaide, South Australia."
   headerTone="over-media"
+  dayTone
   jsonLd={jsonLd}
 >
-  <!-- 1 Arrive: the Fleurieu coast from above, one line, two doors -->
   <Hero />
 
-  <!-- 2 An invitation to pause -->
-  <Invitation />
+  <PinnedDay params={{ format: 'full-day', source: 'home' }} plan={false} />
 
-  <!-- 3 The Fleurieu: the offer in five stills, zooming to the hills, three drive facts -->
-  <ZoomMosaic />
-
-  <!-- 4 An 8 hour day on the Fleurieu, the one real example day -->
-  <PinnedDay params={{ format: 'full-day', source: 'home' }} />
-
-  <!-- 5 Move: the experiences (posters only, the hero is the page's one moving loop) -->
-  <PaneSlider
-    id="experiences"
-    items={guided}
-    eyebrow="Move"
+  <ExperienceGallery
+    items={[...guided, ...selfLed]}
+    eyebrow="The experiences"
     heading="Your retreat, your rhythm, your routine"
     intro="Luxury South Australian wellness experiences, curated to form La maréa."
-    linkBase="/experiences/"
-    posters
     link={{ href: '/experiences', label: 'See every experience' }}
   />
 
-  <!-- 6 Nourish: the Table -->
-  <TableMoment />
+  <PlacesArches
+    venues={venues}
+    intro="La maréa retreats are intentionally limited and venue selection is highly considered."
+  />
 
-  <!-- 7 Restore: Places to Pause, the map -->
-  <section class="places-m" aria-labelledby="places-heading">
-    <div class="wrap places-m__head">
-      <Reveal>
-        <SectionHead
-          id="places-heading"
-          eyebrow="Restore"
-          heading="Places to Pause"
-          intro="La maréa retreats are intentionally limited and venue selection is highly considered."
-        >
-          <ArrowLink slot="aside" href="/places" label="Discover Places to Pause" />
-        </SectionHead>
-      </Reveal>
-    </div>
-    <FleurieuMap venues={venues} id="home-map" />
-  </section>
+  <DifferenceRows items={rows} />
+  <PillarDrift />
 
-  <!-- 8 Our difference: Belle's five, verbatim, each with its proof and a photograph that moves in -->
-  <section class="diff-m" aria-labelledby="difference-heading">
-    <div class="wrap">
-      <Differences items={moments} id="difference-heading" />
-    </div>
-  </section>
+  <GuestWords items={reviews} />
 
-  <!-- 9 Proof, tagged by format, with See past retreats -->
-  <section class="proof-m" aria-labelledby="proof-heading">
-    <div class="wrap">
-      <Reveal>
-        <SectionHead id="proof-heading" heading="In our guests’ words" draft={{ heading: true }} />
-      </Reveal>
-    </div>
-    <Testimonials items={reviews} label="Guest reviews" id="home-reviews" />
-  </section>
-
-  <!-- 10 Plan your day: the customise prompts -->
-  <section class="prompts-m" aria-label="Plan your day">
-    <div class="wrap">
-      <QuestionCircles params={{ source: 'home' }} />
-    </div>
-  </section>
-
-  <!-- 11 The journal, the Collective and the app -->
-  <StayClose />
+  <PlanClose />
 </Base>
-
-<style>
-  .places-m { padding-block: var(--section-y); background: var(--sand-30); }
-  .places-m__head { margin-bottom: clamp(0.5rem, 1.5vw, 1.25rem); }
-
-  .diff-m { padding-block: var(--section-y); background: var(--sand-30); }
-
-  .proof-m { padding-block: var(--section-y); background: var(--salt-25); }
-
-  .prompts-m { padding-block: var(--section-y); background: var(--sand-30); }
-</style>

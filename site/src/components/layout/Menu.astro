@@ -6,8 +6,9 @@
   right. Contact and the one "Plan your day" pill sit at the foot. Locks scroll without layout shift,
   traps focus, closes on Escape, returns focus to the Menu control. Behaviour: src/scripts/menu.ts.
 
-  Data (settings.ts, owned by the UX builder): `menuList` (items with optional `children` and `media`)
-  when it exists, otherwise `menuPrimary` as the large links and `menuGroups` as the quieter list.
+  Data (settings.ts, owned by the UX builder): `menuTree` (items with optional `children` and `media`),
+  otherwise `menuPrimary` as the large links and `menuGroups` as the quieter list. Links without a
+  `media` slot preview their page's opening photograph (PREVIEW below).
 */
 import Logo from './Logo.astro';
 import Media from '../media/Media.astro';
@@ -22,14 +23,30 @@ interface Props { current?: string }
 const { current = '/' } = Astro.props;
 const isCurrent = (href: string) => current === href || (href !== '/' && current.startsWith(href + '/'));
 
-const list: Item[] = Array.isArray(s.menuList)
-  ? (s.menuList as Item[])
-  : (settings.menuPrimary as Item[]);
-const secondary: NavLink[] = Array.isArray(s.menuList)
-  ? []
-  : (settings.menuGroups ?? []).flatMap((g) => g.links);
+const tree = (Array.isArray(s.menuTree) ? s.menuTree : Array.isArray(s.menuList) ? s.menuList : null) as Item[] | null;
+// A photograph for every link, so the arch always has something to show. The UX data can set `media`
+// on any item; otherwise the page's own opening photograph is used.
+const PREVIEW: Record<string, string> = {
+  '/': 'menu-default',
+  '/retreats': 'menu-the-day',
+  '/private-groups': 'menu-private-groups',
+  '/corporate': 'menu-corporate',
+  '/experiences/full-day-retreat': 'day-hero',
+  '/experiences': 'experiences-hero',
+  '/food': 'food-hero',
+  '/places': 'places-hero',
+  '/our-story': 'story-hero',
+  '/philosophy': 'philosophy-hero',
+  '/team': 'team-hero',
+  '/journal': 'journal-poke-bowl',
+  '/faqs': 'faqs-intro',
+  '/gift-cards': 'giftcards-intro',
+};
+const withMedia = <T extends NavLink>(l: T): T => ({ ...l, media: l.media ?? PREVIEW[l.href.split('#')[0]] ?? 'menu-default' });
+const list: Item[] = (tree ?? (settings.menuPrimary as Item[])).map((l) => ({ ...withMedia(l), children: l.children?.map(withMedia) }));
+const secondary: NavLink[] = tree ? [] : (settings.menuGroups ?? []).flatMap((g) => g.links);
 
-const figures = Array.from(new Set(['menu-default', ...list.map((l) => l.media).filter(Boolean)])) as string[];
+const figures = Array.from(new Set(['menu-default', ...list.flatMap((l) => [l.media, ...(l.children ?? []).map((c) => c.media)]).filter(Boolean)])) as string[];
 let n = 0;
 ---
 <div class="menu" id="site-menu" role="dialog" aria-modal="true" aria-label="Site menu" data-menu data-state="closed" inert>
@@ -47,13 +64,13 @@ let n = 0;
       <ul class="menu__list" role="list">
         {list.map((l) => (
           <li class="menu__item" style={`--i:${n++}`}>
-            <a class="menu__link" href={l.href} data-menu-media={l.media ?? 'menu-default'} aria-current={isCurrent(l.href) ? 'page' : undefined}>
+            <a class="menu__link" href={l.href} data-menu-media={l.media} aria-current={isCurrent(l.href) ? 'page' : undefined}>
               <span class="menu__link-text">{l.label}</span>
             </a>
             {l.children && l.children.length > 0 && (
               <ul class="menu__children" role="list">
                 {l.children.map((c) => (
-                  <li><a class="menu__child" href={c.href} data-menu-media={c.media ?? l.media ?? 'menu-default'} aria-current={isCurrent(c.href) ? 'page' : undefined}>{c.label}</a></li>
+                  <li><a class="menu__child" href={c.href} data-menu-media={c.media} aria-current={isCurrent(c.href) ? 'page' : undefined}>{c.label}</a></li>
                 ))}
               </ul>
             )}
@@ -156,7 +173,8 @@ let n = 0;
     gap: clamp(2rem, 5vh, 3.5rem);
     padding: clamp(1.5rem, 5vh, 3rem) var(--gutter) clamp(2.5rem, 6vh, 4rem);
   }
-  .menu__list { margin: 0; padding: 0; list-style: none; display: grid; gap: clamp(0.25rem, 1vh, 0.75rem); }
+  .menu__list { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; }
+  .menu__link { min-height: 3rem; }
   .menu__item, .menu__secondary, .menu__foot {
     opacity: 0;
     translate: 0 1.25rem;
@@ -176,7 +194,7 @@ let n = 0;
   }
   .menu__link-text {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 1.3rem + 2.2vw, 3.25rem);
+    font-size: clamp(1.875rem, 1.2rem + 1.9vw, 2.875rem);
     line-height: 1.12;
     letter-spacing: 0.005em;
     transition: translate 500ms var(--ease-settle), color 400ms var(--ease-settle);

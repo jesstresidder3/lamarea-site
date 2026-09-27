@@ -63,7 +63,7 @@ const raw: MediaSlot[] = [
   { id: 'pillar-luxury-and-heartfelt-hospitality', src: '/media/table-lemons-sea.jpg', position: '50% 55%', type: 'image', alt: 'Two women setting a long table with lemons beside windows onto the sea', aspect: '1 / 1', tone: 'dusk', suggested: 'luxury.mp4, ' + pillarVideo },
 
   /* ---------------------------------------------------------------- venues: cards, map pane and galleries */
-  { id: 'venue-naiko-deep-creek-card', src: '/media/coast-cove-house-drone-late.jpg', position: '32% 50%', type: 'image', alt: 'The retreat house on a green hillside above a turquoise cove at Deep Creek, seen from the air', aspect: '4 / 5', tone: 'sea',
+  { id: 'venue-naiko-deep-creek-card', src: '/media/coast-cove-house-drone-late.jpg', position: '36% 55%', type: 'image', alt: 'The retreat house on a green hillside above a turquoise cove at Deep Creek, seen from the air', aspect: '4 / 5', tone: 'sea',
     suggested: 'NAIKO ACCOM (22 files) or Naiko At The Bluff Content. The two Naiko sets are not yet split (S4)' },
   { id: 'venue-naiko-deep-creek-map', src: '/media/headland-late-light-drone.jpg', position: '55% 60%', type: 'image', alt: 'The retreat house on a grassy headland above the sea in late golden light, seen from the air', aspect: '4 / 5', tone: 'sea',
     suggested: 'NAIKO ACCOM, an exterior with the sea. Frame from DJI_20251109100906_0030_D.MP4 (the Naiko deep creek folder) as an alternate' },

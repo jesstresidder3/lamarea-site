@@ -1,0 +1,69 @@
+---
+/*
+  Pillar-name drift (Salt and Sun, signature feature 12).
+  Belle's ten pillar names drift slowly across the page in HV Muse, sage 40, with her line icons
+  between them. One pass every 60 seconds, paused on hover and on keyboard focus. A pause between two
+  sections, linked to the philosophy page. Decorative drift: the names are also listed once for
+  screen readers. Reduced motion: a static centred wrap of the ten names.
+*/
+import Icon from '../base/Icon.astro';
+import { getPillars } from '../../lib/content';
+
+interface Props { href?: string; label?: string }
+const { href = '/philosophy', label = 'Our ten philosophy pillars' } = Astro.props;
+const pillars = await getPillars();
+const names = pillars.map((p) => ({ name: p.data.name, icon: p.id }));
+---
+<a class="pdrift" href={href} aria-label={`${label}: ${names.map((n) => n.name).join(', ')}`} data-cursor="Discover">
+  <span class="pdrift__track" aria-hidden="true">
+    {[0, 1].map(() => (
+      <span class="pdrift__run">
+        {names.map((n) => (
+          <span class="pdrift__item">
+            <span class="pdrift__name">{n.name}</span>
+            <Icon name={n.icon} size="clamp(1.75rem, 1.2rem + 1.4vw, 2.75rem)" class="pdrift__icon" />
+          </span>
+        ))}
+      </span>
+    ))}
+  </span>
+</a>
+
+<style>
+  .pdrift {
+    display: block;
+    overflow: hidden;
+    padding-block: clamp(2.5rem, 5vw, 4.5rem);
+    color: var(--sage-40);
+    text-decoration: none;
+    border-block: 1px solid color-mix(in srgb, var(--sage-40) 25%, transparent);
+  }
+  .pdrift__track { display: flex; width: max-content; }
+  .pdrift__run { display: flex; flex: none; align-items: center; }
+  .pdrift__item { display: inline-flex; align-items: center; gap: clamp(1.5rem, 3vw, 3rem); padding-right: clamp(1.5rem, 3vw, 3rem); white-space: nowrap; }
+  .pdrift__name {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 1.2rem + 3.3vw, 4rem);
+    line-height: 1;
+    color: var(--sage-40);
+    transition: color 500ms var(--ease-settle);
+  }
+  .pdrift__item:nth-child(even) .pdrift__name { font-style: italic; }
+  .pdrift :global(.pdrift__icon) { color: var(--sage-40); }
+  @media (hover: hover) {
+    .pdrift:hover .pdrift__name { color: var(--sage-60); }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .pdrift__track { animation: pdrift 60s linear infinite; }
+    .pdrift:hover .pdrift__track, .pdrift:focus-visible .pdrift__track { animation-play-state: paused; }
+  }
+  @keyframes pdrift { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pdrift__track { width: auto; justify-content: center; padding-inline: var(--gutter); }
+    .pdrift__run { flex-wrap: wrap; justify-content: center; row-gap: 1rem; }
+    .pdrift__run + .pdrift__run { display: none; }
+    .pdrift__name { font-size: clamp(1.5rem, 1rem + 1.5vw, 2.25rem); }
+  }
+</style>

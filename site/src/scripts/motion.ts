@@ -109,7 +109,7 @@ function parallax() {
     const speed = Number(host.dataset.speed) || 0.85;
     const amount = (1 - speed) * 60; // 0.85 moves the photo 9 per cent over the element's passage
     const target = host.querySelector<HTMLElement>('img, video') ?? host;
-    gsap.set(target, { scale: 1 + amount / 50 });
+    gsap.set(target, { scale: 1 + amount / 100 + 0.01 });
     gsap.fromTo(
       target,
       { yPercent: -amount / 2 },

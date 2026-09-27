@@ -18,7 +18,7 @@ const raw: MediaSlot[] = [
   {
     id: 'places-hero', src: '/media/sauna-cold-tubs-cliff.jpg', position: '50% 48%',
     type: 'image',
-    alt: 'A cedar barrel sauna and cold tubs on the clifftop above turquoise water under a bright sky, Naiko Deep Creek',
+    alt: 'A cedar barrel sauna and cold tubs on a clifftop above turquoise water under a bright sky, Fleurieu Peninsula',
     aspect: '16 / 9',
     suggested: 'Naiko At The Bluff Content, the villa exterior with the sea. Alternate: Beresford Accom images, the drone shot over the vines (plan/11 4.9)',
     note: 'A partner venue in its landscape, never a room interior. Wide frame, the building small in the land.',

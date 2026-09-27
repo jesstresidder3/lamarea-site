@@ -1,0 +1,174 @@
+---
+/*
+  The pinned experiences gallery (Salt and Sun, signature features 9, 10 and 11).
+  The section pins while Belle's experiences travel sideways, in three sizes at staggered heights, the
+  photograph inside each card drifting at 0.85 speed for depth. A counter and a thin tide line show
+  progress. On hover a card's photo eases in by 4 per cent and Belle's one line rises from under its
+  name; on touch the line is always shown. Over the cards a salt disc reads "View".
+  Only experiences with a photograph are shown: empty frames stay hidden until Belle's photos arrive.
+
+  Wide screens with a fine pointer and motion allowed: pinned, scrubbed by scroll (scripts/gallery.ts).
+  Otherwise: a native sideways scroll with snap and visible arrows.
+
+  <ExperienceGallery items={[...guided, ...selfLed]} heading="Your retreat, your rhythm, your routine" />
+*/
+import Media from '../media/Media.astro';
+import ArrowLink from '../base/ArrowLink.astro';
+import { media as getMedia } from '../../data/media';
+import { pad2, placeHtml } from '../../lib/text';
+import type { Experience } from '../../lib/content';
+
+interface Props {
+  items: Experience[];
+  heading: string;
+  eyebrow?: string;
+  intro?: string;
+  link?: { href: string; label: string };
+  id?: string;
+}
+const { items, heading, eyebrow, intro, link, id = 'experiences' } = Astro.props;
+const shown = items.filter((e) => Boolean(getMedia(e.data.media).src || getMedia(e.data.media).poster));
+const sizes = ['l', 's', 'm', 'l', 'm', 's'] as const;
+---
+<section class="xg" id={id} aria-labelledby={`${id}-heading`} data-xg data-no-blind>
+  <div class="xg__pin" data-xg-pin>
+    <div class="xg__track" data-xg-track>
+      <div class="xg__intro">
+        {eyebrow && <p class="xg__eyebrow">{eyebrow}</p>}
+        <h2 class="xg__heading" id={`${id}-heading`} set:html={placeHtml(heading)} />
+        {intro && <p class="xg__lead">{intro}</p>}
+        {link && <ArrowLink href={link.href} label={link.label} class="xg__link" />}
+        <div class="xg__nav" aria-hidden="true">
+          <p class="xg__count"><span data-xg-now>01</span> <span class="xg__count-rest">/ {pad2(shown.length)}</span></p>
+          <span class="xg__progress"><span data-xg-fill></span></span>
+        </div>
+      </div>
+      <ol class="xg__list" role="list" data-xg-list tabindex="0" aria-label={heading.replace(/\*/g, '')}>
+        {shown.map((e, i) => {
+          const d = e.data;
+          const href = d.kind === 'guided' ? `/experiences/${e.id}` : undefined;
+          const Tag = href ? 'a' : 'div';
+          const size = sizes[i % sizes.length];
+          return (
+            <li class:list={['xcard', `xcard--${size}`]} data-xg-card style={`--i:${i}`}>
+              <Tag class="xcard__link lift-host" href={href} data-cursor={href ? 'View' : undefined}>
+                <span class="xcard__frame lift-img" data-xg-frame>
+                  <Media media={d.media} aspect="fill" still sizes="(max-width: 899px) 78vw, 32vw" />
+                </span>
+                <span class="xcard__caption">
+                  <span class="xcard__num" aria-hidden="true">{pad2(i + 1)}</span>
+                  <span class="xcard__name">{d.name}</span>
+                  {d.short && <span class="xcard__line" data-draft={d.short.source.type === 'draft_for_belle' ? '' : undefined}>{d.short.text}</span>}
+                </span>
+              </Tag>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+    <div class="xg__arrows">
+      <button type="button" class="xg__arrow" data-xg-prev aria-label="Previous experiences">
+        <svg viewBox="0 0 40 12" width="40" height="12" aria-hidden="true" focusable="false"><path d="M39.5 6H1M6 1L1 6l5 5" /></svg>
+      </button>
+      <button type="button" class="xg__arrow" data-xg-next aria-label="More experiences">
+        <svg viewBox="0 0 40 12" width="40" height="12" aria-hidden="true" focusable="false"><path d="M0.5 6H39M34 1l5 5-5 5" /></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../../scripts/gallery';
+</script>
+
+<style>
+  .xg { position: relative; padding-block: var(--section-y) 0; overflow-x: clip; }
+  .xg__pin { position: relative; }
+
+  /* Native sideways scroll (phones, touch, reduced motion): the intro sits above, the cards scroll. */
+  .xg__track { display: block; outline-offset: -2px; }
+  .xg__intro {
+    display: grid;
+    align-content: start;
+    padding: 0 var(--gutter) clamp(2rem, 5vw, 3rem);
+    max-width: 40rem;
+  }
+  .xg__eyebrow { margin: 0 0 1rem; font-family: var(--font-editorial); font-style: italic; font-size: 1.1875rem; color: var(--sage-80); }
+  .xg__heading { margin: 0; font-size: var(--fs-section); line-height: 1.02; }
+  .xg__lead { margin: 1.75rem 0 0; font-size: var(--fs-lead); line-height: 1.6; max-width: 22rem; }
+  .xg :global(.xg__link) { margin-top: 1.25rem; }
+  .xg__nav { display: flex; align-items: center; gap: 1.25rem; margin-top: 2rem; }
+  .xg__count { margin: 0; font-family: var(--font-editorial); font-size: 1.25rem; font-variant-numeric: oldstyle-nums; color: var(--sage-80); white-space: nowrap; }
+  .xg__count-rest { color: var(--sage-60); }
+  .xg__progress { position: relative; flex: 1; max-width: 10rem; height: 1px; background: color-mix(in srgb, var(--sage-40) 45%, transparent); overflow: hidden; }
+  .xg__progress span { position: absolute; inset: 0; background: var(--sage-80); transform-origin: left center; transform: scaleX(0.1); }
+
+  .xg__list {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(1.25rem, 3vw, 3rem);
+    margin: 0;
+    padding: 0 var(--gutter) 1rem;
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .xg__list::-webkit-scrollbar { display: none; }
+  .xcard { flex: none; scroll-snap-align: start; width: 72vw; }
+  .xcard__link { display: grid; gap: 1rem; color: inherit; text-decoration: none; }
+  .xcard__frame { position: relative; display: block; aspect-ratio: 4 / 5; background: var(--sand-40); overflow: hidden; }
+  .xcard--s .xcard__frame { aspect-ratio: 1 / 1; }
+  .xcard__caption { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.2rem 0.9rem; align-items: baseline; }
+  .xcard__num { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.1em; color: var(--sage-80); }
+  .xcard__name { font-family: var(--font-display); font-size: var(--fs-card); line-height: 1.15; color: var(--sage-80); }
+  .xcard__line { grid-column: 2; font-size: var(--fs-small); line-height: 1.55; color: var(--sage-100); max-width: 24rem; }
+
+  .xg__arrows { display: flex; gap: 0.5rem; justify-content: flex-end; padding: 1rem var(--gutter) 0; }
+  .xg__arrow {
+    display: grid; place-items: center;
+    width: 3.5rem; height: 3.5rem;
+    border: 1px solid color-mix(in srgb, var(--sage-40) 60%, transparent);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--sage-80);
+    transition: background-color 400ms var(--ease-settle);
+  }
+  .xg__arrow svg { width: 1.6rem; overflow: visible; }
+  .xg__arrow path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+  @media (hover: hover) { .xg__arrow:hover { background: var(--sand-60); } }
+
+  @media (min-width: 700px) {
+    .xcard { width: 42vw; }
+  }
+
+  /* Pinned gallery: wide screens, fine pointer, motion allowed. scripts/gallery.ts adds .is-pinned. */
+  .xg.is-pinned { padding-top: 0; }
+  .xg.is-pinned .xg__pin { height: 100svh; display: flex; align-items: center; overflow: hidden; }
+  .xg.is-pinned .xg__track {
+    display: flex;
+    align-items: center;
+    padding: 0 var(--gutter);
+    gap: clamp(3rem, 6vw, 7rem);
+    will-change: transform;
+  }
+  .xg.is-pinned .xg__intro { flex: none; width: clamp(20rem, 28vw, 27rem); align-self: center; padding: 0; }
+  .xg.is-pinned .xg__list { flex: none; align-items: center; gap: clamp(2.5rem, 4.5vw, 5rem); padding: 0 10vw 0 0; overflow: visible; scroll-snap-type: none; }
+  .xg.is-pinned .xcard--l { width: clamp(19rem, 25vw, 26rem); }
+  .xg.is-pinned .xcard--m { width: clamp(15rem, 19vw, 20rem); translate: 0 9svh; }
+  .xg.is-pinned .xcard--s { width: clamp(16rem, 21vw, 22rem); translate: 0 -10svh; }
+  .xg.is-pinned .xcard__frame :global(img) { scale: 1.18; }
+  .xg.is-pinned .xg__arrows { display: none; }
+  .xg.is-pinned .lift-host:hover .lift-img :global(img) { scale: 1.22; }
+
+  /* Hover reveal: Belle's line rises from under the name. */
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .xcard__line { opacity: 0; translate: 0 0.6rem; transition: opacity 600ms var(--ease-settle), translate 600ms var(--ease-settle); }
+    .xcard__link:hover .xcard__line, .xcard__link:focus-visible .xcard__line { opacity: 1; translate: 0 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .xg__track { scroll-behavior: auto; }
+  }
+</style>
