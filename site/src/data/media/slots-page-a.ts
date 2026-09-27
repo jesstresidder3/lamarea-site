@@ -79,9 +79,9 @@ const raw: MediaSlot[] = [
 
   // Private groups -----------------------------------------------------------------------
   {
-    id: 'private-hero', src: '/media/table-three-women-sea.jpg', position: '50% 42%',
+    id: 'private-hero', src: '/media/table-lemons-sea-2.jpg', position: '50% 40%',
     type: 'image',
-    alt: 'Three women together at a long table set with lemons, the sea beyond the windows',
+    alt: 'Two women setting a long table with lemons and olive linen, the sea bright beyond the windows',
     aspect: '16 / 9',
     suggested: 'A Sunset Reset (May 2026 Joe’s Henley) group image, or a Naiko At The Bluff Content deck image',
     note: `Open decision 4: one impactful video where graded footage allows. ${CONSENT}`,
@@ -102,9 +102,9 @@ const raw: MediaSlot[] = [
 
   // Retreat formats ------------------------------------------------------------------------
   {
-    id: 'retreats-hero', src: '/media/beach-walk-bright.jpg', position: '50% 55%',
+    id: 'retreats-hero', src: '/media/deck-sea-guests.jpg', position: '50% 40%',
     type: 'image',
-    alt: 'Two people walking along a beach below the cliffs in bright afternoon sun',
+    alt: 'Guests talking on a sunlit timber deck above turquoise sea, Fleurieu Peninsula',
     aspect: '16 / 9',
     suggested: '"retreat banner.mp4" as one impactful video (open decision 4, BD-75), a still from it at launch. Alternate NAIKO ACCOM, a coastal walk',
     tone: 'sea',

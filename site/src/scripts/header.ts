@@ -1,47 +1,31 @@
 /*
-  Header behaviour (build spec section 12, visual study B5).
-  - Over-media pages: the header stays transparent until the hero ([data-hero], or the first element
-    in <main>) has passed beneath it, then becomes the compact sand strip.
-  - Solid pages: the strip turns compact once the page has scrolled a little.
-  - The header never hides (section 12 overrides the earlier hide-on-scroll).
-  - Sets html[data-past-hero], which shows the phone "Plan your day" bar. Solid pages have no hero,
-    so the bar shows from the start there.
+  Header behaviour, Salt and Sun.
+  - 'top': clear over the page's salt top.
+  - 'strip': once the page has moved 24px, a salt strip with a hairline.
+  - 'hidden': scrolling down past 140px slides it away; any scroll up brings it back (600ms tide ease).
+    Keyboard focus inside it always shows it (CSS :focus-within). Never hidden while the menu is open.
+  - Sets html[data-past-hero] for any older styles that still read it.
 */
 const header = document.querySelector<HTMLElement>('[data-site-header]');
 const root = document.documentElement;
 
 if (header) {
-  const overMedia = root.dataset.headerTone === 'over-media';
-  let heroBottom = 0;
+  let lastY = window.scrollY;
   let ticking = false;
-
-  const measure = () => {
-    if (!overMedia) {
-      heroBottom = 0;
-      return;
-    }
-    const hero = document.querySelector<HTMLElement>('[data-hero]') ?? document.querySelector<HTMLElement>('main > :first-child');
-    const h = header.offsetHeight;
-    heroBottom = hero ? Math.max(0, hero.getBoundingClientRect().bottom + window.scrollY - h) : Math.round(window.innerHeight * 0.6);
-    // When the page title sits over the hero, turn solid as the title reaches the header, so the
-    // title never slides under transparent links (design review 27-09-2026).
-    if (hero) {
-      const title = (hero.closest('section, header, .band') ?? hero).querySelector<HTMLElement>('h1') ?? document.querySelector<HTMLElement>('main h1');
-      if (title) {
-        const t = title.getBoundingClientRect();
-        const hb = hero.getBoundingClientRect();
-        if (t.top < hb.bottom && t.bottom > hb.top) heroBottom = Math.min(heroBottom, Math.max(0, t.top + window.scrollY - h - 8));
-      }
-    }
-  };
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const update = () => {
     ticking = false;
     const y = Math.max(0, window.scrollY);
-    const past = overMedia ? y > heroBottom : true;
-    if (overMedia) header.dataset.state = past ? 'solid' : 'over';
-    header.classList.toggle('is-compact', overMedia ? past : y > 24);
-    root.toggleAttribute('data-past-hero', past);
+    const down = y > lastY + 2;
+    const up = y < lastY - 2;
+    let state = header.dataset.state ?? 'top';
+    if (y <= 24) state = 'top';
+    else if (down && y > 140 && !root.classList.contains('menu-open') && !reduce) state = 'hidden';
+    else if (up || state === 'top') state = 'strip';
+    header.dataset.state = state;
+    root.toggleAttribute('data-past-hero', y > window.innerHeight * 0.6);
+    if (down || up) lastY = y;
   };
 
   const onScroll = () => {
@@ -51,9 +35,6 @@ if (header) {
     }
   };
 
-  measure();
   update();
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', () => { measure(); onScroll(); }, { passive: true });
-  window.addEventListener('load', () => { measure(); update(); });
 }

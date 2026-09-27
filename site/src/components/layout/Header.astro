@@ -1,15 +1,15 @@
 ---
 /*
-  Site header (build spec section 3 as revised by section 12, visual study B5).
-  Logo centred. Left: Private groups, Corporate, The 8 hour day. Right: Experiences, Places to Pause,
-  then Menu and the one filled "Plan your day". Everything else lives in the menu.
-  Over a full-bleed hero it is transparent with salt text; after the hero it becomes a compact sand
-  strip with sage text and a hairline, and it stays (it never hides, like Aman's).
-  Below 1180px the links fold into the menu: logo left, "Plan your day" and Menu right.
-  Phones (under 760px): logo and Menu only; "Plan your day" lives in the sticky bottom bar.
-  The funnel (/enquire and /enquire/thank-you) gets a minimal header: the logo and one quiet exit link,
-  no navigation, no Menu and no second "Plan your day" (plan/11 4.23 section 1).
-  Behaviour: src/scripts/header.ts. Used by layouts/Base.astro only.
+  Site header, Salt and Sun (redesign direction, Header).
+  Menu at the far left, then the left nav items; the La maréa wordmark centred; the right nav items,
+  then the "Plan your day" pill at the far right. Nav items come from settings.ts (`navLeft`,
+  `navRight`) exactly as the UX builder sets them, and fold into the menu below 1180px.
+  Always sage ink on light ground: no type is ever set over a photograph, so there is no transparent
+  salt-text state any more. At the top of a page the header is clear over salt; once the page moves
+  it becomes a salt strip with a hairline, hides on scroll down and returns on scroll up (500ms).
+  Phones: Menu, the wordmark and a compact "Plan your day" pill. There is no sticky bottom bar.
+  The funnel (/enquire) keeps a minimal header: the wordmark and one quiet exit link.
+  Behaviour: src/scripts/header.ts.
 */
 import Logo from './Logo.astro';
 import { navLeft, navRight, cta } from '../../data/settings';
@@ -18,45 +18,47 @@ interface Props {
   tone?: 'over-media' | 'solid';
   current?: string;
 }
-const { tone = 'solid', current = '/' } = Astro.props;
+const { current = '/' } = Astro.props;
 
 const isCurrent = (href: string) => current === href || (href !== '/' && current.startsWith(href + '/'));
 const minimal = current.startsWith('/enquire');
 ---
-<header class:list={['site-header', minimal && 'site-header--minimal']} data-site-header data-state={tone === 'over-media' ? 'over' : 'solid'}>
+<header class:list={['site-header', minimal && 'site-header--minimal']} data-site-header data-state="top">
   <nav class="hdr" aria-label={minimal ? 'Site' : 'Primary'}>
-    {minimal ? <span class="hdr__spacer" aria-hidden="true"></span> : (
-      <ul class="hdr__links hdr__links--left" role="list">
-        {navLeft.map((l) => (
-          <li><a class="hdr__link" href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
-        ))}
-      </ul>
-    )}
+    <div class="hdr__side hdr__side--left">
+      {!minimal && (
+        <button class="menu-toggle" type="button" data-menu-open aria-controls="site-menu" aria-expanded="false" aria-haspopup="dialog">
+          <span class="menu-toggle__lines" aria-hidden="true"><span></span><span></span></span>
+          <span class="menu-toggle__label">Menu</span>
+        </button>
+      )}
+      {!minimal && (
+        <ul class="hdr__links" role="list">
+          {navLeft.map((l) => (
+            <li><a class="hdr__link" href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
+          ))}
+        </ul>
+      )}
+    </div>
 
     <a class="hdr__logo" href="/" aria-label="La maréa, home" aria-current={current === '/' ? 'page' : undefined}>
       <Logo variant="primary" height="var(--logo-h)" label="La maréa" />
     </a>
 
-    {minimal ? (
-      <div class="hdr__right hdr__right--minimal">
+    <div class="hdr__side hdr__side--right">
+      {minimal ? (
         <a class="hdr__link hdr__exit" href="/">Back to La maréa</a>
-      </div>
-    ) : (
-    <div class="hdr__right">
-      <ul class="hdr__links hdr__links--right" role="list">
-        {navRight.map((l) => (
-          <li><a class="hdr__link" href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
-        ))}
-      </ul>
-      <div class="hdr__actions">
-        <button class="menu-toggle" type="button" data-menu-open aria-controls="site-menu" aria-expanded="false" aria-haspopup="dialog">
-          <span class="menu-toggle__label">Menu</span>
-          <span class="menu-toggle__lines" aria-hidden="true"><span></span><span></span></span>
-        </button>
-        <a class="btn-filled hdr__cta" href={cta.plan.href} aria-current={current.startsWith('/enquire') ? 'page' : undefined}>{cta.plan.label}</a>
-      </div>
+      ) : (
+        <>
+          <ul class="hdr__links" role="list">
+            {navRight.map((l) => (
+              <li><a class="hdr__link" href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
+            ))}
+          </ul>
+          <a class="btn-filled hdr__cta" href={cta.plan.href} data-magnetic aria-current={current.startsWith('/enquire') ? 'page' : undefined}>{cta.plan.label}</a>
+        </>
+      )}
     </div>
-    )}
   </nav>
 </header>
 
@@ -66,64 +68,38 @@ const minimal = current.startsWith('/enquire');
 
 <style>
   .site-header {
-    --logo-h: clamp(1.375rem, 1.1rem + 0.9vw, 2rem);
-    --hdr-ink: var(--sage-80);
-    --hdr-gutter: clamp(1.25rem, 2.6vw, 2.5rem);
-    --hdr-h: var(--header-h);
+    --logo-h: clamp(1.25rem, 1rem + 0.9vw, 1.9rem);
+    --hdr-gutter: clamp(1rem, 3vw, 3rem);
     position: fixed;
     inset: 0 0 auto 0;
     z-index: var(--z-header);
-    height: var(--hdr-h);
+    height: var(--header-h);
     padding-right: var(--sbw, 0px);
-    color: var(--hdr-ink);
-    background-color: var(--sand-30); /* solid: large headings ghosted through the 97% strip (design review 27-09-2026) */
-    border-bottom: 1px solid var(--sage-20);
-    transition:
-      height var(--dur) var(--ease-soft),
-      background-color var(--dur) var(--ease-soft),
-      border-color var(--dur) var(--ease-soft),
-      color var(--dur) var(--ease-soft);
-  }
-  /* Compact strip once the page has moved (after the hero on over-media pages). */
-  .site-header.is-compact {
-    --hdr-h: var(--header-compact);
-    --logo-h: clamp(1.25rem, 1.05rem + 0.6vw, 1.625rem);
-  }
-  /* Over the hero: transparent, salt text. A soft gradient at the very top keeps the words legible on
-     bright sky without darkening the footage (no full-frame scrim, build spec section 12). */
-  .site-header::before {
-    content: '';
-    position: absolute;
-    inset: 0 0 -90% 0;
-    /* 0.42 at the top, eased out over nearly twice the header height: the /team hero is a white
-       window frame and 0.3 left the salt links unreadable there (final check 27-09-2026). */
-    background: linear-gradient(to bottom, rgb(35 32 14 / 0.42), rgb(35 32 14 / 0.18) 45%, rgb(35 32 14 / 0));
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity var(--dur) var(--ease-soft);
-  }
-  .site-header[data-state='over'] {
-    --hdr-ink: var(--salt-25);
-    --focus: var(--focus-on-dark);
+    color: var(--sage-80);
     background-color: transparent;
-    border-bottom-color: transparent;
+    border-bottom: 1px solid transparent;
+    transition:
+      translate 600ms var(--ease-tide),
+      height 500ms var(--ease-settle),
+      background-color 500ms var(--ease-settle),
+      border-color 500ms var(--ease-settle);
   }
-  .site-header[data-state='over']::before { opacity: 1; }
-  /* Salt links over bright sky, linen and surf: a soft glow keeps them legible without a darker bar. */
-  .site-header[data-state='over'] :is(.hdr__link, .menu-toggle__label) { text-shadow: 0 0 0.9rem rgb(35 32 14 / 0.4), 0 1px 2px rgb(35 32 14 / 0.2); }
-  .site-header[data-state='over'] .menu-toggle__lines span { box-shadow: 0 0 6px rgb(35 32 14 / 0.3); }
-  .site-header[data-state='over'] .hdr__logo { filter: drop-shadow(0 0 0.6rem rgb(35 32 14 / 0.3)); }
-  :global(html:has([data-hero] .media--placeholder)) .site-header[data-state='over'] .hdr__logo { filter: none; }
-  :global(html:has([data-hero] .media--placeholder)) .site-header[data-state='over'] :is(.hdr__link, .menu-toggle__label) { text-shadow: none; }
-  :global(html:has([data-hero] .media--placeholder)) .site-header[data-state='over'] .menu-toggle__lines span { box-shadow: none; }
-  /* While the page's hero still shows its light placeholder, the header keeps sage ink over it and
-     drops the top gradient (QA M3). Belle's footage brings back the salt state above. */
-  :global(html:has([data-hero] .media--placeholder)) .site-header[data-state='over'] { --hdr-ink: var(--sage-100); --focus: var(--sage-80); }
-  :global(html:has([data-hero] .media--placeholder)) .site-header[data-state='over']::before { opacity: 0; }
+  .site-header[data-state='strip'],
+  .site-header[data-state='hidden'] {
+    height: var(--header-compact);
+    --logo-h: clamp(1.125rem, 0.95rem + 0.6vw, 1.5rem);
+    background-color: color-mix(in srgb, var(--salt-25) 90%, transparent);
+    border-bottom-color: color-mix(in srgb, var(--sage-40) 28%, transparent);
+    backdrop-filter: blur(10px) saturate(1.05);
+    -webkit-backdrop-filter: blur(10px) saturate(1.05);
+  }
+  .site-header[data-state='hidden'] { translate: 0 -105%; }
+  .site-header:focus-within { translate: 0 0; }
 
   .hdr {
     position: relative;
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
     gap: 0.75rem;
     height: 100%;
@@ -131,25 +107,24 @@ const minimal = current.startsWith('/enquire');
     margin-inline: auto;
     padding-inline: var(--hdr-gutter);
   }
+  .hdr__side { display: flex; align-items: center; gap: clamp(1.1rem, 1.8vw, 2.25rem); min-width: 0; }
+  .hdr__side--right { justify-content: flex-end; }
   .hdr__logo {
-    margin-right: auto;
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
-    color: inherit;
+    color: var(--sage-80);
   }
-  .hdr__logo :global(.lm-logo) { transition: height var(--dur) var(--ease-soft); }
-  .hdr__links { display: none; margin: 0; padding: 0; list-style: none; }
-  .hdr__right, .hdr__actions { display: flex; align-items: center; gap: clamp(0.75rem, 1.4vw, 1.5rem); }
+  .hdr__logo :global(.lm-logo) { transition: height 500ms var(--ease-settle); }
+  .hdr__links { display: none; margin: 0; padding: 0; list-style: none; gap: clamp(1.1rem, 1.8vw, 2.25rem); }
 
-  /* Menu control: a quiet word and two hairlines. 44px target. */
   .menu-toggle {
     display: inline-flex;
     align-items: center;
-    gap: 0.7rem;
+    gap: 0.75rem;
     min-height: 2.75rem;
     min-width: 2.75rem;
-    padding: 0 0.25rem;
+    padding: 0;
     border: 0;
     background: none;
     color: inherit;
@@ -158,28 +133,20 @@ const minimal = current.startsWith('/enquire');
     letter-spacing: var(--track-nav);
     -webkit-tap-highlight-color: transparent;
   }
-  .menu-toggle__lines { display: grid; gap: 6px; width: 22px; justify-items: end; }
+  .menu-toggle__lines { display: grid; gap: 6px; width: 24px; }
   .menu-toggle__lines span {
     display: block;
     width: 100%;
     height: 1px;
     background: currentColor;
-    transform-origin: right center;
-    transition: transform var(--dur-fast) var(--ease-soft);
+    transform-origin: left center;
+    transition: transform 400ms var(--ease-settle);
   }
-  .menu-toggle__lines span:last-child { width: 70%; }
+  .menu-toggle__lines span:last-child { width: 62%; }
   @media (hover: hover) {
-    .menu-toggle:hover .menu-toggle__lines span:last-child { transform: scaleX(1.43); }
+    .menu-toggle:hover .menu-toggle__lines span:last-child { transform: scaleX(1.6); }
   }
-  .menu-toggle:active .menu-toggle__lines span:last-child { transform: scaleX(1.43); }
 
-  .hdr__cta { min-height: 2.5rem; padding-inline: 1rem; }
-
-  /* Minimal funnel header: the logo and one exit link. */
-  .hdr__spacer { display: none; }
-  .hdr__right--minimal { justify-content: flex-end; }
-
-  /* Links: a hairline draws in from the left on hover; the current page keeps a quieter one. */
   .hdr__link {
     position: relative;
     display: inline-flex;
@@ -195,40 +162,33 @@ const minimal = current.startsWith('/enquire');
   .hdr__link::after {
     content: '';
     position: absolute;
-    left: 0; right: 0; bottom: 0.7rem;
+    left: 0; right: 0; bottom: 0.72rem;
     height: 1px;
     background: currentColor;
     transform: scaleX(0);
     transform-origin: left center;
-    transition: transform var(--dur-fast) var(--ease-soft);
+    transition: transform 400ms var(--ease-settle);
   }
-  .hdr__link[aria-current='page']::after { transform: scaleX(1); opacity: 0.55; }
+  .hdr__link[aria-current='page']::after { transform: scaleX(1); opacity: 0.45; }
   @media (hover: hover) {
     .hdr__link:hover::after { transform: scaleX(1); opacity: 1; }
   }
 
-  /* Phones: logo and Menu only. "Plan your day" is the sticky bottom bar. */
-  @media (max-width: 759px) {
-    .hdr__cta { display: none; }
+  .hdr__cta { min-height: 2.5rem; padding-inline: 1.15rem; }
+  .hdr__cta::after { left: 1.15rem; right: 1.15rem; }
+
+  /* Phones: Menu word hides below 420px so the pill and the wordmark keep their room. */
+  @media (max-width: 419px) {
+    .menu-toggle__label { display: none; }
+    .hdr__cta { min-height: 2.375rem; padding-inline: 0.85rem; font-size: 0.75rem; letter-spacing: 0.05em; }
+    .hdr__cta::after { left: 0.85rem; right: 0.85rem; }
   }
 
-  /* Wide: logo centred, three links hugging it on the left, two on the right, then Menu and the
-     one filled element at the far right. */
   @media (min-width: 1180px) {
-    .hdr {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-      gap: clamp(1.75rem, 2.4vw, 3rem);
-    }
-    .hdr__links { display: flex; gap: clamp(1.1rem, 1.6vw, 2rem); }
-    .hdr__links--left { justify-content: flex-end; }
-    .hdr__logo { margin: 0; }
-    .hdr__right { justify-content: space-between; min-width: 0; }
-    .hdr__spacer { display: block; }
-    .hdr__right--minimal { justify-content: flex-end; }
+    .hdr__links { display: flex; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .site-header, .site-header::before, .hdr__link::after, .menu-toggle__lines span, .hdr__logo :global(.lm-logo) { transition: none; }
+    .site-header, .hdr__link::after, .menu-toggle__lines span, .hdr__logo :global(.lm-logo) { transition: none; }
   }
 </style>

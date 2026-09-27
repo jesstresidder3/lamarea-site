@@ -63,24 +63,28 @@ const {
 const H = `h${level}` as 'h1' | 'h2' | 'h3';
 const hasText = text !== 'none' && (heading || body || eyebrow);
 ---
-<section id={id} class:list={['band', `band--${height}`, `band--text-${text}`, `band--${align}`, className]}>
-  <div class="band__frame" data-hero={hero ? '' : undefined}>
-    <div class:list={['band__media', parallax && 'band__media--parallax']} data-parallax={parallax ? '' : undefined}>
-      <Media media={media} aspect="fill" priority={hero} notePosition={text === 'over' ? 'top-right' : 'bottom-left'} />
-    </div>
-    {hasText && text === 'over' && (
-      <div class="band__over">
-        <div class="wrap band__over-inner">
-          {eyebrow && <Eyebrow tone="light">{eyebrow}</Eyebrow>}
-          {heading && <H class="band__heading" data-draft={draft.heading ? '' : undefined} set:html={emphasis(heading)} />}
-          {body && <p class="band__body" data-draft={draft.body ? '' : undefined}>{body}</p>}
-          {link && <ArrowLink href={link.href} label={link.label} tone="light" class="band__link" />}
-        </div>
+<section id={id} class:list={['band', `band--${height}`, `band--text-${text}`, `band--${align}`, hero && 'band--hero', className]}>
+  {hasText && text === 'over' && hero && (
+    <div class="wrap band__head">
+      <div class="band__head-main">
+        {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+        {heading && <H class="band__heading band__heading--hero" data-title-wait data-draft={draft.heading ? '' : undefined} set:html={emphasis(heading)} />}
       </div>
-    )}
+      {(body || link) && (
+        <div class="band__head-aside">
+          {body && <p class="band__body" data-draft={draft.body ? '' : undefined}>{body}</p>}
+          {link && <ArrowLink href={link.href} label={link.label} class="band__link" />}
+        </div>
+      )}
+    </div>
+  )}
+  <div class="band__frame" data-hero={hero ? '' : undefined} data-widen={hero ? '' : undefined}>
+    <div class:list={['band__media', parallax && !hero && 'band__media--parallax']} data-speed={parallax && !hero ? '0.85' : undefined}>
+      <Media media={media} aspect="fill" priority={hero} notePosition="bottom-left" />
+    </div>
   </div>
   {caption && <p class="wrap band__caption">{caption}</p>}
-  {hasText && text === 'below' && (
+  {hasText && (text === 'below' || (text === 'over' && !hero)) && (
     <div class="wrap band__below">
       <div class="band__below-inner">
         {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
@@ -97,65 +101,53 @@ const hasText = text !== 'none' && (heading || body || eyebrow);
 </script>
 
 <style>
+  /* Salt and Sun: no words on photographs. A page-opening band sets its title on sand above the
+     photograph, and the photograph opens from an inset frame to full bleed as the page scrolls
+     (data-widen, scripts/motion.ts). Any other band keeps its words on sand beneath it. */
   .band { position: relative; }
   .band__frame { position: relative; overflow: hidden; background: var(--sand-40); }
-  .band--screen .band__frame { height: 100svh; min-height: 32rem; }
-  .band--tall .band__frame { height: 86svh; min-height: 28rem; }
-  .band--band .band__frame { height: clamp(22rem, 38vw + 8rem, 46rem); }
+  .band--screen .band__frame { height: 92svh; min-height: 30rem; }
+  .band--tall .band__frame { height: 80svh; min-height: 26rem; }
+  .band--band .band__frame { height: clamp(22rem, 36vw + 8rem, 46rem); }
   .band--auto .band__frame { aspect-ratio: 21 / 9; min-height: 18rem; }
+  .band--hero .band__frame { height: clamp(24rem, 72svh, 52rem); min-height: 0; }
 
   .band__media { position: absolute; inset: 0; }
-  .band__media--parallax { inset: -8% 0; }
-  /* A band that opens the page sits under the fixed header: keep the placeholder note clear of it
-     (and of the parallax overscan above the frame), as Hero does. */
-  .band__frame[data-hero] :global(.ph-note) { margin-top: calc(var(--header-h) + 8svh + 0.75rem); }
-  .band__frame[data-hero] .band__media:not(.band__media--parallax) :global(.ph-note) { margin-top: calc(var(--header-h) + 0.75rem); }
 
-  /* Text over media: salt, bottom left, with a soft local gradient under it and nowhere else. */
-  .band__over {
-    position: absolute;
-    inset: auto 0 0 0;
-    padding-block: clamp(6rem, 18vh, 12rem) clamp(2rem, 6vh, 4rem);
-    /* A faint pool of shade under the words at lower left plus the bottom wash, and a soft glow on the
-       words themselves, so salt text holds over white linen, surf and sand (design review 27-09-2026).
-       Still local to the text, never a full-frame scrim. */
-    background:
-      radial-gradient(62% 85% at 18% 100%, rgb(35 32 14 / 0.24), rgb(35 32 14 / 0) 72%),
-      linear-gradient(to top, rgb(35 32 14 / 0.3), rgb(35 32 14 / 0));
-    color: var(--salt-25);
-    --heading: var(--salt-25);
-    --focus: var(--focus-on-dark);
+  .band__head {
+    display: grid;
+    gap: 1.75rem 3rem;
+    padding-top: clamp(2.5rem, 9svh, 7rem);
+    padding-bottom: clamp(2.5rem, 6svh, 4.5rem);
+    align-items: end;
   }
-  .band__over-inner { text-shadow: 0 0 1.5rem rgb(35 32 14 / 0.32), 0 1px 2px rgb(35 32 14 / 0.2); }
-  .band__frame:has(.band__media .media--placeholder) .band__over-inner { text-shadow: none; }
-  /* While the slot still shows its light placeholder, the words switch to sage ink and the local
-     gradient goes (QA M3, CD review 02 item 1). Belle's footage brings back the salt text. */
-  .band__frame:has(.band__media .media--placeholder) .band__over {
-    background: none;
-    color: var(--sage-100);
-    --heading: var(--sage-80);
-    --focus: var(--sage-80);
+  .band__heading--hero {
+    margin: 0;
+    font-size: var(--fs-h1);
+    line-height: 1.04;
+    max-width: 14em;
   }
-  .band__frame:has(.band__media .media--placeholder) .band__over :is(.band__heading, .band__body) { color: var(--sage-100); }
-  .band__frame:has(.band__media .media--placeholder) .band__over :global(.eyebrow--light) { color: var(--sage-100); }
-  .band__frame:has(.band__media .media--placeholder) .band__over :global(.arrow-link--tone-light) { --al-colour: var(--sage-100); --focus: var(--sage-80); }
-  /* Empty slots for visitors (notes off, design review 27-09-2026): a band that is only a photograph
-     steps aside until the photograph exists, and a band carrying words keeps a calmer height, so a
-     venue still waiting on Belle's photos never opens on a full screen of empty sand. */
-  :global(html:not([data-media-notes='on'])) .band:not(.band--text-over) .band__frame:has(.band__media .media--placeholder) { display: none; }
-  :global(html:not([data-media-notes='on'])) .band--text-over .band__frame:has(.band__media .media--placeholder) { height: clamp(24rem, 64svh, 40rem); min-height: 0; }
-  .band--centre .band__over-inner { text-align: center; display: grid; justify-items: center; }
-  .band__over .band__heading { color: var(--salt-25); max-width: 16em; margin: 0; }
-  .band__over .band__body { color: var(--salt-25); margin-top: 1rem; }
-  .band :global(.band__link) { margin-top: 1.5rem; }
+  .band__head-aside { max-width: 26rem; }
+  .band__head-aside .band__body { margin: 0; font-size: var(--fs-lead); line-height: 1.6; }
+  .band__head-aside :global(.band__link) { margin-top: 1.25rem; }
+  @media (min-width: 900px) {
+    .band__head { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); }
+    .band--centre .band__head { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; }
+    .band--centre .band__head :global(.eyebrow) { justify-content: center; }
+  }
+
+  /* Empty slots for visitors: a band that is only a photograph steps aside until the photograph
+     exists, and a hero keeps only its title. */
+  :global(html:not([data-media-notes='on'])) .band__frame:has(.band__media .media--placeholder) { display: none; }
 
   .band__caption {
     margin: 0 auto;
-    padding-top: 0.9rem;
-    font-family: var(--font-ui);
-    font-size: var(--fs-label);
-    letter-spacing: var(--track-label);
-    color: var(--muted);
+    padding-top: 0.8rem;
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: var(--fs-caption);
+    letter-spacing: 0.005em;
+    color: var(--sage-80);
     max-width: var(--wrap-max);
   }
   .band__below { padding-top: var(--space-l); }
@@ -164,39 +156,5 @@ const hasText = text !== 'none' && (heading || body || eyebrow);
   .band--centre .band__below-inner :global(.eyebrow) { justify-content: center; }
   .band__below .band__heading { margin: 0; }
   .band__below .band__body { margin-top: 1.25rem; }
-
-  /* Parallax: a slow drift bound to the band's passage through the viewport. */
-  @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) {
-      .band__frame { view-timeline: --band-frame block; view-timeline-inset: 0px; }
-      .band__media--parallax {
-        animation: band-drift linear both;
-        animation-timeline: --band-frame;
-        animation-range: cover 0% cover 100%;
-      }
-      /* Photos only (a video such as the bath clip already has its own push-in). A band that opens
-         the page zooms in slowly as it leaves, like the home hero. Any other band settles from a
-         slight scale as it crosses the screen, a slow Ken Burns bound to scroll. */
-      .band__frame[data-hero] .band__media :global(.media--image) {
-        transform-origin: 50% 60%;
-        animation: band-zoom linear both;
-        animation-timeline: --band-frame;
-        animation-range: exit 0% exit 100%;
-      }
-      .band__frame:not([data-hero]) .band__media--parallax :global(.media--image) {
-        animation: band-settle linear both;
-        animation-timeline: --band-frame;
-        animation-range: cover 0% cover 70%;
-      }
-    }
-  }
-  @keyframes band-drift {
-    from { transform: translate3d(0, -6%, 0); }
-    to { transform: translate3d(0, 6%, 0); }
-  }
-  @keyframes band-zoom { from { scale: 1; } to { scale: 1.12; } }
-  @keyframes band-settle { from { scale: 1.08; } to { scale: 1; } }
-  @media (prefers-reduced-motion: reduce) {
-    .band__media--parallax { inset: 0; transform: none; }
-  }
+  .band :global(.band__link) { margin-top: 1.5rem; }
 </style>

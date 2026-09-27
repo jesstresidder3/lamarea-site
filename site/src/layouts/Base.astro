@@ -17,7 +17,9 @@
     marked data-hero has passed. 'solid' otherwise (sand strip, content starts below it). Default
     'solid'. The header never hides (build spec section 12).
   - noindex: true for the styleguide, thank-you and utility pages
-  - stickyCta: false hides the phone "Plan your day" bar (it is hidden on /enquire automatically)
+  - stickyCta: kept for compatibility. Salt and Sun has no phone sticky bar: "Plan your day" lives in
+    the header at every width (redesign direction, Phone)
+  - dayTone: true on home, where the page ground drifts from morning salt to dusk sand on scroll
 
   Slots: default (inside <main>), 'head' (extra head tags), 'before-footer'.
 
@@ -29,7 +31,7 @@ import Seo from '../components/layout/Seo.astro';
 import Header from '../components/layout/Header.astro';
 import Menu from '../components/layout/Menu.astro';
 import Footer from '../components/layout/Footer.astro';
-import StickyCta from '../components/layout/StickyCta.astro';
+import Logo from '../components/layout/Logo.astro';
 
 interface Props {
   title?: string;
@@ -43,6 +45,7 @@ interface Props {
   noindex?: boolean;
   stickyCta?: boolean;
   mediaNotes?: 'on' | 'off';
+  dayTone?: boolean;
   class?: string;
 }
 
@@ -60,11 +63,11 @@ const {
   // Off by default so the site reads as a visitor sees it. Add ?notes=on to any URL to show
   // what belongs in each empty photo frame.
   mediaNotes = 'off',
+  dayTone = false,
   class: bodyClass,
 } = Astro.props;
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const onEnquire = path.startsWith('/enquire');
 ---
 <!doctype html>
 <html lang="en-AU" data-media-notes={mediaNotes} data-header-tone={headerTone}>
@@ -93,6 +96,15 @@ const onEnquire = path.startsWith('/enquire');
       (function () {
         var root = document.documentElement;
         root.classList.add('js');
+        // Motion gate: inner page titles wait for their line reveal, with a failsafe.
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          root.classList.add('mo');
+          setTimeout(function () { root.classList.add('mo-fallback'); }, 2500);
+        }
+        // Arriving through the sand wipe: the panel starts over the page and lifts away (motion.css).
+        try {
+          if (sessionStorage.getItem('lm-wipe') === '1') { root.classList.add('wipe-in'); sessionStorage.removeItem('lm-wipe'); }
+        } catch (e) {}
         try {
           var q = new URLSearchParams(location.search).get('body');
           if (q === 'serif' || q === 'sans') sessionStorage.setItem('lm-body', q);
@@ -102,7 +114,7 @@ const onEnquire = path.startsWith('/enquire');
     </script>
     <slot name="head" />
   </head>
-  <body class={bodyClass}>
+  <body class:list={[bodyClass, dayTone && 'tone-day']}>
     <a class="skip-link" href="#main">Skip to content</a>
     <Header tone={headerTone} current={path} />
     <Menu current={path} />
@@ -111,6 +123,9 @@ const onEnquire = path.startsWith('/enquire');
     </main>
     <slot name="before-footer" />
     <Footer />
-    {stickyCta && !onEnquire && <StickyCta />}
+    <div class="page-wipe" aria-hidden="true"><Logo variant="lm" height="clamp(2.5rem, 5vw, 3.5rem)" class="page-wipe__mark" /></div>
+    <script>
+      import '../scripts/motion';
+    </script>
   </body>
 </html>

@@ -1,79 +1,91 @@
 ---
 /*
-  Menu overlay (build spec section 3, visual study B6, spec 10.6).
-  Full-screen sand overlay at every width. A sand-100 column on the left with the sage logo, the
-  circle submark and contact; the two paths and the 8 hour day in HV Muse; grouped secondary links; one
-  photograph that crossfades as each primary link is hovered or focused; a 44px close control drawn
-  with a thin cross. Opens with a soft fade and a 16px settle, locks scroll without layout shift,
-  traps focus, closes on Escape. Behaviour: src/scripts/menu.ts. Used by layouts/Base.astro only.
+  Full-screen menu with photo previews, Salt and Sun (signature feature 14).
+  A salt sheet wipes down from the top (800ms tide ease). The links sit in the left column in
+  HV Muse, one list; hovering or focusing a link crossfades its photograph into a large arch on the
+  right. Contact and the one "Plan your day" pill sit at the foot. Locks scroll without layout shift,
+  traps focus, closes on Escape, returns focus to the Menu control. Behaviour: src/scripts/menu.ts.
+
+  Data (settings.ts, owned by the UX builder): `menuList` (items with optional `children` and `media`)
+  when it exists, otherwise `menuPrimary` as the large links and `menuGroups` as the quieter list.
 */
 import Logo from './Logo.astro';
 import Media from '../media/Media.astro';
-import { menuPrimary, menuGroups, cta, contact, social } from '../../data/settings';
+import * as settings from '../../data/settings';
+import type { NavLink } from '../../data/settings';
+
+type Item = NavLink & { children?: NavLink[] };
+const s = settings as unknown as Record<string, unknown>;
+const { cta, contact, social } = settings;
 
 interface Props { current?: string }
 const { current = '/' } = Astro.props;
 const isCurrent = (href: string) => current === href || (href !== '/' && current.startsWith(href + '/'));
-const figures = ['menu-default', ...menuPrimary.map((l) => l.media).filter(Boolean)] as string[];
+
+const list: Item[] = Array.isArray(s.menuList)
+  ? (s.menuList as Item[])
+  : (settings.menuPrimary as Item[]);
+const secondary: NavLink[] = Array.isArray(s.menuList)
+  ? []
+  : (settings.menuGroups ?? []).flatMap((g) => g.links);
+
+const figures = Array.from(new Set(['menu-default', ...list.map((l) => l.media).filter(Boolean)])) as string[];
+let n = 0;
 ---
 <div class="menu" id="site-menu" role="dialog" aria-modal="true" aria-label="Site menu" data-menu data-state="closed" inert>
-  <div class="menu__panel">
+  <div class="menu__sheet">
     <div class="menu__top">
-      <a class="menu__home" href="/" aria-label="La maréa, home"><Logo variant="primary" height="1.5rem" label="La maréa" /></a>
-      <button class="menu__close" type="button" data-menu-close aria-label="Close menu">
+      <button class="menu__close" type="button" data-menu-close>
         <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M2 2l12 12M14 2L2 14" /></svg>
+        <span>Close</span>
       </button>
+      <a class="menu__home" href="/" aria-label="La maréa, home"><Logo variant="primary" height="clamp(1.25rem, 1rem + 0.9vw, 1.9rem)" label="La maréa" /></a>
+      <span aria-hidden="true"></span>
     </div>
 
     <nav class="menu__nav" aria-label="Menu">
-      <ol class="menu__primary" role="list">
-        {menuPrimary.map((l, i) => (
-          <li>
-            <a class="menu__primary-link" href={l.href} data-menu-media={l.media} aria-current={isCurrent(l.href) ? 'page' : undefined}>
-              <span class="menu__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-              <span class="menu__primary-text">
-                <span class="menu__primary-label">{l.label}</span>
-                {l.hint && <span class="menu__hint" data-draft={l.draft ? '' : undefined}>{l.hint}</span>}
-              </span>
+      <ul class="menu__list" role="list">
+        {list.map((l) => (
+          <li class="menu__item" style={`--i:${n++}`}>
+            <a class="menu__link" href={l.href} data-menu-media={l.media ?? 'menu-default'} aria-current={isCurrent(l.href) ? 'page' : undefined}>
+              <span class="menu__link-text">{l.label}</span>
             </a>
+            {l.children && l.children.length > 0 && (
+              <ul class="menu__children" role="list">
+                {l.children.map((c) => (
+                  <li><a class="menu__child" href={c.href} data-menu-media={c.media ?? l.media ?? 'menu-default'} aria-current={isCurrent(c.href) ? 'page' : undefined}>{c.label}</a></li>
+                ))}
+              </ul>
+            )}
           </li>
         ))}
-      </ol>
+      </ul>
 
-      <div class="menu__groups">
-        {menuGroups.map((g) => (
-          <div class="menu__group">
-            <p class="menu__group-title">{g.title}</p>
-            <ul role="list">
-              {g.links.map((l) => (
-                <li><a class="menu__link" href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
-              ))}
-            </ul>
+      {secondary.length > 0 && (
+        <ul class="menu__secondary" role="list" style={`--i:${n++}`}>
+          {secondary.map((l) => (
+            <li><a class="menu__child" href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
+          ))}
+        </ul>
+      )}
+
+      <div class="menu__foot" style={`--i:${n++}`}>
+        <a class="btn-filled menu__cta" href={cta.plan.href}>{cta.plan.label}</a>
+        <ul class="menu__contact" role="list" aria-label="Contact">
+          {contact.emails.map((e) => <li><a href={`mailto:${e.address}`}>{e.address}</a></li>)}
+          <li><a href={social.instagram.url} target="_blank" rel="noopener">Instagram<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="menu__media" aria-hidden="true">
+      <div class="menu__arch">
+        {figures.map((slot, i) => (
+          <div class:list={['menu__figure', i === 0 && 'is-active']} data-menu-figure={slot}>
+            <Media media={slot} aspect="fill" sizes="40vw" />
           </div>
         ))}
       </div>
-
-      <a class="btn-filled menu__cta" href={cta.plan.href}>{cta.plan.label}</a>
-    </nav>
-
-    <aside class="menu__side" aria-label="Contact">
-      <a class="menu__side-logo" href="/" tabindex="-1" aria-hidden="true"><Logo variant="primary" height="1.9rem" /></a>
-      <Logo variant="circle" height="6.5rem" class="menu__submark" />
-      <div class="menu__contact">
-        <p class="menu__group-title">Contact</p>
-        <ul role="list">
-          {contact.emails.map((e) => <li><a href={`mailto:${e.address}`}>{e.address}</a></li>)}
-          <li><a href={social.instagram.url} target="_blank" rel="noopener">Instagram {social.instagram.handle}<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-        </ul>
-      </div>
-    </aside>
-
-    <div class="menu__media" aria-hidden="true">
-      {figures.map((slot, i) => (
-        <div class:list={['menu__figure', i === 0 && 'is-active']} data-menu-figure={slot}>
-          <Media media={slot} aspect="fill" />
-        </div>
-      ))}
     </div>
   </div>
 </div>
@@ -87,149 +99,106 @@ const figures = ['menu-default', ...menuPrimary.map((l) => l.media).filter(Boole
     position: fixed;
     inset: 0;
     z-index: var(--z-menu);
-    background: var(--sand-30);
-    color: var(--sage-100);
-    opacity: 0;
     visibility: hidden;
-    transition: opacity var(--dur) var(--ease-soft), visibility 0s linear var(--dur);
+    pointer-events: none;
+    transition: visibility 0s linear 800ms;
   }
-  .menu[data-state='open'] {
-    opacity: 1;
-    visibility: visible;
-    transition: opacity var(--dur) var(--ease-soft), visibility 0s;
-  }
-  .menu__panel {
-    height: 100%;
+  .menu[data-state='open'] { visibility: visible; pointer-events: auto; transition: visibility 0s; }
+  .menu__sheet {
+    position: absolute;
+    inset: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
+    background: var(--salt-25);
+    color: var(--sage-100);
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 800ms var(--ease-tide);
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: 'top' 'nav' 'side';
-    transform: translateY(16px);
-    transition: transform var(--dur) var(--ease-soft);
+    grid-template-rows: auto 1fr;
   }
-  .menu[data-state='open'] .menu__panel { transform: none; }
+  .menu[data-state='open'] .menu__sheet { clip-path: inset(0 0 0 0); transition: clip-path 800ms var(--ease-tide); }
 
-  /* Top bar on phones and tablets: the sage logo and the close control. */
   .menu__top {
-    grid-area: top;
-    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
-    justify-content: space-between;
     height: var(--header-h);
-    padding-inline: clamp(1.25rem, 2.6vw, 2.5rem);
+    padding-inline: clamp(1rem, 3vw, 3rem);
+    background: var(--salt-25);
     color: var(--sage-80);
   }
   .menu__home { display: inline-flex; align-items: center; min-height: 2.75rem; color: inherit; }
   .menu__close {
-    display: grid;
-    place-items: center;
-    width: 2.75rem;
-    height: 2.75rem;
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 2.75rem;
     padding: 0;
-    border: 1px solid var(--sage-40);
-    border-radius: 50%;
-    background: var(--salt-25);
-    color: var(--sage-80);
-    transition: border-color var(--dur-fast) var(--ease-soft), transform var(--dur-fast) var(--ease-soft);
+    border: 0;
+    background: none;
+    color: inherit;
+    font-family: var(--font-ui);
+    font-size: var(--fs-nav);
+    letter-spacing: var(--track-nav);
   }
-  .menu__close svg { width: 14px; height: 14px; }
+  .menu__close svg { width: 15px; height: 15px; transition: rotate 500ms var(--ease-settle); }
   .menu__close path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; }
-  @media (hover: hover) {
-    .menu__close:hover { border-color: var(--sage-80); transform: rotate(90deg); }
-  }
-  .menu__close:active { border-color: var(--sage-80); }
+  @media (hover: hover) { .menu__close:hover svg { rotate: 90deg; } }
 
-  /* Navigation column */
   .menu__nav {
-    grid-area: nav;
-    padding: clamp(1rem, 4vw, 2.5rem) var(--gutter) var(--space-xl);
     display: grid;
     align-content: start;
-    gap: var(--space-l);
+    gap: clamp(2rem, 5vh, 3.5rem);
+    padding: clamp(1.5rem, 5vh, 3rem) var(--gutter) clamp(2.5rem, 6vh, 4rem);
   }
-  .menu__primary { margin: 0; padding: 0; list-style: none; display: grid; gap: clamp(0.75rem, 1.6vh, 1.4rem); }
-  .menu__primary-link {
-    display: grid;
-    grid-template-columns: 2.25rem minmax(0, 1fr);
-    align-items: baseline;
-    min-height: 2.75rem;
-    color: var(--sage-80);
-    text-decoration: none;
+  .menu__list { margin: 0; padding: 0; list-style: none; display: grid; gap: clamp(0.25rem, 1vh, 0.75rem); }
+  .menu__item, .menu__secondary, .menu__foot {
+    opacity: 0;
+    translate: 0 1.25rem;
+    transition: opacity 600ms var(--ease-settle), translate 900ms var(--ease-settle);
   }
-  .menu__num { font-variant-numeric: lining-nums;
-    font-family: var(--font-serif);
-    font-size: 1rem;
-    color: var(--sage-60);
-  }
-  .menu__primary-text { display: grid; gap: 0.35rem; }
-  .menu__primary-label {
-    font-family: var(--font-display);
-    font-size: clamp(1.75rem, 1.35rem + 1.1vw, 2.125rem);
-    line-height: 1.12;
-    transition: transform var(--dur-fast) var(--ease-soft), color var(--dur-fast) var(--ease-soft);
-  }
-  .menu__hint {
-    font-family: var(--font-ui);
-    font-size: var(--fs-label);
-    letter-spacing: 0.08em;
-    color: var(--sage-80);
-  }
-  .menu__primary-link[aria-current='page'] .menu__primary-label { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; text-decoration-color: var(--sage-40); }
-  @media (hover: hover) {
-    .menu__primary-link:hover .menu__primary-label { transform: translateX(6px); color: var(--sage-100); }
-  }
-  .menu__primary-link:focus-visible .menu__primary-label { transform: translateX(6px); }
-
-  .menu__groups {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
-    gap: var(--space-m) var(--space-m);
-    padding-top: var(--space-m);
-    border-top: 1px solid var(--sage-20);
-  }
-  .menu__group ul, .menu__contact ul { margin: 0; padding: 0; list-style: none; }
-  .menu__group-title {
-    margin: 0 0 0.5rem;
-    font-family: var(--font-ui);
-    font-size: var(--fs-label);
-    letter-spacing: var(--track-label);
-    color: var(--sage-80);
+  .menu[data-state='open'] :is(.menu__item, .menu__secondary, .menu__foot) {
+    opacity: 1;
+    translate: 0 0;
+    transition-delay: calc(280ms + var(--i, 0) * 60ms);
   }
   .menu__link {
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
-    font-family: var(--font-ui);
-    font-size: var(--fs-small);
-    color: var(--sage-100);
+    color: var(--sage-80);
     text-decoration: none;
-    background: linear-gradient(currentColor, currentColor) 0 calc(100% - 0.7rem) / 0% 1px no-repeat;
-    transition: background-size var(--dur-fast) var(--ease-soft);
   }
-  .menu__link[aria-current='page'] { background-size: 100% 1px; }
+  .menu__link-text {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 1.3rem + 2.2vw, 3.25rem);
+    line-height: 1.12;
+    letter-spacing: 0.005em;
+    transition: translate 500ms var(--ease-settle), color 400ms var(--ease-settle);
+  }
+  .menu__link[aria-current='page'] .menu__link-text { font-style: italic; }
   @media (hover: hover) {
-    .menu__link:hover { background-size: 100% 1px; }
+    .menu__link:hover .menu__link-text { translate: 0.5rem 0; color: var(--sage-100); }
+    .menu__list:hover .menu__link:not(:hover) .menu__link-text { color: var(--sage-60); }
   }
-  .menu__link:active { background-size: 100% 1px; }
-  .menu__cta { justify-self: start; }
+  .menu__link:focus-visible .menu__link-text { translate: 0.5rem 0; }
 
-  /* Sand column: logo, circle submark and contact. On phones it closes the overlay. It was sage 80, the
-     one dark block left on the site, so it now takes Belle's sand (Pantone 468) with sage ink, the
-     guide's "dark sage logo on sand" treatment (design review 27-09-2026). Sage 100 on sand 100 is 7.6:1. */
-  .menu__side {
-    grid-area: side;
-    display: grid;
-    align-content: start;
-    gap: var(--space-l);
-    padding: var(--space-l) var(--gutter) calc(var(--space-l) + env(safe-area-inset-bottom));
-    background: var(--sand-100);
-    color: var(--sage-100);
+  .menu__children, .menu__secondary {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.75rem;
   }
-  .menu__side-logo { display: none; color: var(--sage-80); }
-  .menu__side :global(.menu__submark) { color: var(--sage-60); }
-  .menu__contact .menu__group-title { color: var(--sage-80); }
-  .menu__contact a {
+  .menu__children { padding: 0 0 0.5rem 0.15rem; }
+  .menu__secondary { max-width: 34rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); }
+  .menu__child {
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
@@ -238,57 +207,62 @@ const figures = ['menu-default', ...menuPrimary.map((l) => l.media).filter(Boole
     letter-spacing: 0.02em;
     color: var(--sage-100);
     text-decoration: none;
-    overflow-wrap: anywhere;
+    background: linear-gradient(currentColor, currentColor) 0 calc(100% - 0.7rem) / 0% 1px no-repeat;
+    transition: background-size 400ms var(--ease-settle);
   }
-  @media (hover: hover) {
-    .menu__contact a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.25em; }
+  .menu__child[aria-current='page'] { background-size: 100% 1px; }
+  @media (hover: hover) { .menu__child:hover { background-size: 100% 1px; } }
+
+  .menu__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem; }
+  .menu__contact { display: flex; flex-wrap: wrap; gap: 0 1.5rem; margin: 0; padding: 0; list-style: none; }
+  .menu__contact a {
+    display: inline-flex; align-items: center; min-height: 2.75rem;
+    font-family: var(--font-ui); font-size: var(--fs-small); color: var(--sage-80);
+    text-decoration: none; overflow-wrap: anywhere;
   }
+  @media (hover: hover) { .menu__contact a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3em; } }
 
   .menu__media { display: none; }
 
-  /* Desktop: sage column left, navigation centre, photograph right. */
   @media (min-width: 1024px) {
-    .menu__panel {
-      grid-template-columns: clamp(15rem, 21vw, 20rem) minmax(0, 1.1fr) minmax(0, 1fr);
-      grid-template-rows: minmax(100%, auto);
-      grid-template-areas: 'side nav media';
+    .menu__sheet { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); grid-template-rows: auto 1fr; }
+    .menu__top { grid-column: 1 / -1; }
+    .menu__nav { align-content: center; padding-block: 2vh 5vh; padding-right: 2rem; }
+    .menu__media {
+      display: grid;
+      place-items: center;
+      padding: 2vh var(--gutter) 6vh 0;
     }
-    .menu__panel { position: relative; }
-    .menu__top {
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 2;
-      height: var(--header-h);
+    .menu__arch {
+      position: relative;
+      width: min(100%, 34rem);
+      height: min(72svh, 44rem);
+      border-radius: var(--arch);
+      overflow: hidden;
+      background: var(--sand-40);
+      clip-path: inset(100% 0 0 0 round 999px 999px 0 0);
+      transition: clip-path 1100ms var(--ease-tide) 200ms;
     }
-    .menu__home { display: none; }
-    .menu__side {
-      align-content: space-between;
-      padding: calc(var(--header-h) * 0.5) clamp(1.75rem, 2.6vw, 2.75rem) clamp(2rem, 4vh, 3rem);
-    }
-    .menu__side-logo { display: inline-flex; min-height: var(--header-h); align-items: center; margin-top: calc(var(--header-h) * -0.5); }
-    .menu__nav {
-      align-content: center;
-      padding: calc(var(--header-h) + 1rem) clamp(2rem, 4.5vw, 5rem) clamp(2rem, 5vh, 3.5rem);
-      gap: clamp(1.75rem, 4.5vh, 3rem);
-    }
-    .menu__groups { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .menu__media { display: block; position: relative; grid-area: media; min-height: 100svh; }
+    .menu[data-state='open'] .menu__arch { clip-path: inset(0 0 0 0 round 999px 999px 0 0); }
     .menu__figure {
       position: absolute;
       inset: 0;
       opacity: 0;
-      transition: opacity var(--dur-slower) var(--ease-soft);
+      scale: 1.06;
+      transition: opacity 500ms var(--ease-settle), scale 1400ms var(--ease-settle);
     }
-    .menu__figure.is-active { opacity: 1; }
+    .menu__figure.is-active { opacity: 1; scale: 1; }
   }
-  @media (min-width: 1024px) and (max-height: 700px) {
+  @media (min-width: 1024px) and (max-height: 720px) {
     .menu__nav { align-content: start; }
+    .menu__link-text { font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.5rem); }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .menu, .menu[data-state='open'] { transition: none; }
-    .menu__panel { transform: none; transition: none; }
-    .menu__figure, .menu__primary-label, .menu__close, .menu__link { transition: none; }
+    .menu__sheet, .menu[data-state='open'] .menu__sheet { transition: none; clip-path: none; }
+    .menu__item, .menu__secondary, .menu__foot { opacity: 1; translate: none; transition: none; }
+    .menu__figure, .menu__link-text, .menu__child, .menu__close svg { transition: none; }
+    .menu__arch, .menu[data-state='open'] .menu__arch { transition: none; clip-path: none; }
   }
 </style>

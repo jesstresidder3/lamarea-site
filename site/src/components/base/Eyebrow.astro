@@ -23,21 +23,22 @@ const { as: Tag = 'p', icon, tone = 'default', draft = false, class: className }
 </Tag>
 
 <style>
+  /* Salt and Sun: the small tracked label becomes a quiet editorial kicker in Cormorant italic, so a
+     section is announced by its heading and this reads like a magazine standfirst, not a UI label. */
   .eyebrow {
     display: flex;
     align-items: center;
     gap: 0.7rem;
-    margin: 0 0 1.25rem;
-    font-family: var(--font-ui);
+    margin: 0 0 1.1rem;
+    font-family: var(--font-editorial);
+    font-style: italic;
     font-weight: 400;
-    font-size: var(--fs-label);
-    line-height: var(--lh-label);
-    letter-spacing: var(--track-label);
-    color: var(--muted);
+    font-size: clamp(1.0625rem, 1rem + 0.25vw, 1.25rem);
+    line-height: 1.35;
+    letter-spacing: 0.005em;
+    color: var(--sage-80);
     max-width: none;
   }
-  .eyebrow--light { color: var(--salt-25); }
-  :global(.band-sage) .eyebrow { color: var(--sand-40); }
-  .eyebrow :global(.eyebrow__icon) { color: var(--sage-60); }
-  .eyebrow--light :global(.eyebrow__icon) { color: currentColor; }
+  .eyebrow--light { color: var(--sage-80); }
+  .eyebrow :global(.eyebrow__icon) { color: var(--sage-40); }
 </style>

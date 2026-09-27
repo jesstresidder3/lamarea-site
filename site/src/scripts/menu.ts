@@ -1,3 +1,5 @@
+type Scroller = { stop(): void; start(): void };
+const scroller = () => (window as unknown as { __lenis?: Scroller }).__lenis;
 /*
   Menu overlay behaviour (visual study B6).
   Opens from any [data-menu-open] control, closes from [data-menu-close], Escape or a link inside.
@@ -26,11 +28,12 @@ if (menu) {
     const sbw = window.innerWidth - root.clientWidth;
     root.style.setProperty('--sbw', `${Math.max(0, sbw)}px`);
     root.classList.add('menu-open');
+    scroller()?.stop();
     background().forEach((el) => el.setAttribute('inert', ''));
     menu.removeAttribute('inert');
     menu.dataset.state = 'open';
     openers.forEach((o) => o.setAttribute('aria-expanded', 'true'));
-    const first = menu.querySelector<HTMLElement>('.menu__primary-link') ?? focusables()[0];
+    const first = menu.querySelector<HTMLElement>('.menu__link') ?? focusables()[0];
     requestAnimationFrame(() => first?.focus({ preventScroll: true }));
   };
 
@@ -40,6 +43,7 @@ if (menu) {
     menu.setAttribute('inert', '');
     background().forEach((el) => el.removeAttribute('inert'));
     root.classList.remove('menu-open');
+    scroller()?.start();
     root.style.removeProperty('--sbw');
     openers.forEach((o) => o.setAttribute('aria-expanded', 'false'));
     if (restoreFocus) lastOpener?.focus({ preventScroll: true });

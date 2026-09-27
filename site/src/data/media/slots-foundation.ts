@@ -13,9 +13,9 @@ const GRADE = 'Grade: lift shadows, warm white balance, keep the water green and
 const raw: MediaSlot[] = [
   // Hero ------------------------------------------------------------------
   {
-    id: 'home-hero', src: '/media/coast-cove-house-drone.jpg', srcMobile: '/media/coast-cove-house-drone-mobile.jpg', position: '45% 55%',
+    id: 'home-hero', src: '/media/bay-cliff-walk-drone.jpg', position: '64% 55%',
     type: 'image',
-    alt: 'The retreat house on a green hillside above a turquoise cove and dark cliffs, Fleurieu Peninsula, seen from the air',
+    alt: 'A bright bay of turquoise water and white surf below a grassy headland, with two walkers on the clifftop track, Fleurieu Peninsula, seen from the air',
     aspect: '16 / 9',
     suggested: 'Drone video DJI_0781.MP4, bird’s eye along the coast. Alternates DJI_0604.MP4 (pan away from the coastline) or the unnumbered left pan across the hills',
     note: 'Slow to about 0.6x only if the source frame rate allows. Portrait crop for phones. One autoplay loop per page.',
@@ -25,9 +25,9 @@ const raw: MediaSlot[] = [
 
   // Menu overlay photograph, crossfading per primary link ------------------
   {
-    id: 'menu-default', src: '/media/hills-coast-drone-wide.jpg', position: '30% 50%',
+    id: 'menu-default', src: '/media/coast-cove-house-drone.jpg', position: '45% 60%',
     type: 'image',
-    alt: 'Grassy hills running down to the sea along the Fleurieu coast',
+    alt: 'The retreat house on a green hillside above a turquoise cove, Fleurieu Peninsula, seen from the air',
     aspect: '4 / 5',
     suggested: 'Naiko At The Bluff Content, a coastal view from the deck',
     tone: 'sea',

@@ -1,0 +1,86 @@
+/*
+  Salt and Sun motion styles (scripts/motion.ts drives them). Every piece has a reduced-motion rule
+  that shows the finished state, and nothing here hides content unless JavaScript is running.
+*/
+
+/* Lenis: the recommended base styles for the inertial scroller. */
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
+
+/* Line reveal headings. SplitText wraps each line in a mask; the line rises from below it. */
+.split-line-mask { padding-bottom: 0.08em; margin-bottom: -0.08em; }
+
+/* Inner page titles wait for their line reveal so they never flash then jump. A failsafe in Base
+   removes the wait after 2.5 seconds if the script never runs. */
+html.mo:not(.mo-fallback) [data-title-wait]:not(.is-split) { visibility: hidden; }
+
+/* Sand wipe between pages. The panel rises to cover the page before leaving, and the next page opens
+   with it lifting away, like a tide going out. Pure CSS on arrival, so it can never stick. */
+.page-wipe {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-wipe);
+  pointer-events: none;
+  background: var(--sand-60);
+  transform: translateY(101%);
+  will-change: transform;
+}
+.page-wipe__mark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  color: var(--sage-40);
+  opacity: 0;
+}
+html.wipe-out .page-wipe { transform: translateY(0); transition: transform 650ms var(--ease-tide); }
+html.wipe-out .page-wipe__mark { opacity: 1; transition: opacity 400ms var(--ease-settle) 250ms; }
+html.wipe-in .page-wipe { animation: wipe-lift 800ms var(--ease-tide) 120ms both; }
+html.wipe-in .page-wipe__mark { animation: wipe-mark 500ms var(--ease-settle) both; }
+@keyframes wipe-lift { from { transform: translateY(0); } to { transform: translateY(-101%); } }
+@keyframes wipe-mark { from { opacity: 1; } to { opacity: 0; } }
+
+/* Image cursor: a salt disc with one small word, pointer devices only. */
+.cursor-disc {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 80;
+  width: 5.5rem;
+  height: 5.5rem;
+  margin: -2.75rem 0 0 -2.75rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--salt-25) 92%, transparent);
+  color: var(--sage-100);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  pointer-events: none;
+  scale: 0;
+  transition: scale 350ms var(--ease-settle);
+  will-change: transform;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--sage-40) 30%, transparent);
+}
+.cursor-disc.is-on { scale: 1; }
+@media (hover: none), (pointer: coarse) { .cursor-disc { display: none; } }
+
+/* Magnetic buttons drift up to 6px towards the pointer (translate set by motion.ts). */
+[data-magnetic] { transition: translate 400ms var(--ease-settle), background-color 500ms var(--ease-settle), border-color 500ms var(--ease-settle); }
+
+/* Hover lift for image tiles: the photograph eases in by 4 per cent. */
+.lift-img { overflow: hidden; }
+.lift-img img { transition: scale 900ms var(--ease-settle); }
+@media (hover: hover) {
+  .lift-host:hover .lift-img img, .lift-host:focus-visible .lift-img img { scale: 1.04; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-wipe { display: none; }
+  .cursor-disc { display: none; }
+  [data-magnetic] { transition: none; translate: none !important; }
+  .lift-img img { transition: none; }
+  html.mo [data-title-wait] { visibility: visible; }
+}

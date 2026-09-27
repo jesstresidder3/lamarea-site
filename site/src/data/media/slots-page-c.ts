@@ -16,9 +16,9 @@ const consent = 'Guest consent needed for anyone identifiable (plan/11 decision 
 const raw: MediaSlot[] = [
   /* ------------------------------------------------------------------ /places */
   {
-    id: 'places-hero', src: '/media/coast-cove-house-drone.jpg', srcMobile: '/media/coast-cove-house-drone-mobile.jpg', position: '45% 50%',
+    id: 'places-hero', src: '/media/sauna-cold-tubs-cliff.jpg', position: '50% 48%',
     type: 'image',
-    alt: 'The retreat house on a green hillside above a turquoise cove and dark cliffs, Fleurieu Peninsula, seen from the air',
+    alt: 'A cedar barrel sauna and cold tubs on the clifftop above turquoise water under a bright sky, Naiko Deep Creek',
     aspect: '16 / 9',
     suggested: 'Naiko At The Bluff Content, the villa exterior with the sea. Alternate: Beresford Accom images, the drone shot over the vines (plan/11 4.9)',
     note: 'A partner venue in its landscape, never a room interior. Wide frame, the building small in the land.',
@@ -203,9 +203,9 @@ const raw: MediaSlot[] = [
 
   /* ------------------------------------------------------------------ /our-story */
   {
-    id: 'story-hero', src: '/media/hills-coast-drone-wide.jpg', position: '50% 50%',
+    id: 'story-hero', src: '/media/surf-rocks-from-above.jpg', position: '50% 50%',
     type: 'image',
-    alt: 'Grassy hills running down to the sea along the Fleurieu coast',
+    alt: 'Waves rolling onto a small pale beach between rocks, seen from directly above, Fleurieu Peninsula',
     aspect: '16 / 9',
     suggested: 'Belle on the Fleurieu coast (plan/11 4.17). No portrait of Belle is in the inventory yet; the half-day portrait shoot covers it',
     note: 'Belle small in a wide coastal frame, room for the heading in calm sky or sea.',

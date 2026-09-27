@@ -3,7 +3,7 @@ import { chromium } from 'playwright';
 const [,, path='/', w='390', prefix='s', n='8'] = process.argv;
 const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: +w, height: +w < 800 ? 844 : 900 }, deviceScaleFactor: 1 });
-await p.goto('http://localhost:4321' + path, { waitUntil: 'networkidle' });
+await p.goto((process.env.BASE || 'http://localhost:4321') + path, { waitUntil: 'networkidle' });
 const H = await p.evaluate(() => document.documentElement.scrollHeight);
 for (let i = 0; i < +n; i++) {
   const y = Math.round((H - 844) * i / (+n - 1));

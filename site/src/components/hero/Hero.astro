@@ -1,22 +1,16 @@
 ---
 /*
-  Home moment 1, the hero (build spec 10.2 moment 1 as revised by section 12).
-  Full-bleed drone footage, one H1 and two short door labels, all in the first viewport at 1440 x 900
-  and 390 x 844. No eyebrow, no sub-line (it moved to moment 2), no door descriptors (they live on the
-  path pages). No full-frame scrim: one soft bottom-third gradient (--scrim-soft) sits behind the
-  words only. Below 700px the footage fills the top 65svh and the H1 and doors sit on sand beneath it,
-  Aman's pattern. A calm reveal on load, a quiet scroll cue, and as the visitor scrolls the footage
-  slowly zooms in (scale 1 to 1.15, bound to scroll, Belle T53) while it drifts down and away.
-  Pair with <Base headerTone="over-media">.
+  Home, section 1: the framed horizon (Salt and Sun, signature feature 2).
+  The words sit on salt, never on the photograph. Belle's positioning line is centred in HV Muse at
+  up to 88px, with the product in one small line beneath it. The brightest summer aerial sits below
+  as an inset window (84vw wide at 1440) that opens to full bleed over the first 60 per cent of a
+  screen of scroll while the photo settles from 1.08 to 1, and the headline drifts up and fades.
+  The two doors sit under the frame, aligned to its left and right edges.
+  Until Belle's summer drone clip (DJI_0604) arrives, the still carries a 20 second 3 per cent drift.
+  Phones: headline at 40px on salt, the frame full width at 62svh, doors beneath.
+  Reduced motion: the frame renders full width, nothing moves.
 
   <Hero />
-  <Hero media="home-hero" heading="Luxury coastal wellness retreats on the *Fleurieu Peninsula*" />
-
-  Props
-  - media: media slot (default 'home-hero')
-  - heading: H1, asterisks mark the place name (default Belle's positioning line)
-  - doors: two { label, href } (default the two paths)
-  - textPosition: 'bottom' (default) or 'top', to sit the words over calm sea or sky once the real clip is in
 */
 import Media from '../media/Media.astro';
 import { emphasis } from '../base/text';
@@ -25,236 +19,166 @@ interface Door { label: string; href: string }
 interface Props {
   media?: string;
   heading?: string;
+  sub?: string;
   doors?: Door[];
-  textPosition?: 'bottom' | 'top';
 }
 const {
   media = 'home-hero',
   heading = 'Luxury coastal wellness retreats on the *Fleurieu Peninsula*',
+  // Drafted in the earlier build (Invitation sub-line), kept word for word and still marked draft.
+  sub = '8 hour retreats for private groups and corporate teams, south of Adelaide.',
   doors = [
     { label: 'Private groups and retreats', href: '/private-groups' },
     { label: 'Corporate teams', href: '/corporate' },
   ],
-  textPosition = 'bottom',
 } = Astro.props;
 ---
-<section class:list={['hero', `hero--${textPosition}`]} aria-labelledby="hero-heading">
-  <div class="hero__frame" data-hero>
+<section class="hero" aria-labelledby="hero-heading" data-no-split>
+  <div class="hero__top" data-hero-top>
+    <h1 class="hero__title" id="hero-heading" set:html={emphasis(heading)} />
+    <p class="hero__sub" data-draft>{sub}</p>
+  </div>
+
+  <div class="hero__frame" data-hero data-widen="8">
     <div class="hero__media">
       <Media media={media} aspect="fill" priority notePosition="top-right" />
     </div>
-    <div class="hero__shade" aria-hidden="true"></div>
   </div>
 
-  <div class="hero__content">
-    <div class="hero__inner">
-      <h1 class="hero__title" id="hero-heading" set:html={emphasis(heading)} />
-      <nav class="hero__doors" aria-label="Choose your path">
-        {doors.map((d) => (
-          <a class="hero__door" href={d.href}>
-            <span class="hero__door-label">{d.label}</span>
-            <svg class="hero__door-arrow" viewBox="0 0 28 10" width="28" height="10" aria-hidden="true" focusable="false">
-              <line class="hero__door-shaft" x1="0.5" y1="5" x2="27.25" y2="5" />
-              <polyline class="hero__door-head" points="22.5,1 27.25,5 22.5,9" />
-            </svg>
-          </a>
-        ))}
-      </nav>
-    </div>
-  </div>
-
-  <span class="hero__cue" aria-hidden="true"><span></span></span>
+  <nav class="hero__doors" aria-label="Choose your path">
+    {doors.map((d) => (
+      <a class="hero__door" href={d.href}>
+        <span class="hero__door-label">{d.label}</span>
+        <svg class="hero__door-arrow" viewBox="0 0 28 10" width="28" height="10" aria-hidden="true" focusable="false">
+          <line x1="0.5" y1="5" x2="27.25" y2="5" />
+          <polyline points="22.5,1 27.25,5 22.5,9" />
+        </svg>
+      </a>
+    ))}
+  </nav>
 </section>
 
 <style>
-  .hero { position: relative; background: var(--sand-30); }
-
-  /* Phones and small tablets: footage in the top 65svh, words on sand beneath (below 700px). */
-  .hero__frame { position: relative; height: 65svh; min-height: 22rem; overflow: hidden; background: var(--sand-40); }
-  .hero__media { position: absolute; inset: 0; }
-  .hero__media :global(.ph-note) { margin-top: calc(var(--header-h) + 0.5rem); }
-  .hero__shade { display: none; }
-
-  .hero__content { position: relative; }
-  .hero__inner {
-    padding: clamp(1.25rem, 4svh, 2rem) var(--gutter) clamp(1.25rem, 3svh, 2rem);
+  .hero {
+    position: relative;
     display: grid;
-    gap: clamp(1rem, 2.6svh, 1.75rem);
+    grid-template-rows: auto auto auto;
+    background: transparent;
+  }
+
+  .hero__top {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    padding: clamp(1.75rem, 5svh, 3.5rem) var(--gutter) clamp(1.75rem, 4.5svh, 3rem);
   }
   .hero__title {
     margin: 0;
     font-size: var(--fs-display);
-    line-height: 1.1;
-    letter-spacing: 0.01em;
-    max-width: 13em;
+    line-height: 1.02;
+    letter-spacing: 0.005em;
     color: var(--sage-80);
+    max-width: 17em;
+  }
+  .hero__title :global(.place) { display: inline-block; }
+  .hero__sub {
+    margin: clamp(1rem, 2.4svh, 1.6rem) 0 0;
+    max-width: 40rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-small);
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+    color: var(--sage-100);
   }
 
-  .hero__doors { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 1.25rem; }
-  .hero__door {
-    --door-rule: color-mix(in srgb, currentColor 30%, transparent);
+  .hero__frame {
     position: relative;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.75rem;
-    min-height: 2.75rem;
-    padding-top: 0.85rem;
+    height: 62svh;
+    min-height: 20rem;
+    overflow: hidden;
+    background: var(--sand-40);
+  }
+  .hero__media { position: absolute; inset: 0; }
+
+  .hero__doors {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1rem;
+    padding: 0.35rem var(--gutter) 0;
+  }
+  .hero__door {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    min-height: 3rem;
     color: var(--sage-80);
     text-decoration: none;
-    background:
-      linear-gradient(currentColor, currentColor) 0 0 / 0% 1px no-repeat,
-      linear-gradient(var(--door-rule), var(--door-rule)) 0 0 / 100% 1px no-repeat;
-    transition: background-size var(--dur-slow) var(--ease-soft);
+    font-family: var(--font-ui);
+    font-size: var(--fs-small);
+    letter-spacing: 0.04em;
+    line-height: 1.3;
   }
+  .hero__door:last-child { justify-self: end; text-align: right; }
   .hero__door-label {
-    font-family: var(--font-serif);
-    font-size: clamp(1.125rem, 1rem + 0.5vw, 1.4rem);
-    line-height: 1.25;
-    letter-spacing: 0.005em;
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0% 1px no-repeat;
+    padding-bottom: 0.2em;
+    transition: background-size 450ms var(--ease-settle);
   }
-  .hero__door-arrow { flex: none; margin-top: 0.45rem; overflow: visible; }
+  .hero__door-arrow { flex: none; overflow: visible; }
   .hero__door-arrow :is(line, polyline) {
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1;
-    vector-effect: non-scaling-stroke;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    transform-box: view-box;
-    transition: transform var(--dur-fast) var(--ease-soft);
+    fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke;
+    stroke-linecap: round; stroke-linejoin: round;
+    transition: translate 450ms var(--ease-settle);
   }
-  .hero__door-shaft { transform-origin: 0 50%; }
   @media (hover: hover) {
-    .hero__door:hover { background-size: 100% 1px, 100% 1px; }
-    .hero__door:hover .hero__door-shaft { transform: scaleX(1.22); }
-    .hero__door:hover .hero__door-head { transform: translateX(6px); }
+    .hero__door:hover .hero__door-label { background-size: 100% 1px; }
+    .hero__door:hover .hero__door-arrow polyline { translate: 4px 0; }
   }
-  .hero__door:active, .hero__door:focus-visible { background-size: 100% 1px, 100% 1px; }
-  .hero__door:focus-visible .hero__door-shaft { transform: scaleX(1.22); }
-  .hero__door:focus-visible .hero__door-head { transform: translateX(6px); }
+  .hero__door:focus-visible .hero__door-label { background-size: 100% 1px; }
 
-  .hero__cue { display: none; }
-
-  /* 700px and up: the footage fills the screen and the words sit over it, lower left, doors right. */
+  /* 700px and up: the first screen holds the line, the framed window and the doors. */
   @media (min-width: 700px) {
-    .hero { height: 100svh; min-height: 34rem; }
-    .hero__frame { position: absolute; inset: 0; height: auto; min-height: 0; }
-    .hero__shade { display: block; position: absolute; inset: 0; background: var(--scrim-soft); pointer-events: none; }
-    .hero--top .hero__shade { background: linear-gradient(to bottom, rgb(35 32 14 / 0.22), rgb(35 32 14 / 0) 38%); }
-    .hero__content {
-      position: absolute;
-      inset: auto 0 0 0;
-      color: var(--salt-25);
-      --focus: var(--focus-on-dark);
+    .hero {
+      height: calc(100svh - var(--header-h));
+      min-height: 36rem;
+      grid-template-rows: auto minmax(0, 1fr) auto;
     }
-    .hero--top .hero__content { inset: calc(var(--header-h) + 2rem) 0 auto 0; }
-    .hero__inner {
-      max-width: var(--wrap-max);
-      margin-inline: auto;
-      padding: 0 var(--gutter) clamp(2.5rem, 8svh, 5rem);
-      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-      align-items: end;
-      gap: 2rem clamp(2rem, 5vw, 6rem);
-    }
-    .hero__title { color: var(--salt-25); }
-    /* HV Muse's hairlines over white surf (brand pass request): a soft glow behind the words and a
-       faint pool of shade under the lower left, where the line sits. No full-frame scrim, the photo
-       stays bright (design review 27-09-2026). */
-    .hero__shade { background: radial-gradient(58% 42% at 22% 86%, rgb(35 32 14 / 0.2), rgb(35 32 14 / 0) 72%), var(--scrim-soft); }
-    .hero__title, .hero__door-label { text-shadow: 0 0 1.5rem rgb(35 32 14 / 0.3), 0 1px 2px rgb(35 32 14 / 0.18); }
-    .hero__doors { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; max-width: 22rem; justify-self: end; width: 100%; }
-    .hero__door { color: var(--salt-25); --door-rule: rgb(250 249 245 / 0.45); padding-block: 0.9rem 0.6rem; }
-
-    .hero__cue {
-      display: block;
-      position: absolute;
-      left: 50%;
-      bottom: 0;
-      width: 1px;
-      height: clamp(2.5rem, 7svh, 4rem);
-      overflow: hidden;
-      background: rgb(250 249 245 / 0.28);
-    }
-    .hero__cue span {
-      position: absolute;
-      inset: 0;
-      background: var(--salt-25);
-      transform: translateY(-100%);
-    }
+    .hero__frame { height: auto; min-height: 0; }
+    .hero__doors { padding-inline: 8vw; }
+    .hero__door { font-size: 0.875rem; letter-spacing: 0.06em; min-height: 3.75rem; }
   }
-  /* While the slot still shows its light placeholder, the words switch to sage ink and the soft
-     gradient goes, so the first screen stays bright and readable (QA M3, CD review 02 item 1).
-     Belle's footage brings back salt text over the bottom-third gradient. */
-  @media (min-width: 700px) {
-    .hero:has(.hero__media .media--placeholder) .hero__shade { display: none; }
-    .hero:has(.hero__media .media--placeholder) .hero__content { color: var(--sage-100); --focus: var(--sage-80); }
-    .hero:has(.hero__media .media--placeholder) :is(.hero__title, .hero__door) { color: var(--sage-100); }
-    .hero:has(.hero__media .media--placeholder) :is(.hero__title, .hero__door-label) { text-shadow: none; }
-    .hero:has(.hero__media .media--placeholder) .hero__door { --door-rule: rgb(67 61 27 / 0.35); }
-    .hero:has(.hero__media .media--placeholder) .hero__cue { background: rgb(67 61 27 / 0.2); }
-    .hero:has(.hero__media .media--placeholder) .hero__cue span { background: var(--sage-80); }
-  }
-  @media (min-width: 1100px) {
-    .hero__doors { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 1.75rem; max-width: 30rem; }
+  @media (max-width: 699px) {
+    .hero__doors { grid-template-columns: minmax(0, 1fr); gap: 0; padding-top: 0.5rem; }
+    .hero__door, .hero__door:last-child { justify-self: stretch; text-align: left; justify-content: space-between; border-bottom: 1px solid var(--rule); }
   }
 
-  /* Calm reveal on load: the footage settles, then the line, then the doors. Nothing bounces. */
   @media (prefers-reduced-motion: no-preference) {
-    .hero__media { animation: hero-settle 2400ms var(--ease-soft) both; }
-    .hero__title { animation: hero-rise 1200ms var(--ease-soft) 450ms both; }
-    .hero__door { animation: hero-rise 1100ms var(--ease-soft) both; }
-    .hero__door:nth-child(1) { animation-delay: 800ms; }
-    .hero__door:nth-child(2) { animation-delay: 950ms; }
-    .hero__cue { animation: hero-fade 1200ms var(--ease-soft) 1500ms both; }
-    .hero__cue span { animation: hero-cue 2800ms var(--ease-out) 2200ms infinite; }
-
-    /* A slow drift as the hero leaves, and Belle's zoom: the footage scales in as the visitor
-       scrolls (T53, "that video when you scroll down, and then it sort of zooms in"). Linear and
-       bound to scroll, on the compositor only (translate and scale). */
-    @supports (animation-timeline: view()) {
-      .hero__frame { view-timeline: --hero block; view-timeline-inset: 0px; }
-      .hero__media { animation: hero-settle 2400ms var(--ease-soft) both, hero-leave linear both; animation-timeline: auto, --hero; animation-range: normal, exit 0% exit 100%; }
-      .hero__media :global(.media) { transform-origin: 50% 58%; animation: hero-zoom linear both; animation-timeline: --hero; animation-range: exit 0% exit 100%; will-change: scale; }
-    }
+    .hero__title { animation: hero-rise 1400ms var(--ease-settle) 250ms both; }
+    .hero__sub { animation: hero-rise 1200ms var(--ease-settle) 550ms both; }
+    .hero__frame { animation: hero-open 1600ms var(--ease-tide) 150ms both; }
+    .hero__door { animation: hero-fade 1000ms var(--ease-settle) 1100ms both; }
+    /* A slow breath on the still until the drone clip arrives: 3 per cent over 20 seconds. */
+    .hero__media { transform-origin: 50% 60%; animation: hero-drift 20s ease-in-out infinite alternate; }
   }
-  /* A still hero breathes: a very slow scale on the photograph so the first screen never sits dead
-     while there is no drone footage. Motion-safe only; footage slots are left alone. */
-  @media (prefers-reduced-motion: no-preference) {
-    .hero__media :global(.media--image img) { transform-origin: 45% 60%; animation: hero-breathe 38s ease-in-out infinite alternate; }
-  }
-  @keyframes hero-breathe { from { transform: scale(1); } to { transform: scale(1.07); } }
-  @keyframes hero-settle { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: scale(1); } }
-  @keyframes hero-rise { from { opacity: 0; translate: 0 16px; } to { opacity: 1; translate: 0 0; } }
+  @keyframes hero-rise { from { opacity: 0; translate: 0 28px; } to { opacity: 1; translate: 0 0; } }
   @keyframes hero-fade { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes hero-cue { 0% { transform: translateY(-100%); } 60%, 100% { transform: translateY(100%); } }
-  @keyframes hero-leave { from { translate: 0 0; } to { translate: 0 14%; } }
-  @keyframes hero-zoom { from { scale: 1; } to { scale: 1.15; } }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero__door, .hero__door-arrow :is(line, polyline) { transition: none; }
-  }
+  @keyframes hero-open { from { opacity: 0; translate: 0 40px; } to { opacity: 1; translate: 0 0; } }
+  @keyframes hero-drift { from { transform: scale(1) translate3d(0, 0, 0); } to { transform: scale(1.03) translate3d(-0.6%, -0.4%, 0); } }
 </style>
 
 <script>
-  // Fallback for browsers without scroll-driven animations (Firefox today): the same zoom and drift,
-  // set once per frame from scroll position. Off under reduced motion, and idle once the hero is gone.
+  // As the frame opens, the headline drifts up 40px and fades (redesign direction, the home hero).
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const scrollDriven = typeof CSS !== 'undefined' && CSS.supports('animation-timeline: view()');
-  const frame = document.querySelector<HTMLElement>('[data-hero]');
-  const media = frame?.querySelector<HTMLElement>('.hero__media');
-  const figure = media?.querySelector<HTMLElement>('.media');
-  if (!reduce && !scrollDriven && frame && media && figure) {
-    figure.style.transformOrigin = '50% 58%';
-    let ticking = false;
-    const update = () => {
-      ticking = false;
-      const h = frame.offsetHeight || 1;
-      const p = Math.min(1, Math.max(0, window.scrollY / h));
-      figure.style.scale = String(1 + 0.15 * p);
-      media.style.translate = `0 ${14 * p}%`;
-    };
-    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-    update();
+  const top = document.querySelector<HTMLElement>('[data-hero-top]');
+  if (top && !reduce && window.matchMedia('(min-width: 700px)').matches) {
+    gsap.to(top, {
+      y: -40,
+      opacity: 0,
+      ease: 'none',
+      scrollTrigger: { trigger: document.body, start: 0, end: () => `+=${window.innerHeight * 0.55}`, scrub: 0.6 },
+    });
   }
 </script>

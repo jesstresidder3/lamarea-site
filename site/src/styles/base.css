@@ -1,18 +1,16 @@
-/* Self-hosted fonts (plan/10, woff2, no third-party font request). HV Muse, Belle's brand face, for
-   headings of 28px and up and the italic place names. Cormorant Garamond for smaller serif text,
-   Jost for body. HV Muse files come from Belle (media-pool/brand/fonts), converted to woff2. */
-@import '@fontsource/cormorant-garamond/400.css';
-@import '@fontsource/cormorant-garamond/500.css';
+/* Self-hosted fonts (no third-party font request). HV Muse, Belle's brand face, for display lines.
+   Jost for all body and small text. Cormorant Garamond italic for quotes and captions only. */
 @import '@fontsource/cormorant-garamond/400-italic.css';
 @import '@fontsource/cormorant-garamond/500-italic.css';
-@import '@fontsource/jost/300.css';
+@import '@fontsource/cormorant-garamond/400.css';
 @import '@fontsource/jost/400.css';
+@import '@fontsource/jost/400-italic.css';
 @import '@fontsource/jost/500.css';
 
 @import './tokens.css';
 @import './utilities.css';
+@import './motion.css';
 
-/* HV Muse, Belle's brand face (@font-face must follow the @imports). */
 @font-face {
   font-family: 'HV Muse';
   src: url('/fonts/hv-muse-regular.woff2') format('woff2');
@@ -28,39 +26,37 @@
   font-display: swap;
 }
 
-/*
-  Foundation additions that sit beside the tokens (owner: foundation layout builder).
-  --font-ui keeps labels, navigation and buttons in Jost when the ?body=serif variant switches
-  body copy to the display serif (build spec section 7).
-*/
 :root {
   --font-ui: 'Jost', 'Avenir Next', 'Avenir', 'Helvetica Neue', sans-serif;
   --fs-nav: 0.8125rem;          /* 13px */
-  --track-nav: 0.06em;
+  --track-nav: 0.08em;
   --focus: var(--sage-80);
   --focus-on-dark: var(--salt-25);
-  --sticky-cta-h: 3.25rem;      /* 52px phone bar */
-  --header-compact: clamp(3.5rem, 3.3rem + 0.6vw, 4rem); /* the sand strip once the page has moved */
-  --icon-stroke: 0.9px;         /* Belle's line icons, drawn at a visible hairline at every size */
+  --sticky-cta-h: 0px;          /* no phone bar in Salt and Sun: Plan your day lives in the header */
+  --header-compact: clamp(3.75rem, 3.4rem + 0.8vw, 4.25rem);
+  --icon-stroke: 0.9px;
+  /* Page ground. On home it drifts from morning salt to dusk sand as you scroll (scripts/motion.ts). */
+  --page-tone: var(--sand-30);
 }
 
-/* Serif body variant, switched by ?body=serif and kept for the session. */
+/* Serif body variant, kept for the walkthrough (?body=serif). */
 html[data-body='serif'] {
-  --font-body: var(--font-serif);
-  --fs-body: 1.0625rem; /* 17px */
+  --font-body: var(--font-editorial);
+  --fs-body: 1.125rem;
 }
-html[data-body='serif'] body { font-size: 1.0625rem; letter-spacing: 0.005em; }
+html[data-body='serif'] body { font-size: 1.125rem; letter-spacing: 0.005em; }
 
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  overflow-x: clip; /* O12 backstop, not the fix */
-  scroll-behavior: smooth;
+  overflow-x: clip;
   scroll-padding-top: calc(var(--header-h) + 1rem);
   background: var(--bg);
 }
+/* Native smooth anchor scrolling only where the inertial scroller is not running. */
+html:not(.lenis) { scroll-behavior: smooth; }
 
 body {
   margin: 0;
@@ -75,55 +71,68 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  font-kerning: normal;
   overflow-x: clip;
 }
+/* Home: the ground follows the time of day (dawn to dusk tone). */
+body.tone-day { background: var(--page-tone); }
 
-/* Scroll lock for the menu overlay without layout shift: the scrollbar's width is kept as padding. */
+/* Paper grain: a 3 per cent monochrome noise fixed to the viewport, so flat sand reads as paper. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.26 0 0 0 0 0.24 0 0 0 0 0.1 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@media print { body::after { display: none; } }
+
 html.menu-open, html.panel-open { overflow: hidden; }
 html.menu-open body, html.panel-open body { padding-right: var(--sbw, 0px); }
 
 img, svg, video, picture { display: block; max-width: 100%; height: auto; }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
-a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.24em; }
 p { margin: 0 0 1em; max-width: var(--measure); }
 p:last-child { margin-bottom: 0; }
-strong, b { font-weight: inherit; } /* no bold anywhere (creative brief E8) */
+strong, b { font-weight: inherit; }
 
-/* HV Muse carries headings of 28px and up. It is a wide face with open default spacing, so large
-   headings sit a touch tighter. h4 and small headings use Cormorant. Build spec section 12. */
+/* HV Muse carries every display line. Fine hairlines, so it is never set below about 22px and never
+   on a photograph. Scale contrast is the luxury: one or two very large moments per page. */
 h1, h2, h3, h4, .display {
   font-family: var(--font-display);
   font-weight: 400;
   font-style: normal;
   color: var(--heading);
   line-height: var(--lh-heading);
-  letter-spacing: -0.005em;
+  letter-spacing: var(--track-display);
   margin: 0 0 0.5em;
   text-wrap: balance;
+  font-kerning: normal;
 }
-h1 { font-size: var(--fs-h1); }
+h1 { font-size: var(--fs-h1); line-height: 1.06; }
 h2 { font-size: var(--fs-h2); }
-h3 { font-size: max(1.75rem, var(--fs-h3)); }
-h4 { font-size: var(--fs-h4); font-family: var(--font-serif); letter-spacing: var(--track-heading); line-height: 1.25; }
-em, i, cite { font-style: normal; } /* italic is kept for place names only */
+h3 { font-size: max(1.5rem, var(--fs-h3)); }
+h4 { font-size: var(--fs-h4); letter-spacing: 0.005em; line-height: 1.25; }
+em, i, cite { font-style: normal; }
 
-/* The one italic flourish: place names (Fleurieu, Deep Creek, Encounter Bay, McLaren Vale, Adelaide,
-   Victor Harbor, Beresford Estate). <span class="place">Fleurieu</span>
-   Inside headings it is HV Muse Italic, the brand's own italic. In small text (facts, captions) HV Muse
-   Italic is too fine on sand, so it falls back to Cormorant italic 500. */
+/* The one italic flourish: place names. HV Muse Italic in headings, Cormorant italic in small text. */
 .place {
-  font-family: var(--font-serif);
+  font-family: var(--font-editorial);
   font-style: italic;
   font-weight: 500;
-  font-size: 1.06em;
+  font-size: 1.08em;
   letter-spacing: 0;
 }
-:is(h1, h2, h3, .display) .place {
+:is(h1, h2, h3, h4, .display) .place {
   font-family: var(--font-display);
   font-weight: 400;
   font-size: 1em;
-  letter-spacing: -0.005em;
+  letter-spacing: 0;
 }
 
 ::selection { background: var(--sand-100); color: var(--sage-100); }
@@ -142,25 +151,18 @@ em, i, cite { font-style: normal; } /* italic is kept for place names only */
 }
 
 .skip-link {
-  position: absolute; left: var(--gutter); top: -4rem;
+  position: fixed; left: var(--gutter); top: -4rem;
   background: var(--salt-25); color: var(--sage-100);
+  border: 1px solid var(--sage-40);
+  border-radius: 999px;
   font-family: var(--font-ui); font-size: var(--fs-small);
-  padding: 0.75rem 1rem; z-index: 100;
+  padding: 0.7rem 1.2rem; z-index: 100;
 }
 .skip-link:focus { top: 1rem; }
 
-/* Main offset: pages that open on sand start below the fixed header. */
 .site-main { display: block; outline: none; }
-.site-main--solid { padding-top: var(--header-h); }
+.site-main--solid, .site-main--over-media { padding-top: var(--header-h); }
 
-/* Belle's ten line icons are drawn at a 0.3px stroke in a 60px box. They are inlined with ?raw and
-   drawn here at one visible hairline whatever their display size. */
 .lm-icon { display: inline-block; flex: none; color: inherit; line-height: 0; }
 .lm-icon svg { width: 100%; height: 100%; overflow: visible; }
 .lm-icon svg [stroke] { vector-effect: non-scaling-stroke; stroke-width: var(--icon-stroke); }
-
-/* Reduced motion: each animated component carries its own reduce rule that shows the finished state.
-   No global !important override (design system rule). */
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-}

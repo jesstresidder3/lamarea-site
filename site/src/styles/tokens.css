@@ -1,34 +1,31 @@
 /*
-  La maréa design tokens.
+  La maréa design tokens, Salt and Sun (redesign build 27-09-2026,
+  build/design/luxury-redesign-direction-27-09-2026.md).
   Colour values come from Belle's style guide (Ponder Designs, page 7): Sage Pantone 7771CP,
   Sand Pantone 468CP, Salt Pantone 7527CP. Values marked 'guide' are the hex codes printed in the guide.
-  The guide prints no hex for the other steps, so they are read from its swatches and lifted by the gap
-  between the printed hex and the swatch render at the nearest printed step (brand pass 27-09-2026).
-  Sage 60 is the exception: it keeps the darker swatch read so it still passes 3:1 as large text.
-  Belle's direction: soft sand as the dominant background, sage for wording and headings,
-  light and bright rather than green as the base.
+  Belle's direction: light and bright, soft sand as the base, sage for wording, nothing dark.
 */
 :root {
   /* Sand, the base of the site */
-  --sand-100: #e6d6a4; /* guide, 468CP */
+  --sand-100: #e6d6a4; /* guide, 468CP. Accent fill only: pill hover, active dot, selection */
   --sand-80: #ebdeb6;
-  --sand-60: #f0e5c7;
+  --sand-60: #f0e5c7;  /* warm band, one per page at most */
   --sand-40: #f5efda;
-  --sand-30: #f8f3e4; /* guide, primary shade 30% */
+  --sand-30: #f8f3e4;  /* guide, primary shade 30%. The default ground */
   --sand-20: #faf7ec;
 
   /* Salt, the lightest surfaces */
   --salt-100: #e9e5d6; /* guide, 7527CP */
   --salt-60: #f1eee4;
   --salt-40: #f5f4ec;
-  --salt-25: #faf9f5; /* guide, primary shade 25% */
+  --salt-25: #faf9f5;  /* guide, primary shade 25%. Morning sections, tops of pages */
 
   /* Sage, wording and headings */
   --sage-100: #433d1b; /* guide, 7771CP. Body text, 9.85:1 on sand-30 */
   --sage-80: #635b39;  /* guide, secondary shade 80%. Headings and links, 6.13:1 on sand-30 */
   --sage-60: #7d7455;  /* large display text only (24px and up, 4.21:1). Never body copy */
-  --sage-40: #aaa38b;  /* guide, primary shade 40%, the logo colour. Logo tint, rules, icons. Decorative only, fails as text */
-  --sage-20: #d3cec0;  /* hairlines, placeholder texture */
+  --sage-40: #aaa38b;  /* guide, primary shade 40%, the logo colour. Rules, icons, drift words. Decorative only */
+  --sage-20: #d3cec0;  /* hairlines */
 
   /* Roles */
   --bg: var(--sand-30);
@@ -39,50 +36,51 @@
   --text: var(--sage-100);
   --heading: var(--sage-80);
   --muted: var(--sage-80);
-  --rule: color-mix(in srgb, var(--sage-40) 55%, transparent);
+  --rule: color-mix(in srgb, var(--sage-40) 45%, transparent);
   --rule-strong: var(--sage-40);
   --on-image: #faf9f5;
-  /* No full-frame scrim over footage (pre-build review item 1). A bottom-third gradient behind hero text only. */
-  /* Deepened slightly for HV Muse, whose hairlines are finer than the stand-in's over bright water.
-     Still a bottom-third wash, clear by 46% of the frame, never a vignette. */
-  --scrim-soft: linear-gradient(to top, rgb(35 32 14 / 0.34), rgb(35 32 14 / 0.12) 26%, rgb(35 32 14 / 0) 46%);
+  /* No type sits on photographs any more, so no scrim is used anywhere. Kept for old references. */
+  --scrim-soft: none;
 
-  /* Type. HV Muse is the brand face (style guide page 6), self-hosted from Belle's files in /fonts.
-     Web licence to be confirmed by Belle. It carries every heading of 28px and up, the hero line and the
-     menu list. Below about 22px its hairlines thin out on sand, so smaller serif text (h4, leads, card
-     titles, quotes, small labels) stays in Cormorant Garamond. HV Muse Italic is the one italic flourish,
-     for place names inside headings (.place, base.css). Jost stands in for the guide's Geosans Light.
-     Swap here only. */
+  /* Type. Two working faces plus one editorial italic (Belle: three families felt busy).
+     HV Muse: every display line of 22px and up, card titles, menu links.
+     Jost: all body and small text, labels, buttons, leads, numerals.
+     Cormorant Garamond italic: pull quotes, captions and small place names only (the editorial voice).
+     --font-serif used to be Cormorant for small serif text; it now maps to Jost so body and small
+     text share one face site-wide. Components that want the editorial italic use --font-editorial. */
   --font-display: 'HV Muse', 'Cormorant Garamond', Georgia, serif;
-  --font-serif: 'Cormorant Garamond', 'Cormorant', Georgia, 'Times New Roman', serif;
+  --font-editorial: 'Cormorant Garamond', 'Cormorant', Georgia, 'Times New Roman', serif;
   --font-body: 'Jost', 'Avenir Next', 'Avenir', 'Helvetica Neue', sans-serif;
+  --font-serif: var(--font-body);
 
-  --fs-label: 0.78rem;                                        /* 12.5px */
-  --fs-small: 0.875rem;                                       /* 14px */
-  --fs-body: 1rem;                                            /* 16px */
-  --fs-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);         /* 17 to 20px */
-  --fs-h4: clamp(1.3rem, 1.18rem + 0.45vw, 1.6rem);           /* 21 to 26px */
-  /* Display sizes a step down for HV Muse (design review 27-09-2026). HV Muse is wide, and Belle asked
-     for "nice, small, luxury fonts" like Aman's, so headings stay quiet and the photographs lead. */
-  --fs-h3: clamp(1.6rem, 1.45rem + 0.55vw, 1.9rem);           /* 26 to 30px */
-  --fs-h2: clamp(1.75rem, 0.95rem + 1.85vw, 2.4rem);           /* 28 to 38px */
-  --fs-h1: clamp(2.1rem, 1.6rem + 1.75vw, 3rem);              /* 34 to 48px */
-  --fs-display: clamp(2rem, 1.3rem + 2.5vw, 3rem);             /* 32 to 48px, hero line only */
-  --fs-place: clamp(2.25rem, 1.5rem + 2.4vw, 3.25rem);         /* 36 to 52px, large italic place or pillar names */
-  --fs-card: clamp(1.375rem, 1.2rem + 0.4vw, 1.625rem);       /* 22 to 26px card titles */
+  --fs-label: 0.75rem;                                         /* 12px, used only where it carries a fact */
+  --fs-small: 0.875rem;                                        /* 14px */
+  --fs-body: 1rem;                                             /* 16px */
+  --fs-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);          /* 17 to 20px, Jost */
+  --fs-caption: 0.96875rem;                                    /* 15.5px Cormorant italic */
+  --fs-h4: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);            /* 20 to 24px */
+  --fs-card: clamp(1.375rem, 1.2rem + 0.45vw, 1.625rem);       /* 22 to 26px card titles, HV Muse */
+  --fs-h3: clamp(1.625rem, 1.4rem + 0.7vw, 2rem);              /* 26 to 32px */
+  --fs-h2: clamp(1.875rem, 1.25rem + 2vw, 2.75rem);            /* 30 to 44px */
+  --fs-section: clamp(2.125rem, 1.05rem + 3.4vw, 4rem);        /* 34 to 64px, one big moment per section */
+  --fs-h1: clamp(2.25rem, 1.2rem + 3.3vw, 4rem);               /* 36 to 64px, inner page titles */
+  --fs-display: clamp(2.5rem, 1.2rem + 3.7vw, 4.75rem);        /* 40 to 76px, the home hero line */
+  --fs-place: clamp(2rem, 1.2rem + 2.6vw, 3.5rem);             /* 32 to 56px, place and pillar names */
+  --fs-quote: clamp(1.5rem, 1.1rem + 1.3vw, 2.125rem);         /* 24 to 34px Cormorant italic */
 
-  --lh-tight: 1.08;
-  --lh-heading: 1.16;
-  --lh-body: 1.62;
+  --lh-tight: 1.04;
+  --lh-heading: 1.1;
+  --lh-body: 1.7;
   --lh-label: 1.4;
-  --track-label: 0.14em;
-  --track-body: 0.01em;
+  --track-label: 0.12em;
+  --track-body: 0.012em;
   --track-heading: 0.004em;
+  --track-display: 0.01em;
 
-  /* Space. Margins scale continuously with the viewport (O9), never in breakpoint steps. */
-  --gutter: clamp(1.25rem, 5.5vw, 6rem);   /* 20px at 320, 21.5px at 390, 79px at 1440, 96px cap */
-  --wrap-max: 1440px;
-  --measure: 34rem;         /* body copy line length */
+  /* Space. 12 columns at 1440 with 6vw margins, content capped at 1320px. */
+  --gutter: clamp(1.25rem, 6vw, 6rem);     /* 20px on phones, 86px at 1440 */
+  --wrap-max: 1500px;                        /* 1320 content plus the gutters */
+  --measure: 34rem;
   --measure-wide: 44rem;
   --space-3xs: 0.25rem;
   --space-2xs: 0.5rem;
@@ -92,28 +90,30 @@
   --space-l: clamp(2rem, 1.5rem + 2vw, 3.5rem);
   --space-xl: clamp(3rem, 2rem + 4vw, 6rem);
   --space-2xl: clamp(4.5rem, 2.5rem + 7vw, 9rem);
-  --section-y: clamp(4rem, 9vw, 8.5rem);   /* 64px on phones, 130px at 1440, 136px cap */
+  --section-y: clamp(6rem, 3.5rem + 9vw, 12.5rem);  /* 120px on phones, 200px at 1440 */
 
-  /* Motion. Nothing bounces. Easing only from the recorded references. */
-  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);    /* long ease-out that never overshoots (visual study B10) */
-  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);  /* gentle decelerate, no overshoot */
-  --ease-como: ease-out;                           /* COMO flex 0.8s ease-out 0.2s */
-  --dur-fast: 300ms;    /* colour and opacity hovers */
-  --dur: 500ms;         /* header hide and show, overlays */
-  --dur-step: 600ms;    /* slider steps, accordions */
-  --dur-slow: 800ms;    /* flex trades (COMO), with --delay-como */
-  --dur-slower: 900ms;  /* crossfades, side panels */
+  /* Motion. Two easings. Nothing bounces or overshoots. */
+  --ease-tide: cubic-bezier(0.65, 0, 0.35, 1);    /* anything that travels */
+  --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);  /* anything that arrives */
+  --ease-soft: var(--ease-settle);
+  --ease-standard: var(--ease-tide);
+  --ease-out: var(--ease-settle);
+  --ease-como: ease-out;
+  --dur-fast: 300ms;
+  --dur: 500ms;
+  --dur-step: 600ms;
+  --dur-slow: 800ms;
+  --dur-slower: 900ms;
   --delay-como: 200ms;
 
   /* Layers */
   --z-header: 50;
   --z-menu: 60;
   --z-overlay: 70;
+  --z-wipe: 90;
 
-  --radius: 2px;
-  /* The arch-topped swatch from style guide page 7, used as the one frame shape in three places only
-     (hero door images, /places venue cards, the customise prompts). Belle decides; set to 0 to square. */
+  --radius: 0;
+  /* The arch-topped swatch from style guide page 7: the site's one signature frame. */
   --arch: 999px 999px 0 0;
-  --header-h: clamp(4.25rem, 3.8rem + 1.5vw, 5.5rem);
+  --header-h: clamp(4.5rem, 4rem + 1.4vw, 5.75rem);
 }

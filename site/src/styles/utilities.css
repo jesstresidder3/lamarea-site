@@ -36,6 +36,7 @@
 .wrap--narrow { max-width: calc(var(--measure-wide) + 2 * var(--gutter)); }
 
 .section { padding-block: var(--section-y); }
+.band-salt, .band-warm, .band-deep { position: relative; }
 .section--flush-top { padding-top: 0; }
 .section--flush-bottom { padding-bottom: 0; }
 .section--tight { padding-block: calc(var(--section-y) * 0.6); }
@@ -43,18 +44,14 @@
 .band-salt { background: var(--salt-25); }
 .band-warm { background: var(--sand-40); }
 .band-deep { background: var(--sand-60); }
-.band-sage {
-  background: var(--sage-80);
-  color: var(--sand-30);
-  --heading: var(--sand-30);
-  --text: var(--sand-30);
-  --focus: var(--focus-on-dark);
-}
-.band-sage :is(h1, h2, h3, h4) { color: var(--sand-30); }
+/* No dark sections in Salt and Sun: the old sage band now reads as the warm sand band. */
+.band-sage { background: var(--sand-60); color: var(--sage-100); }
 
 .clip-x { overflow-x: clip; }
 
 /* Type ------------------------------------------------------------------- */
+/* Labels only where they carry a fact (a time, a place, a count). Sections are announced by the
+   heading alone. */
 .label {
   display: block;
   margin: 0 0 1.25rem;
@@ -63,36 +60,60 @@
   font-size: var(--fs-label);
   line-height: var(--lh-label);
   letter-spacing: var(--track-label);
-  color: var(--muted);
+  color: var(--sage-80);
 }
-.band-sage .label { color: var(--sand-40); }
+.band-sage .label { color: var(--sage-80); }
 
 .lead {
-  font-family: var(--font-serif);
+  font-family: var(--font-body);
   font-size: var(--fs-lead);
-  line-height: 1.45;
-  letter-spacing: 0.01em;
+  line-height: 1.6;
+  letter-spacing: 0.005em;
   color: var(--sage-100);
+  max-width: 32rem;
 }
-.band-sage .lead { color: var(--sand-30); }
+.band-sage .lead { color: var(--sage-100); }
 
-.small { font-size: var(--fs-small); line-height: 1.55; }
+.small { font-size: var(--fs-small); line-height: 1.6; }
 
+/* One very large display moment per section. */
+.display-xl {
+  font-family: var(--font-display);
+  font-size: var(--fs-section);
+  line-height: 1.04;
+  letter-spacing: var(--track-display);
+  color: var(--sage-80);
+}
+
+/* Magazine caption under a lead photograph: Cormorant italic, set just under the image's left edge. */
+.caption {
+  display: block;
+  margin: 0.75rem 0 0;
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: var(--fs-caption);
+  line-height: 1.4;
+  letter-spacing: 0.005em;
+  color: var(--sage-80);
+  max-width: 34rem;
+}
 
 /* Actions ---------------------------------------------------------------- */
-/* The one filled element. Belle's sand (Pantone 468CP) with sage ink and a sage 40 hairline, so it reads
-   as a button without putting a dark block on the page ("light, bright ... rather than dark tones").
-   Sage 100 on sand 100 is 7.6:1. Hover deepens to sage 80 with sand ink (design review 27-09-2026). */
+/* The primary action: a sand pill with a fine underline under its words. It fills with sand 100 on
+   hover and, on pointer devices, drifts up to 6px towards the pointer (data-magnetic, motion.ts).
+   Sage 100 on sand 60 is 8.6:1, on sand 100 is 7.6:1. */
 .btn-filled {
+  --pill-bg: var(--sand-60);
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-  min-height: 2.75rem;
-  padding: 0 1.25rem;
-  border: 1px solid var(--sage-40);
-  border-radius: 0;
-  background: var(--sand-100);
+  min-height: 2.875rem;
+  padding: 0 1.5rem;
+  border: 1px solid color-mix(in srgb, var(--sage-40) 70%, transparent);
+  border-radius: 999px;
+  background: var(--pill-bg);
   color: var(--sage-100);
   font-family: var(--font-ui);
   font-weight: 400;
@@ -101,28 +122,49 @@
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
-  transition: background-color var(--dur-fast) var(--ease-soft), border-color var(--dur-fast) var(--ease-soft), color var(--dur-fast) var(--ease-soft);
+  isolation: isolate;
+  transition:
+    background-color 500ms var(--ease-settle),
+    border-color 500ms var(--ease-settle),
+    translate 400ms var(--ease-settle);
+}
+.btn-filled > span, .btn-filled { text-underline-offset: 0.35em; }
+.btn-filled::after {
+  content: '';
+  position: absolute;
+  left: 1.5rem; right: 1.5rem; bottom: calc(50% - 0.85em);
+  height: 1px;
+  background: currentColor;
+  opacity: 0.35;
+  transform-origin: left center;
+  transition: opacity 400ms var(--ease-settle), transform 400ms var(--ease-settle);
 }
 @media (hover: hover) {
-  .btn-filled:hover { background: var(--sage-80); border-color: var(--sage-80); color: var(--sand-30); }
+  .btn-filled:hover { --pill-bg: var(--sand-100); border-color: var(--sage-40); }
+  .btn-filled:hover::after { opacity: 0.8; }
 }
-.btn-filled:active { background: var(--sage-80); border-color: var(--sage-80); color: var(--sand-30); }
+.btn-filled:active { --pill-bg: var(--sand-100); }
+.btn-filled--large { min-height: 3.5rem; padding: 0 2.25rem; font-size: 0.9375rem; }
+.btn-filled--large::after { left: 2.25rem; right: 2.25rem; }
 @media (prefers-reduced-motion: reduce) {
-  .btn-filled { transition: none; }
+  .btn-filled, .btn-filled::after { transition: none; }
 }
 
+/* Secondary actions: text with a 1px underline that draws left to right on hover. */
 .text-link {
   color: var(--heading);
-  text-decoration-line: underline;
-  text-decoration-thickness: 1px;
-  text-decoration-color: color-mix(in srgb, currentColor 38%, transparent);
-  text-underline-offset: 0.25em;
-  transition: text-decoration-color var(--dur-fast) var(--ease-soft), color var(--dur-fast) var(--ease-soft);
+  text-decoration: none;
+  background:
+    linear-gradient(currentColor, currentColor) 0 100% / 0% 1px no-repeat,
+    linear-gradient(color-mix(in srgb, currentColor 30%, transparent), color-mix(in srgb, currentColor 30%, transparent)) 0 100% / 100% 1px no-repeat;
+  padding-bottom: 0.15em;
+  transition: background-size 400ms var(--ease-settle);
 }
 @media (hover: hover) {
-  .text-link:hover { text-decoration-color: currentColor; }
+  .text-link:hover { background-size: 100% 1px, 100% 1px; }
 }
-.text-link:active { text-decoration-color: currentColor; }
+.text-link:active, .text-link:focus-visible { background-size: 100% 1px, 100% 1px; }
+@media (prefers-reduced-motion: reduce) { .text-link { transition: none; } }
 
 /* Placeholders ----------------------------------------------------------- */
 html[data-media-notes='on'] [data-draft] {
@@ -158,27 +200,9 @@ html:not([data-media-notes='on']) :is(.placeholder-line, .to-come, [data-notes-o
   opacity: 0.75;
 }
 
-/* Empty media slots with the notes layer off (design review 27-09-2026). 64 slots still wait on Belle's
-   photos. Beside her real photographs the tidal lines and inner frame read as a broken image, so a
-   visitor sees a quiet sand field with the lm submark instead: a considered brand panel, never an
-   invented image. The notes layer keeps the full placeholder for Jess and Belle. Sections where an
-   empty frame would still look unfinished collapse it in their own styles. */
-html:not([data-media-notes='on']) .media--placeholder { background: var(--sand-40); }
-html:not([data-media-notes='on']) .media--placeholder .ph {
-  background:
-    radial-gradient(90% 70% at 50% 42%, color-mix(in srgb, var(--salt-25) 70%, transparent) 0%, transparent 70%),
-    linear-gradient(170deg, var(--sand-40), var(--sand-60));
-}
-html:not([data-media-notes='on']) .media--placeholder .ph-tide { display: none; }
-html:not([data-media-notes='on']) .media--placeholder .ph::after {
-  inset: 50% auto auto 50%;
-  width: clamp(2.25rem, 16%, 4.75rem);
-  aspect-ratio: 122 / 88;
-  border: 0;
-  transform: translate(-50%, -50%);
-  background: var(--sage-40);
-  opacity: 0.55;
-  -webkit-mask: url('../assets/brand/submark-lm.svg') center / contain no-repeat;
-  mask: url('../assets/brand/submark-lm.svg') center / contain no-repeat;
-}
-html:not([data-media-notes='on']) .media--placeholder .ph-grain { opacity: 0.14; }
+/* Empty media slots with the notes layer off: Belle asked to hide empty frames until real photos
+   exist. The empty figure goes, and a wrapper that holds nothing else goes with it (data-media-wrap,
+   or the common frame classes below), so the layout reflows around the photos that do exist. The notes
+   layer (?notes=on) keeps the full placeholder for Jess and Belle. */
+html:not([data-media-notes='on']) .media--placeholder { display: none !important; }
+html:not([data-media-notes='on']) :is([data-media-wrap]):has(> .media--placeholder) { display: none !important; }

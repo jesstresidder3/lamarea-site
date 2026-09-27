@@ -73,6 +73,7 @@ const slim = Astro.url.pathname.startsWith('/enquire');
     </div>
     )}
 
+    <div class="footer__mark" aria-hidden="true"><Logo variant="primary" height="clamp(3.5rem, 13vw, 13rem)" /></div>
     <div class="footer__base">
       <a class="footer__logo" href="/" aria-label="La maréa, home"><Logo variant="primary" height="1.4rem" /></a>
       <ul role="list" class="footer__legal">
@@ -85,12 +86,12 @@ const slim = Astro.url.pathname.startsWith('/enquire');
 
 <style>
   .footer {
-    background: var(--sand-40);
+    background: var(--sand-60);
     color: var(--sage-100);
     padding-top: var(--section-y);
     padding-bottom: calc(var(--space-l) + env(safe-area-inset-bottom));
   }
-  .footer--slim { padding-top: var(--space-l); border-top: 1px solid var(--sage-20); }
+  .footer--slim { padding-top: var(--space-l); border-top: 1px solid color-mix(in srgb, var(--sage-40) 35%, transparent); }
   .footer ul { margin: 0; padding: 0; list-style: none; }
   .footer a { color: inherit; text-decoration: none; }
 
@@ -107,26 +108,37 @@ const slim = Astro.url.pathname.startsWith('/enquire');
     gap: 0.1em;
     margin: 0;
     max-width: none;
-    font-family: var(--font-serif);
-    font-size: var(--fs-h4);
-    line-height: 1.3;
+    font-family: var(--font-display);
+    font-size: var(--fs-h2);
+    line-height: 1.15;
     letter-spacing: 0.01em;
     color: var(--sage-80);
+    text-wrap: balance;
   }
+  .footer__tide span:last-child { font-style: italic; }
+  .footer__mark {
+    display: flex;
+    justify-content: center;
+    padding-block: var(--space-xl) var(--space-m);
+    color: color-mix(in srgb, var(--sage-40) 70%, transparent);
+    overflow: hidden;
+  }
+  .footer__mark :global(.lm-logo) { max-width: 100%; }
 
   .footer__grid {
     display: grid;
     gap: var(--space-xl) var(--space-l);
     padding-block: var(--space-l);
-    border-top: 1px solid var(--sage-20);
+    border-top: 1px solid color-mix(in srgb, var(--sage-40) 35%, transparent);
   }
   .footer__title {
     margin: 0 0 0.9rem;
-    font-family: var(--font-ui);
-    font-size: var(--fs-label);
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: 1.25rem;
     font-weight: 400;
-    letter-spacing: var(--track-label);
-    line-height: var(--lh-label);
+    letter-spacing: 0;
+    line-height: 1.3;
     color: var(--sage-80);
   }
   .footer__nav {
@@ -156,7 +168,7 @@ const slim = Astro.url.pathname.startsWith('/enquire');
 
   .footer__contact {
     padding-block: var(--space-m);
-    border-top: 1px solid var(--sage-20);
+    border-top: 1px solid color-mix(in srgb, var(--sage-40) 35%, transparent);
   }
   .footer__contact ul { display: flex; flex-wrap: wrap; gap: 0 clamp(1.25rem, 3vw, 2.75rem); }
   .footer__contact a { overflow-wrap: anywhere; }
@@ -177,7 +189,7 @@ const slim = Astro.url.pathname.startsWith('/enquire');
     justify-content: space-between;
     gap: var(--space-s) var(--space-l);
     padding-top: var(--space-m);
-    border-top: 1px solid var(--sage-20);
+    border-top: 1px solid color-mix(in srgb, var(--sage-40) 35%, transparent);
   }
   .footer__logo { display: inline-flex; align-items: center; min-height: 2.75rem; color: var(--sage-80); }
   .footer__legal { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--space-m); }
