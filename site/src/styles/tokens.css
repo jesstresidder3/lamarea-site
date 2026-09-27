@@ -1,31 +1,34 @@
 /*
   La maréa design tokens.
   Colour values come from Belle's style guide (Ponder Designs, page 7): Sage Pantone 7771CP,
-  Sand Pantone 468CP, Salt Pantone 7527CP, with the in-between steps read from the guide's swatches.
+  Sand Pantone 468CP, Salt Pantone 7527CP. Values marked 'guide' are the hex codes printed in the guide.
+  The guide prints no hex for the other steps, so they are read from its swatches and lifted by the gap
+  between the printed hex and the swatch render at the nearest printed step (brand pass 27-09-2026).
+  Sage 60 is the exception: it keeps the darker swatch read so it still passes 3:1 as large text.
   Belle's direction: soft sand as the dominant background, sage for wording and headings,
   light and bright rather than green as the base.
 */
 :root {
   /* Sand, the base of the site */
-  --sand-100: #e6d6a4;
-  --sand-80: #ead8ae;
-  --sand-60: #efe0c0;
-  --sand-40: #f4ead3;
-  --sand-30: #f8f3e4;
-  --sand-20: #f9f4e7;
+  --sand-100: #e6d6a4; /* guide, 468CP */
+  --sand-80: #ebdeb6;
+  --sand-60: #f0e5c7;
+  --sand-40: #f5efda;
+  --sand-30: #f8f3e4; /* guide, primary shade 30% */
+  --sand-20: #faf7ec;
 
   /* Salt, the lightest surfaces */
-  --salt-100: #e9e5d6;
-  --salt-60: #eeeade;
-  --salt-40: #f3f1e8;
-  --salt-25: #faf9f5;
+  --salt-100: #e9e5d6; /* guide, 7527CP */
+  --salt-60: #f1eee4;
+  --salt-40: #f5f4ec;
+  --salt-25: #faf9f5; /* guide, primary shade 25% */
 
   /* Sage, wording and headings */
-  --sage-100: #433d1b; /* body text, 9.85:1 on sand-30 */
-  --sage-80: #635b39;  /* headings and links, 6.13:1 on sand-30 */
+  --sage-100: #433d1b; /* guide, 7771CP. Body text, 9.85:1 on sand-30 */
+  --sage-80: #635b39;  /* guide, secondary shade 80%. Headings and links, 6.13:1 on sand-30 */
   --sage-60: #7d7455;  /* large display text only (24px and up, 4.21:1). Never body copy */
-  --sage-40: #aaa38b;  /* logo tint, rules, icons. Decorative only, fails as text */
-  --sage-20: #cbc6b7;  /* hairlines, placeholder texture */
+  --sage-40: #aaa38b;  /* guide, primary shade 40%, the logo colour. Logo tint, rules, icons. Decorative only, fails as text */
+  --sage-20: #d3cec0;  /* hairlines, placeholder texture */
 
   /* Roles */
   --bg: var(--sand-30);
@@ -40,14 +43,17 @@
   --rule-strong: var(--sage-40);
   --on-image: #faf9f5;
   /* No full-frame scrim over footage (pre-build review item 1). A bottom-third gradient behind hero text only. */
-  --scrim-soft: linear-gradient(to top, rgb(35 32 14 / 0.22), rgb(35 32 14 / 0) 38%);
+  /* Deepened slightly for HV Muse, whose hairlines are finer than the stand-in's over bright water.
+     Still a bottom-third wash, clear by 46% of the frame, never a vignette. */
+  --scrim-soft: linear-gradient(to top, rgb(35 32 14 / 0.34), rgb(35 32 14 / 0.12) 26%, rgb(35 32 14 / 0) 46%);
 
-  /* Type. HV Muse is the brand face (style guide page 6, web licence not yet confirmed, Belle decides).
-     Italiana is the closest free match to HV Muse and the logo lettering, and it is used for headings
-     at 28px and above only (too thin below that). Cormorant Garamond carries leads, card titles, quotes
-     and the one italic flourish, place names. Jost sits close to the guide's Geosans Light and Avenir Next.
-     Swap here only. Pre-build review 24-09-2026, item 21. */
-  --font-display: 'Italiana', 'Cormorant Garamond', Georgia, serif;
+  /* Type. HV Muse is the brand face (style guide page 6), self-hosted from Belle's files in /fonts.
+     Web licence to be confirmed by Belle. It carries every heading of 28px and up, the hero line and the
+     menu list. Below about 22px its hairlines thin out on sand, so smaller serif text (h4, leads, card
+     titles, quotes, small labels) stays in Cormorant Garamond. HV Muse Italic is the one italic flourish,
+     for place names inside headings (.place, base.css). Jost stands in for the guide's Geosans Light.
+     Swap here only. */
+  --font-display: 'HV Muse', 'Cormorant Garamond', Georgia, serif;
   --font-serif: 'Cormorant Garamond', 'Cormorant', Georgia, 'Times New Roman', serif;
   --font-body: 'Jost', 'Avenir Next', 'Avenir', 'Helvetica Neue', sans-serif;
 

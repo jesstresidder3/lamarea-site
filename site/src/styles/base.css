@@ -1,6 +1,6 @@
-/* Self-hosted fonts (plan/10, woff2, no third-party font request). Italiana for headings of 28px and up,
-   Cormorant Garamond for smaller serif text and place names, Jost for body (build spec section 12). */
-@import '@fontsource/italiana/400.css';
+/* Self-hosted fonts (plan/10, woff2, no third-party font request). HV Muse, Belle's brand face, for
+   headings of 28px and up and the italic place names. Cormorant Garamond for smaller serif text,
+   Jost for body. HV Muse files come from Belle (media-pool/brand/fonts), converted to woff2. */
 @import '@fontsource/cormorant-garamond/400.css';
 @import '@fontsource/cormorant-garamond/500.css';
 @import '@fontsource/cormorant-garamond/400-italic.css';
@@ -11,6 +11,22 @@
 
 @import './tokens.css';
 @import './utilities.css';
+
+/* HV Muse, Belle's brand face (@font-face must follow the @imports). */
+@font-face {
+  font-family: 'HV Muse';
+  src: url('/fonts/hv-muse-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'HV Muse';
+  src: url('/fonts/hv-muse-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
 
 /*
   Foundation additions that sit beside the tokens (owner: foundation layout builder).
@@ -74,15 +90,15 @@ p { margin: 0 0 1em; max-width: var(--measure); }
 p:last-child { margin-bottom: 0; }
 strong, b { font-weight: inherit; } /* no bold anywhere (creative brief E8) */
 
-/* Italiana carries headings of 28px and up only and is never italicised (it has no true italic).
-   h4 and small headings use Cormorant. Build spec section 12. */
+/* HV Muse carries headings of 28px and up. It is a wide face with open default spacing, so large
+   headings sit a touch tighter. h4 and small headings use Cormorant. Build spec section 12. */
 h1, h2, h3, h4, .display {
   font-family: var(--font-display);
   font-weight: 400;
   font-style: normal;
   color: var(--heading);
   line-height: var(--lh-heading);
-  letter-spacing: 0.01em;
+  letter-spacing: -0.005em;
   margin: 0 0 0.5em;
   text-wrap: balance;
 }
@@ -92,14 +108,22 @@ h3 { font-size: max(1.75rem, var(--fs-h3)); }
 h4 { font-size: var(--fs-h4); font-family: var(--font-serif); letter-spacing: var(--track-heading); line-height: 1.25; }
 em, i, cite { font-style: normal; } /* italic is kept for place names only */
 
-/* The one italic flourish: place names inside headings (Fleurieu, Deep Creek, Encounter Bay,
-   McLaren Vale, Adelaide, Victor Harbor, Beresford Estate). <span class="place">Fleurieu</span> */
+/* The one italic flourish: place names (Fleurieu, Deep Creek, Encounter Bay, McLaren Vale, Adelaide,
+   Victor Harbor, Beresford Estate). <span class="place">Fleurieu</span>
+   Inside headings it is HV Muse Italic, the brand's own italic. In small text (facts, captions) HV Muse
+   Italic is too fine on sand, so it falls back to Cormorant italic 500. */
 .place {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 500;
   font-size: 1.06em;
   letter-spacing: 0;
+}
+:is(h1, h2, h3, .display) .place {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1em;
+  letter-spacing: -0.005em;
 }
 
 ::selection { background: var(--sand-100); color: var(--sage-100); }

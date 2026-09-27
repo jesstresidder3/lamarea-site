@@ -2,7 +2,7 @@
 /*
   Menu overlay (build spec section 3, visual study B6, spec 10.6).
   Full-screen sand overlay at every width. A sage-80 column on the left with the reversed logo, the
-  circle submark and contact; the two paths and the 8 hour day in Italiana; grouped secondary links; one
+  circle submark and contact; the two paths and the 8 hour day in HV Muse; grouped secondary links; one
   photograph that crossfades as each primary link is hovered or focused; a 44px close control drawn
   with a thin cross. Opens with a soft fade and a 16px settle, locks scroll without layout shift,
   traps focus, closes on Escape. Behaviour: src/scripts/menu.ts. Used by layouts/Base.astro only.
@@ -225,7 +225,7 @@ const figures = ['menu-default', ...menuPrimary.map((l) => l.media).filter(Boole
     color: var(--sand-30);
     --focus: var(--focus-on-dark);
   }
-  .menu__side-logo { display: none; color: var(--salt-25); }
+  .menu__side-logo { display: none; color: var(--sand-30); } /* the guide's reversed logo colour, #F7F3E4 */
   .menu__side :global(.menu__submark) { color: var(--sand-40); }
   .menu__contact .menu__group-title { color: var(--sand-60); }
   .menu__contact a {
