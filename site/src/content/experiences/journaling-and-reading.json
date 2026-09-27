@@ -8,12 +8,11 @@
   "media": "experience-journaling-and-reading",
   "media_type": "image",
   "short": {
-    "text": "There is space to rest, journal, explore the coastline, or simply unwind.",
+    "text": "Quiet time to write, read and reflect in a corner of your own.",
     "source": {
-      "type": "live_site",
-      "url": "https://www.lamarea.com.au/faqs",
-      "captured": "24-09-2026",
-      "section": "Is there free time, or is the schedule full?"
+      "type": "draft_for_belle",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Drafted by the content review 27-09-2026 from Belle's words (slowing down, restoration, recovery, nature, T48 and T55). Belle to approve or replace, questions file item 32."
     }
   },
   "pillar": null,
@@ -70,5 +69,5 @@
     }
   ],
   "status": "draft",
-  "review": null
+  "review": " Content review 27-09-2026: tile line drafted for Belle to approve (was: 'There is space to rest, journal, explore the coastline, or simply unwind.')."
 }

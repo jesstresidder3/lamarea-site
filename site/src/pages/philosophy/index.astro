@@ -29,6 +29,7 @@ import PillarIcons from '../../components/pages/b/PillarIcons.astro';
 import Flag from '../../components/pages/b/Flag.astro';
 import { getPillars, getIntentions, pillarHref } from '../../lib/content';
 import { evidenceHtml } from '../../components/pages/b/copy';
+import { cta } from '../../data/settings';
 
 const pillars = await getPillars();
 const words = await getIntentions();
@@ -148,7 +149,7 @@ const evidence = pillars.map((p) => ({
   <CtaBand
     line="Curate a day for your group"
     params={{ source: 'philosophy' }}
-    note="(Note we can curate a personalised retreat to suit your group)"
+    note={cta.callNote}
     tone="salt"
     draft={{ line: true }}
   />

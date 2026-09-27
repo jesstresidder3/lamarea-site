@@ -8,13 +8,11 @@
   "media": "experience-gut-health",
   "media_type": "image",
   "short": {
-    "text": "Lifestyle wellness workshop: The Foundations of High Performance Wellbeing: Build Lifestyle Habits for Energy, Capacity, Stress Management & Burnout Prevention",
+    "text": "Learn evidence-based nutrition and lifestyle habits for long-term vitality, with Belle.",
     "source": {
-      "type": "document",
-      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
-      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
-      "page": "15",
-      "captured": "24-09-2026"
+      "type": "draft_for_belle",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Drafted by the content review 27-09-2026 from Belle's words (slowing down, restoration, recovery, nature, T48 and T55). Belle to approve or replace, questions file item 32."
     }
   },
   "pillar": null,
@@ -102,5 +100,5 @@
     }
   ],
   "status": "draft",
-  "review": "Status in the harvest: not found. No workshop called \"gut health\" is published. The short line is the only sourced workshop, The Foundations of High Performance Wellbeing (plan/11 Q5). No workshop called \"gut health\" is published anywhere. The only sourced workshop is The Foundations of High Performance Wellbeing, whose subtitle differs between the guide and the Beresford example. Whether they are the same is plan/11 Q5."
+  "review": "Status in the harvest: not found. No workshop called \"gut health\" is published. The short line is the only sourced workshop, The Foundations of High Performance Wellbeing (plan/11 Q5). No workshop called \"gut health\" is published anywhere. The only sourced workshop is The Foundations of High Performance Wellbeing, whose subtitle differs between the guide and the Beresford example. Whether they are the same is plan/11 Q5. Content review 27-09-2026: tile line drafted for Belle to approve (was: 'Lifestyle wellness workshop: The Foundations of High Performance Wellbeing: Build Lifestyle Habits for Energy, Capacity, Stress Management & Burnout Prevention')."
 }

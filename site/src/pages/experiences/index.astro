@@ -26,7 +26,7 @@ import PeopleRow from '../../components/pages/b/PeopleRow.astro';
 import Flag from '../../components/pages/b/Flag.astro';
 import { getExperiences, getPeople } from '../../lib/content';
 import { day } from '../../data/day';
-import { site } from '../../data/settings';
+import { site, cta } from '../../data/settings';
 
 const guided = await getExperiences('guided');
 const selfLed = await getExperiences('self_led');
@@ -127,7 +127,7 @@ const jsonLd = {
   <CtaBand
     line="Curate a day for your group"
     params={{ source: 'experiences' }}
-    note="A few short questions about your group, then a discovery call with Belle."
+    note={cta.callNote}
     draft={{ line: true, note: true }}
   />
 </Base>

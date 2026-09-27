@@ -7,7 +7,14 @@
   "art_direction": "full_bleed",
   "media": "experience-sauna",
   "media_type": "image",
-  "short": null,
+  "short": {
+    "text": "Time in the heat to slow down, rest and recover.",
+    "source": {
+      "type": "draft_for_belle",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Drafted by the content review 27-09-2026 from Belle's words (slowing down, restoration, recovery, nature, T48 and T55). Belle to approve or replace, questions file item 32."
+    }
+  },
   "pillar": "sleep-and-recovery",
   "pillars": [
     "sleep-and-recovery"
@@ -86,6 +93,6 @@
     }
   ],
   "status": "draft",
-  "review": "No standalone sauna description exists. Conflict carried from plan/11: the transcript says \"sauna\" in the guided list and \"infrared sauna\" in the self-led list. Whether La maréa brings a mobile sauna is plan/11 item 19. No sourced one-line description for the tile, the component shows a marked placeholder.",
+  "review": "No standalone sauna description exists. Conflict carried from plan/11: the transcript says \"sauna\" in the guided list and \"infrared sauna\" in the self-led list. Whether La maréa brings a mobile sauna is plan/11 item 19. No sourced one-line description for the tile, the component shows a marked placeholder. Content review 27-09-2026: tile line drafted for Belle to approve (was: None).",
   "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
 }

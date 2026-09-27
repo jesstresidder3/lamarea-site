@@ -25,6 +25,7 @@ import VenueIndex from '../../venues/VenueIndex.astro';
 import Testimonials from '../../testimonials/Testimonials.astro';
 import DayInBrief from './DayInBrief.astro';
 import { day, type BeatId } from '../../../data/day';
+import { cta } from '../../../data/settings';
 import type { Venue, Faq, Testimonial } from '../../../lib/content';
 
 interface Props {
@@ -124,7 +125,7 @@ const source = audience === 'private' ? 'private-groups' : 'corporate';
 <CtaBand
   line={closing.line}
   params={{ audience, source }}
-  note={day.note}
+  note={cta.callNote}
   tone="warm"
   draft={{ line: true }}
 />

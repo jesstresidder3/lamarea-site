@@ -8,12 +8,11 @@
   "media": "experience-coastal-hiking",
   "media_type": "video",
   "short": {
-    "text": "Nurturing by nature through forest bathing, hiking, swimming and listening to the sounds of the sea",
+    "text": "Walk the coastal trails and take in the Fleurieu from the clifftops.",
     "source": {
-      "type": "live_site",
-      "url": "https://www.lamarea.com.au/philosophy",
-      "captured": "24-09-2026",
-      "section": "Nature Immersion pillar"
+      "type": "draft_for_belle",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Drafted by the content review 27-09-2026 from Belle's words (slowing down, restoration, recovery, nature, T48 and T55). Belle to approve or replace, questions file item 32."
     }
   },
   "pillar": null,
@@ -94,5 +93,5 @@
     }
   ],
   "status": "draft",
-  "review": "Transcript reads \"close to hiking\", which is a transcription of \"coastal hiking\" per the guide. At Beresford the equivalent is \"Vineyard Hiking\"."
+  "review": "Transcript reads \"close to hiking\", which is a transcription of \"coastal hiking\" per the guide. At Beresford the equivalent is \"Vineyard Hiking\". Content review 27-09-2026: tile line drafted for Belle to approve (was: 'Nurturing by nature through forest bathing, hiking, swimming and listening to the sounds of the sea')."
 }

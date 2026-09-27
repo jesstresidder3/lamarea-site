@@ -27,7 +27,7 @@ import PersonCard from '../../components/pages/b/PersonCard.astro';
 import Flag from '../../components/pages/b/Flag.astro';
 import { getExperiences, getFaqs, pillarsById, peopleById, pillarHref, type Experience } from '../../lib/content';
 import { steps } from '../../data/day';
-import { site } from '../../data/settings';
+import { site, cta } from '../../data/settings';
 import { faqJsonLd } from '../../components/base/schema';
 import { experienceCopy, answerHtml } from '../../components/pages/b/copy';
 
@@ -233,7 +233,7 @@ if (questions.length) jsonLd.push(faqJsonLd(questions.map((f) => ({ question: f!
   <CtaBand
     line={guided ? 'Curate a day for your group' : 'An unhurried afternoon on the *Fleurieu*'}
     params={{ experience: slug, source: 'experience-page' }}
-    note="(Note we can curate a personalised retreat to suit your group)"
+    note={cta.callNote}
     draft={{ line: true }}
   />
 </Base>

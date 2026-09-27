@@ -8,7 +8,7 @@
   "media": "experience-pilates",
   "media_type": "image",
   "short": {
-    "text": "Pilates, Mat Pilates (beginner to advanced)",
+    "text": "Mat pilates, from beginner to advanced",
     "source": {
       "type": "live_site",
       "url": "https://www.lamarea.com.au/natalie-jane",
@@ -80,6 +80,6 @@
     }
   ],
   "status": "draft",
-  "review": "No standalone pilates description exists.",
+  "review": "No standalone pilates description exists. Content review 27-09-2026: tile line reordered from Belle's 'Pilates, Mat Pilates (beginner to advanced)' so it reads as a sentence (was: 'Pilates, Mat Pilates (beginner to advanced)').",
   "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
 }

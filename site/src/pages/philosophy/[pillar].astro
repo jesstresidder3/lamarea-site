@@ -25,7 +25,7 @@ import JournalCards from '../../components/journal/JournalCards.astro';
 import Flag from '../../components/pages/b/Flag.astro';
 import { getPillars, getExperiences, getJournal, type Pillar } from '../../lib/content';
 import { listHtml } from '../../components/pages/b/copy';
-import { site } from '../../data/settings';
+import { site, cta } from '../../data/settings';
 
 export async function getStaticPaths() {
   const pillars = await getPillars();
@@ -142,7 +142,7 @@ const jsonLd = {
   <CtaBand
     line="Curate a day for your group"
     params={{ source: `pillar-${pillar.id}` }}
-    note="(Note we can curate a personalised retreat to suit your group)"
+    note={cta.callNote}
     draft={{ line: true }}
   />
 </Base>

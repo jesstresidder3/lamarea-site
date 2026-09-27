@@ -39,6 +39,10 @@ export const cta = {
   /** Calendar only. Use on /enquire/thank-you and the step 1 text link, nowhere else. */
   discovery: { label: 'Book a discovery call', href: 'https://calendar.app.google/jiKYpzKFiG5XZV9x9' },
   bookingUrl: 'https://calendar.app.google/jiKYpzKFiG5XZV9x9',
+  /** The line under "Plan your day" wherever the Day or a closing band asks for the day, so a
+      visitor knows a call with Belle comes next (Belle, T33: "get them to book a discovery call
+      with me to curate their eight hour immersive retreat"). Content review 27-09-2026. */
+  callNote: 'A few short questions about your group, then a discovery call with Belle.',
 } as const;
 
 /* Header navigation, split either side of the centred logo (build spec section 12).
@@ -240,7 +244,7 @@ export const organizationJsonLd = {
   '@type': 'Organization',
   name: site.name,
   url: site.url,
-  logo: `${site.url}/favicon.svg`,
+  logo: `${site.url}/brand/logo-primary-sage.png`,
   email: 'info@lamarea.com.au',
   sameAs: [social.instagram.url],
   areaServed: { '@type': 'Place', name: 'Fleurieu Peninsula, South Australia' },

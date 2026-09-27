@@ -31,6 +31,7 @@ import PersonCard from '../components/pages/b/PersonCard.astro';
 import Flag from '../components/pages/b/Flag.astro';
 import { getMealMoments, signatureItems, getFaqs, peopleById, experiencesById } from '../lib/content';
 import { listHtml } from '../components/pages/b/copy';
+import { cta } from '../data/settings';
 
 const moments = await getMealMoments({ publicOnly: true });
 const lunch = moments.find((m) => m.data.service === 'lunch');
@@ -194,7 +195,7 @@ const dishCount = (lunch?.data.courses ?? []).reduce((n, c) => n + c.dishes.leng
   <CtaBand
     line="Gather around the table"
     params={{ source: 'food' }}
-    note="(Note we can curate a personalised retreat to suit your group)"
+    note={cta.callNote}
     draft={{ line: true }}
   />
 </Base>

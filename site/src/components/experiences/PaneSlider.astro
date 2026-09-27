@@ -125,7 +125,7 @@ const trackId = `${base}-track`;
                 )}
                 <div class="tile__text">
                   {d.short ? (
-                    <p class="tile__line">{d.short.text}</p>
+                    <p class="tile__line" data-draft={d.short.source.type === 'draft_for_belle' ? '' : undefined}>{d.short.text}</p>
                   ) : (
                     <p class="placeholder-line tile__todo">A one line description from Belle</p>
                   )}

@@ -37,7 +37,7 @@ import AfternoonTiles from '../../components/pages/b/AfternoonTiles.astro';
 import AtAGlance from '../../components/pages/b/AtAGlance.astro';
 import Flag from '../../components/pages/b/Flag.astro';
 import { hourByHour, steps } from '../../data/day';
-import { site } from '../../data/settings';
+import { site, cta } from '../../data/settings';
 import { getExperiences, getVenues, getTestimonials, getFaqs } from '../../lib/content';
 import { faqJsonLd } from '../../components/base/schema';
 import { includedHtml, includedText, answerHtml } from '../../components/pages/b/copy';
@@ -268,8 +268,8 @@ const jsonLd = [
   <CtaBand
     line="Curate your 8 hour immersive retreat"
     params={{ format: 'full-day', source: 'day-page' }}
-    note="A few short questions about your group, then a discovery call with Belle."
-    draft={{ line: true, note: true }}
+    note={cta.callNote}
+    draft={{ line: true }}
   />
 </Base>
 

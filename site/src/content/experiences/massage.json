@@ -8,12 +8,12 @@
   "media": "experience-massage",
   "media_type": "image",
   "short": {
-    "text": "Individual therapeutic massage experience with Earth House & Spa",
+    "text": "Individual restorative massage therapy",
     "source": {
       "type": "document",
       "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
       "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
-      "page": "15",
+      "page": "23",
       "captured": "24-09-2026"
     }
   },
@@ -123,5 +123,5 @@
     }
   ],
   "status": "draft",
-  "review": null
+  "review": " Content review 27-09-2026: tile line now the guide's wording, because the old line repeated 'Earth House & Spa' beside 'With The Earth House and Spa' (was: 'Individual therapeutic massage experience with Earth House & Spa')."
 }

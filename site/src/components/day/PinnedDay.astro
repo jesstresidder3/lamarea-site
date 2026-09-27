@@ -107,6 +107,7 @@ const planHref = withParams(cta.plan.href, params);
                   <ArrowLink href={planHref} label={cta.plan.label} tone="light" size="large" />
                 </div>
               )}
+              {b.id === 'restore' && <p class="pd__call pd__line--sub">{cta.callNote}</p>}
             </div>
           </article>
         ))}

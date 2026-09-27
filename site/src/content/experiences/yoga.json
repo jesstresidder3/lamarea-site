@@ -8,12 +8,12 @@
   "media": "experience-yoga",
   "media_type": "video",
   "short": {
-    "text": "Group guided energising yoga or mat pilates session",
+    "text": "Energising group vinyasa yoga flow",
     "source": {
       "type": "document",
       "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
       "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
-      "page": "15",
+      "page": "23",
       "captured": "24-09-2026"
     }
   },
@@ -116,6 +116,6 @@
     }
   ],
   "status": "draft",
-  "review": "Yoga and pilates are one either-or session in both sources (plan/11 item 31, one tile or two).",
+  "review": "Yoga and pilates are one either-or session in both sources (plan/11 item 31, one tile or two). Content review 27-09-2026: tile line trimmed from the guide's 'Energising Group Vinyasa Yoga Flow or Mat Pilates' so the yoga tile no longer offers pilates, which has its own tile (was: 'Group guided energising yoga or mat pilates session').",
   "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
 }

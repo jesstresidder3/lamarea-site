@@ -51,3 +51,22 @@ status: Internal list for Jess. Nothing here has been sent.
 29. Is the chef plating in the Aromi apron (229A8915 and 229A8698) Luca? The alt text says "a chef in an Aromi apron" until you confirm.
 30. Photos still needed: Beresford Estate and The Vineyard Retreat (none at all), a Naiko bedroom, a pool, an infrared sauna, breakfast, the Sunset Reset set, team portraits for everyone except Luca, a portrait of you, the hosts photograph, your family beach photos (Moana, Myponga, Sardinia), the two retreat guide covers, the lasagne and gnocchi post images, and the dolphin, seal and whale footage.
 31. The drone clips you named (DJI_0604, DJI_0781, DJI_0605, the left pan over the hills) were not in this media pool. The home hero is a still of the cove until they arrive.
+
+## From the content review (27-09-2026)
+
+32. **Tile lines for the experiences.** Drafted from your own words in the brain dump and on the site now, marked draft. Approve, change or replace each one:
+    - Sauna: "Time in the heat to slow down, rest and recover."
+    - Gut health nutrition workshop: "Learn evidence-based nutrition and lifestyle habits for long-term vitality, with Belle."
+    - Infrared sauna: "Time in the infrared sauna at your own pace, in the unhurried afternoon."
+    - Pool swimming: "A slow swim in the plunge pool, in the unhurried afternoon."
+    - Relaxing by the fire: "Settle in by the fire and let the afternoon slow right down."
+    - Journaling and reading: "Quiet time to write, read and reflect in a corner of your own."
+    - Coastal hiking: "Walk the coastal trails and take in the Fleurieu from the clifftops."
+    Three lines were tidied from your guide wording rather than drafted: Massage now reads "Individual restorative massage therapy", Yoga reads "Energising group vinyasa yoga flow" (pilates has its own tile), and Pilates reads "Mat pilates, from beginner to advanced".
+33. **The home invitation line.** The home page now says "Wellness experiences in beautiful locations on the Fleurieu Peninsula, hosted at luxury partner accommodation." It is built from your words "these wellness experiences done in beautiful locations at five star luxury accommodation". It says "luxury" instead of "five star" until question 7 is answered. Happy with it, or would you like to write the sentence yourself?
+34. **How guests leave feeling.** You said guests should "leave feeling different, lighter, calmer, empowered, educated, and just really rested". Could you write one line for the site with those words? We have not put them on the page in your name. A starting point: "Leave feeling lighter, calmer and rested."
+35. **Copy that reads oddly, kept as you published it.** The team page says "In 2026 we are looking to explore partnerships", which will date. Kristian Ryan's bio calls him "Chris". The Our story paragraph about your hosts says "(left)", "(right)" and "(back)" for a photograph that is not on the site yet. Keep, trim or reword?
+36. **Two case changes to approve.** Luca's quote line was published in mixed capitals and now reads in sentence case, with the words unchanged. The FAQ link word "HERE" now reads "here".
+37. **Ground.** Your Ground definition ends in a double full stop ("earth and ocean..") and spells "centeredness" the US way. May we correct both?
+38. **Pillar names in the infographic.** Your infographic calls two pillars "Mental, Emotional & Spiritual Wellbeing" and "Heartfelt Hospitality & Luxury", and the style guide calls them "Psychological Wellbeing" and "Luxury". Which names are current? The infographic goes on the philosophy page once you confirm.
+39. **Pillar evidence pages.** Only Sleep and recovery has its own evidence page. The other nine need their references from you before they can have one.

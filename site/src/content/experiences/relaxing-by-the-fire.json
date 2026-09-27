@@ -7,7 +7,14 @@
   "art_direction": "full_bleed",
   "media": "experience-relaxing-by-the-fire",
   "media_type": "image",
-  "short": null,
+  "short": {
+    "text": "Settle in by the fire and let the afternoon slow right down.",
+    "source": {
+      "type": "draft_for_belle",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Drafted by the content review 27-09-2026 from Belle's words (slowing down, restoration, recovery, nature, T48 and T55). Belle to approve or replace, questions file item 32."
+    }
+  },
   "pillar": null,
   "pillars": [],
   "pillar_basis": null,
@@ -64,5 +71,5 @@
     }
   ],
   "status": "draft",
-  "review": "No sourced one-line description for the tile, the component shows a marked placeholder."
+  "review": "No sourced one-line description for the tile, the component shows a marked placeholder. Content review 27-09-2026: tile line drafted for Belle to approve (was: None)."
 }

@@ -31,7 +31,7 @@ import { emphasis } from '../../components/base/text';
 import { getVenues, getTestimonials, type Venue } from '../../lib/content';
 import { regionLabel, sleepsLabel } from '../../lib/text';
 import slots from '../../data/media';
-import { site } from '../../data/settings';
+import { site, cta } from '../../data/settings';
 
 export async function getStaticPaths() {
   const venues = await getVenues();
@@ -181,6 +181,7 @@ const flags = [
     eyebrow="Plan your day here"
     line={`Bring your group to *${extra.ctaPlace}*`}
     params={{ venue: venue.id, source: 'venue' }}
+    note={cta.callNote}
     tone="salt"
     draft={{ line: true }}
   />

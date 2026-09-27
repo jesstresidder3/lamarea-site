@@ -29,6 +29,7 @@ import { faqJsonLd } from '../components/base/schema';
 import { getFaqs } from '../lib/content';
 import { day } from '../data/day';
 import { answerHtml, noteHtml } from '../components/pages/d/faq-format';
+import { cta } from '../data/settings';
 
 const faqs = await getFaqs();
 const byOrder = new Map(faqs.map((f) => [f.data.order, f]));
@@ -102,7 +103,7 @@ const schema = faqJsonLd(faqs.map((f) => ({ question: f.data.question, answer: f
     ))}
   </div>
 
-  <CtaBand line="Plan a day shaped around your group" note={day.note} params={{ source: 'faqs' }} tone="salt" draft={{ line: true }} />
+  <CtaBand line="Plan a day shaped around your group" note={cta.callNote} params={{ source: 'faqs' }} tone="salt" draft={{ line: true }} />
 </Base>
 
 <style>

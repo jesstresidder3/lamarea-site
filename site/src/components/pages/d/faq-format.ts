@@ -12,7 +12,7 @@ const linkify = (s: string) =>
   s
     .replace(/([\w.+-]+@lamarea\.com\.au)/g, '<a href="mailto:$1">$1</a>')
     .replace(/0411354356/g, '<a href="tel:+61411354356">0411354356</a>')
-    .replace(/\bHERE\b/g, '<a href="/experiences">HERE</a>');
+    .replace(/\bHERE\b/g, '<a href="/experiences">here</a>');
 
 const endsSentence = (s: string) => /[.!?)]$/.test(s.trim());
 
