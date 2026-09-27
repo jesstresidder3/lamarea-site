@@ -1,5 +1,14 @@
 # La maréa website, state of play
 
+## Local build, 27-09-2026
+
+The site now runs locally at `~/dev/lamarea-site` (its own git repo, copied from the cloud branch `claude-work/intelligent-franklin-rc3yad`). Start it with the "lamarea" entry in the workspace launch config, or `npm run dev` in `site/`, then open http://localhost:4321. Placeholder notes are hidden by default. Add `?notes=on` to any URL to see what belongs in each empty frame.
+
+This pass put in Belle's photos (127 of 191 slots), her bath video, HV Muse, her logos, pillar icons and favicon. Six agent reviews ran: Belle alignment, brand, imagery, content, design and media. Their reports are in `build/reviews/*-27-09-2026.md`. Open questions for Belle are items 27 to 39 in `build/questions-for-belle-26-09-2026.md`.
+
+Open decisions for Jess: which header option from CD review 02, whether the gallery page stays out of the walkthrough, and when to run a Safari check. The enquiry form still needs Dom's backend before any public link.
+
+
 Last updated 16-09-2026. Read this first in any new session picking up the project.
 
 ## Where the project stands
