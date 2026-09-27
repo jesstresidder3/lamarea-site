@@ -1,0 +1,182 @@
+{
+  "name": "Beresford Estate",
+  "name_as_published_by_la_marea": "Beresford Estate, McLaren Vale",
+  "name_as_published_by_venue": "Beresford Estate",
+  "order": 3,
+  "region": "vineyard",
+  "locality": "Blewitt Springs, McLaren Vale",
+  "location_label": "Blewitt Springs, McLaren Vale",
+  "address": null,
+  "coordinates": {
+    "lat": -35.1679,
+    "lng": 138.5967,
+    "precision": "locality",
+    "basis": "No street address is published by the venue or La maréa (plan/11 item 39). Placed at the centre of the Blewitt Springs locality (OpenStreetMap), which the venue names. Needs the address from Belle or the venue."
+  },
+  "sleeps": {
+    "display": "20+",
+    "value": 20,
+    "basis": "Belle, transcript \"Beresford Estate (sleeps 20+)\"",
+    "conflict": "The venue publishes no whole-property guest total.",
+    "sources": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Partner Accomodation / locations: \"Beresford Estate (sleeps 20+)\""
+      }
+    ]
+  },
+  "day_capacity": null,
+  "distance_from_adelaide": null,
+  "five_star": false,
+  "five_star_basis": "Build spec 12: \"five star\" appears only where a rating exists. No star rating or award is on record for this venue, so it shows as a partner venue until Belle confirms.",
+  "partner_label": "Partner venue",
+  "drive_from_adelaide": {
+    "text": "About 50 minutes from Adelaide",
+    "basis": "McLaren Vale drive time as published by The Vineyard Retreat, a neighbouring venue in Blewitt Springs (\"Just 50 minutes from Adelaide\"). Beresford publishes none. Build spec 12",
+    "source": {
+      "type": "venue_site",
+      "url": "https://thevineyardmv.com.au/",
+      "captured": "24-09-2026"
+    }
+  },
+  "five_star_wording": null,
+  "partner_approved": false,
+  "partner_approved_note": "Open decision 8. Venues publish only when the partner has approved. This prototype shows all four with a \"partner approval pending\" flag in the placeholder layer.",
+  "intro": {
+    "text": "Vineyard setting with contemporary accommodation and event spaces suited to larger leadership groups and extended retreats.",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/accommodation-partners",
+      "captured": "24-09-2026"
+    }
+  },
+  "about": [
+    {
+      "text": "Vineyard setting with contemporary accommodation and event spaces suited to larger leadership groups and extended retreats.",
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/accommodation-partners",
+        "captured": "24-09-2026"
+      }
+    }
+  ],
+  "features": [
+    {
+      "name": "The vineyard",
+      "text": "A 70 acre vineyard in Blewitt Springs, McLaren Vale.",
+      "media": "venue-beresford-estate-vineyard",
+      "source": {
+        "type": "venue_facts",
+        "url": "https://www.beresfordestate.com.au/",
+        "captured": "24-09-2026",
+        "note": "Venue facts, rewritten as plain lines from the venue's published details (orchestrator decision, CD review 02 item 3). The venue's own wording stays in build/03-content-harvest.md."
+      }
+    },
+    {
+      "name": "The plunge pool",
+      "text": "Each Grand Reserve Suite opens onto an outdoor terrace with a private plunge pool and an outdoor lounge.",
+      "media": "venue-beresford-estate-plunge",
+      "source": {
+        "type": "venue_facts",
+        "url": "https://www.beresfordestate.com.au/pages/accommodation",
+        "captured": "24-09-2026",
+        "note": "Venue facts, rewritten as plain lines from the venue's published details (orchestrator decision, CD review 02 item 3). The venue's own wording stays in build/03-content-harvest.md."
+      }
+    },
+    {
+      "name": "Grand Reserve Suites",
+      "text": "Six Grand Reserve Suites sit within the vineyard, each with a galley kitchenette, a private bedroom, indoor and outdoor living spaces and a private bathhouse.",
+      "media": "venue-beresford-estate-suites",
+      "source": {
+        "type": "venue_facts",
+        "url": "https://www.beresfordestate.com.au/pages/accommodation",
+        "captured": "24-09-2026",
+        "note": "Venue facts, rewritten as plain lines from the venue's published details (orchestrator decision, CD review 02 item 3). The venue's own wording stays in build/03-content-harvest.md."
+      }
+    },
+    {
+      "name": "Beresford House",
+      "text": "Beresford House sits at the centre of the estate: a homestead with two living quarters, an open plan gallery room and an underground cellar. The bell tower deck looks out over the whole estate.",
+      "media": "venue-beresford-estate-house",
+      "source": {
+        "type": "venue_facts",
+        "url": "https://www.beresfordestate.com.au/pages/story",
+        "captured": "24-09-2026",
+        "note": "Venue facts, rewritten as plain lines from the venue's published details (orchestrator decision, CD review 02 item 3). The venue's own wording stays in build/03-content-harvest.md."
+      }
+    }
+  ],
+  "nearby": [
+    {
+      "name": "The Tasting Pavilion",
+      "kind": "cellar_door",
+      "text": "Tasting Pavilion ... Open 7 days, 10 am to 5 pm",
+      "source": {
+        "type": "venue_site",
+        "url": "https://www.beresfordestate.com.au/pages/venues",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "name": "Vale Restaurant & Bar",
+      "kind": "dining",
+      "text": "Vale Restaurant & Bar",
+      "source": {
+        "type": "venue_site",
+        "url": "https://www.beresfordestate.com.au/pages/venues",
+        "captured": "24-09-2026"
+      }
+    }
+  ],
+  "on_site": [
+    {
+      "label": "Rooms",
+      "text": "Grand Reserve Suites 1 to 6, Reserve Suites 7 to 15, Shiraz Villa, Grenache Villa (sleeps six), Beresford House (venue)"
+    },
+    {
+      "label": "Plunge",
+      "text": "private plunge pool on Grand Reserve Suite terraces (venue); \"Plunge Pool swimming\" (La maréa schedule)"
+    },
+    {
+      "label": "Bath",
+      "text": "imported Italian freestanding bathtub, private bathhouse (venue)"
+    },
+    {
+      "label": "Deck",
+      "text": "bell tower deck; Tasting Pavilion deck (venue)"
+    },
+    {
+      "label": "Fire",
+      "text": "fireplace in the Tasting Pavilion (venue); \"Relaxing By The Fire\" (La maréa schedule)"
+    },
+    {
+      "label": "Vineyard",
+      "text": "70 acres (venue)"
+    }
+  ],
+  "card_media": "venue-beresford-estate-card",
+  "map_media": "venue-beresford-estate-map",
+  "gallery": [
+    "venue-beresford-estate-vineyard",
+    "venue-beresford-estate-plunge",
+    "venue-beresford-estate-suites",
+    "venue-beresford-estate-house"
+  ],
+  "price_from": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/accommodation-partners",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "venue_site",
+      "url": "https://www.beresfordestate.com.au/",
+      "captured": "24-09-2026"
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. The venue publishes no whole-property guest total. No street address found on the pages fetched (plan/11 item 39). The Beresford 8 hour retreat Drive folder could not be opened.",
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

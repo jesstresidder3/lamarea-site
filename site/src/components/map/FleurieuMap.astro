@@ -1,0 +1,326 @@
+---
+/*
+  FleurieuMap (T4): where the Places to Pause are, for a visitor who has never been to South Australia
+  (BD-59, BD-60). Image-led (build spec 12): the chosen place's photograph takes about two thirds of
+  the section, and a line map of the Fleurieu takes the other third.
+
+  The map is drawn from Natural Earth 1:10m land (public domain) in sage-40 on sand, with the sea marked
+  by three quiet water lines that follow the coast, a small inset of Australia with South Australia and
+  the Fleurieu marked, and place labels in the label style (seas in the serif italic, as place names).
+  Markers are real buttons placed from each venue's published address. Coast venues each have their
+  own marker; the vineyard venues share one McLaren Vale marker whose pane lists every published
+  vineyard venue (Beresford Estate and The Vineyard Retreat are both in Blewitt Springs and would sit
+  on top of each other). Arrows step place to place; the pane and photograph cross-fade over 400ms.
+  Phones: the map with place pills beneath it, then the photograph and the pane.
+
+  <FleurieuMap venues={await getVenues()} />
+  Props: venues (getVenues() entries), label (accessible name), id, class ('fmap--wide' gives the map
+  40 per cent of the section instead of a third)
+*/
+import Media from '../media/Media.astro';
+import ArrowLink from '../base/ArrowLink.astro';
+import SliderArrows from '../slider/SliderArrows.astro';
+import { map, inset, insetBox, project, crop, cropViewBox, toPercent } from '../../lib/map';
+import { pad2, regionLabel, uid } from '../../lib/text';
+import type { Venue } from '../../lib/content';
+
+interface Props { venues: Venue[]; label?: string; id?: string; class?: string }
+const { venues, label = 'Map of the Fleurieu Peninsula and Places to Pause', id, class: className } = Astro.props;
+const base = id ?? uid('fmap');
+
+type Group = { key: string; place: string; region: 'coast' | 'vineyard' | 'city'; venues: Venue[]; x: number; y: number; side: 'right' | 'left' };
+const located = venues.filter((v) => v.data.coordinates);
+const groups: Group[] = [];
+for (const v of located.filter((v) => v.data.region === 'coast')) {
+  const p = project(v.data.coordinates!.lat, v.data.coordinates!.lng);
+  groups.push({ key: v.id, place: v.data.location_label.split(',')[0], region: 'coast', venues: [v], ...p, side: 'right' });
+}
+const vineyards = located.filter((v) => v.data.region === 'vineyard');
+if (vineyards.length) {
+  const pts = vineyards.map((v) => project(v.data.coordinates!.lat, v.data.coordinates!.lng));
+  const x = pts.reduce((a, p) => a + p.x, 0) / pts.length;
+  const y = pts.reduce((a, p) => a + p.y, 0) / pts.length;
+  groups.push({ key: 'mclaren-vale', place: 'McLaren Vale', region: 'vineyard', venues: vineyards, x, y, side: 'right' });
+}
+// North to south reads naturally: McLaren Vale, then the coast.
+groups.sort((a, b) => a.y - b.y);
+
+const markerPlaces = new Set(groups.map((g) => g.place));
+const seas = new Set(['Gulf St Vincent', 'Southern Ocean']);
+const skip = new Set(['Victor Harbor', 'Encounter Bay', 'Deep Creek', 'McLaren Vale']);
+const labels = Object.entries(map.labels)
+  .filter(([name]) => !markerPlaces.has(name) && !skip.has(name))
+  .map(([name, [x, y]]) => ({ name, sea: seas.has(name), city: name === 'Adelaide', ...toPercent({ x, y }) }))
+  .filter((l) => l.left > 2 && l.left < 98 && l.top > 2 && l.top < 98);
+
+const [bx, by, bx2, by2] = inset.fleurieu_box;
+const rings = [34, 20, 9];
+---
+<section class:list={['fmap', className]} id={id} aria-label={label} data-fmap>
+  <div class="fm-grid">
+    <div class="fm-left">
+      <div class="fm-map" style={`aspect-ratio:${crop.w} / ${crop.h}`}>
+        <svg class="fm-svg" viewBox={cropViewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+          {rings.map((r) => (
+            <g>
+              {map.land.map((d) => <path d={d} class="fm-ring" style={`stroke-width:${r * 2}`} />)}
+              {map.land.map((d) => <path d={d} class="fm-ring-gap" style={`stroke-width:${r * 2 - 1.6}`} />)}
+            </g>
+          ))}
+          {map.land.map((d) => <path d={d} class="fm-land" />)}
+        </svg>
+
+        {labels.map((l) => (
+          <span class:list={['fm-label', l.sea && 'fm-label--sea', l.city && 'fm-label--city']} style={`left:${l.left}%;top:${l.top}%`} aria-hidden="true">
+            {l.city && <i class="fm-city-dot"></i>}{l.name}
+          </span>
+        ))}
+
+        {groups.map((g, i) => {
+          const pos = toPercent(g);
+          const names = g.venues.map((v) => v.data.name).join(' and ');
+          return (
+            <button
+              type="button"
+              class:list={['fm-marker', `fm-marker--${g.side}`]}
+              style={`left:${pos.left}%;top:${pos.top}%`}
+              data-fm-marker={i}
+              aria-pressed={i === 0 ? 'true' : 'false'}
+              aria-label={`${g.place}: ${names}`}
+            >
+              <span class="fm-dot" aria-hidden="true"></span>
+              <span class="fm-marker-label" aria-hidden="true">{g.place}</span>
+            </button>
+          );
+        })}
+
+        <svg class="fm-inset" style={`left:${insetBox.left}%;bottom:${insetBox.bottom}%;--inset-w:${insetBox.width}%`} viewBox={inset.viewBox} role="img" aria-label="Where the Fleurieu Peninsula sits in Australia, south of Adelaide in South Australia">
+          {Object.entries(inset.states).map(([name, d]) => <path d={d} class:list={['fm-state', name === 'South Australia' && 'fm-state--sa']} />)}
+          <rect x={bx - 5} y={by - 5} width={bx2 - bx + 10} height={by2 - by + 10} class="fm-box" />
+        </svg>
+      </div>
+
+      <div class="fm-pills" role="group" aria-label="Choose a place">
+        {groups.map((g, i) => (
+          <button type="button" class="fm-pill" data-fm-pill={i} aria-pressed={i === 0 ? 'true' : 'false'}>{g.place}</button>
+        ))}
+      </div>
+
+      <div class="fm-panes" aria-live="polite">
+        {groups.map((g, i) => (
+          <div class="fm-pane" data-fm-pane={i} data-on={i === 0 ? '' : undefined}>
+            <p class="fm-region">{regionLabel(g.region)}, <span class="place">{g.place}</span></p>
+            {g.venues.map((v) => (
+              <div class="fm-venue">
+                <h3 class="fm-name">{v.data.name}</h3>
+                <p class="fm-facts">
+                  <span>Sleeps {v.data.sleeps.display ?? 'to confirm'}</span>
+                  <span>{v.data.partner_label}</span>
+                  {v.data.drive_from_adelaide && <span>{v.data.drive_from_adelaide.text}</span>}
+                </p>
+                <ArrowLink href={`/places/${v.id}`} label={`Discover ${v.data.name}`} class="fm-link" />
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <div class="fm-nav">
+        <p class="fm-count"><span data-fm-current>01</span><span class="fm-sep" aria-hidden="true">/</span><span class="visually-hidden"> of </span><span>{pad2(groups.length)}</span></p>
+        <SliderArrows label="place" size="small" />
+      </div>
+    </div>
+
+    <div class="fm-photo">
+      {groups.map((g, i) => (
+        <div class="fm-shot" data-fm-shot={i} data-on={i === 0 ? '' : undefined} aria-hidden={i === 0 ? undefined : 'true'}>
+          <Media media={g.venues[0].data.map_media} aspect="fill" />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .fmap {
+    --map-sea: var(--sand-30);
+    --edge: max(var(--gutter), calc((100% - var(--wrap-max)) / 2 + var(--gutter)));
+    background: var(--map-sea);
+    padding-inline: var(--edge);
+  }
+  .fm-grid {
+    display: grid;
+    grid-template-columns: minmax(17rem, 1fr) minmax(0, 2fr);
+    gap: clamp(2rem, 4.5vw, 5rem);
+    align-items: stretch;
+  }
+  /* class="fmap--wide" (/places, the Fleurieu page): the map takes 40 per cent so it can be read (CD review 02 item 22) */
+  @media (min-width: 900px) { .fmap--wide .fm-grid { grid-template-columns: minmax(17rem, 2fr) minmax(0, 3fr); } }
+  .fm-left { display: flex; flex-direction: column; min-width: 0; }
+
+  /* The map --------------------------------------------------------- */
+  .fm-map { position: relative; width: 100%; }
+  .fm-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; }
+  .fm-ring { fill: none; stroke: color-mix(in srgb, var(--sage-40) 55%, transparent); stroke-linejoin: round; }
+  .fm-ring-gap { fill: none; stroke: var(--map-sea); stroke-linejoin: round; }
+  .fm-land { fill: var(--sand-40); stroke: var(--sage-40); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+
+  .fm-label {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-ui);
+    font-size: 0.6875rem;
+    letter-spacing: var(--track-label);
+    color: var(--muted);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .fm-label--sea { font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: 0.95rem; letter-spacing: 0.02em; color: var(--sage-60); }
+  .fm-label--city { display: inline-flex; align-items: center; gap: 0.4rem; transform: translate(-0.25rem, -50%); }
+  .fm-city-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--sage-60); }
+
+  .fm-marker {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0 0.5rem 0 0;
+    border: 0;
+    background: none;
+    transform: translate(-1.375rem, -50%);
+    color: var(--sage-80);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .fm-dot {
+    position: relative;
+    flex: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    display: grid;
+    place-items: center;
+  }
+  .fm-dot::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--sage-60); transition: background-color var(--dur-fast) var(--ease-soft), transform var(--dur-fast) var(--ease-soft); }
+  .fm-dot::after {
+    content: '';
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 1px solid var(--sage-80);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity var(--dur-fast) var(--ease-soft), transform var(--dur-fast) var(--ease-soft);
+  }
+  .fm-marker-label {
+    margin-left: -0.6rem;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--heading);
+    white-space: nowrap;
+    text-shadow: 0 0 6px var(--map-sea), 0 0 2px var(--map-sea);
+  }
+  .fm-marker[aria-pressed='true'] .fm-dot::before { background: var(--sage-80); transform: scale(1.15); }
+  .fm-marker[aria-pressed='true'] .fm-dot::after { opacity: 1; transform: none; }
+  @media (hover: hover) {
+    .fm-marker:hover .fm-dot::after { opacity: 0.6; transform: none; }
+  }
+  .fm-marker:focus-visible { outline: none; }
+  .fm-marker:focus-visible .fm-dot::after { opacity: 1; transform: scale(1.25); border-width: 1.5px; }
+
+  .fm-inset { position: absolute; width: var(--inset-w); height: auto; overflow: visible; }
+  .fm-state { fill: var(--salt-25); stroke: var(--sage-40); stroke-width: 0.7; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+  .fm-state--sa { fill: var(--sand-100); }
+  .fm-box { fill: none; stroke: var(--sage-100); stroke-width: 1; vector-effect: non-scaling-stroke; }
+
+  .fm-pills { display: none; }
+
+  /* The pane --------------------------------------------------------- */
+  .fm-panes { display: grid; margin-top: clamp(1.75rem, 3vw, 2.75rem); }
+  .fm-pane {
+    grid-area: 1 / 1;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 400ms var(--ease-soft), visibility 0s linear 400ms;
+  }
+  .fm-pane[data-on] { opacity: 1; visibility: visible; transition: opacity 400ms var(--ease-soft) 120ms, visibility 0s; }
+  .fm-region { margin: 0 0 0.9rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .fm-region .place { font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: 1.1em; letter-spacing: 0.01em; color: var(--heading); }
+  .fm-venue + .fm-venue { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); }
+  .fm-name { margin: 0 0 0.6rem; font-size: 2.5rem; line-height: 1.08; }
+  .fm-facts { display: flex; flex-wrap: wrap; gap: 0.3rem 1.1rem; margin: 0 0 0.6rem; font-size: var(--fs-small); color: var(--sage-100); }
+  .fm-nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: auto; padding-top: 1.5rem; }
+  .fm-count { margin: 0; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); font-variant-numeric: tabular-nums; }
+  .fm-sep { margin-inline: 0.4em; opacity: 0.6; }
+
+  /* The photograph: two thirds of the section. */
+  .fm-photo { position: relative; min-height: clamp(26rem, 46vw, 44rem); overflow: hidden; }
+  .fm-shot { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity 400ms var(--ease-soft), visibility 0s linear 400ms; }
+  .fm-shot[data-on] { opacity: 1; visibility: visible; transition: opacity 400ms var(--ease-soft), visibility 0s; }
+
+  @media (max-width: 899px) {
+    .fm-grid { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; }
+    .fm-photo { min-height: 0; aspect-ratio: 4 / 5; }
+    .fm-left { display: contents; }
+    .fm-map { order: 1; }
+    .fm-pills { order: 2; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .fm-photo { order: 3; }
+    .fm-panes { order: 4; margin-top: 0; }
+    .fm-nav { order: 5; padding-top: 0; }
+    .fm-marker-label { font-size: 0.9rem; }
+    .fm-name { font-size: 2rem; }
+    /* The Australia inset at about 1.65 times its size on phones, where it was too small to read. It
+       moves into the open gulf, upper left, the one space large enough that covers no marker or label. */
+    .fm-inset { width: calc(var(--inset-w) * 1.65); left: 1% !important; top: 27%; bottom: auto !important; }
+    .fm-pill {
+      min-height: 2.75rem;
+      padding: 0 1rem;
+      border: 1px solid var(--sage-40);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--sage-80);
+      font-family: var(--font-ui);
+      font-size: var(--fs-nav);
+      letter-spacing: 0.04em;
+    }
+    .fm-pill[aria-pressed='true'] { background: var(--sage-80); border-color: var(--sage-80); color: var(--sand-30); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fm-pane, .fm-pane[data-on], .fm-shot, .fm-shot[data-on], .fm-dot::before, .fm-dot::after { transition: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-fmap]').forEach((root) => {
+    const markers = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-fm-marker]'));
+    const pills = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-fm-pill]'));
+    const panes = Array.from(root.querySelectorAll<HTMLElement>('[data-fm-pane]'));
+    const shots = Array.from(root.querySelectorAll<HTMLElement>('[data-fm-shot]'));
+    const cur = root.querySelector<HTMLElement>('[data-fm-current]');
+    const prevs = root.querySelectorAll<HTMLButtonElement>('[data-prev]');
+    const nexts = root.querySelectorAll<HTMLButtonElement>('[data-next]');
+    const n = panes.length;
+    let i = 0;
+    const show = (k: number) => {
+      i = Math.max(0, Math.min(n - 1, k));
+      markers.forEach((m, j) => m.setAttribute('aria-pressed', String(j === i)));
+      pills.forEach((p, j) => p.setAttribute('aria-pressed', String(j === i)));
+      panes.forEach((p, j) => { p.toggleAttribute('data-on', j === i); p.inert = j !== i; });
+      shots.forEach((s, j) => { s.toggleAttribute('data-on', j === i); s.setAttribute('aria-hidden', String(j !== i)); });
+      if (cur) cur.textContent = String(i + 1).padStart(2, '0');
+      prevs.forEach((b) => b.setAttribute('aria-disabled', String(i === 0)));
+      nexts.forEach((b) => b.setAttribute('aria-disabled', String(i === n - 1)));
+    };
+    markers.forEach((m, j) => m.addEventListener('click', () => show(j)));
+    pills.forEach((p, j) => p.addEventListener('click', () => show(j)));
+    prevs.forEach((b) => b.addEventListener('click', () => show(i - 1)));
+    nexts.forEach((b) => b.addEventListener('click', () => show(i + 1)));
+    show(0);
+  });
+</script>

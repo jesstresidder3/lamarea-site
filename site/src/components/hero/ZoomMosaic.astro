@@ -1,0 +1,212 @@
+---
+/*
+  Home moment 3, the Fleurieu zoom (build spec 10.2 as revised by section 12).
+  Five stills of the offer (yoga on a deck, the shared table, the plunge pool, a massage, the bath
+  shot) sit asymmetrically on sand around a centre frame that is not beach (the left pan across the
+  hills, or a Beresford vineyard frame). The whole group scales linearly with scroll until the centre
+  frame fills the screen (1,000px of scroll on desktop, 700px on phones), holds (300px), then three
+  drive facts slide in from the right over the full frame, and the section releases.
+
+  CSS scroll-driven (animation-timeline) where supported, a GSAP ScrollTrigger scrub fallback
+  elsewhere (loaded only then). Phones show four stills. Reduced motion: the mosaic at rest with the
+  facts set beneath it on sand.
+
+  <ZoomMosaic />
+
+  Props
+  - eyebrow, heading (asterisks mark place names), draft { heading? }
+  - centre: media slot for the frame that fills the screen (default 'zoom-centre')
+  - tiles: five media slots in the order yoga, table, plunge pool, massage, bath
+  - facts: three { place, line, source } (defaults: venue sites and the live FAQ, section 12 item 9)
+  - link: { label, href } under the facts (default the Fleurieu page)
+*/
+import Media from '../media/Media.astro';
+import Eyebrow from '../base/Eyebrow.astro';
+import ArrowLink from '../base/ArrowLink.astro';
+import { emphasis } from '../base/text';
+
+interface Fact { place: string; line: string; source: string }
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  centre?: string;
+  tiles?: [string, string, string, string, string];
+  facts?: Fact[];
+  link?: { label: string; href: string };
+  draft?: { heading?: boolean };
+  id?: string;
+}
+
+const {
+  eyebrow = 'The Fleurieu Peninsula, South Australia',
+  heading = 'Coast and vineyard, south of *Adelaide*',
+  centre = 'zoom-centre',
+  tiles = ['zoom-yoga', 'zoom-table', 'zoom-plunge', 'zoom-massage', 'zoom-bath'],
+  facts = [
+    { place: 'McLaren Vale', line: 'About 50 minutes from Adelaide', source: 'The Vineyard Retreat site, approximately 50 minutes south of Adelaide' },
+    { place: 'Deep Creek', line: 'About 90 minutes from Adelaide', source: 'Naiko Deep Creek site, approximately 90 minutes from Adelaide' },
+    { place: 'Adelaide Airport', line: 'Transfers typically take 90 to 120 minutes', source: 'lamarea.com.au FAQs, airport transfers answer' },
+  ],
+  link = { label: 'Discover the Fleurieu', href: '/fleurieu-peninsula-retreats' },
+  draft = { heading: true },
+  id = 'the-fleurieu',
+} = Astro.props;
+const [yoga, table, plunge, massage, bath] = tiles;
+---
+<section class="zm" id={id} aria-labelledby={`${id}-heading`} data-zoom-mosaic>
+  <div class="wrap zm__head">
+    <Eyebrow>{eyebrow}</Eyebrow>
+    <h2 class="zm__heading" id={`${id}-heading`} data-draft={draft.heading ? '' : undefined} set:html={emphasis(heading)} />
+  </div>
+
+  <div class="zm__track">
+    <div class="zm__stage">
+      <div class="zm__canvas">
+      <div class="zm__group" data-zoom-group>
+        <div class="zm__tile zm__tile--a"><Media media={yoga} aspect="fill" showNote={false} /></div>
+        <div class="zm__tile zm__tile--b"><Media media={table} aspect="fill" showNote={false} /></div>
+        <div class="zm__tile zm__tile--c zm__centre"><Media media={centre} aspect="fill" still /></div>
+        <div class="zm__tile zm__tile--d"><Media media={plunge} aspect="fill" showNote={false} /></div>
+        <div class="zm__tile zm__tile--e"><Media media={massage} aspect="fill" showNote={false} /></div>
+        <div class="zm__tile zm__tile--f"><Media media={bath} aspect="fill" showNote={false} /></div>
+      </div>
+      </div>
+
+      <ol class="zm__facts" role="list">
+        {facts.map((f, i) => (
+          <li class="zm__fact" style={`--f:${i}`} data-zoom-fact data-source={f.source}>
+            <p class="zm__fact-place"><span class="place">{f.place}</span></p>
+            <p class="zm__fact-line">{f.line}</p>
+            {i === facts.length - 1 && link && <ArrowLink href={link.href} label={link.label} draft class="zm__fact-link" />}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../../scripts/zoom-mosaic';
+</script>
+
+<style>
+  .zm {
+    --zm-len: 1600px;   /* 1,000 zoom + 300 hold + 300 facts */
+    --s: 0.45;          /* the centre frame's share of the screen at rest; it ends at 1 / s */
+    --u: min(1vw, 1.6svh);
+    --g: calc(1.6 * var(--u));
+    position: relative;
+    background: var(--sand-30);
+  }
+  .zm__head { padding-top: var(--section-y); padding-bottom: clamp(1rem, 3vw, 2.5rem); }
+  .zm__heading { margin: 0; max-width: 16em; }
+
+  .zm__track { position: relative; height: calc(100svh + var(--zm-len)); view-timeline: --zm block; view-timeline-inset: 0px; }
+  .zm__stage { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+  .zm__canvas { position: absolute; inset: 0; }
+  .zm__group { position: absolute; inset: 0; transform-origin: 50% 50%; }
+
+  .zm__tile { position: absolute; overflow: hidden; background: var(--sand-40); }
+  /* Centre frame: the viewport's own proportion at --s, so at 1 / s it fills the screen exactly. */
+  .zm__tile--c {
+    left: calc(50% - var(--s) * 50%);
+    top: calc(50% - var(--s) * 50%);
+    width: calc(var(--s) * 100%);
+    height: calc(var(--s) * 100%);
+  }
+  /* The offer, arranged asymmetrically around it. Units follow the viewport so the composition holds. */
+  .zm__tile--a { right: calc(50% + var(--s) * 50% + var(--g)); top: calc(50% - var(--s) * 50% - 6 * var(--u)); width: calc(14 * var(--u)); aspect-ratio: 4 / 5; }
+  .zm__tile--b { right: calc(50% + var(--s) * 50% + var(--g)); top: calc(50% - var(--s) * 50% + 13.1 * var(--u)); width: calc(20 * var(--u)); aspect-ratio: 3 / 2; }
+  .zm__tile--d { left: calc(50% + var(--s) * 50% + var(--g)); top: calc(50% - var(--s) * 50% - 10 * var(--u)); width: calc(16 * var(--u)); aspect-ratio: 4 / 5; }
+  .zm__tile--e { left: calc(50% + var(--s) * 50% + var(--g)); top: calc(50% - var(--s) * 50% + 11.6 * var(--u)); width: calc(11 * var(--u)); aspect-ratio: 1 / 1; }
+  .zm__tile--f { right: calc(50% - var(--s) * 50%); top: calc(50% + var(--s) * 50% + var(--g)); width: calc(18 * var(--u)); aspect-ratio: 16 / 10; }
+
+  /* Facts: three sand cards that arrive from the right over the full frame. */
+  .zm__facts {
+    position: absolute;
+    right: var(--gutter);
+    top: 50%;
+    translate: 0 -50%;
+    display: grid;
+    gap: 0.75rem;
+    width: min(23rem, 36vw);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .zm__fact {
+    padding: 1.35rem 1.6rem 1.5rem;
+    background: color-mix(in srgb, var(--salt-25) 94%, transparent);
+    outline: 1px solid rgb(99 91 57 / 0.14);
+    outline-offset: -1px;
+    color: var(--sage-100);
+  }
+  .zm__fact-place { margin: 0; font-family: var(--font-serif); font-size: clamp(1.35rem, 1.2rem + 0.5vw, 1.7rem); line-height: 1.2; color: var(--sage-80); }
+  .zm__fact-line { margin: 0.35rem 0 0; font-size: var(--fs-small); letter-spacing: 0.02em; }
+  .zm__facts :global(.zm__fact-link) { margin-top: 0.6rem; }
+
+  /* Phones: four stills (the plunge pool steps out), 700px of zoom. */
+  @media (max-width: 699px) {
+    .zm { --zm-len: 1150px; --s: 0.56; --g: 3vw; }
+    .zm__tile--b { right: calc(50% - var(--s) * 50%); left: auto; top: calc(50% - var(--s) * 50% - 3vw - 44vw / 1.5); width: 44vw; }
+    .zm__tile--a { right: calc(50% + var(--s) * 50% + 3vw); top: calc(50% - var(--s) * 50% + 18vw); width: 17vw; }
+    .zm__tile--f { left: calc(50% - var(--s) * 50%); right: auto; top: calc(50% + var(--s) * 50% + 3vw); width: 50vw; }
+    .zm__tile--e { left: calc(50% + var(--s) * 50% + 3vw); top: calc(50% + var(--s) * 50% - 40vw); width: 17vw; }
+    .zm__tile--d { display: none; }
+    .zm__facts { right: auto; left: var(--gutter); top: auto; bottom: calc(var(--gutter) + env(safe-area-inset-bottom)); translate: none; width: auto; inset-inline: var(--gutter); gap: 0.5rem; }
+    .zm__fact { padding: 0.9rem 1.1rem 1rem; }
+  }
+  @media (min-width: 700px) and (orientation: portrait) {
+    .zm { --s: 0.5; }
+  }
+
+  /* Scroll-driven path. The timeline spans the pinned length: zoom 0 to 62.5% (1,000px), hold to
+     81.25% (300px), then the three facts arrive in turn. Phones: zoom to 61%, hold to 78%. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .zm__group {
+        animation: zm-zoom linear both;
+        animation-timeline: --zm;
+        animation-range: contain 0% contain 62.5%;
+      }
+      .zm__centre :global(.ph-note) {
+        animation: zm-note linear both;
+        animation-timeline: --zm;
+        animation-range: contain 0% contain 20%;
+      }
+      .zm__fact {
+        animation: zm-fact linear both;
+        animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+        animation-timeline: --zm;
+        animation-range: contain calc(81% + var(--f) * 5%) contain calc(92% + var(--f) * 3.5%);
+      }
+      @media (max-width: 699px) {
+        .zm__group { animation-range: contain 0% contain 61%; }
+        .zm__fact { animation-range: contain calc(78% + var(--f) * 6%) contain calc(90% + var(--f) * 4%); }
+      }
+    }
+  }
+  @keyframes zm-zoom { from { scale: 1; } to { scale: calc(1 / var(--s)); } }
+  @keyframes zm-note { from { opacity: 1; } to { opacity: 0; } }
+  @keyframes zm-fact { from { translate: calc(100% + 12vw) 0; opacity: 0; } to { translate: 0 0; opacity: 1; } }
+
+  /* GSAP fallback: facts start off to the right until the timeline brings them in. */
+  :global(html.zm-gsap) .zm__fact { translate: calc(100% + 12vw) 0; opacity: 0; }
+
+  /* Reduced motion: the mosaic at rest, facts on sand beneath it. */
+  @media (prefers-reduced-motion: reduce) {
+    .zm__track { height: auto; }
+    .zm__stage { position: relative; height: auto; overflow: visible; }
+    .zm__canvas { position: relative; height: 100svh; max-height: 56rem; overflow: hidden; }
+    .zm__facts {
+      position: static;
+      translate: none;
+      width: auto;
+      max-width: var(--wrap-max);
+      margin: 0 auto;
+      padding: 0 var(--gutter) var(--section-y);
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    }
+    .zm__fact { outline-color: var(--sage-20); }
+  }
+</style>

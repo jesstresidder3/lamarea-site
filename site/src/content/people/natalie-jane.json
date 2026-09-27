@@ -1,0 +1,62 @@
+{
+  "name": "Natalie Jane",
+  "team": "wellness",
+  "order": 6,
+  "group_as_published": "Lifestyle Wellness Partners",
+  "role": "Yoga & Pilates Instructor",
+  "role_long": "Yoga & Mat Pilates Instructor, Breathwork & Meditation Facilitator",
+  "business": null,
+  "business_url": null,
+  "credentials": [
+    "200 hour Yoga Teacher Training",
+    "Studio Pilates Advanced Matwork Pilates"
+  ],
+  "credentials_basis": "Picked by the build from the qualifications as published, verbatim.",
+  "qualifications": [
+    "200 hour Yoga Teacher Training",
+    "Studio Pilates Matwork Pilates",
+    "Studio Pilates Advanced Matwork Pilates",
+    "Breathwork facilitator",
+    "Meditation facilitator",
+    "Counsellor in training (Institute for Applied Psychology)"
+  ],
+  "services": [
+    "Yoga, Vinyasa and Hatha",
+    "Pilates, Mat Pilates (beginner to advanced)",
+    "Breathwork",
+    "Meditation",
+    "Counselling, currently in training"
+  ],
+  "bio": [
+    {
+      "kind": "para",
+      "text": "Nat believes that breath, movement, and stillness are the gateway to a calm and peaceful existence. She believes that when we intentionally explore our edges in a controlled and supportive environment, we expand our capacity for resilience and raise our baseline for stress management in everyday life."
+    },
+    {
+      "kind": "para",
+      "text": "Her offerings are designed to meet individuals where they are and support both physical, mental and emotional wellbeing. Nat’s services include:"
+    }
+  ],
+  "portrait": "team-natalie-jane",
+  "pillars": [
+    "movement",
+    "psychological-wellbeing"
+  ],
+  "pillars_basis": "Mapped by the build from the services each person publishes. Belle to confirm.",
+  "live_url": "https://www.lamarea.com.au/natalie-jane",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/natalie-jane",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/partners",
+      "captured": "24-09-2026"
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Roster is decision 12. No business named. Not in the Encounter Bay guide.",
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

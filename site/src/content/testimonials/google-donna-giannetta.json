@@ -1,0 +1,32 @@
+{
+  "quote": "What a beautiful way to spend a Sunday evening.\n\nFrom the moment we walked in, we were completely taken care of. Everything had been thoughtfully prepared, delicious protein balls, herbal teas, relaxing tonics, and all the yoga mats and bolsters laid out ready for us overlooking the beach as we waited for the sunset.\n\nThe evening began with breathwork, which helped me slow down, focus, and reconnect with myself. This flowed into a beautiful yoga reset, followed by an informative nutrition session on the Mediterranean way of eating and its benefits for health and wellbeing.\n\nThroughout the evening, we were nurtured with more delicious snacks and a gorgeous Mediterranean bowl of chickpeas and quinoa for dinner.\n\nThe whole experience felt calming, restorative, and incredibly nourishing. I left feeling relaxed, grounded, and completely cared for. A truly special evening that I would highly recommend to anyone needing a little reset and some time to refill their cup. 💗",
+  "reviewer_as_published": "Donna Giannetta",
+  "reviewer_note": "Kept for records only. The site shows the descriptor, never the name, until Belle has permission.",
+  "descriptor": "Guest, Sunset Retreat",
+  "descriptor_basis": "Derived by the build only from the review text: \"a Sunday evening\" and \"overlooking the beach as we waited for the sunset\"",
+  "group_type": "public_event",
+  "format": "sunset_retreat",
+  "format_label": "Sunset Retreat",
+  "format_basis": "Describes a Sunday evening session by the beach at sunset. It does not name the format; its date (31-05-2026) sits with the two Sunset Retreat reviews (28 and 29-05-2026). Belle to confirm",
+  "venue": null,
+  "source_type": "google",
+  "source": {
+    "type": "google_reviews_widget",
+    "url": "https://www.lamarea.com.au/",
+    "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+    "captured": "24-09-2026"
+  },
+  "rating": 5,
+  "date": "31-05-2026",
+  "retreat_type_as_stated": "Sunday evening sunset session (described in the review)",
+  "experiences_mentioned": [
+    "yoga"
+  ],
+  "image": "testimonial-sunset-1",
+  "featured_on": [
+    "private"
+  ],
+  "duplicate_of": null,
+  "status": "published",
+  "review": null
+}

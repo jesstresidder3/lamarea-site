@@ -1,0 +1,183 @@
+---
+/*
+  /faqs (page builder D). All twelve live FAQs, verbatim from the faqs collection
+  (lamarea.com.au/faqs, captured 24-09-2026), in six groups (plan/11 4.25): booking, teams and
+  groups (the questions a corporate or group organiser asks for their people; no live FAQ is
+  corporate-only, and research/08's new questions are still needed from Belle), dietary, venues,
+  what to bring and transfers. FAQPage JSON-LD carries all twelve.
+
+  For Belle, answers left exactly as published although the pre-build review flagged them:
+  - Deposits: no FAQ states one. Terms 2.2 say no deposits and full payment at booking; the Encounter
+    Bay guide asks for a 50% deposit (p.24, p.28). Build spec 12: no deposit term publishes.
+  - Credit period: FAQ 10 says credit applies within 2 years of booking; terms 3.2 say credits are
+    valid for 12 months; gift cards are valid for 2 years.
+  - Group size: FAQ 4 says La maréa can only cater for pairs; the live retreats page says private
+    groups of 6 to 10 and corporate groups of up to 20; the guide says 10 minimum and 14 maximum.
+  - FAQ 1's "HERE" is not a link on the live page; here it opens /experiences.
+  - FAQ 3 refers to a "pre-retreat" health screening form; the new site asks for health details on
+    the guest questionnaire after booking (plan/10 section 6).
+  - FAQ 7 describes "weekend retreats"; FAQ 11 says Afterpay is being set up; FAQ 12 names
+    "La Maréa & Naiko Retreat". Belle to confirm each still holds.
+  The same notes show inside the answers while the placeholder layer is on.
+*/
+import Base from '../layouts/Base.astro';
+import PageIntro from '../components/pages/d/PageIntro.astro';
+import Accordion from '../components/base/Accordion.astro';
+import ArrowLink from '../components/base/ArrowLink.astro';
+import CtaBand from '../components/base/CtaBand.astro';
+import { faqJsonLd } from '../components/base/schema';
+import { getFaqs } from '../lib/content';
+import { day } from '../data/day';
+import { answerHtml, noteHtml } from '../components/pages/d/faq-format';
+
+const faqs = await getFaqs();
+const byOrder = new Map(faqs.map((f) => [f.data.order, f]));
+
+const notes: Record<number, string> = {
+  1: '“HERE” is not a link on the live page. Here it opens the experiences page.',
+  3: 'Mentions a pre-retreat health screening form. The new site asks for health details on the guest questionnaire after booking.',
+  4: 'Says La maréa can only cater for pairs. Group sizes also conflict: 6 to 10 private and up to 20 corporate on the live retreats page, 10 to 14 in the Encounter Bay guide.',
+  7: 'Describes weekend retreats. Confirm it still reads right beside the 8 hour day.',
+  10: 'Credit within 2 years here, 12 months in terms 3.2, 2 years on gift cards. Deposits: none in terms 2.2, 50% in the guide.',
+  11: 'Confirm Afterpay is still being set up.',
+  12: 'Names “La Maréa & Naiko Retreat”. The 90 to 120 minutes is the airport transfer time.',
+};
+
+const groups = [
+  { id: 'booking', label: 'Booking', orders: [1, 4, 9, 10, 11] },
+  { id: 'teams-and-groups', label: 'Teams and groups', orders: [2, 7, 8] },
+  { id: 'dietary', label: 'Dietary', orders: [3] },
+  { id: 'venues', label: 'Venues', orders: [6] },
+  { id: 'what-to-bring', label: 'What to bring', orders: [5] },
+  { id: 'transfers', label: 'Transfers', orders: [12] },
+].map((g) => ({
+  ...g,
+  items: g.orders
+    .map((o) => byOrder.get(o))
+    .filter((f): f is NonNullable<typeof f> => Boolean(f))
+    .map((f) => ({
+      id: `faq-${f.data.order}`,
+      title: f.data.question,
+      body: answerHtml(f.data.answer) + (notes[f.data.order] ? noteHtml(notes[f.data.order]) : ''),
+    })),
+}));
+
+const placed = groups.reduce((n, g) => n + g.items.length, 0);
+if (placed !== faqs.length) throw new Error(`FAQs page places ${placed} of ${faqs.length} questions. Check the groups.`);
+
+const schema = faqJsonLd(faqs.map((f) => ({ question: f.data.question, answer: f.data.answer.join(' ') })));
+---
+<Base
+  title="Retreat FAQs, Fleurieu Peninsula"
+  description="Answers to common questions about La maréa retreats on the Fleurieu Peninsula: what is included, food and dietary needs, venues, packing and transfers."
+  jsonLd={schema}
+>
+  <PageIntro
+    eyebrow="Questions"
+    heading="Frequently asked questions"
+    lead="Answers to the questions guests ask most, from what a retreat includes to transfers from Adelaide Airport."
+    leadDraft
+    media="faqs-intro"
+    size="compact"
+  >
+    <ArrowLink href="mailto:info@lamarea.com.au" label="Ask us at info@lamarea.com.au" />
+  </PageIntro>
+
+  <nav class="wrap faq-nav" aria-label="Question groups">
+    <ul role="list">
+      {groups.map((g) => <li><a href={`#${g.id}`}>{g.label}</a></li>)}
+    </ul>
+  </nav>
+
+  <div class="wrap faq-groups">
+    {groups.map((g, i) => (
+      <section class="faq-group" id={g.id} aria-labelledby={`${g.id}-title`}>
+        <header class="faq-group__head">
+          <span class="faq-group__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <h2 class="faq-group__title" id={`${g.id}-title`}>{g.label}</h2>
+          <p class="faq-group__count">{g.items.length === 1 ? 'One question' : `${['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six'][g.items.length] ?? g.items.length} questions`}</p>
+        </header>
+        <Accordion items={g.items} name={`faq-${g.id}`} titleTag="h3" class="faq-group__list" />
+      </section>
+    ))}
+  </div>
+
+  <CtaBand line="Plan a day shaped around your group" note={day.note} params={{ source: 'faqs' }} tone="salt" draft={{ line: true }} />
+</Base>
+
+<style>
+  .faq-nav { padding-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+  .faq-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 clamp(1.25rem, 2.5vw, 2.25rem);
+    margin: 0;
+    padding: 0.5rem 0;
+    border-block: 1px solid var(--sage-20);
+    list-style: none;
+  }
+  .faq-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-nav);
+    letter-spacing: 0.08em;
+    color: var(--sage-80);
+    text-decoration: none;
+    background: linear-gradient(currentColor, currentColor) 0 calc(100% - 0.7rem) / 0% 1px no-repeat;
+    transition: background-size var(--dur-fast) var(--ease-soft), color var(--dur-fast) var(--ease-soft);
+  }
+  @media (hover: hover) {
+    .faq-nav a:hover { background-size: 100% 1px; color: var(--sage-100); }
+  }
+  .faq-nav a:active { background-size: 100% 1px; }
+
+  .faq-groups { padding-bottom: var(--section-y); }
+  .faq-group {
+    display: grid;
+    gap: 1.25rem;
+    padding-block: clamp(2.25rem, 1.8rem + 2vw, 3.75rem);
+    border-top: 1px solid var(--sage-20);
+    scroll-margin-top: calc(var(--header-compact) + 1rem);
+  }
+  .faq-group:first-child { border-top: 0; padding-top: clamp(1rem, 2vw, 2rem); }
+  .faq-group__head { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: baseline; gap: 0.25rem 1rem; }
+  .faq-group__num { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.08em; color: var(--sage-80); }
+  .faq-group__title { margin: 0; font-size: var(--fs-h2); }
+  .faq-group__count { grid-column: 2; margin: 0; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); }
+
+  @media (min-width: 900px) {
+    .faq-group { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(2rem, 6vw, 7rem); align-items: start; }
+    .faq-group__head { position: sticky; top: calc(var(--header-compact) + 2rem); }
+  }
+
+  /* Answer markup from faq-format.ts, rendered inside the shared Accordion. */
+  .faq-groups :global(.faq-sub) {
+    margin: 1.4em 0 0.4em;
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    line-height: 1.3;
+    color: var(--sage-80);
+  }
+  .faq-groups :global(.acc__body ul) { padding-left: 1.1rem; }
+  .faq-groups :global(.acc__body li) { margin-bottom: 0.3em; }
+  .faq-groups :global(.acc__body li::marker) { color: var(--sage-40); }
+  .faq-groups :global(.acc__body a) { color: var(--heading); text-decoration-color: color-mix(in srgb, currentColor 38%, transparent); }
+  .faq-groups :global(.faq-note) {
+    margin: 1.25rem 0 0;
+    padding: 0.55rem 0 0.55rem 0.9rem;
+    border-left: 1px dashed color-mix(in srgb, var(--sage-80) 55%, transparent);
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: var(--sage-80);
+  }
+  .faq-groups :global(.faq-note span) { display: block; letter-spacing: var(--track-label); opacity: 0.8; }
+  :global(html:not([data-media-notes='on'])) .faq-groups :global(.faq-note) { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq-nav a { transition: none; }
+  }
+</style>

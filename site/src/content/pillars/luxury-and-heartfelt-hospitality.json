@@ -1,0 +1,63 @@
+{
+  "name": "Luxury",
+  "long_name": "Luxury and heartfelt hospitality",
+  "name_as_published": "Luxury & Heartfelt Hospitality",
+  "science_name_as_published": "Luxury & Heartfelt Hospitality",
+  "order": 10,
+  "order_live": 10,
+  "icon": "luxury.svg",
+  "line": "Where refined elegance meets genuine warmth, offering accommodation that makes you feel both indulged and at home",
+  "line_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+  },
+  "video": "pillar-luxury-and-heartfelt-hospitality",
+  "evidence": [
+    {
+      "heading": null,
+      "claims": [
+        "Supportive, person-centred hospitality improves psychological comfort, stress reduction, satisfaction, recovery, sleep, pain perception, and adherence. (Dwamena et al., 2012; Beach et al., 2006; PMC, 2023)",
+        "Person-centred care models prioritising empathy, respect, and responsiveness improve engagement and outcomes. (Kitson et al., 2013; McCormack et al., 2010; Edvardsson et al., 2010)",
+        "Warm, culturally respectful hospitality enhances trust, safety, and uptake of interventions. (Beach et al., 2006; O’Donnell et al., 2021; PMC, 2023)",
+        "Attention to comfort, personalised service, and cultural sensitivity complements wellness pillars by fostering engagement and readiness for positive behaviour change. (McCormack et al., 2010; Dwamena et al., 2012)"
+      ]
+    }
+  ],
+  "evidence_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "The Science accordion, item \"Luxury & Heartfelt Hospitality\""
+  },
+  "citations": [
+    "Beach et al., 2006",
+    "Dwamena et al., 2012",
+    "Edvardsson et al., 2010",
+    "Kitson et al., 2013",
+    "McCormack et al., 2010",
+    "O’Donnell et al., 2021",
+    "PMC, 2023"
+  ],
+  "references": [],
+  "references_source": null,
+  "page": false,
+  "page_basis": "Build spec 12: pillar pages publish only where evidence exists. Sleep and recovery has the sleep article and its full references; the other nine open on /philosophy#<id>.",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "The Science accordion, item \"Luxury & Heartfelt Hospitality\""
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Pillar set is decision 1. Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar."
+}

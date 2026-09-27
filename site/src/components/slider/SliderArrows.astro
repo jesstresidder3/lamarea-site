@@ -1,0 +1,79 @@
+---
+/*
+  Fine line slider arrows (visual study B7, build spec 10.1): an 88 x 14 hairline arrow at the stroke
+  weight of Belle's icons, sage-40 at rest, sage-80 on hover over 300ms, each inside a 44px target.
+  Used by every track the systems builder owns. Pair with initTrack() from src/lib/slider.ts, which
+  wires [data-prev] and [data-next] and sets aria-disabled at the ends.
+
+  <SliderArrows label="experiences" />
+  Props: label (what the arrows move through, for the accessible names), size ('default' 88px, 'small' 56px),
+  controls (id of the element the arrows move, for aria-controls), tone ('default' | 'light').
+*/
+interface Props {
+  label: string;
+  size?: 'default' | 'small';
+  controls?: string;
+  tone?: 'default' | 'light';
+  class?: string;
+}
+const { label, size = 'default', controls, tone = 'default', class: className } = Astro.props;
+const w = size === 'small' ? 56 : 88;
+const h = 14;
+const mid = h / 2;
+---
+<div class:list={['arrows', `arrows--${size}`, `arrows--${tone}`, className]}>
+  <button type="button" class="arrow arrow--prev" data-prev aria-label={`Previous ${label}`} aria-controls={controls}>
+    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} aria-hidden="true" focusable="false">
+      <line x1={w - 0.5} y1={mid} x2="1" y2={mid} />
+      <polyline points={`7,${mid - 6} 1,${mid} 7,${mid + 6}`} />
+    </svg>
+  </button>
+  <button type="button" class="arrow arrow--next" data-next aria-label={`Next ${label}`} aria-controls={controls}>
+    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} aria-hidden="true" focusable="false">
+      <line x1="0.5" y1={mid} x2={w - 1} y2={mid} />
+      <polyline points={`${w - 7},${mid - 6} ${w - 1},${mid} ${w - 7},${mid + 6}`} />
+    </svg>
+  </button>
+</div>
+
+<style>
+  .arrows { display: inline-flex; align-items: center; gap: clamp(0.75rem, 2vw, 1.75rem); }
+  .arrow {
+    --arrow-rest: var(--sage-40);
+    --arrow-on: var(--sage-80);
+    display: inline-grid;
+    place-items: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0 0.25rem;
+    border: 0;
+    background: none;
+    color: var(--arrow-rest);
+    transition: color var(--dur-fast) var(--ease-soft), opacity var(--dur-fast) var(--ease-soft);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .arrows--light .arrow { --arrow-rest: color-mix(in srgb, var(--salt-25) 70%, transparent); --arrow-on: var(--salt-25); }
+  .arrow svg { overflow: visible; }
+  .arrow :is(line, polyline) {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    transition: transform var(--dur-fast) var(--ease-soft);
+  }
+  @media (hover: hover) {
+    .arrow:hover { color: var(--arrow-on); }
+    .arrow--next:hover polyline { transform: translateX(3px); }
+    .arrow--prev:hover polyline { transform: translateX(-3px); }
+  }
+  .arrow:active, .arrow:focus-visible { color: var(--arrow-on); }
+  .arrow[aria-disabled='true'] { opacity: 0.4; cursor: default; }
+  .arrow[aria-disabled='true']:hover { color: var(--arrow-rest); }
+  .arrow[aria-disabled='true'] polyline { transform: none !important; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .arrow, .arrow :is(line, polyline) { transition: none; }
+  }
+</style>

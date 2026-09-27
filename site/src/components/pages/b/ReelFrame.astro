@@ -1,0 +1,63 @@
+---
+/*
+  A contained vertical reel (Belle’s Beresford reel, BD-126): a 9:16 frame at a fixed, modest width,
+  never full-bleed and never cropped (O10, X9). When the file arrives it plays only when the visitor
+  presses play: native controls, no autoplay, no loop, nothing loads until asked (preload none).
+  Until then the Media placeholder names the reel. Owner: page builder B.
+
+  <ReelFrame media="day-reel" caption="..." captionDraft />
+
+  Props: slot (a 9:16 video slot), caption (a short line under the frame), captionDraft (marks it as
+  drafted copy), label (the small label above the caption)
+*/
+import Media from '../../media/Media.astro';
+import { media as getMedia } from '../../../data/media';
+
+interface Props {
+  media: string;
+  caption?: string;
+  captionDraft?: boolean;
+  label?: string;
+  class?: string;
+}
+const { media, caption, captionDraft = false, label, class: className } = Astro.props;
+const m = getMedia(media);
+---
+<figure class:list={['reel', className]}>
+  <div class="reel__frame">
+    {m.src ? (
+      <video class="reel__video" controls playsinline preload="none" poster={m.poster} aria-label={m.alt}>
+        <source src={m.src} />
+      </video>
+    ) : (
+      <Media media={media} aspect="9 / 16" notePosition="top-left" />
+    )}
+  </div>
+  {(caption || label) && (
+    <figcaption class="reel__caption">
+      {label && <span class="reel__label">{label}</span>}
+      {caption && <span class="reel__text" data-draft={captionDraft ? '' : undefined}>{caption}</span>}
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  .reel { margin: 0; width: 100%; }
+  .reel__frame {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    background: var(--sand-40);
+    outline: 1px solid var(--rule);
+    outline-offset: 10px;
+  }
+  .reel__video { display: block; width: 100%; height: 100%; object-fit: contain; background: var(--sage-100); }
+  .reel__caption { display: grid; gap: 0.35rem; margin-top: 1.6rem; }
+  .reel__label {
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--muted);
+  }
+  .reel__text { font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.4; color: var(--sage-100); max-width: 22rem; }
+</style>

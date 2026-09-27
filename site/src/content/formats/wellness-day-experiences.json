@@ -1,0 +1,28 @@
+{
+  "name": "Wellness Day Experiences",
+  "kind": "pathway",
+  "order": 10,
+  "tagline": null,
+  "body": [
+    "A single-day reset designed for groups seeking guided restoration without an overnight stay. Expressions of interest are open for upcoming dates and bespoke bookings."
+  ],
+  "duration": null,
+  "group_size_text": null,
+  "items": [],
+  "inclusions_heading": null,
+  "inclusions": [],
+  "closing_line": null,
+  "footnote": null,
+  "price_from": null,
+  "price_published_on_live_site": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/",
+      "captured": "24-09-2026",
+      "section": "Experience La maréa"
+    }
+  ],
+  "status": "draft",
+  "review": "Home page name for what the retreats page calls Bespoke Wellness Days."
+}

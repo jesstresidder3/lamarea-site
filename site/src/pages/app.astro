@@ -1,0 +1,85 @@
+---
+/*
+  /app (page builder D). plan/11 4.22. Belle's words: "coming twenty twenty seven and the Lamaria
+  app" and "a wellness app coming... foundational subscriptions with this" (BD-46, BD-48).
+  What the app will hold and how foundational subscriptions work are marked placeholders until the
+  app decision (plan/11 item 70). The interest capture sends list 'app', which Dom's endpoint writes
+  to subscribers.subscription_interest (plan/10 section 2). No prices, no dates beyond 2027.
+*/
+import Base from '../layouts/Base.astro';
+import PageIntro from '../components/pages/d/PageIntro.astro';
+import ListCapture from '../components/pages/d/ListCapture.astro';
+import ArrowLink from '../components/base/ArrowLink.astro';
+import TextPair from '../components/base/TextPair.astro';
+import CtaBand from '../components/base/CtaBand.astro';
+import Reveal from '../components/base/Reveal.astro';
+---
+<Base
+  title="The La maréa app, coming 2027"
+  description="The La maréa wellness app is coming in 2027, with foundational subscriptions, from the team behind La maréa retreats on the Fleurieu Peninsula."
+>
+  <PageIntro
+    eyebrow="Coming 2027"
+    heading="The La maréa app"
+    lead="We are building a La maréa wellness app, and foundational subscriptions will come with it."
+    leadDraft
+    media="app-hero"
+  >
+    <ArrowLink href="#interest" label="Register your interest" direction="down" />
+  </PageIntro>
+
+  <section class="section band-salt" aria-label="What is still to come" data-notes-only>
+    <div class="wrap">
+      <Reveal stagger class="app-rows">
+        <div class="app-row">
+          <h2 class="app-row__title">What it will hold</h2>
+          <p class="placeholder-line">What the app will hold, in Belle’s words, once the app is decided (plan/11 item 70).</p>
+        </div>
+        <div class="app-row">
+          <h2 class="app-row__title">Foundational subscriptions</h2>
+          <p class="placeholder-line">How foundational subscriptions work, without prices, from Belle (register K2).</p>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+
+  <section class="section wrap interest" id="interest">
+    <TextPair heading="Register your interest">
+      <p data-draft>Leave your email and we will write when the app and its foundational subscriptions are ready.</p>
+      <div class="interest__form">
+        <ListCapture
+          list="app"
+          firstName
+          submitLabel="Keep me posted"
+          successMessage="Thank you. We will write when the app is ready."
+          notice="We use your email to tell you about the app, and send La maréa news only if you tick the box."
+        />
+      </div>
+    </TextPair>
+  </section>
+
+  <CtaBand
+    eyebrow="For past guests"
+    line="Stay close through the Rising Tides Collective"
+    link={{ label: 'The Rising Tides Collective', href: '/rising-tides-collective' }}
+    secondary={{ label: 'Plan your day', href: '/enquire?source=app' }}
+    tone="warm"
+    draft={{ line: true }}
+  />
+</Base>
+
+<style>
+  .app-row {
+    display: grid;
+    gap: 1rem;
+    padding-block: clamp(1.75rem, 1.4rem + 1.4vw, 2.75rem);
+    border-top: 1px solid var(--sage-20);
+  }
+  .app-row:last-child { border-bottom: 1px solid var(--sage-20); }
+  .app-row__title { margin: 0; font-family: var(--font-serif); font-size: var(--fs-h4); line-height: 1.25; }
+  @media (min-width: 900px) {
+    .app-row { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(2rem, 6vw, 7.5rem); align-items: baseline; }
+  }
+  .interest { scroll-margin-top: calc(var(--header-compact) + 1rem); }
+  .interest__form { margin-top: 2rem; }
+</style>

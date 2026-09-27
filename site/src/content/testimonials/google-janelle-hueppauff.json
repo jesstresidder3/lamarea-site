@@ -1,0 +1,30 @@
+{
+  "quote": "The Sunset Retreat experience with Belle and Jaimi was truly wonderful. A nurturing experience, from the warmth I felt from the onset of arriving and right thru. Belle, your considered planning and vision to make us feel special is a credit to you. I left grounded, inspired, cared for and mindful of my body and how treating myself with kindness is the best investment inside and out. Keep shining with your beautiful heart x",
+  "reviewer_as_published": "Janelle Hueppauff",
+  "reviewer_note": "Kept for records only. The site shows the descriptor, never the name, until Belle has permission.",
+  "descriptor": "Guest, Sunset Retreat",
+  "descriptor_basis": "Derived by the build only from the review text: \"The Sunset Retreat experience with Belle and Jaimi\"",
+  "group_type": "public_event",
+  "format": "sunset_retreat",
+  "format_label": "Sunset Retreat",
+  "format_basis": "\"The Sunset Retreat experience\"",
+  "venue": null,
+  "source_type": "google",
+  "source": {
+    "type": "google_reviews_widget",
+    "url": "https://www.lamarea.com.au/",
+    "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+    "captured": "24-09-2026"
+  },
+  "rating": 5,
+  "date": "29-05-2026",
+  "retreat_type_as_stated": "Sunset Retreat (named in the review)",
+  "experiences_mentioned": [
+    "yoga"
+  ],
+  "image": "testimonial-sunset-2",
+  "featured_on": [],
+  "duplicate_of": null,
+  "status": "published",
+  "review": null
+}

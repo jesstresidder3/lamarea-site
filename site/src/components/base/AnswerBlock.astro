@@ -1,0 +1,50 @@
+---
+/*
+  A question as the heading and a 40 to 60 word answer beneath it, written so search and answer
+  engines can lift it whole (register N5). FAQ schema: collect the questions on a page and pass
+  faqJsonLd([...]) from base/schema.ts to <Base jsonLd>. The block itself carries no schema, so a
+  page never ships duplicate FAQPage objects.
+
+  <AnswerBlock question="What is a full day wellness retreat?" answer="..." />
+  <AnswerBlock question="..." layout="stacked"><p>Answer with a link</p></AnswerBlock>
+
+  Props: question, answer (or default slot), level (2), eyebrow, layout ('split' default | 'stacked'),
+         id, draft { question?, answer? }
+*/
+import Eyebrow from './Eyebrow.astro';
+import { emphasis } from './text';
+
+interface Props {
+  question: string;
+  answer?: string;
+  level?: 2 | 3;
+  eyebrow?: string;
+  layout?: 'split' | 'stacked';
+  id?: string;
+  draft?: { question?: boolean; answer?: boolean };
+  class?: string;
+}
+const { question, answer, level = 2, eyebrow, layout = 'split', id, draft = {}, class: className } = Astro.props;
+const H = `h${level}` as 'h2' | 'h3';
+---
+<div id={id} class:list={['answer', `answer--${layout}`, className]} data-answer-block>
+  <div class="answer__q">
+    {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+    <H class="answer__question" data-draft={draft.question ? '' : undefined} set:html={emphasis(question)} />
+  </div>
+  <div class="answer__a" data-draft={draft.answer ? '' : undefined}>
+    {answer ? <p>{answer}</p> : <slot />}
+  </div>
+</div>
+
+<style>
+  .answer { display: grid; gap: var(--space-m) clamp(2rem, 6vw, 7.5rem); }
+  .answer__question { margin: 0; max-width: 14em; }
+  .answer__a { max-width: 36rem; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.5; color: var(--sage-100); }
+  .answer__a :global(p) { margin: 0 0 1em; max-width: none; }
+  .answer__a :global(p:last-child) { margin-bottom: 0; }
+  @media (min-width: 900px) {
+    .answer--split { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); align-items: start; }
+    .answer--split .answer__a { padding-top: 0.4rem; }
+  }
+</style>

@@ -1,0 +1,23 @@
+{
+  "question": "What’s included in your wellness retreats and what can I expect?",
+  "answer": [
+    "This will depend on what type of lifestyle wellness retreat you have chosen but generally there will be a range of transportation, dining, wellness, spa/beauty and education inclusions.",
+    "On top of this there are ‘add ons’ you can pay for on top of your retreat to include in your experience.",
+    "Our retreats offer a balance between rest, movement, activities and free time. You can expect a welcoming and supportive environment where you are completely looked after from the moment you arrive to embark on a wellness retreat with us.",
+    "Our retreats are designed to nurture your body, mind and soul through evidence based strategies.",
+    "They allow you to slow down and reclaim your health and wellbeing through nature, human connection, and lifestyle wellness experiences & education.",
+    "Please head HERE to view some of the activities you’ll find on a La Maréa wellness retreat."
+  ],
+  "order": 1,
+  "topic": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    }
+  ],
+  "status": "draft",
+  "review": "Refers to \"Please head HERE\" but HERE is not a link in the published answer."
+}

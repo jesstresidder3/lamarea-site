@@ -1,0 +1,145 @@
+{
+  "name": "Sleep and recovery",
+  "long_name": null,
+  "name_as_published": "Sleep & Recovery",
+  "science_name_as_published": "Sleep & Recovery",
+  "order": 3,
+  "order_live": 3,
+  "icon": "sleep-recovery.svg",
+  "line": "Sleep optimisation, relaxation and use of recovery modalities such as a sauna, contrast therapy & massage",
+  "line_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+  },
+  "video": "pillar-sleep-and-recovery",
+  "evidence": [
+    {
+      "heading": null,
+      "claims": [
+        "Short, long, or irregular sleep increases cardiometabolic risk and mortality.",
+        "Sleep quality and regularity predict cognition, immunity, hormonal balance, and recovery.",
+        "Optimising sleep duration and timing is foundational for health and performance. (Cappuccio et al., 2010)"
+      ]
+    },
+    {
+      "heading": "Sauna & Heat Therapy",
+      "claims": [
+        "Regular infrared/Finnish sauna bathing benefits cardiovascular and rheumatological health, and exercise recovery. (Hussain & Cohen, 2018)",
+        "Lowers cardiovascular events and mortality; improves vascular function, blood pressure, and stress. (Laukkanen et al., 2018; Hussain & Cohen, 2018)",
+        "Improves self-reported well-being and sleep. (Laukkanen et al., 2024)",
+        "Supports recovery and relaxation via autonomic mechanisms. (Ferreira et al., 2022)"
+      ]
+    },
+    {
+      "heading": "Cold-Water Immersion & Contrast Therapy",
+      "claims": [
+        "Reduces muscle soreness (DOMS), perceived fatigue, and improves subjective recovery (first 24 to 72h post-exercise). (Xiao et al., 2023; Machado et al., 2016)",
+        "Contrast therapy reduces post-exercise fatigue and soreness, enhancing perceived recovery. (Machado et al., 2016; Higgins et al., 2017)",
+        "May reduce post-exercise inflammation and markers of muscle damage; timing, temperature, and duration matter. (Bleakley et al., 2012; Machado et al., 2016)",
+        "Can improve mood, reduce stress, and enhance well-being; benefits similar for women. (Knechtle et al., 2020; Higgins et al., 2017)"
+      ]
+    },
+    {
+      "heading": "Massage & Relaxation Therapies",
+      "claims": [
+        "Reduces muscle pain, joint discomfort, and DOMS. (Weerapong et al., 2005; Moyer et al., 2004)",
+        "Lowers anxiety, perceived stress, and depressive symptoms. (Fritz et al., 2014; Hou et al., 2017)",
+        "Improves recovery, sleep quality, and relaxation. (Field, 2016; Pugh et al., 2017)"
+      ]
+    }
+  ],
+  "evidence_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "The Science accordion, item \"Sleep & Recovery\""
+  },
+  "citations": [
+    "Bleakley et al., 2012",
+    "Cappuccio et al., 2010",
+    "Ferreira et al., 2022",
+    "Field, 2016",
+    "Fritz et al., 2014",
+    "Higgins et al., 2017",
+    "Hou et al., 2017",
+    "Hussain & Cohen, 2018",
+    "Knechtle et al., 2020",
+    "Laukkanen et al., 2018",
+    "Laukkanen et al., 2024",
+    "Machado et al., 2016",
+    "Moyer et al., 2004",
+    "Pugh et al., 2017",
+    "Weerapong et al., 2005",
+    "Xiao et al., 2023"
+  ],
+  "references": [
+    {
+      "group": "Sleep, health & performance",
+      "entries": [
+        "Australian Government Department of Health, Disability and Ageing. Australian 24-hour movement guidelines for adults (18 to 64 years) and older adults (65+ years). 2026.",
+        "Sleep Health Foundation. How much sleep do you really need? 2024.",
+        "Cappuccio FP, D'Elia L, Strazzullo P, Miller MA. Sleep duration and all-cause mortality: a systematic review and meta-analysis of prospective studies. Sleep. 2010;33(5):585 to 592.",
+        "Cappuccio FP, Cooper D, D'Elia L, Strazzullo P, Miller MA. Sleep duration predicts cardiovascular outcomes: a systematic review and meta-analysis of prospective studies. European Heart Journal. 2011;32(12):1484 to 1492.",
+        "Chaput JP, Dutil C, Sampasa-Kanyinga H. Sleeping hours: what is the ideal number and how does age impact this? Nature and Science of Sleep. 2018.",
+        "Kirschen GW, Jones JJ, Hale L. The impact of sleep duration on performance among competitive athletes: a systematic literature review. Clinical Journal of Sport Medicine. 2020;30(5):503 to 512.",
+        "Chaput JP, Dutil C, Featherstone R, et al. Sleep timing, sleep consistency, and health in adults: a systematic review. Applied Physiology, Nutrition, and Metabolism. 2020;45:S232 to S247.",
+        "Kalkanis A, Lenkens D, Steiropoulos P, Testelmans D. Sleep regularity as an important component of sleep hygiene: a systematic review. Sleep Medicine Reviews. 2025;84:102203."
+      ]
+    },
+    {
+      "group": "Sleep routine, circadian rhythm & environment",
+      "entries": [
+        "Sleep Health Foundation. Sleep Hygiene: Good Sleep Habits. 2024.",
+        "De Pasquale C, El Kazzi M, Sutherland K, et al. Sleep hygiene, What do we mean? A bibliographic review. Sleep Medicine Reviews. 2024;75:101930.",
+        "Haghayegh S, Khoshnevis S, Smolensky MH, Diller KR, Castriotta RJ. Before-bedtime passive body heating by warm shower or bath to improve sleep: a systematic review and meta-analysis. Sleep Medicine Reviews. 2019;46:124 to 135.",
+        "Scullin MK, Krueger D. To-do lists promote sleep. Journal of Experimental Psychology: Applied. 2018;24(1):1 to 11.",
+        "Afshari A, et al. The efficacy of eye masks and earplugs interventions for sleep promotion in critically ill patients: a systematic review and meta-analysis. Frontiers in Psychiatry. 2021;12:791342."
+      ]
+    },
+    {
+      "group": "Nutrition & sleep",
+      "entries": [
+        "Arab A, Lempesis IG, et al. Sleep and the Mediterranean diet: a systematic review and meta-analysis. Sleep Medicine Reviews. 2025;80:102071.",
+        "Saidi O, Rochette E, Dambel L, St-Onge MP, Duché P. Chrono-nutrition and sleep: lessons from the temporal feature of eating patterns in human studies, a systematic scoping review. Sleep Medicine Reviews. 2024;76:101953.",
+        "Lin HH, Tsai PS, Fang SC, Liu JF. Effect of kiwifruit consumption on sleep quality in adults with sleep problems. Asia Pacific Journal of Clinical Nutrition. 2011;20(2):169 to 174.",
+        "Barforoush F, et al. The effect of tart cherry on sleep quality and sleep disorders: a systematic review. Food Science & Nutrition. 2025;13(9).",
+        "Gardiner C, et al. The effect of caffeine on subsequent sleep: a systematic review and meta-analysis. Sleep Medicine Reviews. 2023.",
+        "Gardiner C, et al. The effect of alcohol on subsequent sleep in healthy adults: a systematic review and meta-analysis. Sleep Medicine Reviews. 2025;80:102030.",
+        "Rackard G, Madigan SM, Connolly J, Keaver L, Ryan L, Doherty R. Nutrition strategies to promote sleep in elite athletes: a scoping review. Sports. 2025;13(10):342."
+      ]
+    },
+    {
+      "group": "Australian clinical guidance",
+      "entries": [
+        "Sweetman A, Putland S, Meaklim H, et al. Management of adult insomnia in Australia: a joint position statement of the Australasian Sleep Association, Sleep Health Foundation, Royal Australian College of General Practitioners, Australian Psychological Society, Pharmaceutical Society of Australia, and Australian Primary Health Care Nurses Association. SLEEP Advances. 2026."
+      ]
+    }
+  ],
+  "references_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/post/the-importance-of-sleep-for-wellbeing-recovery-performance-how-to-create-a-pre-bed-routine-that",
+    "captured": "24-09-2026",
+    "section": "References, The Importance of Sleep for Wellbeing, Recovery & Performance"
+  },
+  "page": true,
+  "page_basis": "Build spec 12: pillar pages publish only where evidence exists. Sleep and recovery has the sleep article and its full references; the other nine open on /philosophy#<id>.",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "The Science accordion, item \"Sleep & Recovery\""
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Pillar set is decision 1. Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar.",
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

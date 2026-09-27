@@ -1,0 +1,1083 @@
+[
+  {
+    "id": "sauna",
+    "set": "guided",
+    "order": 1,
+    "name_transcript": "sauna",
+    "name_as_published": "Infrared sauna (guide p.15, self-led list); sauna within contrast therapy",
+    "sourced_descriptions": [
+      {
+        "text": "Sleep optimisation, relaxation and use of recovery modalities such as a sauna, contrast therapy & massage",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/philosophy",
+          "captured": "24-09-2026",
+          "section": "Sleep & Recovery pillar"
+        }
+      },
+      {
+        "text": "- Heat or Cold Therapy Sessions (Traditional Finnish wood-fired sauna protocols, with the sauna temperature holding at 80-100 Celsius and Ice bath )",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/kristian-ryan",
+          "captured": "24-09-2026",
+          "section": "Services & offerings"
+        }
+      },
+      {
+        "text": [
+          "Sauna & Heat Therapy",
+          "Regular infrared/Finnish sauna bathing benefits cardiovascular and rheumatological health, and exercise recovery. (Hussain & Cohen, 2018)",
+          "Lowers cardiovascular events and mortality; improves vascular function, blood pressure, and stress. (Laukkanen et al., 2018; Hussain & Cohen, 2018)",
+          "Improves self-reported well-being and sleep. (Laukkanen et al., 2024)",
+          "Supports recovery and relaxation via autonomic mechanisms. (Ferreira et al., 2022)"
+        ],
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/philosophy",
+          "captured": "24-09-2026",
+          "section": "The Science, Sleep & Recovery"
+        }
+      },
+      {
+        "text": "Infrared sauna",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 15,
+          "captured": "24-09-2026",
+          "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+        }
+      }
+    ],
+    "duration_as_published": null,
+    "practitioners_as_published": [
+      "Kristian Ryan, Third Spaces (live bio)"
+    ],
+    "pillar_links": [
+      "sleep-and-recovery"
+    ],
+    "image": null,
+    "video": null,
+    "source": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "No standalone sauna description exists. Conflict carried from plan/11: the transcript says \"sauna\" in the guided list and \"infrared sauna\" in the self-led list. Whether La maréa brings a mobile sauna is plan/11 item 19.",
+    "pillar_links_source": "Sleep & Recovery pillar text names sauna"
+  },
+  {
+    "id": "massage",
+    "set": "guided",
+    "order": 2,
+    "name_transcript": "massage",
+    "name_as_published": "Individual Restorative Massage Therapy",
+    "sourced_descriptions": [
+      {
+        "text": "Individual therapeutic massage experience with Earth House & Spa",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 15,
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "Individual Restorative Massage Therapy",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 23,
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "Experience 1: Individual Restorative Massage Therapy",
+        "source": {
+          "type": "live_site_image",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+          "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+          "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "Remedial Massage & A Good Nights Sleep",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "captured": "24-09-2026",
+          "section": "What a weekend with us looks like..."
+        }
+      },
+      {
+        "text": [
+          "60 or 45 minute deep tissue remedial massage",
+          "60 or 45 minute restoration & relaxation massage"
+        ],
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/courtney-selfe",
+          "captured": "24-09-2026",
+          "section": "Services & offerings"
+        }
+      },
+      {
+        "text": [
+          "Massage & Relaxation Therapies",
+          "Reduces muscle pain, joint discomfort, and DOMS. (Weerapong et al., 2005; Moyer et al., 2004)",
+          "Lowers anxiety, perceived stress, and depressive symptoms. (Fritz et al., 2014; Hou et al., 2017)",
+          "Improves recovery, sleep quality, and relaxation. (Field, 2016; Pugh et al., 2017)"
+        ],
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/philosophy",
+          "captured": "24-09-2026",
+          "section": "The Science, Sleep & Recovery"
+        }
+      }
+    ],
+    "duration_as_published": "40 minutes per rotation (Beresford example); 60 or 45 minutes (Courtney Selfe services)",
+    "practitioners_as_published": [
+      "Courtney Selfe, The Earth House and Spa"
+    ],
+    "pillar_links": [
+      "sleep-and-recovery"
+    ],
+    "image": null,
+    "video": null,
+    "source": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": null,
+    "pillar_links_source": "Sleep & Recovery pillar text names massage"
+  },
+  {
+    "id": "contrast-therapy",
+    "set": "guided",
+    "order": 3,
+    "name_transcript": "contrast therapy",
+    "name_as_published": "Contrast Therapy Experience",
+    "sourced_descriptions": [
+      {
+        "text": "Group guided contrast therapy experience (infrared sauna & cold plunge)",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 15,
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "Guided Group Contrast Therapy Experience",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 23,
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "Experience 2: Contrast Therapy Experience (sauna, breathwork & cold plunge)",
+        "source": {
+          "type": "live_site_image",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+          "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+          "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "Contrast Therapy (Sauna & Ice Bath)",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "captured": "24-09-2026",
+          "section": "What a weekend with us looks like..."
+        }
+      },
+      {
+        "text": [
+          "- Guided 60 or 90 minute Contrast Therapy Sessions (Rotating between Finnish Sauna & Ice bath)",
+          "Experience the powerful benefits of alternating heat and cold. Sessions include guided rotations between Finnish barrel sauna (80-100 degrees Celsius) and ice bath immersion."
+        ],
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/kristian-ryan",
+          "captured": "24-09-2026",
+          "section": "Services & offerings"
+        }
+      },
+      {
+        "text": [
+          "Cold-Water Immersion & Contrast Therapy",
+          "Reduces muscle soreness (DOMS), perceived fatigue, and improves subjective recovery (first 24 to 72h post-exercise). (Xiao et al., 2023; Machado et al., 2016)",
+          "Contrast therapy reduces post-exercise fatigue and soreness, enhancing perceived recovery. (Machado et al., 2016; Higgins et al., 2017)",
+          "May reduce post-exercise inflammation and markers of muscle damage; timing, temperature, and duration matter. (Bleakley et al., 2012; Machado et al., 2016)",
+          "Can improve mood, reduce stress, and enhance well-being; benefits similar for women. (Knechtle et al., 2020; Higgins et al., 2017)"
+        ],
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/philosophy",
+          "captured": "24-09-2026",
+          "section": "The Science, Sleep & Recovery"
+        }
+      }
+    ],
+    "duration_as_published": "40 minutes per rotation (Beresford example); 60 or 90 minutes (Kristian Ryan services)",
+    "practitioners_as_published": [
+      "Kristian Ryan, Third Spaces (live partners page)",
+      "Jaimi Baker, PEAQ Performance (guide p.21 says she delivers contrast therapy)"
+    ],
+    "pillar_links": [
+      "sleep-and-recovery"
+    ],
+    "image": null,
+    "video": null,
+    "source": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Who runs contrast therapy differs between the live site and the guide. Belle to confirm (plan/11 item 60).",
+    "pillar_links_source": "Sleep & Recovery pillar text names contrast therapy",
+    "dash_note": "Em or en dashes in the client text were replaced for this seed: number and time ranges with \" to \", unspaced word joins (for example sleep-wake, mother-daughter) with a hyphen, everything else with a comma. The verbatim original with dashes is in build/03-content-harvest.md."
+  },
+  {
+    "id": "pasta-making",
+    "set": "guided",
+    "order": 4,
+    "name_transcript": "chef-led pasta making masterclass",
+    "name_as_published": "Mediterranean Pasta-Making Masterclass (Malissa Fedele bio); pasta-making masterclass (Instagram)",
+    "sourced_descriptions": [
+      {
+        "text": [
+          "Mediterranean Pasta-Making Masterclass (2 hours)",
+          "Hands-on, interactive sessions where guests learn to make authentic Italian pasta from scratch with Malissa.",
+          "Includes: Fresh egg pasta, Traditional Mediterranean sauces, Cooking demonstration + guided practice, Tasting + shared meal",
+          "Ideal for group bonding and creating a memorable retreat experience"
+        ],
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/malissa-fedele",
+          "captured": "24-09-2026",
+          "section": "Services & Offerings"
+        }
+      },
+      {
+        "text": "Luca curates a variety of private dining experiences, including individually plated or shared 3-, 4-, and 5-course lunches and dinners, as well as exclusive private pasta-making classes.",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/luca-guiotto",
+          "captured": "24-09-2026",
+          "section": "Services & Offerings"
+        }
+      },
+      {
+        "text": "Mediterranean Cooking Class",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "captured": "24-09-2026",
+          "section": "Bespoke wellness additions"
+        }
+      },
+      {
+        "text": "The morning brought together yoga, a wholesome seasonal breakfast, breathwork, contrast therapy, massage and evidence-based wellbeing education, before finishing for an interactive pasta-making masterclass and nourishing long-table lunch",
+        "source": {
+          "type": "instagram_feed_widget",
+          "url": "https://www.lamarea.com.au/",
+          "note": "Instagram post about Ray White Projects SA shown in the home page Instagram feed",
+          "captured": "24-09-2026"
+        }
+      }
+    ],
+    "duration_as_published": "2 hours (Malissa Fedele bio)",
+    "practitioners_as_published": [
+      "Malissa Fedele (live bio)",
+      "Luca Guiotto, Aromi Dining (live bio mentions private pasta-making classes)"
+    ],
+    "pillar_links": null,
+    "image": null,
+    "video": null,
+    "source": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Neither bio confirms who runs it for La maréa (plan/11 Q3). Two Google reviews mention a pasta-making class at a corporate retreat.",
+    "pillar_links_source": "No published pillar text names this experience, so no link is recorded"
+  },
+  {
+    "id": "mediterranean-dining",
+    "set": "guided",
+    "order": 5,
+    "name_transcript": "chef curated mediterranean dining",
+    "name_as_published": "Signature culinary experience: private shared 3 course Mediterranean-inspired lunch",
+    "sourced_descriptions": [
+      {
+        "text": [
+          "SIGNATURE CULINARY EXPERIENCE INCLUDED",
+          "Private shared 3 course mediterranean-inspired lunch with Award-Winning Chef, Luca Guiotto of Aromi Dining. Enjoy a fresh, seasonal, plant-forward lunch showcasing the finest local South Australian ingredients, where every course tells a story through bold flavours and elegant presentation."
+        ],
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 13,
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "Shared chef curated Mediterranean lunch provided by Beresford",
+        "source": {
+          "type": "live_site_image",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+          "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+          "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "3 Course Mediteranean-Inspired Lunch with Private Chef",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "captured": "24-09-2026",
+          "section": "What a weekend with us looks like..."
+        }
+      }
+    ],
+    "duration_as_published": "12:30 PM to 2:00 PM in the Beresford example",
+    "practitioners_as_published": [
+      "Luca Guiotto, Aromi Dining (guide p.13)",
+      "Beresford (Beresford example)"
+    ],
+    "pillar_links": null,
+    "image": null,
+    "video": null,
+    "source": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Example menu in menu.json.",
+    "pillar_links_source": "No published pillar text names this experience, so no link is recorded"
+  },
+  {
+    "id": "yoga",
+    "set": "guided",
+    "order": 6,
+    "name_transcript": "yoga",
+    "name_as_published": "Energising Group Vinyasa Yoga Flow or Mat Pilates",
+    "sourced_descriptions": [
+      {
+        "text": "Group guided energising yoga or mat pilates session",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 15,
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "Energising Group Vinyasa Yoga Flow or Mat Pilates",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 23,
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "Energising Group Vinyasa Yoga Flow or Mat Pilates Session",
+        "source": {
+          "type": "live_site_image",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+          "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+          "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": [
+          "Vinyasa, a dynamic breath-led flow that builds heat and strength.",
+          "Yin, a slow, meditative practice with long holds that target deep connective tissues.",
+          "Roll & Release, a mobility-focused practice using props to ease tension and enhance movement.",
+          "Chair Yoga, a supportive, accessible option ideal for beginners, seniors, or those with limited mobility."
+        ],
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/jaimi-baker",
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": [
+          "Yoga",
+          "Reduces depression, anxiety, stress, and blood-pressure markers.",
+          "Improves balance, mobility, breathing efficiency, and mind-body awareness. (White et al., 2024)"
+        ],
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/philosophy",
+          "captured": "24-09-2026",
+          "section": "The Science, Movement"
+        }
+      }
+    ],
+    "duration_as_published": "8:15 AM to 9:00 AM in the Beresford example",
+    "practitioners_as_published": [
+      "Jaimi Baker, PEAQ Performance",
+      "Natalie Jane",
+      "Kristian Ryan (private group yoga classes, 30 or 60 minutes)"
+    ],
+    "pillar_links": [
+      "movement"
+    ],
+    "image": null,
+    "video": null,
+    "source": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Yoga and pilates are one either-or session in both sources (plan/11 item 31, one tile or two).",
+    "pillar_links_source": "Movement pillar text names yoga",
+    "dash_note": "Em or en dashes in the client text were replaced for this seed: number and time ranges with \" to \", unspaced word joins (for example sleep-wake, mother-daughter) with a hyphen, everything else with a comma. The verbatim original with dashes is in build/03-content-harvest.md."
+  },
+  {
+    "id": "pilates",
+    "set": "guided",
+    "order": 7,
+    "name_transcript": "pilates",
+    "name_as_published": "Mat Pilates",
+    "sourced_descriptions": [
+      {
+        "text": "Group guided energising yoga or mat pilates session",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 15,
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "Pilates, Mat Pilates (beginner to advanced)",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/natalie-jane",
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": [
+          "Pilates",
+          "Improves chronic low-back pain, functional ability, and quality of life.",
+          "Enhances core strength, mobility, and movement control. (Yu et al., 2023)"
+        ],
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/philosophy",
+          "captured": "24-09-2026",
+          "section": "The Science, Movement"
+        }
+      }
+    ],
+    "duration_as_published": null,
+    "practitioners_as_published": [
+      "Natalie Jane",
+      "Sarah McLachlan (certification in progress)"
+    ],
+    "pillar_links": [
+      "movement"
+    ],
+    "image": null,
+    "video": null,
+    "source": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "No standalone pilates description exists.",
+    "pillar_links_source": "Movement pillar text names pilates",
+    "dash_note": "Em or en dashes in the client text were replaced for this seed: number and time ranges with \" to \", unspaced word joins (for example sleep-wake, mother-daughter) with a hyphen, everything else with a comma. The verbatim original with dashes is in build/03-content-harvest.md."
+  },
+  {
+    "id": "meditation-and-mindfulness",
+    "set": "guided",
+    "order": 8,
+    "name_transcript": "meditation & mindfulness",
+    "name_as_published": "Guided Group Breathwork, Meditation, Mindfulness & Nervous System Regulation",
+    "sourced_descriptions": [
+      {
+        "text": "Group guided meditation, mindfulness, breathwork & nervous system regulation session",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 15,
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "Guided Group Breathwork, Meditation, Mindfulness & Nervous System Regulation",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 23,
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "Group guided breathwork, meditation, mindfulness & nervous system regulation session",
+        "source": {
+          "type": "live_site_image",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+          "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+          "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "Meditation & Relaxation",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "captured": "24-09-2026",
+          "section": "What a weekend with us looks like..."
+        }
+      },
+      {
+        "text": "Guided Meditation & Pranayama, breathwork and mindfulness techniques to calm the mind and regulate the nervous system.",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/jaimi-baker",
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "- 30 or 60 minute Guide Breathwork & Meditation sessions",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/kristian-ryan",
+          "captured": "24-09-2026",
+          "section": "Services & offerings"
+        }
+      },
+      {
+        "text": "Mindfulness, meditation and breathwork practices that help manage stress, deepen purpose and foster a grounded sense of self.",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/philosophy",
+          "captured": "24-09-2026",
+          "section": "Psychological, Emotional & Spiritual Wellbeing pillar"
+        }
+      }
+    ],
+    "duration_as_published": "9:30 AM to 10:00 AM in the Beresford example",
+    "practitioners_as_published": [
+      "Jaimi Baker",
+      "Natalie Jane",
+      "Kristian Ryan"
+    ],
+    "pillar_links": [
+      "psychological-wellbeing"
+    ],
+    "image": null,
+    "video": null,
+    "source": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": null,
+    "pillar_links_source": "Psychological, Emotional & Spiritual Wellbeing pillar text names meditation and mindfulness"
+  },
+  {
+    "id": "gut-health",
+    "set": "guided",
+    "order": 9,
+    "name_transcript": "gut health nutrition workshop",
+    "name_as_published": "Lifestyle Wellness Workshop: The Foundations of High Performance Wellbeing",
+    "sourced_descriptions": [
+      {
+        "text": "Lifestyle wellness workshop: The Foundations of High Performance Wellbeing: Build Lifestyle Habits for Energy, Capacity, Stress Management & Burnout Prevention",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 15,
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "Experience 3: Lifestyle Wellness Workshop: The Foundations of High Performance Wellbeing: Build Lifestyle Habits for Energy, Focus & Burnout Prevention",
+        "source": {
+          "type": "live_site_image",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+          "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+          "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "Group Lifestyle Wellness Workshop",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 23,
+          "captured": "24-09-2026"
+        }
+      },
+      {
+        "text": "Wellness Education Session (with key guest speaker)",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "captured": "24-09-2026",
+          "section": "Bespoke wellness additions"
+        }
+      },
+      {
+        "text": "Enhances gut health by increasing microbial diversity and SCFA production. (Estruch et al., 2022)",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/philosophy",
+          "captured": "24-09-2026",
+          "section": "The Science, Nutrition"
+        }
+      }
+    ],
+    "duration_as_published": "40 minutes per rotation (Beresford example)",
+    "practitioners_as_published": [
+      "Belle Redden (guide p.21, nutrition education)"
+    ],
+    "pillar_links": null,
+    "image": null,
+    "video": null,
+    "source": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+      }
+    ],
+    "status": "not found",
+    "notes": "No workshop called \"gut health\" is published anywhere. The only sourced workshop is The Foundations of High Performance Wellbeing, whose subtitle differs between the guide and the Beresford example. Whether they are the same is plan/11 Q5.",
+    "pillar_links_source": "No published pillar text names this experience, so no link is recorded"
+  },
+  {
+    "id": "nutrition-consultations",
+    "set": "guided",
+    "order": 10,
+    "name_transcript": "lifestyle wellness & nutrition consultations",
+    "name_as_published": "Personalised Individual Nutrition & Lifestyle Consultation & Plan",
+    "sourced_descriptions": [
+      {
+        "text": "Personalised Individual Nutrition & Lifestyle Consultation & Plan (created post weekend retreat)",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "captured": "24-09-2026",
+          "section": "Bespoke wellness additions"
+        }
+      },
+      {
+        "text": [
+          "1:1 Mood Boosting Nutrition Consultation (60 minutes)",
+          "Private, tailored session designed to provide deeper support during retreat stays.",
+          "Perfect for guests seeking clarity, guidance, and a supportive plan designed just for them."
+        ],
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/malissa-fedele",
+          "captured": "24-09-2026",
+          "section": "Services & Offerings"
+        }
+      }
+    ],
+    "duration_as_published": "60 minutes (Malissa Fedele bio)",
+    "practitioners_as_published": [
+      "Malissa Fedele (live bio)"
+    ],
+    "pillar_links": null,
+    "image": null,
+    "video": null,
+    "source": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Listed as a paid bespoke addition, not an inclusion. Inside a day or sold separately is plan/11 Q4.",
+    "pillar_links_source": "No published pillar text names this experience, so no link is recorded"
+  },
+  {
+    "id": "coastal-hiking",
+    "set": "self_led",
+    "order": 1,
+    "name_transcript": "close to hiking",
+    "name_as_published": "Coastal hiking",
+    "sourced_descriptions": [
+      {
+        "text": "Coastal hiking",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 15,
+          "captured": "24-09-2026",
+          "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+        }
+      },
+      {
+        "text": "Nature Immersion & Coastal Hiking",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "captured": "24-09-2026",
+          "section": "What a weekend with us looks like..."
+        }
+      },
+      {
+        "text": "Nurturing by nature through forest bathing, hiking, swimming and listening to the sounds of the sea",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/philosophy",
+          "captured": "24-09-2026",
+          "section": "Nature Immersion pillar"
+        }
+      },
+      {
+        "text": "Vineyard Hiking",
+        "source": {
+          "type": "live_site_image",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+          "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+          "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+          "captured": "24-09-2026"
+        }
+      }
+    ],
+    "duration_as_published": null,
+    "practitioners_as_published": null,
+    "pillar_links": null,
+    "image": null,
+    "video": null,
+    "source": [
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 15,
+        "captured": "24-09-2026",
+        "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+      },
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Other random: \"doing a slider of the retreat self led activities\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Transcript reads \"close to hiking\", which is a transcription of \"coastal hiking\" per the guide. At Beresford the equivalent is \"Vineyard Hiking\"."
+  },
+  {
+    "id": "infrared-sauna",
+    "set": "self_led",
+    "order": 2,
+    "name_transcript": "infrared sauna",
+    "name_as_published": "Infrared sauna",
+    "sourced_descriptions": [
+      {
+        "text": "Infrared sauna",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 15,
+          "captured": "24-09-2026",
+          "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+        }
+      }
+    ],
+    "duration_as_published": null,
+    "practitioners_as_published": null,
+    "pillar_links": null,
+    "image": null,
+    "video": null,
+    "source": [
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 15,
+        "captured": "24-09-2026",
+        "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+      },
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Other random: \"doing a slider of the retreat self led activities\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Also appears inside the guided contrast therapy. See the sauna record."
+  },
+  {
+    "id": "pool-swimming",
+    "set": "self_led",
+    "order": 3,
+    "name_transcript": "pool swimming",
+    "name_as_published": "Pool swimming",
+    "sourced_descriptions": [
+      {
+        "text": "Pool swimming",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 15,
+          "captured": "24-09-2026",
+          "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+        }
+      },
+      {
+        "text": "Plunge Pool swimming",
+        "source": {
+          "type": "live_site_image",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+          "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+          "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+          "captured": "24-09-2026"
+        }
+      }
+    ],
+    "duration_as_published": null,
+    "practitioners_as_published": null,
+    "pillar_links": null,
+    "image": null,
+    "video": null,
+    "source": [
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 15,
+        "captured": "24-09-2026",
+        "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+      },
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Other random: \"doing a slider of the retreat self led activities\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": null
+  },
+  {
+    "id": "ocean-swimming",
+    "set": "self_led",
+    "order": 4,
+    "name_transcript": "ocean swimming",
+    "name_as_published": "Ocean swimming",
+    "sourced_descriptions": [
+      {
+        "text": "Ocean swimming",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 15,
+          "captured": "24-09-2026",
+          "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+        }
+      },
+      {
+        "text": "Easy coastal access for hiking and ocean swimming",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 23,
+          "captured": "24-09-2026"
+        }
+      }
+    ],
+    "duration_as_published": null,
+    "practitioners_as_published": null,
+    "pillar_links": null,
+    "image": null,
+    "video": null,
+    "source": [
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 15,
+        "captured": "24-09-2026",
+        "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+      },
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Other random: \"doing a slider of the retreat self led activities\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": null
+  },
+  {
+    "id": "journaling-and-reading",
+    "set": "self_led",
+    "order": 5,
+    "name_transcript": "journaling and reading",
+    "name_as_published": "Journaling & reading",
+    "sourced_descriptions": [
+      {
+        "text": "Journaling & reading",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 15,
+          "captured": "24-09-2026",
+          "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+        }
+      },
+      {
+        "text": "There is space to rest, journal, explore the coastline, or simply unwind.",
+        "source": {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/faqs",
+          "captured": "24-09-2026",
+          "section": "Is there free time, or is the schedule full?"
+        }
+      }
+    ],
+    "duration_as_published": null,
+    "practitioners_as_published": null,
+    "pillar_links": null,
+    "image": null,
+    "video": null,
+    "source": [
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 15,
+        "captured": "24-09-2026",
+        "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+      },
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Other random: \"doing a slider of the retreat self led activities\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": null
+  },
+  {
+    "id": "relaxing-by-the-fire",
+    "set": "self_led",
+    "order": 6,
+    "name_transcript": "relaxing by the fire",
+    "name_as_published": "Relaxing by the fire",
+    "sourced_descriptions": [
+      {
+        "text": "Relaxing by the fire",
+        "source": {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 15,
+          "captured": "24-09-2026",
+          "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+        }
+      },
+      {
+        "text": "Relaxing By The Fire",
+        "source": {
+          "type": "live_site_image",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+          "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+          "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+          "captured": "24-09-2026"
+        }
+      }
+    ],
+    "duration_as_published": null,
+    "practitioners_as_published": null,
+    "pillar_links": null,
+    "image": null,
+    "video": null,
+    "source": [
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 15,
+        "captured": "24-09-2026",
+        "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+      },
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Other random: \"doing a slider of the retreat self led activities\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": null
+  }
+]

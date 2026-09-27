@@ -1,0 +1,66 @@
+---
+/*
+  Brings its children in from the right as they scroll into view (The Tailor's "coming out from the
+  right hand side", register L2 O12). Scroll-driven with animation-timeline: view() where supported,
+  an IntersectionObserver fallback elsewhere, and the finished state under reduced motion.
+  The wrapper is the overflow-x: clip parent, so nothing it moves can ever cause horizontal scroll.
+
+  <SlideIn><p>...</p></SlideIn>
+  <SlideIn index={2} distance="30%">...</SlideIn>        (a small offset for siblings on one row)
+
+  Props
+  - from: 'right' (default) or 'left'
+  - distance: how far it travels, any length or percentage of its own width (default '24%')
+  - index: stagger for items that share a row (0, 1, 2...)
+  - as: wrapper element (default 'div'; use 'li' inside lists)
+  - clip: false lets the item enter from the page edge instead of its own box (body still clips)
+*/
+interface Props {
+  from?: 'right' | 'left';
+  distance?: string;
+  index?: number;
+  as?: 'div' | 'li' | 'section' | 'article';
+  clip?: boolean;
+  class?: string;
+}
+const { from = 'right', distance = '24%', index = 0, as: Tag = 'div', clip = true, class: className } = Astro.props;
+const offset = from === 'right' ? distance : `calc(-1 * ${distance})`;
+---
+<Tag class:list={['slide-in', clip && 'slide-in--clip', className]} data-slide-in style={`--slide-from:${offset};--i:${index}`}>
+  <div class="slide-in__inner"><slot /></div>
+</Tag>
+
+<script>
+  import '../../scripts/reveal';
+</script>
+
+<style>
+  .slide-in { display: block; view-timeline: --slide-in block; }
+  .slide-in--clip { overflow-x: clip; overflow-clip-margin: 6px; }
+  .slide-in__inner { display: block; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .slide-in__inner {
+        animation: slide-in-from linear both;
+        animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+        animation-timeline: --slide-in;
+        animation-range: entry calc(var(--i) * 6%) cover calc(32% + var(--i) * 6%);
+      }
+    }
+    @supports not (animation-timeline: view()) {
+      :global(html.js) .slide-in__inner {
+        translate: var(--slide-from) 0;
+        opacity: 0;
+        transition:
+          translate var(--dur-slower) var(--ease-soft) calc(var(--i) * 120ms),
+          opacity var(--dur-slow) var(--ease-soft) calc(var(--i) * 120ms);
+      }
+      :global(html.js) .slide-in.is-in .slide-in__inner { translate: 0 0; opacity: 1; }
+    }
+  }
+  @keyframes slide-in-from {
+    from { translate: var(--slide-from) 0; opacity: 0; }
+    to { translate: 0 0; opacity: 1; }
+  }
+</style>

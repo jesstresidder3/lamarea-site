@@ -1,0 +1,63 @@
+{
+  "name": "Connection",
+  "long_name": null,
+  "name_as_published": "Connection",
+  "science_name_as_published": "Connection",
+  "order": 6,
+  "order_live": 6,
+  "icon": "connection.svg",
+  "line": "Fostering social connection with others, connection to local community, to self, to country, land & nature",
+  "line_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+  },
+  "video": "pillar-connection",
+  "evidence": [
+    {
+      "heading": null,
+      "claims": [
+        "Strong social ties lower premature mortality; isolation increases risk of CVD, dementia, depression. (Holt-Lunstad et al., 2010; Pantell et al., 2013)",
+        "Community and culturally anchored connection, including land and ceremony, supports mental health, resilience, and wellbeing. (AIHW, 2020; Kirmayer et al., 2014)",
+        "Connection to country and native foods enhances wellbeing, nutrition, and mental health; improves antioxidant intake, dietary diversity, and gut microbiome. (Brown et al., 2021; Lee et al., 2019; Gu et al., 2020)",
+        "Social and cultural connection buffers stress, fosters purpose, and enhances engagement. (Holt-Lunstad et al., 2010; Kirmayer et al., 2014)"
+      ]
+    }
+  ],
+  "evidence_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "The Science accordion, item \"Connection\""
+  },
+  "citations": [
+    "AIHW, 2020",
+    "Brown et al., 2021",
+    "Gu et al., 2020",
+    "Holt-Lunstad et al., 2010",
+    "Kirmayer et al., 2014",
+    "Lee et al., 2019",
+    "Pantell et al., 2013"
+  ],
+  "references": [],
+  "references_source": null,
+  "page": false,
+  "page_basis": "Build spec 12: pillar pages publish only where evidence exists. Sleep and recovery has the sleep article and its full references; the other nine open on /philosophy#<id>.",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "The Science accordion, item \"Connection\""
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Pillar set is decision 1. Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar."
+}

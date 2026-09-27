@@ -1,0 +1,163 @@
+---
+/*
+  JournalCards (T8, visual study D11). Belle: "a big, um, or an image with... some simple wording...
+  and then people, if they are interested, they can click on it" (BD-70), and COMO's journal arrows at
+  a smaller size than COMO's (BD-34). 4:5 cards, the title over the photograph on a soft gradient in
+  the serif, the date and then the category in the label style beneath it. The photograph eases in
+  by 4 per cent on hover or focus.
+
+  Two variants
+  - grid: three across, with a filter row of toggle buttons (aria-pressed) from the categories present
+  - slider: the home and "Recent stories" row, arrows and a progress rule, three and a peek visible
+
+  <JournalCards posts={await getJournal()} variant="grid" />
+  <JournalCards posts={await getJournal({ limit: 6 })} variant="slider" />
+
+  Props: posts (getJournal() entries), variant ('grid' | 'slider'), filters (grid only, default true),
+  linkBase (default '/journal/'), label
+*/
+import Media from '../media/Media.astro';
+import Slider from '../slider/Slider.astro';
+import { formatDate, plain, uid } from '../../lib/text';
+import type { Post } from '../../lib/content';
+
+interface Props { posts: Post[]; variant?: 'grid' | 'slider'; filters?: boolean; linkBase?: string; label?: string; id?: string; class?: string }
+const { posts, variant = 'grid', filters = true, linkBase = '/journal/', label = 'Wellness journal', id, class: className } = Astro.props;
+const base = id ?? uid('journal');
+const categories = [...new Set(posts.map((p) => p.data.category))];
+const showFilters = variant === 'grid' && filters && categories.length > 1;
+---
+{variant === 'grid' ? (
+  <div class:list={['journal', 'journal--grid', className]} id={id} data-journal>
+    {showFilters && (
+      <div class="jc-filters" role="group" aria-label="Show stories">
+        <button type="button" class="jc-filter" aria-pressed="true" data-jc-filter="all">All</button>
+        {categories.map((c) => <button type="button" class="jc-filter" aria-pressed="false" data-jc-filter={c}>{c}</button>)}
+      </div>
+    )}
+    <ul class="jc-grid" aria-label={label}>
+      {posts.map((p) => (
+        <li class="jcard-wrap" data-category={p.data.category}>
+          <a class="jcard" href={`${linkBase}${p.id}`}>
+            <span class="jcard__media"><Media media={p.data.hero} aspect="fill" notePosition="top-left" /></span>
+            <span class="jcard__shade" aria-hidden="true"></span>
+            <span class="jcard__text">
+              <span class="jcard__title">{plain(p.data.title)}</span>
+              <span class="jcard__date"><time datetime={p.data.date.toISOString().slice(0, 10)}>{formatDate(p.data.date)}</time></span>
+              <span class="jcard__cat">{p.data.category}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+) : (
+  <div class:list={['journal', 'journal--slider', className]} id={id} data-journal>
+    <Slider label={label} itemLabel="story" perView={{ phone: 1.2, tablet: 2.2, desktop: 3.25 }} gap="clamp(1.25rem, 2vw, 1.75rem)" id={`${base}-slider`}>
+      {posts.map((p) => (
+        <a class="jcard" href={`${linkBase}${p.id}`}>
+          <span class="jcard__media"><Media media={p.data.hero} aspect="fill" notePosition="top-left" /></span>
+          <span class="jcard__shade" aria-hidden="true"></span>
+          <span class="jcard__text">
+            <span class="jcard__title">{plain(p.data.title)}</span>
+            <span class="jcard__date"><time datetime={p.data.date.toISOString().slice(0, 10)}>{formatDate(p.data.date)}</time></span>
+            <span class="jcard__cat">{p.data.category}</span>
+          </span>
+        </a>
+      ))}
+    </Slider>
+  </div>
+)}
+
+<style>
+  .journal { width: 100%; }
+  .jc-filters {
+    display: flex;
+    gap: 0.25rem 1.6rem;
+    margin: 0 0 clamp(1.75rem, 3vw, 2.75rem);
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 2px 0;
+    mask-image: linear-gradient(90deg, #000 85%, transparent);
+  }
+  @media (min-width: 900px) { .jc-filters { mask-image: none; } }
+  .jc-filter {
+    flex: none;
+    min-height: 2.75rem;
+    padding: 0 0.1rem;
+    border: 0;
+    background: transparent;
+    color: var(--sage-80);
+    font-family: var(--font-ui);
+    font-size: var(--fs-nav);
+    letter-spacing: 0.05em;
+    text-decoration: underline 1px transparent;
+    text-underline-offset: 0.5em;
+    transition: color var(--dur-fast) var(--ease-soft), text-decoration-color var(--dur-fast) var(--ease-soft);
+  }
+  /* Plain text tabs, the active one underlined (Aman and COMO, CD review 02 item 14). */
+  .jc-filter[aria-pressed='true'] { color: var(--sage-100); text-decoration-color: currentColor; }
+  @media (hover: hover) { .jc-filter[aria-pressed='false']:hover { text-decoration-color: var(--sage-40); } }
+
+  .jc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+    gap: clamp(1.25rem, 2.2vw, 2rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .jcard-wrap[hidden] { display: none; }
+
+  .jcard {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    color: var(--salt-25);
+    text-decoration: none;
+    background: var(--sand-40);
+    isolation: isolate;
+  }
+  .jcard__media { position: absolute; inset: 0; display: block; }
+  .jcard__media :global(.media) { transition: transform 700ms var(--ease-soft); }
+  @media (hover: hover) { .jcard:hover .jcard__media :global(.media) { transform: scale(1.04); } }
+  .jcard:focus-visible { outline: 1.5px solid var(--focus); outline-offset: 4px; }
+  .jcard:focus-visible .jcard__media :global(.media) { transform: scale(1.04); }
+  /* A soft gradient under the words only, never a dark wash over the photograph (0.22, as the hero) */
+  .jcard__shade { position: absolute; inset: 45% 0 0; background: linear-gradient(to top, rgb(35 32 14 / 0.22), rgb(35 32 14 / 0)); pointer-events: none; z-index: 1; }
+  .jcard__text { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: grid; gap: 0.55rem; padding: 1.25rem 1.25rem 1.35rem; }
+  .jcard__title { font-family: var(--font-serif); font-size: clamp(1.3rem, 1.15rem + 0.45vw, 1.55rem); line-height: 1.2; text-wrap: balance; }
+  .jcard__date, .jcard__cat { font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: 0.1em; }
+  .jcard__cat { margin-top: -0.3rem; }
+  /* While the slot still shows its light placeholder, the words take sage ink and the gradient goes (QA M3). */
+  .jcard:has(.media--placeholder) { color: var(--sage-100); }
+  .jcard:has(.media--placeholder) .jcard__shade { display: none; }
+  /* Placeholder notes sit at the top of the frame so the title stays legible */
+  .jcard :global(.ph-note) { margin-top: 1rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .jcard__media :global(.media), .jc-filter { transition: none; }
+    .jcard:hover .jcard__media :global(.media), .jcard:focus-visible .jcard__media :global(.media) { transform: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-journal]').forEach((root) => {
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-jc-filter]'));
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('[data-category]'));
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        const f = b.dataset.jcFilter;
+        const apply = () => {
+          buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+          cards.forEach((c) => (c.hidden = f !== 'all' && c.dataset.category !== f));
+        };
+        const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
+        if (!reduce && doc.startViewTransition) doc.startViewTransition(apply);
+        else apply();
+      }),
+    );
+  });
+</script>

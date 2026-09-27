@@ -1,0 +1,229 @@
+---
+/*
+  /places/<slug>, one page per published venue (plan/11 4.10, build spec 12 and 7, page builder C).
+  Built from the venues collection, so a venue Belle adds is a new page with no code change. Hidden
+  venues (The Vineyard Retreat) generate no page.
+
+  Order: hero (Naiko Deep Creek opens on the bath shot, BD-111), the venue at a glance, about the
+  place, within the venue (SteppedGallery), what is around it, a day here, proof from this venue when
+  a review names it, the other Places to Pause, then "Plan your day" prefilled with the venue.
+  No mini map (build spec 12: the map lives on home, /places and the Fleurieu page).
+
+  voice-verbatim-source: the `about`, `features` and `nearby` text in src/content/venues/*.json
+  (La maréa's accommodation partners page, the Encounter Bay guide, the venues' own sites), and
+  src/components/pages/c/venue-extras.ts for each venue's day. Drafted lines carry data-draft.
+*/
+import Base from '../../layouts/Base.astro';
+import Band from '../../components/pages/c/Band.astro';
+import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
+import Eyebrow from '../../components/base/Eyebrow.astro';
+import CtaBand from '../../components/base/CtaBand.astro';
+import ArrowLink from '../../components/base/ArrowLink.astro';
+import Reveal from '../../components/base/Reveal.astro';
+import SteppedGallery from '../../components/venues/SteppedGallery.astro';
+import Testimonials from '../../components/testimonials/Testimonials.astro';
+import AtAGlance from '../../components/pages/c/AtAGlance.astro';
+import VenueAround from '../../components/pages/c/VenueAround.astro';
+import VenueDay from '../../components/pages/c/VenueDay.astro';
+import NoteFlag from '../../components/pages/c/NoteFlag.astro';
+import { extrasFor } from '../../components/pages/c/venue-extras';
+import { emphasis } from '../../components/base/text';
+import { getVenues, getTestimonials, type Venue } from '../../lib/content';
+import { regionLabel, sleepsLabel } from '../../lib/text';
+import slots from '../../data/media';
+import { site } from '../../data/settings';
+
+export async function getStaticPaths() {
+  const venues = await getVenues();
+  return venues.map((venue) => ({ params: { slug: venue.id }, props: { venue } }));
+}
+
+interface Props { venue: Venue }
+const { venue } = Astro.props;
+const d = venue.data;
+const extra = extrasFor(venue.id, d.name, d.location_label);
+const hasSlot = (id: string) => slots.some((s) => s.id === id);
+
+const heroSlot = hasSlot(`venue-hero-${venue.id}`) ? `venue-hero-${venue.id}` : d.card_media;
+const aroundSlot = hasSlot(`venue-around-${venue.id}`) ? `venue-around-${venue.id}` : d.map_media;
+
+// What is around it: the venue's surroundings, plus the features that sit outside the house.
+// A feature shown here leaves the gallery, and nothing with the same words appears twice.
+const KIND: Record<string, string> = { park: 'Parks', trail: 'Walking', wildlife: 'Wildlife', cellar_door: 'Cellar door on the estate', dining: 'Dining on the estate', town: 'Town' };
+const kindOf = (name: string, kind?: string) =>
+  (kind && KIND[kind]) ||
+  (/beach/i.test(name) ? 'The beach' : /trail|walk/i.test(name) ? 'Walking' : /vineyard/i.test(name) ? 'The vines' : /bluff|coast/i.test(name) ? 'The coast' : 'On the estate');
+const moved = d.features.filter((f) => extra.aroundFromFeatures?.includes(f.name));
+const around: { name: string; kind: string; text: string | null }[] = [];
+for (const n of d.nearby) {
+  const replace = moved.find((f) => f.text === n.text);
+  const name = replace?.name ?? n.name;
+  // "Tasting Pavilion ... Open 7 days" keeps only the part after the name; a bare name keeps no text.
+  let text: string | null = n.text.replace(/^.*?\.\.\.\s*/, '');
+  if (text.trim() === n.name.trim()) text = null;
+  around.push({ name, kind: kindOf(name, n.kind), text });
+}
+for (const f of moved) if (!around.some((a) => a.text === f.text)) around.push({ name: f.name, kind: kindOf(f.name), text: f.text });
+
+const nearbyTexts = new Set(d.nearby.map((n) => n.text));
+const gallery = d.features.filter((f) => !extra.aroundFromFeatures?.includes(f.name) && !nearbyTexts.has(f.text));
+
+const reviews = (await getTestimonials()).filter((t) => t.data.venue === venue.id);
+const others = (await getVenues()).filter((v) => v.id !== venue.id);
+
+// The first paragraph opens as a lead. A long one gives the lead its first sentence only and carries
+// on at body size, so the lead stays a lead (the words are unchanged).
+const paras = d.about.map((a) => a.text);
+let lead = paras[0] ?? null;
+const restAbout = paras.slice(1);
+if (lead && lead.split(/\s+/).length > 30) {
+  const cut = lead.search(/\.\s/);
+  if (cut > 0) {
+    restAbout.unshift(lead.slice(cut + 2));
+    lead = lead.slice(0, cut + 1);
+  }
+}
+const area = (d.location_label.split(',').pop() ?? '').replace(' Peninsula', '').trim();
+const description = d.intro
+  ? d.intro.text.length < 100
+    ? `${d.intro.text} ${sleepsLabel(d.sleeps.display)}, ${d.location_label}.`
+    : d.intro.text
+  : `${d.name}, ${d.location_label}. A La maréa partner venue.`;
+
+const url = new URL(`/places/${venue.id}`, site.url).href;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LodgingBusiness',
+  name: d.name_as_published_by_venue ?? d.name,
+  alternateName: d.name,
+  url,
+  description,
+  ...(d.address ? { address: { '@type': 'PostalAddress', streetAddress: d.address, addressRegion: 'SA', addressCountry: 'AU' } } : {}),
+  ...(d.coordinates ? { geo: { '@type': 'GeoCoordinates', latitude: d.coordinates.lat, longitude: d.coordinates.lng } } : {}),
+  containedInPlace: { '@type': 'Place', name: d.location_label },
+};
+
+const flags = [
+  ...(d.partner_approved ? [] : ['Partner approval pending: shown in the prototype only (open decision 8).']),
+  ...(d.sleeps.conflict ? [d.sleeps.conflict] : []),
+  ...(extra.flags ?? []),
+];
+---
+<Base title={`${d.name}, ${area} retreat venue`} description={description} headerTone="over-media" jsonLd={jsonLd}>
+  <Band media={heroSlot} height="screen" hero text="over" level={1} eyebrow={regionLabel(d.region)} heading={d.name} />
+
+  <section class="section venue-top">
+    <div class="wrap">
+      <Breadcrumbs items={[{ label: 'Places to Pause', href: '/places' }, { label: d.name }]} class="venue-crumbs" />
+      <AtAGlance venue={venue} />
+    </div>
+  </section>
+
+  <section class="section section--flush-top venue-about" aria-labelledby="about-heading">
+    <div class="wrap about">
+      <div class="about__head">
+        <Eyebrow>About the place</Eyebrow>
+        <h2 class="about__heading" id="about-heading" set:html={emphasis(extra.aboutHeading)} />
+      </div>
+      <Reveal class="about__body">
+        {lead && <p class="about__lead">{lead}</p>}
+        {restAbout.map((p) => <p>{p}</p>)}
+        {extra.aboutDraft?.map((p) => <p data-draft>{p.text}</p>)}
+        <NoteFlag items={flags} />
+      </Reveal>
+    </div>
+  </section>
+
+  {gallery.length > 0 && (
+    <section class="section band-salt venue-within" aria-label={`Within ${d.name}`}>
+      <div class="wrap">
+        <SteppedGallery items={gallery} label="Within the venue" sublabel={d.name} aria={`${d.name}, within the venue`} id={`within-${venue.id}`} />
+      </div>
+    </section>
+  )}
+
+  {around.length > 0 && (
+    <VenueAround heading={`Around *${extra.aroundPlace}*`} media={aroundSlot} items={around} id="around" />
+  )}
+
+  <div class="band-warm">
+    <VenueDay day={extra.day} id="venue-day" />
+  </div>
+
+  {reviews.length > 0 && (
+    <section class="section" aria-label={`From retreats at ${d.name}`}>
+      <div class="wrap"><Eyebrow>From retreats here</Eyebrow></div>
+      <Testimonials items={reviews} filters={false} label={`Reviews from ${d.name}`} />
+    </section>
+  )}
+
+  {others.length > 0 && (
+    <nav class="section section--tight others" aria-labelledby="others-heading">
+      <div class="wrap others__grid">
+        <p class="others__label" id="others-heading">Other Places to Pause</p>
+        <ul class="others__list" role="list">
+          {others.map((o) => (
+            <li>
+              <a class="others__link" href={`/places/${o.id}`}>
+                <span class="others__name">{o.data.name}</span>
+                <span class="others__meta">{regionLabel(o.data.region)}, {sleepsLabel(o.data.sleeps.display).toLowerCase()}</span>
+                <svg width="28" height="10" viewBox="0 0 28 10" aria-hidden="true" focusable="false"><line x1="0.5" y1="5" x2="27.25" y2="5" /><polyline points="22.25,0.5 27.25,5 22.25,9.5" /></svg>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <ArrowLink href="/places" label="All Places to Pause" class="others__all" />
+      </div>
+    </nav>
+  )}
+
+  <CtaBand
+    eyebrow="Plan your day here"
+    line={`Bring your group to *${extra.ctaPlace}*`}
+    params={{ venue: venue.id, source: 'venue' }}
+    tone="salt"
+    draft={{ line: true }}
+  />
+</Base>
+
+<style>
+  .venue-top { padding-top: clamp(1.5rem, 3vw, 2.5rem); padding-bottom: var(--space-2xl); }
+  .venue-top :global(.venue-crumbs) { margin-bottom: clamp(1rem, 2vw, 1.75rem); }
+
+  .about { display: grid; gap: var(--space-m) clamp(2rem, 6vw, 7.5rem); }
+  .about__heading { margin: 0; max-width: 11em; }
+  .about__lead { font-family: var(--font-serif); font-size: clamp(1.3rem, 1.1rem + 0.7vw, 1.75rem); line-height: 1.4; color: var(--sage-100); max-width: 34rem; margin-bottom: 1.5rem; }
+  .venue-about :global(.about__body) p:not(.about__lead) { color: var(--sage-100); }
+  @media (min-width: 900px) {
+    .about { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+    .venue-about :global(.about__body) { padding-top: calc(var(--fs-label) * var(--lh-label) + 1.25rem); }
+  }
+
+  .others { border-top: 1px solid var(--rule); }
+  .others__grid { display: grid; gap: 1.25rem clamp(2rem, 6vw, 7.5rem); align-items: start; }
+  .others__label { margin: 0; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); padding-top: 1rem; }
+  .others__list { margin: 0; padding: 0; list-style: none; }
+  .others__link {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'name arrow' 'meta arrow';
+    align-items: center;
+    gap: 0.2rem 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--heading);
+    text-decoration: none;
+  }
+  .others__name { grid-area: name; font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.2; }
+  .others__meta { grid-area: meta; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.06em; color: var(--muted); }
+  .others__link svg { grid-area: arrow; overflow: visible; }
+  .others__link :is(line, polyline) { fill: none; stroke: currentColor; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; transition: transform var(--dur-fast) var(--ease-soft); }
+  @media (hover: hover) { .others__link:hover polyline { transform: translateX(6px); } }
+  .others__link:focus-visible polyline, .others__link:active polyline { transform: translateX(6px); }
+  .others :global(.others__all) { margin-top: 0.5rem; }
+  @media (min-width: 900px) {
+    .others__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+    .others :global(.others__all) { grid-column: 2; }
+  }
+  @media (prefers-reduced-motion: reduce) { .others__link :is(line, polyline) { transition: none; } }
+</style>

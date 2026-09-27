@@ -1,0 +1,142 @@
+/* Self-hosted fonts (plan/10, woff2, no third-party font request). Italiana for headings of 28px and up,
+   Cormorant Garamond for smaller serif text and place names, Jost for body (build spec section 12). */
+@import '@fontsource/italiana/400.css';
+@import '@fontsource/cormorant-garamond/400.css';
+@import '@fontsource/cormorant-garamond/500.css';
+@import '@fontsource/cormorant-garamond/400-italic.css';
+@import '@fontsource/cormorant-garamond/500-italic.css';
+@import '@fontsource/jost/300.css';
+@import '@fontsource/jost/400.css';
+@import '@fontsource/jost/500.css';
+
+@import './tokens.css';
+@import './utilities.css';
+
+/*
+  Foundation additions that sit beside the tokens (owner: foundation layout builder).
+  --font-ui keeps labels, navigation and buttons in Jost when the ?body=serif variant switches
+  body copy to the display serif (build spec section 7).
+*/
+:root {
+  --font-ui: 'Jost', 'Avenir Next', 'Avenir', 'Helvetica Neue', sans-serif;
+  --fs-nav: 0.8125rem;          /* 13px */
+  --track-nav: 0.06em;
+  --focus: var(--sage-80);
+  --focus-on-dark: var(--salt-25);
+  --sticky-cta-h: 3.25rem;      /* 52px phone bar */
+  --header-compact: clamp(3.5rem, 3.3rem + 0.6vw, 4rem); /* the sand strip once the page has moved */
+  --icon-stroke: 0.9px;         /* Belle's line icons, drawn at a visible hairline at every size */
+}
+
+/* Serif body variant, switched by ?body=serif and kept for the session. */
+html[data-body='serif'] {
+  --font-body: var(--font-serif);
+  --fs-body: 1.0625rem; /* 17px */
+}
+html[data-body='serif'] body { font-size: 1.0625rem; letter-spacing: 0.005em; }
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overflow-x: clip; /* O12 backstop, not the fix */
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 1rem);
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--track-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+/* Scroll lock for the menu overlay without layout shift: the scrollbar's width is kept as padding. */
+html.menu-open, html.panel-open { overflow: hidden; }
+html.menu-open body, html.panel-open body { padding-right: var(--sbw, 0px); }
+
+img, svg, video, picture { display: block; max-width: 100%; height: auto; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+p { margin: 0 0 1em; max-width: var(--measure); }
+p:last-child { margin-bottom: 0; }
+strong, b { font-weight: inherit; } /* no bold anywhere (creative brief E8) */
+
+/* Italiana carries headings of 28px and up only and is never italicised (it has no true italic).
+   h4 and small headings use Cormorant. Build spec section 12. */
+h1, h2, h3, h4, .display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: normal;
+  color: var(--heading);
+  line-height: var(--lh-heading);
+  letter-spacing: 0.01em;
+  margin: 0 0 0.5em;
+  text-wrap: balance;
+}
+h1 { font-size: var(--fs-h1); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: max(1.75rem, var(--fs-h3)); }
+h4 { font-size: var(--fs-h4); font-family: var(--font-serif); letter-spacing: var(--track-heading); line-height: 1.25; }
+em, i, cite { font-style: normal; } /* italic is kept for place names only */
+
+/* The one italic flourish: place names inside headings (Fleurieu, Deep Creek, Encounter Bay,
+   McLaren Vale, Adelaide, Victor Harbor, Beresford Estate). <span class="place">Fleurieu</span> */
+.place {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.06em;
+  letter-spacing: 0;
+}
+
+::selection { background: var(--sand-100); color: var(--sage-100); }
+
+:focus-visible {
+  outline: 1.5px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: absolute; left: var(--gutter); top: -4rem;
+  background: var(--salt-25); color: var(--sage-100);
+  font-family: var(--font-ui); font-size: var(--fs-small);
+  padding: 0.75rem 1rem; z-index: 100;
+}
+.skip-link:focus { top: 1rem; }
+
+/* Main offset: pages that open on sand start below the fixed header. */
+.site-main { display: block; outline: none; }
+.site-main--solid { padding-top: var(--header-h); }
+
+/* Belle's ten line icons are drawn at a 0.3px stroke in a 60px box. They are inlined with ?raw and
+   drawn here at one visible hairline whatever their display size. */
+.lm-icon { display: inline-block; flex: none; color: inherit; line-height: 0; }
+.lm-icon svg { width: 100%; height: 100%; overflow: visible; }
+.lm-icon svg [stroke] { vector-effect: non-scaling-stroke; stroke-width: var(--icon-stroke); }
+
+/* Reduced motion: each animated component carries its own reduce rule that shows the finished state.
+   No global !important override (design system rule). */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

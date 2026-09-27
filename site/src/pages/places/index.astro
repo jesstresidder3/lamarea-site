@@ -1,0 +1,102 @@
+---
+/*
+  /places, Places to Pause (plan/11 4.9 with build spec 12, page builder C).
+  voice-verbatim-source: lamarea.com.au/accommodation-partners (captured 24-09-2026): the intro,
+  "La maréa retreats are intentionally limited and venue selection is highly considered.", the
+  "Curated partnerships" heading and the "Where aligned in values..." lines, and the personalisation
+  line. Belle, transcript: "I'm going to be adding accommodation venues over time" (BD-21).
+  Drafted lines carry data-draft. No venue count anywhere (build spec 12): the page reads the
+  collection, so a venue Belle adds appears in the cards, the filter and the map with no code change.
+*/
+import Base from '../../layouts/Base.astro';
+import Band from '../../components/pages/c/Band.astro';
+import SectionHead from '../../components/base/SectionHead.astro';
+import TextPair from '../../components/base/TextPair.astro';
+import CtaBand from '../../components/base/CtaBand.astro';
+import Reveal from '../../components/base/Reveal.astro';
+import VenueIndex from '../../components/venues/VenueIndex.astro';
+import FleurieuMap from '../../components/map/FleurieuMap.astro';
+import Statement from '../../components/pages/c/Statement.astro';
+import { getVenues } from '../../lib/content';
+import { site } from '../../data/settings';
+
+const venues = await getVenues();
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Places to Pause, La maréa partner venues',
+  itemListElement: venues.map((v, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: v.data.name,
+    url: new URL(`/places/${v.id}`, site.url).href,
+  })),
+};
+---
+<Base
+  title="Places to Pause, partner venues on the Fleurieu"
+  description="The partner venues for La maréa's 8 hour wellness retreats, on the coast at Deep Creek and Encounter Bay and among the vineyards of McLaren Vale."
+  headerTone="over-media"
+  jsonLd={jsonLd}
+>
+  <Band
+    media="places-hero"
+    height="tall"
+    hero
+    text="over"
+    level={1}
+    eyebrow="Partner venues, Fleurieu Peninsula"
+    heading="Places to Pause"
+  />
+
+  <section class="section places-intro">
+    <div class="wrap">
+      <Statement
+        label="Our accommodation partners"
+        text="We collaborate with a select collection of exceptional luxury South Australian properties, each chosen for privacy, architectural integrity and deep connection to landscape."
+        after="La maréa retreats are intentionally limited and venue selection is highly considered."
+      />
+    </div>
+  </section>
+
+  <section class="section section--flush-top" id="venues" aria-labelledby="venues-heading">
+    <div class="wrap">
+      <Reveal>
+        <SectionHead id="venues-heading" eyebrow="Partner venues" heading="On the coast and in the vineyards" draft={{ heading: true }} />
+      </Reveal>
+      <VenueIndex venues={venues} id="places-index" />
+    </div>
+  </section>
+
+  <section class="section places-map" aria-labelledby="map-heading">
+    <div class="wrap">
+      <Reveal>
+        <SectionHead id="map-heading" eyebrow="Where they are" heading="South of *Adelaide*, between the vines and the sea" draft={{ heading: true }} />
+      </Reveal>
+    </div>
+    <FleurieuMap venues={venues} id="places-map" class="fmap--wide" />
+  </section>
+
+  <section class="section band-warm" aria-labelledby="curated-heading">
+    <div class="wrap">
+      <TextPair heading="Curated partnerships" headingId="curated-heading">
+        <p data-draft>More places will join the collection over time, each one chosen the same way.</p>
+        <p>Where aligned in values and guest experience, we are open to curating retreats at other luxury venues upon request. If you have a setting in mind, we welcome the conversation to explore suitability.</p>
+      </TextPair>
+    </div>
+  </section>
+
+  <CtaBand
+    line="Tell us who is coming, and we will suggest the place"
+    note="Guided by our personalisation pillar, each retreat location is carefully matched to the group and the retreat intention."
+    params={{ source: 'places' }}
+    tone="salt"
+    draft={{ line: true }}
+  />
+</Base>
+
+<style>
+  .places-intro { padding-bottom: calc(var(--section-y) * 0.75); }
+  .places-map { padding-bottom: var(--section-y); }
+</style>

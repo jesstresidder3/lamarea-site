@@ -1,0 +1,19 @@
+{
+  "question": "Where is the retreat located, and how do I get there?",
+  "answer": [
+    "This will be unique to our accommodation partner, but generally our retreats will be held on the Fleurieu Peninsula, South Australia.",
+    "We cover your transport from Adelaide, meeting spot details for pick up/drop off will be provided to you prior to your retreat."
+  ],
+  "order": 6,
+  "topic": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    }
+  ],
+  "status": "draft",
+  "review": "Says transport from Adelaide is covered."
+}

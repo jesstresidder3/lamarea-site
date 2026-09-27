@@ -1,0 +1,234 @@
+---
+/*
+  <Media media="home-hero" /> renders one slot from src/data/media.ts.
+  Real media: <img> or a muted, inline, looping <video> that only loads and plays while on screen.
+  No media yet: a designed placeholder naming the asset that belongs there.
+
+  Props
+  - media: id in the manifest (required). Named `media`, not `slot`: Astro reserves `slot` on child components
+  - aspect: override the slot's aspect ratio, or 'fill' to fill a positioned parent
+  - priority: true for the one above-the-fold asset (eager image, video metadata preload)
+  - fit: 'cover' (default) or 'contain' (for vertical reels inside a frame, O10 no cropping)
+  - showNote: false hides the placeholder caption for decorative slivers
+  - still: true keeps a video slot on its poster: renders the poster as an <img> and never attaches
+    the video (for pages whose one autoplay loop is elsewhere, such as the experiences posters on home)
+  - notePosition: where the placeholder caption sits, 'bottom-left' (default), 'bottom-right',
+    'top-left' or 'top-right', so it never sits under text laid over the media
+  - class: extra class on the wrapper
+*/
+import { media as getMedia } from '../../data/media';
+
+interface Props {
+  media: string;
+  aspect?: string | 'fill';
+  priority?: boolean;
+  fit?: 'cover' | 'contain';
+  showNote?: boolean;
+  still?: boolean;
+  notePosition?: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right';
+  class?: string;
+}
+
+const { media: slotId, aspect, priority = false, fit = 'cover', showNote = true, still = false, notePosition = 'bottom-left', class: className = '' } = Astro.props;
+const m = getMedia(slotId);
+const ratio = aspect ?? m.aspect ?? '4 / 5';
+const fill = ratio === 'fill';
+// A still video slot shows its poster as an image and never attaches the file.
+const asStill = still && m.type === 'video';
+const imageSrc = asStill ? m.poster : m.src;
+const hasSrc = asStill ? Boolean(m.poster) : Boolean(m.src);
+const tone = m.tone ?? 'sand';
+const kind = m.type === 'video' ? 'Video' : 'Photograph';
+---
+<figure
+  class:list={['media', `media--${m.type}`, fill ? 'media--fill' : '', hasSrc ? 'media--real' : 'media--placeholder', `tone-${tone}`, className]}
+  style={fill ? undefined : `--media-aspect: ${ratio}`}
+  data-media-slot={m.id}
+>
+  {hasSrc && (m.type === 'image' || asStill) && (
+    <picture>
+      {m.srcMobile && !asStill && <source media="(max-width: 767px)" srcset={m.srcMobile} />}
+      <img
+        src={imageSrc}
+        alt={m.alt}
+        loading={priority ? 'eager' : 'lazy'}
+        decoding="async"
+        fetchpriority={priority ? 'high' : 'auto'}
+        style={`object-fit: ${fit}`}
+      />
+    </picture>
+  )}
+
+  {hasSrc && m.type === 'video' && !asStill && (
+    <video
+      class="media-video"
+      muted
+      playsinline
+      loop
+      preload={priority ? 'metadata' : 'none'}
+      poster={m.poster}
+      aria-label={m.alt}
+      data-src={m.src}
+      data-src-mobile={m.srcMobile}
+      data-priority={priority ? 'true' : undefined}
+      style={`object-fit: ${fit}`}
+    ></video>
+  )}
+
+  {!hasSrc && (
+    <div class:list={['ph', `ph--${notePosition}`]} role="img" aria-label={m.alt || `${kind} to come`}>
+      <span class="ph-tide" aria-hidden="true"></span>
+      <span class="ph-grain" aria-hidden="true"></span>
+      {showNote && (
+        <span class="ph-note">
+          <span class="ph-kind">
+            {m.type === 'video' ? (
+              <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.25" fill="none" stroke="currentColor" stroke-width="0.8"/><path d="M6.5 5.2v5.6L11 8z" fill="currentColor"/></svg>
+            ) : (
+              <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="3.5" width="13" height="9.5" rx="0.5" fill="none" stroke="currentColor" stroke-width="0.8"/><circle cx="8" cy="8.25" r="2.6" fill="none" stroke="currentColor" stroke-width="0.8"/></svg>
+            )}
+            {kind} to come
+          </span>
+          <span class="ph-suggested">{m.suggested}</span>
+          {m.note && <span class="ph-extra">{m.note}</span>}
+        </span>
+      )}
+    </div>
+  )}
+</figure>
+
+<style>
+  .media {
+    position: relative;
+    margin: 0;
+    width: 100%;
+    aspect-ratio: var(--media-aspect, 4 / 5);
+    overflow: hidden;
+    background: var(--sand-40);
+    isolation: isolate;
+    container-type: inline-size;
+  }
+  .media--fill { position: absolute; inset: 0; aspect-ratio: auto; height: 100%; }
+  .media picture, .media img, .media video, .media .ph {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+  }
+  .media img, .media video { object-fit: cover; }
+
+  /* Placeholder: brand tones, a slow tidal drift, fine grain and a hairline inner frame.
+     It has to read as intentional at a glance, never as a grey box. */
+  .ph {
+    display: grid;
+    place-items: end start;
+    background:
+      radial-gradient(120% 90% at 18% 12%, var(--ph-a) 0%, transparent 60%),
+      radial-gradient(110% 80% at 88% 92%, var(--ph-b) 0%, transparent 62%),
+      linear-gradient(160deg, var(--ph-c), var(--ph-d));
+  }
+  .ph--bottom-right { place-items: end end; }
+  .ph--top-left { place-items: start start; }
+  .ph--top-right { place-items: start end; }
+  .ph::after {
+    content: '';
+    position: absolute;
+    inset: clamp(0.5rem, 1.2vw, 1rem);
+    border: 1px solid var(--ph-line);
+    pointer-events: none;
+  }
+  .ph-tide {
+    position: absolute; inset: -20%;
+    background:
+      repeating-radial-gradient(ellipse 120% 60% at 50% 120%, transparent 0 22px, var(--ph-wave) 22px 23px, transparent 23px 46px);
+    opacity: 0.55;
+    animation: ph-tide 26s ease-in-out infinite alternate;
+  }
+  .media--video .ph-tide { opacity: 0.8; }
+  .ph-grain {
+    position: absolute; inset: 0;
+    opacity: 0.22;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.26 0 0 0 0 0.24 0 0 0 0 0.1 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  @keyframes ph-tide {
+    from { transform: translate3d(-3%, 2%, 0) scale(1); }
+    to   { transform: translate3d(3%, -2%, 0) scale(1.04); }
+  }
+
+  .ph-note {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 0.35rem;
+    max-width: min(30rem, 86%);
+    margin: clamp(1rem, 2.4vw, 2rem);
+    padding: 0.7rem 0.85rem 0.75rem;
+    background: color-mix(in srgb, var(--salt-25) 82%, transparent);
+    backdrop-filter: blur(6px);
+    color: var(--sage-100);
+    font-family: var(--font-body);
+    font-size: var(--fs-label);
+    line-height: var(--lh-label);
+    letter-spacing: 0.02em;
+  }
+  html[data-media-notes='off'] .ph-note { display: none; }
+  /* Small tiles (mosaic slivers, thumbnails): a compact note, and none at all below 140px. */
+  @container (max-width: 300px) {
+    .ph-note { margin: 0.6rem; padding: 0.45rem 0.55rem; font-size: 0.6875rem; max-width: calc(100% - 1.2rem); }
+    .ph-extra { display: none; }
+  }
+  /* Below 200px wide the suggestion line cannot fit a landscape frame, so only the kind shows (QA m6). */
+  @container (max-width: 200px) {
+    .ph-suggested { display: none; }
+  }
+  @container (max-width: 140px) {
+    .ph-note { display: none; }
+  }
+  .ph-kind {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    letter-spacing: var(--track-label);
+    color: var(--sage-80);
+  }
+  .ph-kind svg { width: 0.95rem; height: 0.95rem; flex: none; }
+  .ph-suggested { color: var(--sage-100); }
+  .ph-extra { color: var(--sage-80); font-style: italic; }
+
+  /* Tones, all from the brand palette. Every tone stays light and bright (CD review 02 item 1): Belle
+     wants the site "light and bright ... more summery", so no placeholder reads as a dark field. */
+  .tone-sand { --ph-a: #fbf4e2; --ph-b: #e9d9ad; --ph-c: #f2e6c8; --ph-d: #e6d6a4; --ph-wave: rgb(99 91 57 / 0.10); --ph-line: rgb(99 91 57 / 0.22); }
+  .tone-salt { --ph-a: #ffffff; --ph-b: #e9e5d6; --ph-c: #f6f4ec; --ph-d: #e6e1cf; --ph-wave: rgb(99 91 57 / 0.08); --ph-line: rgb(99 91 57 / 0.2); }
+  .tone-sage { --ph-a: #f6f5ef; --ph-b: #dedbcc; --ph-c: #edebe1; --ph-d: #e2dfd1; --ph-wave: rgb(67 61 27 / 0.1); --ph-line: rgb(67 61 27 / 0.2); }
+  .tone-dusk { --ph-a: #fbf4e2; --ph-b: #e6dcc3; --ph-c: #f2e8d2; --ph-d: #e6dcc1; --ph-wave: rgb(67 61 27 / 0.1); --ph-line: rgb(67 61 27 / 0.2); }
+  /* 'sea' leans on salt and pale sage for coastal footage, still inside the brand palette */
+  .tone-sea { --ph-a: #fbfaf5; --ph-b: #e2dfd3; --ph-c: #f1efe6; --ph-d: #e3e1d4; --ph-wave: rgb(67 61 27 / 0.12); --ph-line: rgb(67 61 27 / 0.2); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ph-tide { animation: none; }
+  }
+</style>
+
+<script>
+  // Videos load and play only while on screen, pause when scrolled past (plan/10 section 4).
+  // Reduced motion or save-data: the poster stays and the video never attaches.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  const slow = Boolean(conn && (conn.saveData || /(^|-)2g$/.test(conn.effectiveType ?? '')));
+  const videos = document.querySelectorAll<HTMLVideoElement>('video.media-video[data-src]');
+  if (!reduce && !slow && videos.length) {
+    const mobile = window.matchMedia('(max-width: 767px)').matches;
+    const attach = (v: HTMLVideoElement) => {
+      if (v.src) return;
+      v.src = (mobile && v.dataset.srcMobile) || v.dataset.src || '';
+    };
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        const v = e.target as HTMLVideoElement;
+        if (e.isIntersecting && e.intersectionRatio >= 0.35) {
+          attach(v);
+          v.play().catch(() => {});
+        } else {
+          v.pause();
+        }
+      }
+    }, { rootMargin: '200px 0px', threshold: [0, 0.35, 0.6] });
+    videos.forEach((v) => io.observe(v));
+  }
+</script>

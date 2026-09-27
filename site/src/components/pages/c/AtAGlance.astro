@@ -1,0 +1,68 @@
+---
+/*
+  The venue at a glance (plan/11 4.10 section 3, build spec 12): coast or vineyard, sleeps as
+  published, the day retreat capacity where the guide gives one, the location, the drive from
+  Adelaide from the venue's own site, and the partner label ("Five star partner venue" on the Naiko
+  venues only, where a rating exists; "Partner venue" elsewhere). A missing fact is left out, never
+  guessed; the page's notes layer says what is still to come.
+*/
+import { regionLabel } from '../../../lib/text';
+import type { Venue } from '../../../lib/content';
+
+interface Props { venue: Venue; class?: string }
+const { venue, class: className } = Astro.props;
+const d = venue.data;
+const facts: { k: string; v: string; place?: boolean }[] = [
+  { k: 'Setting', v: regionLabel(d.region) },
+  { k: 'Sleeps', v: d.sleeps.display ?? 'To confirm' },
+  ...(d.day_capacity && d.day_capacity.min && d.day_capacity.max ? [{ k: 'Day retreats', v: `${d.day_capacity.min} to ${d.day_capacity.max} guests` }] : []),
+  { k: 'Location', v: d.location_label, place: true },
+  ...(d.drive_from_adelaide ? [{ k: 'From Adelaide', v: d.drive_from_adelaide.text.replace(/ from Adelaide$/, '') }] : []),
+  { k: 'Partner', v: d.partner_label },
+];
+const [place, ...rest] = d.location_label.split(',');
+---
+<dl class:list={['glance', className]} style={`--cols:${facts.length}`}>
+  {facts.map((f) => (
+    <div class="glance__item">
+      <dt>{f.k}</dt>
+      <dd>{f.place ? <><span class="place">{place}</span>{rest.length ? `,${rest.join(',')}` : ''}</> : f.v}</dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  .glance {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .glance__item {
+    display: grid;
+    align-content: start;
+    gap: 0.55rem;
+    padding: 1.1rem 1rem 1.2rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .glance dt {
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--muted);
+  }
+  .glance dd {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.15rem, 1.05rem + 0.35vw, 1.4rem);
+    line-height: 1.3;
+    color: var(--sage-100);
+  }
+  .glance dd .place { font-size: 1em; color: var(--heading); }
+  .glance__item:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  @media (min-width: 1000px) {
+    .glance { grid-template-columns: repeat(var(--cols), minmax(0, auto)); justify-content: space-between; border-bottom: 1px solid var(--rule); }
+    .glance__item, .glance__item:last-child:nth-child(odd) { grid-column: auto; border-bottom: 0; padding: 1.35rem 1.5rem 1.4rem 0; }
+    .glance__item + .glance__item { padding-left: 1.5rem; border-left: 1px solid var(--rule); }
+  }
+</style>

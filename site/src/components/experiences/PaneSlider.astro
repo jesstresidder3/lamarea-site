@@ -1,0 +1,420 @@
+---
+/*
+  PaneSlider (D): the experiences section Belle lost in the agency meeting ("you just can't have a side
+  by side like this... not with the text on the left", AM-02). A fixed pane in the left third holds the
+  eyebrow, heading, a short intro, the counter and the arrows; the track in the right two thirds moves
+  and runs off the right edge of the screen. Used for the ten guided experiences and the six self-led
+  activities. It is built to look nothing like the pillars' FlexShowcase.
+
+  Every tile shares one image height so the captions sit on one line, and each tile's art direction
+  (O3, the `art_direction` field) changes its width, frame and caption:
+    full_bleed  a 4:5 photograph, numeral and name above a short line
+    inset       the photograph set inside a sand frame, name inside the frame
+    split       a wide 4:3 frame, name and line side by side beneath
+    portrait    a narrow 2:3 frame, the numeral running up its edge
+  Captions of tiles that are only partly in view rest quieter, cross-fading as the track moves.
+
+  Video tiles play only while they lead the track. `posters` keeps every video still (home, where the
+  hero is the page's one autoplay loop, plan/10).
+
+  <PaneSlider items={guided} eyebrow="Experiences" heading="Your retreat, your rhythm, your routine"
+    intro="Luxury South Australian wellness experiences, curated to form La maréa." posters linkBase="/experiences/" />
+
+  Props
+  - items: experiences collection entries (getExperiences('guided') or getExperiences('self_led'))
+  - eyebrow, heading (place names between asterisks), intro (Belle's words, 30 to 45 words at most)
+  - note: a small line under the intro, for Belle's "(Note we can curate a personalised retreat to suit your group)"
+  - link: { href, label } under the pane, for example "See every experience"
+  - linkBase: '/experiences/' links each tile to its page. Omit for self-led tiles (no pages)
+  - posters: true keeps video tiles on their poster (home)
+  - itemLabel: arrow names ("experience", "activity")
+  - tone: section surface, 'sand' (default), 'warm' (sand-40) or 'salt'
+  - draft: { intro?: boolean; heading?: boolean } marks drafted copy
+  - id: anchor id for the section
+*/
+import Media from '../media/Media.astro';
+import Eyebrow from '../base/Eyebrow.astro';
+import ArrowLink from '../base/ArrowLink.astro';
+import SliderArrows from '../slider/SliderArrows.astro';
+import ProgressRule from '../slider/ProgressRule.astro';
+import { pad2, placeHtml, uid } from '../../lib/text';
+import type { Experience } from '../../lib/content';
+
+interface Props {
+  items: Experience[];
+  eyebrow?: string;
+  heading: string;
+  intro?: string;
+  note?: string;
+  link?: { href: string; label: string };
+  linkBase?: string;
+  posters?: boolean;
+  itemLabel?: string;
+  tone?: 'sand' | 'warm' | 'salt';
+  draft?: { intro?: boolean; heading?: boolean };
+  id?: string;
+  class?: string;
+}
+
+const {
+  items,
+  eyebrow,
+  heading,
+  intro,
+  note,
+  link,
+  linkBase,
+  posters = false,
+  itemLabel = 'experience',
+  tone = 'sand',
+  draft = {},
+  id,
+  class: className,
+} = Astro.props;
+
+const base = id ?? uid('pane');
+const headingId = `${base}-heading`;
+const trackId = `${base}-track`;
+---
+<section
+  class:list={['pane-slider', `pane-slider--${tone}`, className]}
+  id={id}
+  aria-labelledby={headingId}
+  data-pane-slider
+  data-posters={posters ? '' : undefined}
+>
+  <div class="ps-grid" data-track-root>
+    <div class="ps-pane">
+      {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+      <h2 class="ps-heading" id={headingId} set:html={placeHtml(heading)} data-draft={draft.heading ? '' : undefined} />
+      {intro && <p class="ps-intro" data-draft={draft.intro ? '' : undefined}>{intro}</p>}
+      {note && <p class="ps-note">{note}</p>}
+      <div class="ps-nav">
+        <p class="ps-count" aria-live="polite">
+          <span class="ps-count__now" data-count-current>01</span>
+          <span class="ps-count__rest"><span aria-hidden="true">/</span><span class="visually-hidden"> of </span><span data-count-total>{pad2(items.length)}</span></span>
+        </p>
+        <SliderArrows label={itemLabel} controls={trackId} />
+      </div>
+      {link && <ArrowLink href={link.href} label={link.label} class="ps-link" />}
+    </div>
+
+    <div class="ps-stage">
+      <ol class="ps-track" id={trackId} data-track tabindex="0" aria-label={heading.replace(/\*/g, '')}>
+        {items.map((e, i) => {
+          const d = e.data;
+          const href = linkBase ? `${linkBase}${e.id}` : undefined;
+          const Name = href ? 'a' : 'span';
+          return (
+            <li class:list={['tile', `tile--${d.art_direction}`]} data-status={d.status}>
+              <div class="tile__frame">
+                <div class="tile__media">
+                  <Media media={d.media} aspect="fill" notePosition={d.art_direction === 'portrait' ? 'top-right' : 'bottom-left'} />
+                </div>
+                {d.art_direction === 'inset' && (
+                  <h3 class="tile__name tile__name--inset"><Name class="tile__title" href={href}>{d.name}</Name></h3>
+                )}
+                {d.art_direction === 'portrait' && <span class="tile__edge-num" aria-hidden="true">{pad2(i + 1)}</span>}
+              </div>
+              <div class="tile__caption">
+                {d.art_direction !== 'inset' && (
+                  <h3 class="tile__name">
+                    {d.art_direction !== 'portrait' && <span class="tile__num" aria-hidden="true">{pad2(i + 1)}</span>}
+                    <Name class="tile__title" href={href}>{d.name}</Name>
+                  </h3>
+                )}
+                <div class="tile__text">
+                  {d.short ? (
+                    <p class="tile__line">{d.short.text}</p>
+                  ) : (
+                    <p class="placeholder-line tile__todo">A one line description from Belle</p>
+                  )}
+                  {d.business && <p class="tile__by">With {d.business.name}</p>}
+                  {d.business_conflict && d.kind === 'guided' && !d.business && (
+                    <p class="tile__flag" data-flag>Who delivers this is to confirm with Belle</p>
+                  )}
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+      <ProgressRule class="ps-rule" />
+      <div class="ps-nav ps-nav--below">
+        <p class="ps-count"><span class="ps-count__now" data-count-current>01</span><span class="ps-count__rest"><span aria-hidden="true">/</span><span class="visually-hidden"> of </span><span data-count-total>{pad2(items.length)}</span></span></p>
+        <SliderArrows label={itemLabel} controls={trackId} size="small" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pane-slider {
+    --edge: max(var(--gutter), calc((100% - var(--wrap-max)) / 2 + var(--gutter)));
+    --tile-h: clamp(17.5rem, 29vw, 28rem);
+    --tile-gap: clamp(1.25rem, 2vw, 2rem);
+    position: relative;
+    padding-block: var(--section-y);
+    background: var(--sand-30);
+    overflow-x: clip;
+  }
+  .pane-slider--warm { background: var(--sand-40); }
+  .pane-slider--salt { background: var(--salt-25); }
+
+  .ps-grid {
+    display: grid;
+    grid-template-columns: minmax(15rem, 1fr) minmax(0, 2.25fr);
+    column-gap: clamp(2rem, 5vw, 5.5rem);
+    padding-left: var(--edge);
+  }
+
+  /* The pane: it stays put while the track moves beside it. */
+  .ps-pane {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    padding-top: 0.25rem;
+  }
+  .ps-heading {
+    font-size: var(--fs-h2);
+    max-width: 11em;
+    margin: 0 0 1.5rem;
+  }
+  .ps-intro {
+    font-family: var(--font-serif);
+    font-size: var(--fs-lead);
+    line-height: 1.45;
+    color: var(--sage-100);
+    max-width: 22rem;
+    margin: 0 0 1rem;
+  }
+  .ps-note {
+    font-size: var(--fs-small);
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 22rem;
+  }
+  .ps-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: auto;
+    padding-top: 2.5rem;
+  }
+  .ps-count {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin: 0;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .ps-count__now {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 1.6rem + 1.4vw, 2.75rem);
+    line-height: 1;
+    color: var(--heading);
+    min-width: 1.4em;
+  }
+  .ps-count__rest {
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--muted);
+  }
+  .pane-slider :global(.ps-link) { margin-top: 1.75rem; }
+  .ps-nav--below { display: none; }
+
+  /* The stage: runs to the right edge of the screen. */
+  .ps-stage { min-width: 0; }
+  .ps-track {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--tile-gap);
+    margin: 0;
+    padding: 0 var(--gutter) 0 0;
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    cursor: grab;
+    outline-offset: -2px;
+  }
+  .ps-track::-webkit-scrollbar { display: none; }
+  .ps-track[data-dragging] { cursor: grabbing; }
+  .ps-track[data-dragging] :global(*) { pointer-events: none; }
+  .pane-slider :global(.ps-rule) { margin-top: clamp(1.75rem, 2.5vw, 2.5rem); width: calc(100% - var(--gutter)); }
+
+  /* Tiles ------------------------------------------------------------- */
+  .tile {
+    --w: calc(var(--tile-h) * 0.8);
+    flex: 0 0 var(--w);
+    width: var(--w);
+    min-width: 0;
+    scroll-snap-align: start;
+    position: relative;
+  }
+  .tile--split { --w: calc(var(--tile-h) * 1.34); }
+  .tile--portrait { --w: calc(var(--tile-h) * 0.64); }
+  .tile--inset { --w: calc(var(--tile-h) * 0.86); }
+
+  .tile__frame { position: relative; height: var(--tile-h); overflow: hidden; }
+  .tile__media { position: absolute; inset: 0; overflow: hidden; }
+  .tile__media :global(.media) { transition: transform 700ms var(--ease-soft); }
+  @media (hover: hover) {
+    .tile:hover .tile__media :global(.media) { transform: scale(1.04); }
+  }
+  .tile:focus-within .tile__media :global(.media) { transform: scale(1.04); }
+
+  /* inset: the photograph sits inside a sand frame with its name set in the frame */
+  .tile--inset .tile__frame { background: var(--sand-60); }
+  .pane-slider--warm .tile--inset .tile__frame { background: var(--salt-25); }
+  .tile--inset .tile__media { inset: 9% 11% 24% 11%; }
+  .tile__name--inset {
+    position: absolute;
+    left: 11%;
+    right: 11%;
+    bottom: 7%;
+    margin: 0;
+    text-wrap: balance;
+    line-height: 1.15;
+  }
+
+  /* portrait: the numeral runs up the left edge of the frame */
+  .tile__edge-num {
+    position: absolute;
+    left: 0.65rem;
+    bottom: 0.9rem;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--salt-25);
+    mix-blend-mode: normal;
+    z-index: 2;
+    text-shadow: 0 0 12px rgb(35 32 14 / 0.25);
+  }
+  /* Over a light placeholder the numeral takes sage ink (QA M3). */
+  .tile:has(.media--placeholder) .tile__edge-num { color: var(--sage-100); text-shadow: none; }
+
+  /* Captions: small type, one line of feeling beneath (BD-17). */
+  .tile__caption { padding-top: 1.1rem; }
+  /* Tiles that are not leading fade their photograph only; the text keeps full contrast (QA m2). */
+  .tile__media { transition: opacity var(--dur-step) var(--ease-soft); }
+  .tile[data-peek] .tile__media { opacity: 0.5; }
+  .tile__name {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    margin: 0 0 0.45rem;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: var(--fs-card);
+    line-height: 1.2;
+    letter-spacing: 0.005em;
+    color: var(--heading);
+  }
+  .tile__num {
+    flex: none;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--muted);
+    transform: translateY(-0.15em);
+  }
+  .tile__title { color: inherit; text-decoration: none; }
+  a.tile__title::after { content: ''; position: absolute; inset: 0; z-index: 3; }
+  a.tile__title:focus-visible { outline: none; }
+  a.tile__title:focus-visible::after { outline: 1.5px solid var(--focus); outline-offset: 3px; }
+  @media (hover: hover) {
+    .tile:hover a.tile__title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); }
+  }
+  .tile__line {
+    margin: 0;
+    font-size: var(--fs-small);
+    line-height: 1.55;
+    color: var(--sage-100);
+    max-width: 30rem;
+  }
+  .tile__by {
+    margin: 0.55rem 0 0;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+  .tile__flag, .tile :global(.tile__todo) { margin-top: 0.6rem; }
+  .tile__flag {
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    border-left: 1px solid var(--sage-40);
+    padding-left: 0.6rem;
+  }
+  :global(html[data-media-notes='off']) .tile__flag { display: none; }
+
+
+  /* split: the name and the line sit side by side under a wide frame */
+  .tile--split .tile__caption {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  /* Phones and portrait tablets: the pane sits above, the track shows 1.2 tiles. */
+  @media (max-width: 899px) {
+    .ps-grid { grid-template-columns: minmax(0, 1fr); padding-left: 0; }
+    .ps-pane { padding-inline: var(--gutter); margin-bottom: 2.25rem; }
+    .ps-heading { max-width: 14em; }
+    .ps-track { padding-left: var(--gutter); scroll-padding-left: var(--gutter); }
+    .pane-slider :global(.ps-rule) { margin-left: var(--gutter); width: calc(100% - 2 * var(--gutter)); }
+    .pane-slider { --tile-h: min(calc((100vw - 2 * var(--gutter)) / 1.2 * 1.15), 30rem); }
+    .tile, .tile--split, .tile--portrait, .tile--inset { --w: calc((100vw - var(--gutter) - var(--tile-gap) * 0.2 - var(--gutter)) / 1.2); }
+    .tile--split .tile__caption { display: block; }
+    .ps-pane .ps-nav { display: none; }
+    .ps-nav--below { display: flex; justify-content: space-between; margin: 1.25rem var(--gutter) 0; padding-top: 0; }
+    .ps-count__now { font-size: 1.75rem; }
+  }
+  @media (min-width: 600px) and (max-width: 899px) {
+    .tile, .tile--split, .tile--portrait, .tile--inset { --w: calc((100vw - 2 * var(--gutter)) / 2.2); }
+    .pane-slider { --tile-h: calc((100vw - 2 * var(--gutter)) / 2.2 * 1.2); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tile__media, .tile__media :global(.media) { transition: none; }
+    .tile:hover .tile__media :global(.media), .tile:focus-within .tile__media :global(.media) { transform: none; }
+  }
+</style>
+
+<script>
+  import { initTrack } from '../../lib/slider';
+
+  document.querySelectorAll<HTMLElement>('[data-pane-slider]').forEach((section) => {
+    const root = section.querySelector<HTMLElement>('[data-track-root]');
+    if (!root) return;
+    const api = initTrack(root);
+    const posters = section.hasAttribute('data-posters');
+    const tiles = Array.from(section.querySelectorAll<HTMLLIElement>('.tile'));
+
+    // Video plays only on the tile that leads the track; posters mode keeps every video still.
+    const leading = () => (api ? api.index() : 0);
+    const guard = (e: Event) => {
+      const v = e.target as HTMLVideoElement;
+      const tile = v.closest('.tile');
+      if (posters || (tile && tiles.indexOf(tile as HTMLLIElement) !== leading())) v.pause();
+    };
+    section.querySelectorAll('video').forEach((v) => v.addEventListener('play', guard));
+    root.addEventListener('track:change', ((e: CustomEvent<{ index: number }>) => {
+      tiles.forEach((t, i) => {
+        const v = t.querySelector('video');
+        if (!v) return;
+        if (!posters && i === e.detail.index && v.src) v.play().catch(() => {});
+        else v.pause();
+      });
+    }) as EventListener);
+  });
+</script>

@@ -1,0 +1,64 @@
+{
+  "name": "Nature immersion",
+  "long_name": null,
+  "name_as_published": "Nature Immersion",
+  "science_name_as_published": "Nature Immersion",
+  "order": 5,
+  "order_live": 5,
+  "icon": "nature-immersion.svg",
+  "line": "Nurturing by nature through forest bathing, hiking, swimming and listening to the sounds of the sea",
+  "line_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+  },
+  "video": "pillar-nature-immersion",
+  "evidence": [
+    {
+      "heading": null,
+      "claims": [
+        "Forest bathing and nature immersion reduce anxiety, depression, stress, and improve physiological stress markers (cortisol, HRV). (Hansen et al., 2017; Oh et al., 2017; Antonelli et al., 2019)",
+        "Support mood and subjective well-being. (Shin et al., 2017; Antonelli et al., 2019)",
+        "Blue space exposure (coasts, oceans, rivers) improves mood, reduces stress, and enhances well-being. (White et al., 2021; Britton et al., 2020; Finlay et al., 2015)",
+        "Benefits strongest when immersive, multisensory, and socially or mindfully engaged. (Hunter et al., 2019; White et al., 2021)"
+      ]
+    }
+  ],
+  "evidence_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "The Science accordion, item \"Nature Immersion\""
+  },
+  "citations": [
+    "Antonelli et al., 2019",
+    "Britton et al., 2020",
+    "Finlay et al., 2015",
+    "Hansen et al., 2017",
+    "Hunter et al., 2019",
+    "Oh et al., 2017",
+    "Shin et al., 2017",
+    "White et al., 2021"
+  ],
+  "references": [],
+  "references_source": null,
+  "page": false,
+  "page_basis": "Build spec 12: pillar pages publish only where evidence exists. Sleep and recovery has the sleep article and its full references; the other nine open on /philosophy#<id>.",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "The Science accordion, item \"Nature Immersion\""
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Pillar set is decision 1. Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar."
+}

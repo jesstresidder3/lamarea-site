@@ -1,0 +1,63 @@
+---
+/*
+  Slim sticky "Plan your day" bar for phones, the only place phones see it (build spec section 12).
+  On pages that open on a hero it appears once the hero has passed; on sand pages it shows from the
+  start (html[data-past-hero], set by scripts/header.ts). It sits above the safe area, hides while the
+  menu is open and never shows on /enquire (Base leaves it out there). Hidden from 760px up, where
+  the header carries "Plan your day".
+*/
+import { cta } from '../../data/settings';
+---
+<div class="sticky-cta" data-sticky-cta>
+  <a class="sticky-cta__link" href={cta.plan.href}>
+    <span>{cta.plan.label}</span>
+    <svg width="28" height="10" viewBox="0 0 28 10" aria-hidden="true" focusable="false"><path d="M0.5 5H27.25M22.5 1L27.25 5L22.5 9" /></svg>
+  </a>
+</div>
+
+<style>
+  .sticky-cta { display: none; }
+
+  @media (max-width: 759px) {
+    .sticky-cta {
+      display: block;
+      position: fixed;
+      inset: auto 0 0 0;
+      z-index: calc(var(--z-header) - 1);
+      padding-bottom: env(safe-area-inset-bottom);
+      background: var(--sage-80);
+      transform: translateY(100%);
+      visibility: hidden;
+      transition: transform var(--dur) var(--ease-soft), visibility 0s linear var(--dur);
+    }
+    :global(html[data-past-hero]) .sticky-cta {
+      transform: none;
+      visibility: visible;
+      transition: transform var(--dur) var(--ease-soft), visibility 0s;
+    }
+    :global(html.menu-open) .sticky-cta { transform: translateY(100%); visibility: hidden; }
+    :global(body:has(.sticky-cta)) { padding-bottom: calc(var(--sticky-cta-h) + env(safe-area-inset-bottom)); }
+    /* Keep keyboard focus clear of the bar: the browser scrolls a focused control above it (QA M1). */
+    :global(html:has(.sticky-cta)) { scroll-padding-bottom: calc(var(--sticky-cta-h) + env(safe-area-inset-bottom) + 1rem); }
+  }
+
+  .sticky-cta__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.9rem;
+    height: var(--sticky-cta-h);
+    color: var(--sand-30);
+    font-family: var(--font-ui);
+    font-size: var(--fs-nav);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    --focus: var(--focus-on-dark);
+  }
+  .sticky-cta__link:focus-visible { outline-offset: -6px; }
+  .sticky-cta__link path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sticky-cta, :global(html[data-past-hero]) .sticky-cta { transition: none; }
+  }
+</style>

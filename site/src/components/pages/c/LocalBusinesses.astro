@@ -1,0 +1,66 @@
+---
+/*
+  The local South Australian businesses behind the day (difference 04, BD-42, CD review B2), named
+  only from sources (local-businesses.ts). Two variants:
+  - full: the practitioners' businesses by the part of the day they carry, the producers on Belle's
+    example menu, then her food, beverage and supplement partners by name (the Fleurieu page)
+  - compact: the practitioners' businesses as one quiet list (the team page)
+*/
+import { getPeople } from '../../../lib/content';
+import { practitionerBusinesses, producers, partnerNames, type Business } from './local-businesses';
+
+interface Props { variant?: 'full' | 'compact'; class?: string }
+const { variant = 'full', class: className } = Astro.props;
+const { wellness, table } = practitionerBusinesses(await getPeople());
+const groups: { title: string; items: Business[] }[] =
+  variant === 'full'
+    ? [
+        { title: 'Wellness', items: wellness },
+        { title: 'At the table', items: [...table, ...producers] },
+      ]
+    : [{ title: '', items: [...wellness, ...table] }];
+---
+<div class:list={['biz', `biz--${variant}`, className]}>
+  {groups.map((g) => (
+    <div class="biz__group">
+      {g.title && <p class="biz__title">{g.title}</p>}
+      <ul class="biz__list" role="list">
+        {g.items.map((b) => (
+          <li class="biz__item">
+            <span class="biz__name">{b.name}</span>
+            <span class="biz__role" data-draft>{b.role}</span>
+            {b.person && <a class="biz__person text-link" href={b.person.href}>{b.person.name}</a>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+  {variant === 'full' && (
+    <div class="biz__group biz__group--names">
+      <p class="biz__title">Food, beverage and supplement partners</p>
+      <p class="biz__names">{partnerNames.join(', ')}</p>
+    </div>
+  )}
+</div>
+
+<style>
+  .biz { display: grid; gap: clamp(2rem, 3vw, 2.75rem); }
+  .biz__title { margin: 0 0 0.75rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .biz__list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
+  .biz__item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.2rem 1.5rem;
+    padding: 0.95rem 0 1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .biz__name { font-family: var(--font-serif); font-size: clamp(1.2rem, 1.1rem + 0.35vw, 1.4rem); line-height: 1.25; color: var(--heading); }
+  .biz__role { font-size: var(--fs-small); color: var(--sage-100); }
+  .biz__person { justify-self: start; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.06em; min-height: 1.75rem; display: inline-flex; align-items: center; }
+  @media (min-width: 700px) {
+    .biz__item { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr) auto; align-items: baseline; }
+    .biz__person { justify-self: end; }
+  }
+  .biz__names { margin: 0; font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.55; color: var(--sage-100); max-width: 36rem; }
+  .biz--compact .biz__item { padding: 0.8rem 0 0.85rem; }
+</style>

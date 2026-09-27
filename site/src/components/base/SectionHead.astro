@@ -1,0 +1,60 @@
+---
+/*
+  Eyebrow, heading and an optional short intro. The heading takes one italic emphasis word with
+  asterisks: heading="Your retreat, your rhythm, *your routine*".
+
+  <SectionHead eyebrow="Our difference" heading="What sets *La maréa* apart" intro="..." />
+
+  Props
+  - eyebrow, heading, intro (20 to 45 words), level (2 default), align ('left' | 'centre'),
+    size ('default' | 'small' for card-level heads), icon (Belle's icon above the eyebrow),
+    draft ({ heading?: boolean, intro?: boolean, eyebrow?: boolean }) to mark drafted copy
+  - slot 'aside': something that sits to the right of the head at desktop (slider arrows, a link)
+*/
+import Eyebrow from './Eyebrow.astro';
+import Icon from './Icon.astro';
+import { emphasis } from './text';
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  intro?: string;
+  level?: 1 | 2 | 3;
+  align?: 'left' | 'centre';
+  size?: 'default' | 'small';
+  icon?: string;
+  id?: string;
+  draft?: { heading?: boolean; intro?: boolean; eyebrow?: boolean };
+  class?: string;
+}
+const { eyebrow, heading, intro, level = 2, align = 'left', size = 'default', icon, id, draft = {}, class: className } = Astro.props;
+const H = `h${level}` as 'h1' | 'h2' | 'h3';
+const hasAside = Astro.slots.has('aside');
+---
+<header class:list={['section-head', `section-head--${align}`, `section-head--${size}`, hasAside && 'section-head--aside', className]}>
+  <div class="section-head__main">
+    {icon && <Icon name={icon} size="2.5rem" class="section-head__icon" />}
+    {eyebrow && <Eyebrow draft={draft.eyebrow}>{eyebrow}</Eyebrow>}
+    <H class="section-head__heading" id={id} data-draft={draft.heading ? '' : undefined} set:html={emphasis(heading)} />
+    {intro && <p class="section-head__intro" data-draft={draft.intro ? '' : undefined}>{intro}</p>}
+  </div>
+  {hasAside && <div class="section-head__aside"><slot name="aside" /></div>}
+</header>
+
+<style>
+  .section-head { display: grid; gap: var(--space-m); margin-bottom: clamp(2rem, 1.4rem + 2vw, 3.5rem); }
+  .section-head__heading { margin: 0; max-width: 18em; }
+  .section-head--small .section-head__heading { font-size: max(1.75rem, var(--fs-h3)); }
+  .section-head__intro { margin: 2rem 0 0; max-width: 32rem; }
+  .section-head :global(.section-head__icon) { display: block; color: var(--sage-60); margin-bottom: 1.25rem; }
+
+  .section-head--centre { text-align: center; justify-items: center; }
+  .section-head--centre .section-head__heading,
+  .section-head--centre .section-head__intro { margin-inline: auto; }
+  .section-head--centre :global(.eyebrow) { justify-content: center; }
+  .section-head--centre :global(.section-head__icon) { margin-inline: auto; }
+
+  @media (min-width: 760px) {
+    .section-head--aside { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+  }
+</style>

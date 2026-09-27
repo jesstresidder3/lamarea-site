@@ -1,0 +1,117 @@
+---
+/*
+  A day here (plan/11 4.10 section 7): the day at this venue from Belle's own example days only.
+  Beresford Estate carries the published example day (12 guests) as four beats with their times;
+  Encounter Bay carries the guide's flow, verbatim; a venue with no example of its own shows a marked
+  gap. Every version links to the full day page.
+*/
+import SectionHead from '../../base/SectionHead.astro';
+import ArrowLink from '../../base/ArrowLink.astro';
+import Reveal from '../../base/Reveal.astro';
+import ToCome from './ToCome.astro';
+import NoteFlag from './NoteFlag.astro';
+import { cta } from '../../../data/settings';
+import { numeral } from '../../base/text';
+import type { VenueDay } from './venue-extras';
+
+interface Props { day: VenueDay; flags?: string[]; id?: string }
+const { day, flags = [], id = 'venue-day' } = Astro.props;
+// A venue whose day is still only a marked gap shows the section with the notes layer on only.
+const gapOnly = Boolean(day.placeholder) && !day.beats && !day.lines;
+---
+<section class="vday section" id={id} aria-labelledby={`${id}-heading`} data-notes-only={gapOnly ? '' : undefined}>
+  <div class="wrap vday__grid">
+    <div class="vday__head">
+      <SectionHead id={`${id}-heading`} eyebrow="A day here" heading={day.heading} size="small" />
+      {day.lead && <p class="vday__lead">{day.lead.text}</p>}
+      {(day.times || day.capacity) && (
+        <p class="vday__facts">
+          {day.times && <span>{day.times}</span>}
+          {day.capacity && <span>{day.capacity}</span>}
+        </p>
+      )}
+    </div>
+
+    <div class="vday__main">
+      {day.beats && (
+        <Reveal stagger as="ol" class="vday__beats">
+          {day.beats.map((b) => (
+            <li class="vday__beat">
+              <span class="vday__dot" aria-hidden="true"></span>
+              <p class="vday__time">{b.time}</p>
+              <h3 class="vday__beat-name">{b.name}</h3>
+              <p class="vday__beat-line">{b.line}</p>
+            </li>
+          ))}
+        </Reveal>
+      )}
+      {day.beats && day.note && <p class="vday__note">{day.note}</p>}
+
+      {day.lines && (
+        <Reveal stagger as="ol" class="vday__lines">
+          {day.lines.map((l, i) => (
+            <li><span class="vday__num">{numeral(i + 1)}</span><span>{l}</span></li>
+          ))}
+        </Reveal>
+      )}
+
+      {day.placeholder && <ToCome note={day.placeholder} compact />}
+    </div>
+
+    <div class="vday__foot">
+      <ArrowLink href={cta.seeFullDay.href} label={cta.seeFullDay.label} class="vday__link" />
+      <NoteFlag items={[...(day.fixes ? [day.fixes] : []), ...flags]} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .vday__grid { display: grid; gap: var(--space-l) clamp(2rem, 6vw, 7.5rem); }
+  @media (min-width: 900px) {
+    .vday__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); grid-template-rows: auto 1fr; align-items: start; row-gap: 0; }
+    .vday__head { grid-column: 1; grid-row: 1; }
+    .vday__main { grid-column: 2; grid-row: 1 / span 2; }
+    .vday__foot { grid-column: 1; grid-row: 2; }
+  }
+  .vday__head :global(.section-head) { margin-bottom: 1.5rem; }
+  .vday__lead { margin: 0 0 1rem; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.45; color: var(--sage-100); max-width: 24rem; }
+  .vday__facts { display: grid; gap: 0.3rem; margin: 0 0 0.5rem; font-size: var(--fs-small); color: var(--sage-80); }
+  .vday :global(.vday__link) { margin-top: 0.25rem; }
+
+  /* Beresford: the four beats along a hairline, each at its published time */
+  .vday :global(.vday__beats) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .vday__beat { position: relative; padding: 0 0 1.75rem 1.75rem; border-left: 1px solid var(--rule); }
+  .vday__beat:last-child { padding-bottom: 0.25rem; }
+  .vday__dot { position: absolute; left: -4px; top: 0.3rem; width: 7px; height: 7px; border-radius: 50%; background: var(--sand-30); border: 1px solid var(--sage-60); }
+  .vday__time { margin: 0 0 0.35rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .vday__beat-name { margin: 0 0 0.5rem; font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.2; }
+  .vday__beat-line { margin: 0; font-size: var(--fs-small); line-height: 1.6; color: var(--sage-100); max-width: 22rem; }
+  @media (min-width: 900px) {
+    .vday :global(.vday__beats) { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 1.75rem; }
+    .vday__beat { padding: 1.4rem 0 0; border-left: 0; border-top: 1px solid var(--rule); }
+    .vday__dot { left: 0; top: -4px; }
+  }
+  .vday__note { margin: 2rem 0 0; font-family: var(--font-serif); font-size: 1.1rem; color: var(--sage-80); }
+
+  /* Encounter Bay: the guide's flow, numbered */
+  .vday :global(.vday__lines) { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
+  .vday :global(.vday__lines) li {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1.15rem 0;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--font-serif);
+    font-size: clamp(1.1rem, 1rem + 0.35vw, 1.3rem);
+    line-height: 1.4;
+    color: var(--sage-100);
+  }
+  .vday__num { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); padding-top: 0.35rem; }
+</style>

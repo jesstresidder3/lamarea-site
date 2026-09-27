@@ -1,0 +1,98 @@
+{
+  "name": "Coastal hiking",
+  "name_as_transcribed": "close to hiking",
+  "name_as_published": "Coastal hiking",
+  "kind": "self_led",
+  "order": 1,
+  "art_direction": "full_bleed",
+  "media": "experience-coastal-hiking",
+  "media_type": "video",
+  "short": {
+    "text": "Nurturing by nature through forest bathing, hiking, swimming and listening to the sounds of the sea",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "Nature Immersion pillar"
+    }
+  },
+  "pillar": null,
+  "pillars": [],
+  "pillar_basis": null,
+  "duration": null,
+  "duration_basis": null,
+  "duration_as_published": null,
+  "practitioners": [],
+  "business": null,
+  "business_basis": null,
+  "business_conflict": null,
+  "practitioners_as_published": [],
+  "descriptions": [
+    {
+      "text": [
+        "Coastal hiking"
+      ],
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": "15",
+        "captured": "24-09-2026",
+        "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+      }
+    },
+    {
+      "text": [
+        "Nature Immersion & Coastal Hiking"
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "captured": "24-09-2026",
+        "section": "What a weekend with us looks like..."
+      }
+    },
+    {
+      "text": [
+        "Nurturing by nature through forest bathing, hiking, swimming and listening to the sounds of the sea"
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "Nature Immersion pillar"
+      }
+    },
+    {
+      "text": [
+        "Vineyard Hiking"
+      ],
+      "source": {
+        "type": "live_site_image",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+        "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+        "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+        "captured": "24-09-2026"
+      }
+    }
+  ],
+  "seed_id": null,
+  "source": [
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "15",
+      "captured": "24-09-2026",
+      "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+    },
+    {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Other random: \"doing a slider of the retreat self led activities\""
+    }
+  ],
+  "status": "draft",
+  "review": "Transcript reads \"close to hiking\", which is a transcription of \"coastal hiking\" per the guide. At Beresford the equivalent is \"Vineyard Hiking\"."
+}

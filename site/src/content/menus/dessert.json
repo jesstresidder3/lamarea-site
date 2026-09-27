@@ -1,0 +1,28 @@
+{
+  "name": "Dessert",
+  "service": "dessert",
+  "order": 5,
+  "time": null,
+  "time_basis": null,
+  "time_source": null,
+  "line": null,
+  "line_source": null,
+  "detail": [],
+  "detail_source": null,
+  "courses": [],
+  "media": "food-dessert",
+  "placeholder": true,
+  "placeholder_note": "Dessert to come from Belle's retreat guide (transcript BD-131, \"breakfast, lunch, dinner, dessert\").",
+  "chef": null,
+  "public": true,
+  "signature": false,
+  "source": [
+    {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Food"
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check."
+}

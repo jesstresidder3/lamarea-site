@@ -1,0 +1,203 @@
+---
+/*
+  ListCapture (page builder D). Wraps the shared LeadCapture without restyling it, and adds three
+  things the supporting pages need:
+  1. `listValue` names the exact list in the payload, for example 'guide:private-group-guide'.
+     LeadCapture's `list` stays one of its four values; this sets form.dataset.list before submit.
+  2. `choices` renders a waitlist choice (radio cards) above the form. The chosen value is sent as
+     'waitlist:<value>'. A choice is required, and ?list=<value> in the URL preselects one.
+  3. A one-line collection notice linking to /privacy-policy under every capture (plan/12 fix 12).
+
+  Payload for Dom: exactly LeadCapture's (see base/LeadCapture.astro), with `list` carrying the
+  specific list: 'app' (writes subscribers.subscription_interest, plan/10 section 2),
+  'waitlist:sunset-reset' | 'waitlist:womens-wellness-weekend' | 'waitlist:retreat-releases'
+  (subscribers.list), or 'guide:private-group-guide' | 'guide:corporate-group-guide'
+  (downloads.magnet_slug).
+*/
+import LeadCapture from '../../base/LeadCapture.astro';
+
+interface Choice { value: string; label: string; meta?: string; description: string; draft?: boolean }
+interface Props {
+  list: 'newsletter' | 'app' | 'collective' | 'waitlist';
+  listValue?: string;
+  choices?: Choice[];
+  choiceLegend?: string;
+  heading?: string;
+  intro?: string;
+  introDraft?: boolean;
+  firstName?: boolean;
+  submitLabel?: string;
+  successMessage?: string;
+  notice?: string;
+  layout?: 'inline' | 'stacked';
+  id?: string;
+}
+const {
+  list,
+  listValue,
+  choices,
+  choiceLegend = 'Which waitlist',
+  heading,
+  intro,
+  introDraft = false,
+  firstName = false,
+  submitLabel,
+  successMessage,
+  notice = 'We use your email for this list only, and send La maréa news only if you tick the box.',
+  layout = 'inline',
+  id = `list-${Math.random().toString(36).slice(2, 7)}`,
+} = Astro.props;
+---
+<div class="lc" data-list-capture data-list-value={listValue} data-choice-prefix={choices ? 'waitlist' : undefined}>
+  {choices && (
+    <fieldset class="lc__choices" aria-describedby={`${id}-choice-error`}>
+      <legend class="lc__legend">{choiceLegend}</legend>
+      <div class="lc__options">
+        {choices.map((c) => (
+          <label class="lc__option">
+            <input type="radio" name={`${id}-choice`} value={c.value} />
+            <span class="lc__card">
+              <span class="lc__mark" aria-hidden="true"></span>
+              <span class="lc__option-label">{c.label}</span>
+              {c.meta && <span class="lc__meta" data-draft={c.draft ? '' : undefined}>{c.meta}</span>}
+              <span class="lc__desc">{c.description}</span>
+            </span>
+          </label>
+        ))}
+      </div>
+      <p class="lc__choice-error" id={`${id}-choice-error`} aria-live="polite"></p>
+    </fieldset>
+  )}
+  <LeadCapture
+    list={list}
+    heading={heading}
+    intro={intro}
+    introDraft={introDraft}
+    firstName={firstName}
+    submitLabel={submitLabel}
+    successMessage={successMessage}
+    layout={layout}
+  />
+  <p class="lc__notice" data-draft>
+    {notice} <a class="text-link" href="/privacy-policy">Privacy policy</a>
+  </p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-list-capture]').forEach((wrap) => {
+    const form = wrap.querySelector<HTMLFormElement>('[data-lead-capture] form');
+    if (!form) return;
+    const fixed = wrap.dataset.listValue;
+    if (fixed) form.dataset.list = fixed;
+
+    const prefix = wrap.dataset.choicePrefix;
+    const radios = Array.from(wrap.querySelectorAll<HTMLInputElement>('.lc__choices input[type="radio"]'));
+    const error = wrap.querySelector<HTMLElement>('.lc__choice-error');
+    const choices = wrap.querySelector<HTMLElement>('.lc__choices');
+    const notice = wrap.querySelector<HTMLElement>('.lc__notice');
+
+    if (prefix && radios.length) {
+      const set = (value: string) => {
+        form.dataset.list = `${prefix}:${value}`;
+        if (error) error.textContent = '';
+      };
+      try {
+        const wanted = new URLSearchParams(location.search).get('list');
+        const match = radios.find((r) => r.value === wanted);
+        if (match) {
+          match.checked = true;
+          set(match.value);
+        }
+      } catch {
+        /* no URL access, nothing preselected */
+      }
+      radios.forEach((r) => r.addEventListener('change', () => r.checked && set(r.value)));
+
+      // Runs before LeadCapture's own submit handler (capture phase on an ancestor), so a missing
+      // choice stops the submission with a calm message instead of storing an unnamed list.
+      wrap.addEventListener(
+        'submit',
+        (e) => {
+          if (radios.some((r) => r.checked)) return;
+          e.preventDefault();
+          e.stopPropagation();
+          if (error) error.textContent = 'Please choose the waitlist you would like to join.';
+          radios[0].focus();
+        },
+        true,
+      );
+    }
+
+    // When LeadCapture shows its success state, the choice and the notice step back with the form.
+    new MutationObserver(() => {
+      if (!form.hidden) return;
+      if (choices) choices.hidden = true;
+      if (notice) notice.hidden = true;
+    }).observe(form, { attributes: true, attributeFilter: ['hidden'] });
+  });
+</script>
+
+<style>
+  .lc { display: grid; gap: 1.5rem; }
+  .lc__choices { margin: 0; padding: 0; border: 0; min-width: 0; }
+  .lc__legend {
+    padding: 0;
+    margin-bottom: 1rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--muted);
+  }
+  .lc__options { display: grid; gap: 0.75rem; }
+  .lc__option { position: relative; display: block; cursor: pointer; }
+  .lc__option input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .lc__card {
+    display: grid;
+    grid-template-columns: 1.25rem minmax(0, 1fr);
+    gap: 0.2rem 0.9rem;
+    padding: 1.1rem 1.25rem 1.2rem;
+    background: var(--salt-25);
+    outline: 1px solid var(--sage-20);
+    outline-offset: -1px;
+    transition: outline-color var(--dur-fast) var(--ease-soft), background-color var(--dur-fast) var(--ease-soft);
+  }
+  .lc__mark {
+    grid-row: 1;
+    align-self: center;
+    width: 0.95rem;
+    height: 0.95rem;
+    border: 1px solid var(--sage-40);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+  }
+  .lc__mark::after {
+    content: '';
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--sage-80);
+    opacity: 0;
+    transform: scale(0.4);
+    transition: opacity var(--dur-fast) var(--ease-soft), transform var(--dur-fast) var(--ease-soft);
+  }
+  .lc__option-label { font-family: var(--font-serif); font-size: var(--fs-h4); line-height: 1.25; color: var(--heading); }
+  .lc__meta, .lc__desc { grid-column: 2; }
+  .lc__meta { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.06em; color: var(--sage-80); }
+  .lc__desc { margin-top: 0.35rem; font-size: var(--fs-small); line-height: 1.55; max-width: 34rem; }
+
+  .lc__option input:checked + .lc__card { outline-color: var(--sage-80); background: var(--sand-20); }
+  .lc__option input:checked + .lc__card .lc__mark { border-color: var(--sage-80); }
+  .lc__option input:checked + .lc__card .lc__mark::after { opacity: 1; transform: scale(1); }
+  .lc__option input:focus-visible + .lc__card { outline: 1.5px solid var(--focus); outline-offset: 2px; }
+  @media (hover: hover) {
+    .lc__option:hover .lc__card { outline-color: var(--sage-40); }
+  }
+
+  .lc__choice-error { min-height: 1.2em; margin: 0.6rem 0 0; font-size: var(--fs-label); letter-spacing: 0.02em; }
+  .lc__notice { margin: -0.5rem 0 0; font-size: var(--fs-label); line-height: 1.5; letter-spacing: 0.02em; color: var(--sage-80); max-width: 34rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lc__card, .lc__mark::after { transition: none; }
+  }
+</style>

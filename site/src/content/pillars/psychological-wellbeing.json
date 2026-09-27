@@ -1,0 +1,67 @@
+{
+  "name": "Psychological wellbeing",
+  "long_name": "Psychological, emotional and spiritual wellbeing",
+  "name_as_published": "Psychological, Emotional & Spiritual Wellbeing",
+  "science_name_as_published": "Psychological Wellbeing",
+  "order": 4,
+  "order_live": 4,
+  "icon": "psychological-wellbeing.svg",
+  "line": "Mindfulness, meditation and breathwork practices that help manage stress, deepen purpose and foster a grounded sense of self.",
+  "line_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+  },
+  "video": "pillar-psychological-wellbeing",
+  "evidence": [
+    {
+      "heading": "Meditation, Breathwork & Mindfulness",
+      "claims": [
+        "Reduces anxiety, depression, and chronic pain. (Goyal et al., 2014; Khoury et al., 2015)",
+        "Enhances emotional regulation, resilience, and subjective well-being. (Creswell, 2017; Goldberg et al., 2018)",
+        "Improves physiological markers: lowers heart rate, blood pressure, and inflammation. (Pascoe et al., 2017; Black & Slavich, 2016)",
+        "Meaning, purpose, and spirituality support mental health, resilience, and lower chronic disease risk. (Hill & Turiano, 2014; Kim et al., 2019)",
+        "Breathwork acutely reduces stress, sympathetic activity, and improves autonomic balance. (Zaccaro et al., 2018; Jerath et al., 2015)"
+      ]
+    }
+  ],
+  "evidence_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "The Science accordion, item \"Psychological Wellbeing\""
+  },
+  "citations": [
+    "Black & Slavich, 2016",
+    "Creswell, 2017",
+    "Goldberg et al., 2018",
+    "Goyal et al., 2014",
+    "Hill & Turiano, 2014",
+    "Jerath et al., 2015",
+    "Khoury et al., 2015",
+    "Kim et al., 2019",
+    "Pascoe et al., 2017",
+    "Zaccaro et al., 2018"
+  ],
+  "references": [],
+  "references_source": null,
+  "page": false,
+  "page_basis": "Build spec 12: pillar pages publish only where evidence exists. Sleep and recovery has the sleep article and its full references; the other nine open on /philosophy#<id>.",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "The Science accordion, item \"Psychological Wellbeing\""
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Pillar set is decision 1. Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar. The pillar grid name and the science accordion name differ, as published."
+}

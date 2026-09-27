@@ -1,0 +1,58 @@
+{
+  "name": "Breakfast",
+  "service": "breakfast",
+  "order": 1,
+  "time": null,
+  "time_basis": "Removed so a time from the Beresford example is not paired with Encounter Bay menu words (CD review D1). Kicker used instead.",
+  "time_source": {
+    "type": "live_site_image",
+    "url": "https://www.lamarea.com.au/luxury-retreats",
+    "captured": "24-09-2026",
+    "note": "Beresford example day, schedule image"
+  },
+  "line": "Nourishing wholefood seasonal organic breakfast",
+  "line_source": {
+    "type": "document",
+    "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+    "page": "12",
+    "captured": "24-09-2026",
+    "section": "RETREAT MEAL INCLUSIONS"
+  },
+  "detail": [
+    "Examples may include Greek yoghurt, seeded granola, seasonal organic fruit, local seafood, and organic fresh vegetables. Menu items vary depending on seasonality and produce availability."
+  ],
+  "detail_source": {
+    "type": "document",
+    "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+    "page": "12",
+    "captured": "24-09-2026",
+    "section": "SAMPLE MEAL ELEMENTS"
+  },
+  "courses": [],
+  "media": "food-breakfast",
+  "placeholder": false,
+  "placeholder_note": null,
+  "chef": null,
+  "public": true,
+  "signature": false,
+  "source": [
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "page": "12",
+      "captured": "24-09-2026",
+      "section": "RETREAT MEAL INCLUSIONS"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "page": "12",
+      "captured": "24-09-2026",
+      "section": "SAMPLE MEAL ELEMENTS"
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check.",
+  "time_as_published_elsewhere": "9:00 to 9:30am",
+  "kicker": "Morning"
+}

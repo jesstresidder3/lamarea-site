@@ -1,0 +1,41 @@
+---
+/*
+  A marked gap in the story: a heading, what goes here and where it comes from. Used where Belle's
+  own words are still to come (the Our story first-person note, how La maréa works on the Fleurieu,
+  a venue's own day). Reads as intentional, never as a broken section.
+
+  <ToCome heading="Starting La maréa on the *Fleurieu*" note="A note from Belle..." />
+*/
+import { emphasis } from '../../base/text';
+
+interface Props { heading?: string; note: string; level?: 2 | 3; compact?: boolean; class?: string }
+const { heading, note, level = 3, compact = false, class: className } = Astro.props;
+const H = `h${level}` as 'h2' | 'h3';
+---
+<div class:list={['to-come', compact && 'to-come--compact', className]}>
+  {heading && <H class="to-come__heading" data-draft set:html={emphasis(heading)} />}
+  <p class="to-come__note"><span class="to-come__k">To come from Belle</span>{note}</p>
+  <slot />
+</div>
+
+<style>
+  .to-come {
+    position: relative;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border: 1px dashed color-mix(in srgb, var(--sage-40) 80%, transparent);
+    background: color-mix(in srgb, var(--salt-25) 55%, transparent);
+  }
+  .to-come--compact { padding: 1.1rem 1.25rem; }
+  .to-come__heading { margin: 0 0 1rem; font-size: clamp(1.75rem, 1.4rem + 1vw, 2.25rem); }
+  .to-come__note {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0;
+    max-width: 34rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-small);
+    line-height: 1.55;
+    color: var(--sage-100);
+  }
+  .to-come__k { font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+</style>

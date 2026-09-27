@@ -1,0 +1,152 @@
+{
+  "name": "The Vineyard Retreat",
+  "name_as_published_by_la_marea": null,
+  "name_as_published_by_venue": "The Vineyard Retreat McLaren Vale (site brand \"The Vineyard McLaren Vale\")",
+  "order": 4,
+  "region": "vineyard",
+  "locality": "Blewitt Springs, McLaren Vale",
+  "location_label": "Blewitt Springs, McLaren Vale",
+  "address": "165 Whitings Road, Blewitt Springs, South Australia 5171",
+  "coordinates": {
+    "lat": -35.1757,
+    "lng": 138.5848,
+    "precision": "street",
+    "basis": "Street centroid from OpenStreetMap Nominatim for the address the venue publishes, 24-09-2026. Road level, not the building. Whitings Road, Blewitt Springs SA 5171."
+  },
+  "sleeps": {
+    "display": "10",
+    "value": 10,
+    "basis": "Belle, transcript \"The Vineyard Retreat (sleeps 10)\"",
+    "conflict": "The venue publishes per-house figures only. Its six vineyard houses add up to 16 at most (register Q6). Belle to confirm the number to publish.",
+    "sources": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Partner Accomodation / locations: \"The Vineyard Retreat (sleeps 10)\""
+      }
+    ]
+  },
+  "day_capacity": null,
+  "distance_from_adelaide": "Just 50 minutes from Adelaide (venue home page); approximately 50 minutes south of Adelaide (venue FAQ)",
+  "five_star": false,
+  "five_star_basis": "Build spec 12: \"five star\" appears only where a rating exists. No star rating or award is on record for this venue, so it shows as a partner venue until Belle confirms.",
+  "partner_label": "Partner venue",
+  "drive_from_adelaide": {
+    "text": "About 50 minutes from Adelaide",
+    "basis": "Venue site: \"Just 50 minutes from Adelaide\"",
+    "source": {
+      "type": "venue_site",
+      "url": "https://thevineyardmv.com.au/",
+      "captured": "24-09-2026"
+    }
+  },
+  "five_star_wording": null,
+  "partner_approved": false,
+  "partner_approved_note": "Open decision 8. Venues publish only when the partner has approved. This prototype shows all four with a \"partner approval pending\" flag in the placeholder layer.",
+  "intro": {
+    "text": "Just 50 minutes from Adelaide, The Vineyard Retreat offers eight private guest houses across two distinctive McLaren Vale locations.",
+    "source": {
+      "type": "venue_site",
+      "url": "https://thevineyardmv.com.au/",
+      "captured": "24-09-2026",
+      "note": "No La maréa copy exists for this venue. Venue wording, Belle to replace or approve."
+    }
+  },
+  "about": [],
+  "features": [
+    {
+      "name": "The wellness area",
+      "text": "Set at the highest point of the property, our guest wellness area brings together a sauna, cold plunge and Jacuzzi with sweeping views across the vines to the Willunga hills, d'Arenberg Cube and Gulf St Vincent beyond.",
+      "media": "venue-the-vineyard-retreat-wellness",
+      "source": {
+        "type": "venue_site",
+        "url": "https://thevineyardmv.com.au/",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "name": "The guest houses",
+      "text": "Stay among the vines at our 15-acre working vineyard in Blewitt Springs, where six individual guest houses enjoy sweeping views, space and privacy. Or settle into village life at Main Street Retreat in McLaren Flat, home to two private one-bedroom guest houses within easy reach of cellar doors, restaurants and local favourites.",
+      "media": "venue-the-vineyard-retreat-houses",
+      "source": {
+        "type": "venue_site",
+        "url": "https://thevineyardmv.com.au/",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "name": "Decks among the vines",
+      "text": "Each stay includes locally sourced breakfast provisions and a complimentary minibar, with private decks or outdoor spaces overlooking the surrounding vines and landscape.",
+      "media": "venue-the-vineyard-retreat-decks",
+      "source": {
+        "type": "venue_site",
+        "url": "https://thevineyardmv.com.au/about-us/",
+        "captured": "24-09-2026"
+      }
+    }
+  ],
+  "nearby": [
+    {
+      "name": "McLaren Vale and McLaren Flat",
+      "kind": "town",
+      "text": "The Vineyard is approximately eight minutes by car from McLaren Vale township and around two minutes from McLaren Flat. Willunga and the coast are approximately 15 minutes away.",
+      "source": {
+        "type": "venue_site",
+        "url": "https://thevineyardmv.com.au/frequently-asked-questions/",
+        "captured": "24-09-2026"
+      }
+    }
+  ],
+  "on_site": [
+    {
+      "label": "Rooms",
+      "text": "eight guest houses: six at The Vineyard, two at Main Street Retreat (venue)"
+    },
+    {
+      "label": "Sauna",
+      "text": "sauna in the guest wellness area (venue)"
+    },
+    {
+      "label": "Plunge",
+      "text": "cold plunge (venue)"
+    },
+    {
+      "label": "Bath",
+      "text": "Jacuzzi (venue)"
+    },
+    {
+      "label": "Deck",
+      "text": "private decks or outdoor spaces (venue)"
+    },
+    {
+      "label": "Fire",
+      "text": "fireplaces (venue)"
+    },
+    {
+      "label": "Vineyard",
+      "text": "15-acre working vineyard (venue)"
+    }
+  ],
+  "card_media": "venue-the-vineyard-retreat-card",
+  "map_media": "venue-the-vineyard-retreat-map",
+  "gallery": [
+    "venue-the-vineyard-retreat-wellness",
+    "venue-the-vineyard-retreat-houses",
+    "venue-the-vineyard-retreat-decks"
+  ],
+  "price_from": null,
+  "source": [
+    {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Partner Accomodation / locations"
+    },
+    {
+      "type": "venue_site",
+      "url": "https://thevineyardmv.com.au/",
+      "captured": "24-09-2026"
+    }
+  ],
+  "status": "hidden",
+  "review": "Hidden (build spec 12, CD review item 7): Belle calls it \"another one I'm gonna be partnering with\". Show it when she confirms the partnership. Needs Belle's check. No La maréa copy exists for this venue anywhere on the live site or in the Encounter Bay guide. Not on /accommodation-partners. Capacity conflict Q6 and no imagery (S3). No imagery anywhere (S3). Belle confirms the partnership is ready to publish."
+}

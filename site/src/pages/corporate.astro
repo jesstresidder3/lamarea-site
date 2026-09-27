@@ -1,0 +1,77 @@
+---
+/*
+  Corporate (page builder A), plan/11 4.3 with build spec 12. Same layout as /private-groups in
+  different language (components/pages/a/PathPage.astro).
+
+  Belle's words, verbatim:
+  - "A strategic reset for leadership teams and high-performing professionals." and her corporate
+    paragraphs, lamarea.com.au/luxury-retreats, Corporate Retreats (dash replaced with a comma)
+  - "Guided by our personalisation pillar, each retreat location is carefully matched to the group and
+    the retreat intention." lamarea.com.au/accommodation-partners
+  - FAQ answers: lamarea.com.au/faqs (faqs collection)
+  Drafted, marked: the H1, section headings, the guide line and the closing line.
+  Proof is anonymised: reviews show a descriptor and the format, never a name, and no client is named
+  anywhere on the page until Belle has written permission (plan/11 item 63).
+  Group size: no single number publishes (the live page says up to 20, the guide 10 to 14); sizes vary
+  by venue (decision 14). Venues are ordered largest first.
+*/
+import Base from '../layouts/Base.astro';
+import PathPage from '../components/pages/a/PathPage.astro';
+import { getVenues, getFaqs, getTestimonials } from '../lib/content';
+import { faqJsonLd } from '../components/base/schema';
+import { site } from '../data/settings';
+
+const venues = (await getVenues()).sort((a, b) => (b.data.sleeps.value ?? 0) - (a.data.sleeps.value ?? 0));
+const order = ['faq-06', 'faq-03', 'faq-02', 'faq-08', 'faq-09'];
+const faqs = (await getFaqs()).filter((f) => order.includes(f.id)).sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+const reviews = await getTestimonials({ groupType: 'corporate' });
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Corporate wellness retreats',
+    serviceType: '8 hour corporate wellness retreat',
+    provider: { '@type': 'Organization', name: site.name, url: site.url },
+    areaServed: { '@type': 'Place', name: 'Fleurieu Peninsula, South Australia' },
+    audience: { '@type': 'BusinessAudience', audienceType: 'Leadership teams and corporate groups' },
+  },
+  faqJsonLd(faqs.map((f) => ({ question: f.data.question, answer: f.data.answer.join(' ') }))),
+];
+---
+<Base
+  title="Corporate wellness retreats, Fleurieu Peninsula"
+  description="Corporate wellness retreats on the Fleurieu Peninsula, South Australia: an 8 hour team day of movement, recovery and a shared Mediterranean lunch."
+  headerTone="over-media"
+  jsonLd={jsonLd}
+>
+  <PathPage
+    audience="corporate"
+    hero={{
+      slot: 'corporate-hero',
+      eyebrow: 'Corporate teams',
+      heading: 'Corporate wellness retreats on the *Fleurieu Peninsula*',
+      body: 'A strategic reset for leadership teams and high-performing professionals.',
+    }}
+    who={{
+      statement: 'Corporate retreats are designed for teams who understand that sustainable performance requires recovery, clarity and nervous system regulation, not just output.',
+      paragraphs: [
+        'Drawing from La maréa’s ten evidence-based pillars each retreat integrates structured movement, restorative wellness practices, Mediterranean-inspired nourishment and practical lifestyle wellness education. The experience is private by design, creating psychological safety and space for meaningful conversation without distraction.',
+      ],
+    }}
+    dayBrief={{
+      heading: 'Your team’s day on the *Fleurieu*',
+      steps: { arrive: [1], move: [6], nourish: [8], restore: [{ order: 9, lines: [1], items: false }] },
+    }}
+    venues={{
+      heading: 'Places to Pause for your team',
+      intro: 'Guided by our personalisation pillar, each retreat location is carefully matched to the group and the retreat intention.',
+      items: venues,
+      filters: false,
+    }}
+    questions={{ heading: 'Practical answers for planners', faqs }}
+    guide={{ title: 'The corporate group guide', list: 'guide:corporate-group-guide' }}
+    proof={{ heading: 'In our guests’ words', items: reviews }}
+    closing={{ line: 'A day shaped around your team' }}
+  />
+</Base>

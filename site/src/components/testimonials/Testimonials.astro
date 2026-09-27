@@ -1,0 +1,240 @@
+---
+/*
+  Testimonials (T5, visual study D10). Belle: "client testimonials set up with an image, and then...
+  a bit of wording under that" (BD-61). Four across at 1440, images alternating 1:1 and 4:5 so the words
+  start at two heights, the quote in the serif italic trimmed to about 45 words with "Read the full
+  review" opening the rest in place. Attribution is a descriptor built only from what the review says,
+  naming the format it describes ("Corporate team, Wake Up to Wellness morning"), never a name.
+  Only verbatim words. Where a group or format has no review yet, a marked placeholder card says what
+  goes there. "See past retreats" sits beside it (build spec 12). On phones: one snap row at 1.2 cards.
+
+  <Testimonials items={await getTestimonials()} />
+  <Testimonials items={await getTestimonials({ format: 'full_day' })} format="full_day" filters={false} />
+
+  Props
+  - items: getTestimonials() entries
+  - filters: the group type toggle row (default true when more than one group is present)
+  - format: set on the Day page ('full_day'); if items is empty a marked placeholder renders instead
+  - gallery: false hides "See past retreats"
+  - label: accessible name of the row
+*/
+import Media from '../media/Media.astro';
+import Slider from '../slider/Slider.astro';
+import ArrowLink from '../base/ArrowLink.astro';
+import { trimWords, monthYear, uid } from '../../lib/text';
+import type { Testimonial } from '../../lib/content';
+
+interface Props {
+  items: Testimonial[];
+  filters?: boolean;
+  format?: Testimonial['data']['format'];
+  gallery?: boolean;
+  label?: string;
+  id?: string;
+  class?: string;
+}
+const { items, filters = true, format, gallery = true, label = 'What guests say', id, class: className } = Astro.props;
+const base = id ?? uid('reviews');
+
+const GROUPS: { key: Testimonial['data']['group_type']; label: string; placeholder: string }[] = [
+  { key: 'corporate', label: 'Corporate teams', placeholder: 'Google review from a corporate team, to be selected by Belle' },
+  { key: 'private', label: 'Private groups', placeholder: 'Google review from a private group, to be selected by Belle' },
+  { key: 'public_event', label: 'Sunset Retreat', placeholder: 'A review from a Sunset Retreat, to be selected by Belle' },
+];
+const FORMAT_PLACEHOLDER: Record<string, string> = {
+  full_day: 'A review from a full day (8 hour) retreat, to be selected by Belle. None of the published reviews names a full day retreat yet.',
+  wake_up_to_wellness: 'A review from a Wake Up to Wellness morning, to be selected by Belle',
+  sunset_retreat: 'A review from a Sunset Retreat, to be selected by Belle',
+  womens_retreat: "A review from a women's retreat, to be selected by Belle",
+};
+const showFilters = filters && !format;
+const paras = (q: string) => q.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
+---
+<div class:list={['testimonials', className]} id={id} data-testimonials>
+  {(showFilters || gallery) && (
+    <div class="tm-head">
+      {showFilters && (
+        <div class="tm-filters" role="group" aria-label="Show reviews from">
+          <button type="button" class="tm-filter" aria-pressed="true" data-tm-filter="all">All</button>
+          {GROUPS.map((g) => <button type="button" class="tm-filter" aria-pressed="false" data-tm-filter={g.key} data-notes-only={items.some((t) => t.data.group_type === g.key) ? undefined : ''}>{g.label}</button>)}
+        </div>
+      )}
+      {gallery && <ArrowLink href="/gallery" label="See past retreats" class="tm-gallery" />}
+    </div>
+  )}
+
+  <Slider label={label} itemLabel="review" perView={{ phone: 1.2, tablet: 2.3, desktop: 3.3, wide: 4.15 }} gap="clamp(1.25rem, 2vw, 2rem)" id={`${base}-slider`} controls={format && items.length === 0 ? 'none' : 'below'}>
+    {items.map((t, i) => {
+      const d = t.data;
+      const { short, trimmed } = trimWords(d.quote!.replace(/\s*\n+\s*/g, ' '), 45);
+      const fullId = `${base}-full-${i}`;
+      return (
+        <figure class="tcard" data-group={d.group_type} data-format={d.format}>
+          <div class:list={['tcard__img', i % 2 ? 'tcard__img--tall' : 'tcard__img--square']}>
+            {d.image && <Media media={d.image} aspect="fill" />}
+          </div>
+          <blockquote class="tcard__quote">
+            <p class="tcard__short" data-tm-short>{short}</p>
+            {trimmed && (
+              <div class="tcard__full" id={fullId} data-tm-full>
+                {paras(d.quote!).map((p) => <p>{p}</p>)}
+              </div>
+            )}
+          </blockquote>
+          {trimmed && (
+            <button type="button" class="tcard__more" aria-expanded="false" aria-controls={fullId} data-tm-more>
+              <span data-tm-more-label>Read the full review</span>
+              <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><polyline points="0.5,0.5 5,5 9.5,0.5" /></svg>
+            </button>
+          )}
+          <figcaption class="tcard__by">
+            <span class="tcard__who" data-draft>{d.descriptor}</span>
+            {d.source_type === 'google' && <span class="tcard__src">Google review, {monthYear(d.date)}</span>}
+          </figcaption>
+        </figure>
+      );
+    })}
+
+    {format && items.length === 0 && (
+      <figure class="tcard tcard--placeholder" data-notes-only>
+        <div class="tcard__img tcard__img--square tcard__img--empty"></div>
+        <p class="placeholder-line">{FORMAT_PLACEHOLDER[format] ?? 'A review for this format, to be selected by Belle'}</p>
+      </figure>
+    )}
+    {showFilters && GROUPS.filter((g) => !items.some((t) => t.data.group_type === g.key)).map((g) => (
+      <figure class="tcard tcard--placeholder" data-group={g.key} data-tm-placeholder data-notes-only hidden>
+        <div class="tcard__img tcard__img--square tcard__img--empty"></div>
+        <p class="placeholder-line">{g.placeholder}</p>
+      </figure>
+    ))}
+  </Slider>
+</div>
+
+<style>
+  .testimonials {
+    --edge: max(var(--gutter), calc((100% - var(--wrap-max)) / 2 + var(--gutter)));
+    width: 100%;
+  }
+  .tm-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    padding-inline: var(--edge) var(--gutter);
+    margin-bottom: clamp(1.75rem, 3vw, 2.75rem);
+  }
+  .tm-filters {
+    display: flex;
+    flex-wrap: wrap; /* wraps on phones rather than cutting a label under a fade (QA m3) */
+    gap: 0.25rem 1.6rem;
+    min-width: 0;
+    max-width: 100%;
+    padding: 2px 0;
+  }
+  .tm-filter {
+    flex: none;
+    min-height: 2.75rem;
+    padding: 0 0.1rem;
+    border: 0;
+    background: transparent;
+    color: var(--sage-80);
+    font-family: var(--font-ui);
+    font-size: var(--fs-nav);
+    letter-spacing: 0.05em;
+    text-decoration: underline 1px transparent;
+    text-underline-offset: 0.5em;
+    transition: color var(--dur-fast) var(--ease-soft), text-decoration-color var(--dur-fast) var(--ease-soft);
+  }
+  /* Plain text tabs, the active one underlined (Aman and COMO, CD review 02 item 14). */
+  .tm-filter[aria-pressed='true'] { color: var(--sage-100); text-decoration-color: currentColor; }
+  @media (hover: hover) { .tm-filter[aria-pressed='false']:hover { text-decoration-color: var(--sage-40); } }
+
+  .tcard { margin: 0; display: flex; flex-direction: column; }
+  .tcard__img { position: relative; overflow: hidden; background: var(--sand-40); }
+  .tcard__img--square { aspect-ratio: 1 / 1; }
+  .tcard__img--tall { aspect-ratio: 4 / 5; }
+  .tcard__img--empty { background: repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--sage-20) 45%, transparent) 14px 15px), var(--sand-40); }
+
+  .tcard__quote { margin: 1.35rem 0 0; }
+  .tcard__short, .tcard__full p {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.1875rem;
+    line-height: 1.45;
+    color: var(--sage-100);
+  }
+  .tcard__short::before, .tcard__full p:first-child::before { content: '\201C'; }
+  .tcard__short::after, .tcard__full p:last-child::after { content: '\201D'; }
+  .tcard__full p + p { margin-top: 0.8em; }
+  :global(html.js) .tcard__full { display: none; }
+  :global(html:not(.js)) .tcard__short { display: none; }
+  :global(html:not(.js)) .tcard__more { display: none; }
+  .tcard[data-open] .tcard__full { display: block; }
+  .tcard[data-open] .tcard__short { display: none; }
+
+  .tcard__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    align-self: flex-start;
+    min-height: 2.75rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--heading);
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: 0.08em;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+    text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  }
+  .tcard__more svg { overflow: visible; transition: transform var(--dur-step) var(--ease-soft); }
+  .tcard__more polyline { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .tcard__more[aria-expanded='true'] svg { transform: rotate(180deg); }
+  @media (hover: hover) { .tcard__more:hover { text-decoration-color: currentColor; } }
+
+  .tcard__by { display: grid; gap: 0.25rem; margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid var(--rule); }
+  .tcard__who { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.1em; color: var(--sage-80); }
+  .tcard__src { font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: 0.06em; color: var(--muted); }
+
+  .tcard--placeholder :global(.placeholder-line) { margin-top: 1.35rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tm-filter, .tcard__more svg { transition: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-testimonials]').forEach((root) => {
+    const slider = root.querySelector<HTMLElement>('[data-slider]');
+    // Read the full review, in place
+    root.querySelectorAll<HTMLButtonElement>('[data-tm-more]').forEach((b) => {
+      b.addEventListener('click', () => {
+        const card = b.closest<HTMLElement>('.tcard')!;
+        const open = !card.hasAttribute('data-open');
+        card.toggleAttribute('data-open', open);
+        b.setAttribute('aria-expanded', String(open));
+        const lbl = b.querySelector('[data-tm-more-label]');
+        if (lbl) lbl.textContent = open ? 'Show less' : 'Read the full review';
+      });
+    });
+    // Filter by group type
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-tm-filter]'));
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('.tcard'));
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        const f = b.dataset.tmFilter!;
+        buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        cards.forEach((c) => {
+          const isPh = c.hasAttribute('data-tm-placeholder');
+          c.hidden = f === 'all' ? isPh : c.dataset.group !== f;
+        });
+        slider?.dispatchEvent(new CustomEvent('track:refresh'));
+      }),
+    );
+  });
+</script>

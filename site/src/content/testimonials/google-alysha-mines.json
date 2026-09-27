@@ -1,0 +1,31 @@
+{
+  "quote": "I recently attended the Sunset Retreat and honestly had such a beautiful experience. From the moment I arrived, everything felt so calming and thoughtfully planned. The venue itself was stunning, the large glass windows overlooking the beach while watching the sunset created the most peaceful atmosphere. It was absolutely beautiful.\n\nThe little details made the experience feel extra special. I loved the sweet treat ball and the delicious health drink on arrival. The aesthetic of the whole event was gorgeous, from the colour scheme to the beautiful Fleurieu candle and the amazing goodie bags.\n\nAs a busy working and studying mum, I rarely take time to properly relax or do something just for myself, so I’m really glad I chose to attend. The yoga practice was incredible, gentle, grounding and accessible without being too difficult. It gave my body such a needed stretch and release. The breathwork session and the empowering words Jaimee shared were such a beautiful reminder to slow down and reconnect with myself. It’s honestly not often that my body fully relaxes, but after the practice I felt calm, lighter and genuinely relaxed.\n\nThe group of women attending was also lovely. The environment felt welcoming and wholesome, never intimidating. Jaimee and Belle both made such an effort to personally greet everyone and create a warm, inclusive space.\n\nI also really enjoyed Belle’s nutrition education talk. I took away some valuable tips and I loved the recipes and information sheets that were provided to continue learning afterwards.\n\nOverall, it was such a nourishing and thoughtfully curated experience. I would absolutely recommend the Sunset Retreat to others and I’m already looking forward to attending the next event.",
+  "reviewer_as_published": "Alysha Mines",
+  "reviewer_note": "Kept for records only. The site shows the descriptor, never the name, until Belle has permission.",
+  "descriptor": "Guest, Sunset Retreat",
+  "descriptor_basis": "Derived by the build only from the review text: \"I recently attended the Sunset Retreat\"",
+  "group_type": "public_event",
+  "format": "sunset_retreat",
+  "format_label": "Sunset Retreat",
+  "format_basis": "\"I recently attended the Sunset Retreat\"",
+  "venue": null,
+  "source_type": "google",
+  "source": {
+    "type": "google_reviews_widget",
+    "url": "https://www.lamarea.com.au/",
+    "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+    "captured": "24-09-2026"
+  },
+  "rating": 5,
+  "date": "28-05-2026",
+  "retreat_type_as_stated": "Sunset Retreat (named in the review)",
+  "experiences_mentioned": [
+    "yoga"
+  ],
+  "image": "testimonial-sunset-3",
+  "featured_on": [],
+  "duplicate_of": null,
+  "status": "published",
+  "review": "Contains \"honestly\" and names Jaimi as \"Jaimee\". Verbatim as published.",
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

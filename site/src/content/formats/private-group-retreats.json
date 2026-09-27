@@ -1,0 +1,33 @@
+{
+  "name": "Private Group Retreats",
+  "kind": "pathway",
+  "order": 1,
+  "tagline": "For friends and families seeking meaningful time together in a setting that restores rather than overwhelms.",
+  "body": [
+    "Private Group Retreats are designed for those who want to step away together. Not to fill a schedule, but to create space. Birthdays, milestone celebrations, sister weekends, family resets or simply time with people who matter.",
+    "Across a weekend, the environment does much of the work. Ocean air, open landscape, nourishing food and guided movement begin to soften the pace of conversation and daily urgency. Sleep deepens. Meals stretch longer. Devices are put down.",
+    "La maréa retreats are grounded in evidence-based lifestyle wellness principles, nutrition, movement, sleep & recovery, nature immersion and connection, but delivered in a way that feels intuitive and unforced. The result is not just a beautiful weekend away, but a subtle recalibration and transformation.",
+    "You return home feeling calm, clearer, and more connected to your wellbeing, to yourself and to one another.",
+    "Ideal for 6 to 10 guests, depending on property."
+  ],
+  "duration": null,
+  "group_size_text": "Ideal for 6 to 10 guests, depending on property.",
+  "items": [],
+  "inclusions_heading": null,
+  "inclusions": [],
+  "closing_line": null,
+  "footnote": null,
+  "price_from": null,
+  "price_published_on_live_site": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Private Group Retreats"
+    }
+  ],
+  "status": "draft",
+  "review": "Group size conflicts with the Encounter Bay guide (10 guests minimum, 14 maximum at that venue). Decision 14.",
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

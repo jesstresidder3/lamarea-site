@@ -1,0 +1,116 @@
+---
+/*
+  Eyebrow, heading and a 30 to 60 word body, set on an art-directed split (never 50/50).
+
+  <TextPair eyebrow="An invitation to pause" heading="Restore. Reconnect. Realign." body="..." />
+  <TextPair variant="right" heading="..." ><p>Rich body as the default slot</p></TextPair>
+  <TextPair heading="The day at *Beresford Estate*" mediaSide="left" split="wide">
+    <Media media="..." aspect="9 / 16" fit="contain" slot="media" />
+    <p>...</p>
+  </TextPair>
+
+  Props
+  - eyebrow, heading (asterisks mark a place name, see base/text.ts), level (2), body (or default slot)
+  - variant: 'left' (heading in the left third, body in the right two thirds, default),
+             'right' (the whole pair sits in the right two thirds, the left third left empty),
+             'centred' (one narrow centred column), 'narrow' (one left column at reading width)
+  - split: 'third' (1 : 2, default) or 'wide' (5 : 7)
+  - media: put anything in slot="media" to set text beside it; mediaSide 'right' (default) or 'left'.
+    With media the text takes the smaller share and the media the larger.
+  - link: { label, href } rendered as an ArrowLink under the body
+  - draft: { eyebrow?, heading?, body? } marks drafted copy for Belle
+  - id, class, headingId
+*/
+import Eyebrow from './Eyebrow.astro';
+import ArrowLink from './ArrowLink.astro';
+import { emphasis } from './text';
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  level?: 2 | 3;
+  body?: string;
+  variant?: 'left' | 'right' | 'centred' | 'narrow';
+  split?: 'third' | 'wide';
+  mediaSide?: 'left' | 'right';
+  link?: { label: string; href: string };
+  draft?: { eyebrow?: boolean; heading?: boolean; body?: boolean };
+  headingId?: string;
+  id?: string;
+  class?: string;
+}
+
+const {
+  eyebrow,
+  heading,
+  level = 2,
+  body,
+  variant = 'left',
+  split = 'third',
+  mediaSide = 'right',
+  link,
+  draft = {},
+  headingId,
+  id,
+  class: className,
+} = Astro.props;
+
+const H = `h${level}` as 'h2' | 'h3';
+const hasMedia = Astro.slots.has('media');
+const hasBody = Boolean(body) || Astro.slots.has('default');
+const layout = hasMedia ? `media-${mediaSide}` : variant;
+---
+<div id={id} class:list={['pair', `pair--${layout}`, `pair--${split}`, eyebrow && 'pair--has-eyebrow', className]}>
+  <div class="pair__head">
+    {eyebrow && <Eyebrow draft={draft.eyebrow}>{eyebrow}</Eyebrow>}
+    <H class="pair__heading" id={headingId} data-draft={draft.heading ? '' : undefined} set:html={emphasis(heading)} />
+    {hasMedia && hasBody && (
+      <div class="pair__body pair__body--inline" data-draft={draft.body ? '' : undefined}>
+        {body ? <p>{body}</p> : <slot />}
+      </div>
+    )}
+    {hasMedia && link && <ArrowLink href={link.href} label={link.label} class="pair__link" />}
+  </div>
+  {!hasMedia && (hasBody || link) && (
+    <div class="pair__body" data-draft={draft.body ? '' : undefined}>
+      {body ? <p>{body}</p> : <slot />}
+      {link && <ArrowLink href={link.href} label={link.label} class="pair__link" />}
+    </div>
+  )}
+  {hasMedia && <div class="pair__media"><slot name="media" /></div>}
+</div>
+
+<style>
+  .pair { display: grid; gap: var(--space-m) clamp(2rem, 6vw, 7.5rem); align-items: start; }
+  .pair__heading { margin: 0; max-width: 15em; }
+  .pair__body { max-width: var(--measure); }
+  .pair__body :global(p) { margin: 0 0 1em; }
+  .pair__body :global(p:last-child) { margin-bottom: 0; }
+  .pair__body--inline { margin-top: var(--space-m); }
+  .pair :global(.pair__link) { margin-top: 1.75rem; }
+
+  @media (min-width: 900px) {
+    .pair--left { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+    .pair--left.pair--wide { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+    /* Body starts level with the heading, not with the eyebrow. */
+    .pair--left.pair--has-eyebrow .pair__body { padding-top: calc(var(--fs-label) * var(--lh-label) + 1.25rem); }
+
+    .pair--right { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+    .pair--right > * { grid-column: 2; }
+    .pair--right .pair__body { margin-top: var(--space-s); }
+
+    .pair--media-right { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); align-items: center; }
+    .pair--media-left { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: center; }
+    .pair--media-right.pair--wide { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+    .pair--media-left.pair--wide { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+    .pair--media-left .pair__media { grid-row: 1; grid-column: 1; }
+    .pair--media-left .pair__head { grid-column: 2; }
+  }
+
+  .pair--centred { justify-items: center; text-align: center; max-width: 40rem; margin-inline: auto; }
+  .pair--centred .pair__heading { margin-inline: auto; }
+  .pair--centred .pair__body { margin-inline: auto; }
+  .pair--centred :global(.eyebrow) { justify-content: center; }
+
+  .pair--narrow { max-width: var(--measure); }
+</style>

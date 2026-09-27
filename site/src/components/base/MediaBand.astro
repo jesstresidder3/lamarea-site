@@ -1,0 +1,172 @@
+---
+/*
+  Full-bleed media band with an optional soft parallax, and text over it or beneath it.
+
+  <MediaBand media="sg-band" height="band" heading="Where the coast meets the vines" text="below" />
+  <MediaBand media="day-hero" height="screen" hero heading="An 8 hour immersive wellness retreat on the *Fleurieu Peninsula*" level={1} text="over" />
+
+  Props
+  - media: media slot id (required)
+  - height: 'screen' (100svh), 'tall' (86svh), 'band' (a wide band, default) or 'auto' (the slot's aspect)
+  - parallax: soft vertical drift bound to scroll (default true). CSS scroll-driven where supported,
+    IntersectionObserver plus rAF fallback, none under reduced motion
+  - text: 'over' (salt text on the media, a local bottom gradient behind it only), 'below' (text on
+    sand beneath the band) or 'none' (default)
+  - eyebrow, heading, level (2), body, link { label, href }, align ('left' | 'centre')
+  - hero: true when this band opens the page. Marks the media for the header's transparent state,
+    loads the media eagerly and lets Base's headerTone="over-media" work
+  - caption: a short label under the band (for example a place name)
+  - draft: { heading?, body? }
+*/
+import Media from '../media/Media.astro';
+import Eyebrow from './Eyebrow.astro';
+import ArrowLink from './ArrowLink.astro';
+import { emphasis } from './text';
+
+interface Props {
+  media: string;
+  height?: 'screen' | 'tall' | 'band' | 'auto';
+  parallax?: boolean;
+  text?: 'over' | 'below' | 'none';
+  eyebrow?: string;
+  heading?: string;
+  level?: 1 | 2 | 3;
+  body?: string;
+  link?: { label: string; href: string };
+  align?: 'left' | 'centre';
+  hero?: boolean;
+  caption?: string;
+  draft?: { heading?: boolean; body?: boolean };
+  id?: string;
+  class?: string;
+}
+
+const {
+  media,
+  height = 'band',
+  parallax = true,
+  text = 'none',
+  eyebrow,
+  heading,
+  level = 2,
+  body,
+  link,
+  align = 'left',
+  hero = false,
+  caption,
+  draft = {},
+  id,
+  class: className,
+} = Astro.props;
+const H = `h${level}` as 'h1' | 'h2' | 'h3';
+const hasText = text !== 'none' && (heading || body || eyebrow);
+---
+<section id={id} class:list={['band', `band--${height}`, `band--text-${text}`, `band--${align}`, className]}>
+  <div class="band__frame" data-hero={hero ? '' : undefined}>
+    <div class:list={['band__media', parallax && 'band__media--parallax']} data-parallax={parallax ? '' : undefined}>
+      <Media media={media} aspect="fill" priority={hero} notePosition={text === 'over' ? 'top-right' : 'bottom-left'} />
+    </div>
+    {hasText && text === 'over' && (
+      <div class="band__over">
+        <div class="wrap band__over-inner">
+          {eyebrow && <Eyebrow tone="light">{eyebrow}</Eyebrow>}
+          {heading && <H class="band__heading" data-draft={draft.heading ? '' : undefined} set:html={emphasis(heading)} />}
+          {body && <p class="band__body" data-draft={draft.body ? '' : undefined}>{body}</p>}
+          {link && <ArrowLink href={link.href} label={link.label} tone="light" class="band__link" />}
+        </div>
+      </div>
+    )}
+  </div>
+  {caption && <p class="wrap band__caption">{caption}</p>}
+  {hasText && text === 'below' && (
+    <div class="wrap band__below">
+      <div class="band__below-inner">
+        {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+        {heading && <H class="band__heading" data-draft={draft.heading ? '' : undefined} set:html={emphasis(heading)} />}
+        {body && <p class="band__body" data-draft={draft.body ? '' : undefined}>{body}</p>}
+        {link && <ArrowLink href={link.href} label={link.label} class="band__link" />}
+      </div>
+    </div>
+  )}
+</section>
+
+<script>
+  import '../../scripts/reveal';
+</script>
+
+<style>
+  .band { position: relative; }
+  .band__frame { position: relative; overflow: hidden; background: var(--sand-40); }
+  .band--screen .band__frame { height: 100svh; min-height: 32rem; }
+  .band--tall .band__frame { height: 86svh; min-height: 28rem; }
+  .band--band .band__frame { height: clamp(22rem, 38vw + 8rem, 46rem); }
+  .band--auto .band__frame { aspect-ratio: 21 / 9; min-height: 18rem; }
+
+  .band__media { position: absolute; inset: 0; }
+  .band__media--parallax { inset: -8% 0; }
+  /* A band that opens the page sits under the fixed header: keep the placeholder note clear of it
+     (and of the parallax overscan above the frame), as Hero does. */
+  .band__frame[data-hero] :global(.ph-note) { margin-top: calc(var(--header-h) + 8svh + 0.75rem); }
+  .band__frame[data-hero] .band__media:not(.band__media--parallax) :global(.ph-note) { margin-top: calc(var(--header-h) + 0.75rem); }
+
+  /* Text over media: salt, bottom left, with a soft local gradient under it and nowhere else. */
+  .band__over {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding-block: clamp(6rem, 18vh, 12rem) clamp(2rem, 6vh, 4rem);
+    background: linear-gradient(to top, rgb(35 32 14 / 0.3), rgb(35 32 14 / 0));
+    color: var(--salt-25);
+    --heading: var(--salt-25);
+    --focus: var(--focus-on-dark);
+  }
+  /* While the slot still shows its light placeholder, the words switch to sage ink and the local
+     gradient goes (QA M3, CD review 02 item 1). Belle's footage brings back the salt text. */
+  .band__frame:has(.band__media .media--placeholder) .band__over {
+    background: none;
+    color: var(--sage-100);
+    --heading: var(--sage-80);
+    --focus: var(--sage-80);
+  }
+  .band__frame:has(.band__media .media--placeholder) .band__over :is(.band__heading, .band__body) { color: var(--sage-100); }
+  .band__frame:has(.band__media .media--placeholder) .band__over :global(.eyebrow--light) { color: var(--sage-100); }
+  .band__frame:has(.band__media .media--placeholder) .band__over :global(.arrow-link--tone-light) { --al-colour: var(--sage-100); --focus: var(--sage-80); }
+  .band--centre .band__over-inner { text-align: center; display: grid; justify-items: center; }
+  .band__over .band__heading { color: var(--salt-25); max-width: 16em; margin: 0; }
+  .band__over .band__body { color: var(--salt-25); margin-top: 1rem; }
+  .band :global(.band__link) { margin-top: 1.5rem; }
+
+  .band__caption {
+    margin: 0 auto;
+    padding-top: 0.9rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--muted);
+    max-width: var(--wrap-max);
+  }
+  .band__below { padding-top: var(--space-l); }
+  .band__below-inner { max-width: 40rem; }
+  .band--centre .band__below-inner { margin-inline: auto; text-align: center; }
+  .band--centre .band__below-inner :global(.eyebrow) { justify-content: center; }
+  .band__below .band__heading { margin: 0; }
+  .band__below .band__body { margin-top: 1.25rem; }
+
+  /* Parallax: a slow drift bound to the band's passage through the viewport. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .band__frame { view-timeline: --band-frame block; view-timeline-inset: 0px; }
+      .band__media--parallax {
+        animation: band-drift linear both;
+        animation-timeline: --band-frame;
+        animation-range: cover 0% cover 100%;
+      }
+    }
+  }
+  @keyframes band-drift {
+    from { transform: translate3d(0, -6%, 0); }
+    to { transform: translate3d(0, 6%, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .band__media--parallax { inset: 0; transform: none; }
+  }
+</style>

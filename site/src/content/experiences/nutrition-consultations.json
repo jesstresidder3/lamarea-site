@@ -1,0 +1,70 @@
+{
+  "name": "Lifestyle wellness and nutrition consultations",
+  "name_as_transcribed": "lifestyle wellness & nutrition consultations",
+  "name_as_published": "Personalised Individual Nutrition & Lifestyle Consultation & Plan",
+  "kind": "guided",
+  "order": 10,
+  "art_direction": "full_bleed",
+  "media": "experience-nutrition-consultations",
+  "media_type": "image",
+  "short": {
+    "text": "Private, tailored session designed to provide deeper support during retreat stays.",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/malissa-fedele",
+      "captured": "24-09-2026",
+      "section": "Services & Offerings"
+    }
+  },
+  "pillar": null,
+  "pillars": [],
+  "pillar_basis": "No published pillar text names this experience, so no link is recorded",
+  "duration": "60 minutes",
+  "duration_basis": "Malissa Fedele bio, lamarea.com.au/malissa-fedele",
+  "duration_as_published": "60 minutes (Malissa Fedele bio)",
+  "practitioners": [
+    "malissa-fedele"
+  ],
+  "business": null,
+  "business_basis": null,
+  "business_conflict": null,
+  "practitioners_as_published": [
+    "Malissa Fedele (live bio)"
+  ],
+  "descriptions": [
+    {
+      "text": [
+        "Personalised Individual Nutrition & Lifestyle Consultation & Plan (created post weekend retreat)"
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "captured": "24-09-2026",
+        "section": "Bespoke wellness additions"
+      }
+    },
+    {
+      "text": [
+        "1:1 Mood Boosting Nutrition Consultation (60 minutes)",
+        "Private, tailored session designed to provide deeper support during retreat stays.",
+        "Perfect for guests seeking clarity, guidance, and a supportive plan designed just for them."
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/malissa-fedele",
+        "captured": "24-09-2026",
+        "section": "Services & Offerings"
+      }
+    }
+  ],
+  "seed_id": null,
+  "source": [
+    {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+    }
+  ],
+  "status": "draft",
+  "review": "Listed as a paid bespoke addition, not an inclusion. Inside a day or sold separately is plan/11 Q4."
+}

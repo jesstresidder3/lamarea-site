@@ -1,0 +1,34 @@
+---
+/*
+  The thin progress rule under a track (O2, visual study B7): a 1px sage-20 line across the track with
+  a 2px sage-80 segment. initTrack() sizes the segment to the visible fraction and moves it with the
+  scroll position, live. Decorative: the counter and arrows carry the information.
+  <ProgressRule />   Props: tone ('default' | 'light')
+*/
+interface Props { tone?: 'default' | 'light'; class?: string }
+const { tone = 'default', class: className } = Astro.props;
+---
+<div class:list={['rule', `rule--${tone}`, className]} data-progress aria-hidden="true">
+  <span class="rule__bar" data-progress-bar></span>
+</div>
+
+<style>
+  .rule {
+    position: relative;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(var(--sage-20), var(--sage-20)) 0 50% / 100% 1px no-repeat;
+  }
+  .rule--light { background-image: linear-gradient(color-mix(in srgb, var(--salt-25) 35%, transparent), color-mix(in srgb, var(--salt-25) 35%, transparent)); }
+  .rule__bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 2px;
+    width: 18%;
+    background: var(--sage-80);
+    will-change: transform;
+  }
+  .rule--light .rule__bar { background: var(--salt-25); }
+  .rule[data-static] { opacity: 0; }
+</style>

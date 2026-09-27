@@ -1,0 +1,127 @@
+{
+  "name": "Massage",
+  "name_as_transcribed": "massage",
+  "name_as_published": "Individual Restorative Massage Therapy",
+  "kind": "guided",
+  "order": 2,
+  "art_direction": "inset",
+  "media": "experience-massage",
+  "media_type": "image",
+  "short": {
+    "text": "Individual therapeutic massage experience with Earth House & Spa",
+    "source": {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "15",
+      "captured": "24-09-2026"
+    }
+  },
+  "pillar": "sleep-and-recovery",
+  "pillars": [
+    "sleep-and-recovery"
+  ],
+  "pillar_basis": "Sleep & Recovery pillar text names massage",
+  "duration": "40 minutes per rotation",
+  "duration_basis": "Beresford example day, live retreats page schedule image",
+  "duration_as_published": "40 minutes per rotation (Beresford example); 60 or 45 minutes (Courtney Selfe services)",
+  "practitioners": [
+    "courtney-selfe"
+  ],
+  "business": {
+    "name": "The Earth House and Spa",
+    "person": "courtney-selfe",
+    "url": "https://www.earthhousespa.com/"
+  },
+  "business_basis": "Guide p.15: \"Individual therapeutic massage experience with Earth House & Spa\"",
+  "business_conflict": null,
+  "practitioners_as_published": [
+    "Courtney Selfe, The Earth House and Spa"
+  ],
+  "descriptions": [
+    {
+      "text": [
+        "Individual therapeutic massage experience with Earth House & Spa"
+      ],
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": "15",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "Individual Restorative Massage Therapy"
+      ],
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": "23",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "Experience 1: Individual Restorative Massage Therapy"
+      ],
+      "source": {
+        "type": "live_site_image",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+        "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+        "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "Remedial Massage & A Good Nights Sleep"
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "captured": "24-09-2026",
+        "section": "What a weekend with us looks like..."
+      }
+    },
+    {
+      "text": [
+        "60 or 45 minute deep tissue remedial massage",
+        "60 or 45 minute restoration & relaxation massage"
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/courtney-selfe",
+        "captured": "24-09-2026",
+        "section": "Services & offerings"
+      }
+    },
+    {
+      "text": [
+        "Massage & Relaxation Therapies",
+        "Reduces muscle pain, joint discomfort, and DOMS. (Weerapong et al., 2005; Moyer et al., 2004)",
+        "Lowers anxiety, perceived stress, and depressive symptoms. (Fritz et al., 2014; Hou et al., 2017)",
+        "Improves recovery, sleep quality, and relaxation. (Field, 2016; Pugh et al., 2017)"
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "The Science, Sleep & Recovery"
+      }
+    }
+  ],
+  "seed_id": null,
+  "source": [
+    {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+    }
+  ],
+  "status": "draft",
+  "review": null
+}

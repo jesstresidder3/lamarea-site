@@ -1,0 +1,37 @@
+{
+  "name": "Sunset Reset (3 hour)",
+  "kind": "format",
+  "order": 7,
+  "tagline": null,
+  "body": [
+    "Join La maréa for bespoke Sunset Reset experiences designed to help you slow down, reconnect, and restore by the sea.",
+    "Each curated evening brings together gentle movement, breathwork, nourishing food, meaningful connection, and beautiful coastal settings at sunset.",
+    "Gather a family member, friend or private group and experience an intentional evening of holistic wellness and calm.",
+    "Place your name on our waitlist to be the first to hear about upcoming exclusive Sunset Reset experiences, and future La maréa experience offerings."
+  ],
+  "duration": "3 hour",
+  "group_size_text": null,
+  "items": [],
+  "inclusions_heading": null,
+  "inclusions": [],
+  "closing_line": null,
+  "footnote": null,
+  "price_from": null,
+  "price_published_on_live_site": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Format list"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/",
+      "captured": "24-09-2026",
+      "section": "Sunset Reset Wellness Experiences"
+    }
+  ],
+  "status": "draft",
+  "review": "Only the name and duration are published. Decision 13 decides which formats still sell."
+}

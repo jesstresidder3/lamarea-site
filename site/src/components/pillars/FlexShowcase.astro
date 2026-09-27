@@ -1,0 +1,364 @@
+---
+/*
+  FlexShowcase (C6), the ten philosophy pillars only. Two references Belle named for the philosophy:
+  Aman's seasonal experiences split (a quiet pane in the left third: label, heading, a statement of
+  about 25 words and nothing else) and COMO's wellness experiences row ("you go from one, and then the
+  animation moves to the other... and then it has information under", BD-33).
+
+  The row rests with one pillar open, never on equal tiles. Every other pillar is a narrow sliver
+  carrying Belle's own line icon, its numeral and its name set on the vertical. Hover, focus, tap or
+  the arrows open a pillar: its width trades over 800ms (ease-out, 200ms delay, COMO's timing), then
+  its video slot, name, one line and "Discover more" fade in. Ten 1px segments under the row mark the
+  open pillar. Each pillar is anchorable by its slug (/philosophy#nutrition opens Nutrition).
+  Phones: three visible (the open pillar and two slivers of at least 44px), copy inside the open one.
+
+  <FlexShowcase pillars={pillars} eyebrow="Our philosophy" heading="Ten pillars behind every retreat"
+    statement="Mediterranean inspired, science backed and rooted in the Fleurieu." />
+
+  Props
+  - pillars: getPillars() entries
+  - eyebrow, heading (place names between asterisks), statement (about 25 words, Belle's)
+  - start: slug of the pillar that rests open (default the first)
+  - anchors: false drops the slug ids (only when a page shows the row twice)
+  - draft: { heading?: boolean; statement?: boolean }
+*/
+import Media from '../media/Media.astro';
+import Eyebrow from '../base/Eyebrow.astro';
+import Icon from '../base/Icon.astro';
+import ArrowLink from '../base/ArrowLink.astro';
+import SliderArrows from '../slider/SliderArrows.astro';
+import { pad2, placeHtml, uid } from '../../lib/text';
+import { pillarHref, type Pillar } from '../../lib/content';
+
+interface Props {
+  pillars: Pillar[];
+  eyebrow?: string;
+  heading: string;
+  statement?: string;
+  start?: string;
+  anchors?: boolean;
+  draft?: { heading?: boolean; statement?: boolean };
+  id?: string;
+  class?: string;
+}
+const { pillars, eyebrow, heading, statement, start, anchors = true, draft = {}, id, class: className } = Astro.props;
+const base = id ?? uid('pillars');
+const startIndex = Math.max(0, pillars.findIndex((p) => p.id === start));
+const iconName = (file: string) => file.replace(/\.svg$/, '');
+---
+<section class:list={['flex-showcase', className]} id={id} aria-labelledby={`${base}-heading`} data-flex-showcase data-start={startIndex}>
+  <div class="fs-grid">
+    <div class="fs-pane">
+      {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+      <h2 class="fs-heading" id={`${base}-heading`} set:html={placeHtml(heading)} data-draft={draft.heading ? '' : undefined} />
+      {statement && <p class="fs-statement" data-draft={draft.statement ? '' : undefined}>{statement}</p>}
+    </div>
+
+    <div class="fs-stage">
+      <div class="fs-row" data-fs-row style={`--n:${pillars.length}`}>
+        {pillars.map((p, i) => {
+          const d = p.data;
+          const open = i === startIndex;
+          const tid = `${base}-t-${i}`;
+          const bid = `${base}-b-${i}`;
+          return (
+            <article class="fs-item" id={anchors ? p.id : undefined} data-fs-item data-open={open ? '' : undefined} aria-labelledby={`${bid}-name`}>
+              <button type="button" class="fs-trigger" id={tid} aria-expanded={open ? 'true' : 'false'} aria-controls={bid} data-fs-trigger>
+                <Icon name={iconName(d.icon)} size="1.9rem" class="fs-icon" />
+                <span class="fs-num" aria-hidden="true">{pad2(i + 1)}</span>
+                <span class="fs-vname">{d.name}</span>
+              </button>
+              <div class="fs-body" id={bid} data-fs-body>
+                <div class="fs-media"><Media media={d.video} aspect="fill" /></div>
+                <div class="fs-copy">
+                  <h3 class="fs-name" id={`${bid}-name`}>{d.long_name ?? d.name}</h3>
+                  <p class="fs-line">{d.line}</p>
+                  <ArrowLink href={pillarHref(p)} label="Discover more" class="fs-more" />
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+      <ol class="fs-segments" aria-hidden="true">
+        {pillars.map((_, i) => <li data-fs-seg data-on={i === startIndex ? '' : undefined}></li>)}
+      </ol>
+      <div class="fs-phone-copy" aria-live="polite">
+        {pillars.map((p, i) => (
+          <div class="fs-phone-item" data-fs-phone data-on={i === startIndex ? '' : undefined}>
+            <p class="fs-phone-num">{pad2(i + 1)}</p>
+            <h3 class="fs-name">{p.data.long_name ?? p.data.name}</h3>
+            <p class="fs-line">{p.data.line}</p>
+            <ArrowLink href={pillarHref(p)} label="Discover more" class="fs-more" />
+          </div>
+        ))}
+      </div>
+      <div class="fs-nav fs-nav--below">
+        <p class="fs-count"><span class="fs-count__now" data-fs-current>{pad2(startIndex + 1)}</span><span class="fs-count__rest"><span aria-hidden="true">/</span><span class="visually-hidden"> of </span>{pad2(pillars.length)}</span></p>
+        <SliderArrows label="pillar" size="small" />
+      </div>
+    </div>
+
+    <!-- Sits under the pane on screen, but after the row in the DOM so the pillars come first in the Tab order (QA m7). -->
+    <div class="fs-nav fs-nav--pane">
+      <p class="fs-count" aria-live="polite">
+        <span class="fs-count__now" data-fs-current>{pad2(startIndex + 1)}</span>
+        <span class="fs-count__rest"><span aria-hidden="true">/</span><span class="visually-hidden"> of </span>{pad2(pillars.length)}</span>
+      </p>
+      <SliderArrows label="pillar" size="small" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .flex-showcase {
+    --edge: max(var(--gutter), calc((100% - var(--wrap-max)) / 2 + var(--gutter)));
+    --sliver: clamp(2.75rem, 3.3vw, 3.25rem);
+    --row-h: clamp(32rem, 76vh, 41rem);
+    padding-block: var(--section-y);
+    background: var(--sand-30);
+    overflow-x: clip;
+  }
+  .fs-grid {
+    display: grid;
+    grid-template-columns: minmax(14rem, 1fr) minmax(0, 2.5fr);
+    column-gap: clamp(2rem, 5vw, 5rem);
+    padding-left: var(--edge);
+  }
+
+  /* Aman's pane: label, heading, statement, and space left empty. */
+  .fs-pane { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+  .fs-heading { font-size: var(--fs-h2); max-width: 10em; margin: 0 0 1.5rem; }
+  .fs-statement {
+    font-family: var(--font-serif);
+    font-size: var(--fs-lead);
+    line-height: 1.45;
+    color: var(--sage-100);
+    max-width: 20rem;
+  }
+  .fs-nav { display: flex; align-items: center; gap: 1.25rem; margin-top: auto; padding-top: 2rem; }
+  .fs-nav--below { display: none; }
+  @media (min-width: 900px) {
+    .fs-pane { grid-column: 1; grid-row: 1; }
+    .fs-stage { grid-column: 2; grid-row: 1; }
+    .fs-nav--pane { grid-column: 1; grid-row: 1; align-self: end; justify-self: start; }
+  }
+  .fs-count { display: flex; align-items: baseline; gap: 0.45rem; margin: 0; font-variant-numeric: tabular-nums lining-nums; }
+  .fs-count__now { font-family: var(--font-serif); font-size: 1.75rem; line-height: 1; color: var(--heading); min-width: 1.3em; }
+  .fs-count__rest { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+
+  /* The row: slivers of fixed width, the open pillar takes the rest. */
+  .fs-stage { min-width: 0; }
+  .fs-row {
+    display: flex;
+    height: var(--row-h);
+    container-type: inline-size;
+    border-block: 1px solid var(--rule);
+    background: var(--salt-25);
+  }
+  .fs-item {
+    --open-w: calc(100cqw - (var(--n) - 1) * var(--sliver));
+    position: relative;
+    flex: 0 0 var(--sliver);
+    min-width: var(--sliver);
+    overflow: hidden;
+    border-left: 1px solid var(--rule);
+    background: var(--salt-25);
+    transition: flex-grow var(--dur-slow) var(--ease-como) var(--delay-como), background-color var(--dur-fast) var(--ease-soft);
+  }
+  .fs-item:first-child { border-left: 0; }
+  .fs-item[data-open] { flex-grow: 1; background: var(--salt-25); }
+
+  /* A sliver: icon at the top, numeral, name on the vertical at the foot. */
+  .fs-trigger {
+    position: absolute;
+    inset: 0;
+    width: var(--sliver);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 1.25rem 0 1.4rem;
+    border: 0;
+    background: transparent;
+    color: var(--sage-80);
+    text-align: left;
+    z-index: 2;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color var(--dur-fast) var(--ease-soft), opacity var(--dur-fast) var(--ease-soft);
+  }
+  .fs-trigger :global(.fs-icon) { color: var(--sage-60); }
+  .fs-num { font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: var(--track-label); color: var(--muted); }
+  .fs-vname {
+    margin-top: auto;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    color: var(--heading);
+    white-space: nowrap;
+    max-height: calc(var(--row-h) - 8.5rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  @media (hover: hover) {
+    .fs-item:not([data-open]):hover { background: var(--sand-40); }
+  }
+  .fs-trigger:focus-visible { outline-offset: -4px; }
+
+  /* The open pillar: the sliver's marks fold into a slim header strip on its left edge. */
+  .fs-item[data-open] .fs-trigger { cursor: default; }
+  .fs-item[data-open] .fs-vname { opacity: 0; }
+
+  .fs-body {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--sliver);
+    width: calc(var(--open-w) - var(--sliver));
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 300ms var(--ease-soft), visibility 0s linear 300ms;
+  }
+  .fs-item[data-open] .fs-body {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 700ms var(--ease-soft) 600ms, visibility 0s;
+  }
+  .fs-media { position: relative; overflow: hidden; }
+  .fs-copy {
+    padding: 1.35rem clamp(1.25rem, 2.2vw, 2rem) 1.4rem clamp(1rem, 1.6vw, 1.5rem);
+    transform: translateY(24px);
+    transition: transform 700ms var(--ease-soft) 600ms;
+  }
+  .fs-item[data-open] .fs-copy { transform: none; }
+  .fs-name {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: var(--fs-card);
+    line-height: 1.2;
+    color: var(--heading);
+  }
+  .fs-line { margin: 0 0 0.4rem; font-size: var(--fs-small); line-height: 1.55; color: var(--sage-100); max-width: 32rem; }
+  .fs-copy :global(.fs-more) { min-height: 2.75rem; }
+
+  /* Ten 1px segments under the row, the open pillar's in sage-80 (Aman's one segment per item). */
+  .fs-segments { display: flex; gap: 0.4rem; margin: 1.5rem var(--gutter) 0 0; padding: 0; list-style: none; }
+  .fs-segments li { flex: 1; height: 1px; background: var(--sage-20); transition: background-color var(--dur-step) var(--ease-soft); }
+  .fs-segments li[data-on] { background: var(--sage-80); height: 2px; margin-top: -0.5px; }
+
+  /* Without script: every pillar shows open in a stacked list. */
+  :global(html:not(.js)) .fs-row { flex-direction: column; height: auto; }
+  :global(html:not(.js)) .fs-item { flex: none; }
+  :global(html:not(.js)) .fs-body { position: static; width: auto; opacity: 1; visibility: visible; grid-template-rows: 16rem auto; }
+  :global(html:not(.js)) .fs-trigger { position: static; width: auto; flex-direction: row; }
+  :global(html:not(.js)) .fs-vname { writing-mode: horizontal-tb; transform: none; }
+
+  .fs-phone-copy { display: none; }
+
+  /* Phones and portrait tablets: the pane above, three visible, the open pillar's copy below the row. */
+  @media (max-width: 899px) {
+    .flex-showcase { --row-h: clamp(20rem, 100vw, 30rem); }
+    .fs-body { grid-template-rows: minmax(0, 1fr); }
+    .fs-copy { display: none; }
+    .fs-phone-copy { display: block; margin: 1.75rem var(--gutter) 0; }
+    .fs-phone-item { display: none; }
+    .fs-phone-item[data-on] { display: block; animation: fs-in var(--dur-step) var(--ease-soft) both; }
+    .fs-phone-num { margin: 0 0 0.4rem; font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: var(--track-label); color: var(--muted); }
+    .fs-grid { grid-template-columns: minmax(0, 1fr); padding-left: 0; }
+    .fs-pane { padding-inline: var(--gutter); margin-bottom: 2rem; }
+    .fs-nav--pane { display: none; }
+    .fs-row { margin-inline: var(--gutter); }
+    .fs-item { --open-w: calc(100cqw - 2 * var(--sliver)); }
+    .fs-item[data-offstage] { display: none; }
+    .fs-segments { margin: 1.25rem var(--gutter) 0; }
+    .fs-nav--below { display: flex; justify-content: space-between; padding: 1rem var(--gutter) 0; }
+  }
+
+  @keyframes fs-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fs-phone-item[data-on] { animation: none; }
+    .fs-item, .fs-body, .fs-item[data-open] .fs-body, .fs-copy, .fs-item[data-open] .fs-copy, .fs-segments li { transition: none; }
+    .fs-copy { transform: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-flex-showcase]').forEach((root) => {
+    const items = Array.from(root.querySelectorAll<HTMLElement>('[data-fs-item]'));
+    const triggers = items.map((it) => it.querySelector<HTMLButtonElement>('[data-fs-trigger]')!);
+    const bodies = items.map((it) => it.querySelector<HTMLElement>('[data-fs-body]')!);
+    const segs = Array.from(root.querySelectorAll<HTMLElement>('[data-fs-seg]'));
+    const counters = root.querySelectorAll<HTMLElement>('[data-fs-current]');
+    const phone = window.matchMedia('(max-width: 899px)');
+    let open = Number(root.dataset.start ?? 0);
+
+    const window3 = () => {
+      // Phones show the open pillar and the two beside it (the next two, or the last three at the end).
+      const n = items.length;
+      const first = Math.min(Math.max(open - 1, 0), n - 3);
+      items.forEach((it, i) => it.toggleAttribute('data-offstage', phone.matches && (i < first || i > first + 2)));
+    };
+
+    const set = (i: number, focus = false) => {
+      i = Math.max(0, Math.min(items.length - 1, i));
+      open = i;
+      items.forEach((it, k) => {
+        const on = k === i;
+        it.toggleAttribute('data-open', on);
+        triggers[k].setAttribute('aria-expanded', String(on));
+        bodies[k].inert = !on;
+      });
+      segs.forEach((s, k) => s.toggleAttribute('data-on', k === i));
+      root.querySelectorAll<HTMLElement>('[data-fs-phone]').forEach((c, k) => c.toggleAttribute('data-on', k === i));
+      counters.forEach((c) => (c.textContent = String(i + 1).padStart(2, '0')));
+      root.querySelectorAll<HTMLButtonElement>('[data-prev]').forEach((b) => b.setAttribute('aria-disabled', String(i === 0)));
+      root.querySelectorAll<HTMLButtonElement>('[data-next]').forEach((b) => b.setAttribute('aria-disabled', String(i === items.length - 1)));
+      window3();
+      if (focus) triggers[i].focus();
+    };
+
+    triggers.forEach((t, i) => {
+      t.addEventListener('click', () => set(i));
+      t.addEventListener('focus', () => { if (i !== open) set(i); });
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); set(i + 1, true); }
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); set(i - 1, true); }
+        if (e.key === 'Home') { e.preventDefault(); set(0, true); }
+        if (e.key === 'End') { e.preventDefault(); set(items.length - 1, true); }
+      });
+    });
+
+    // Hover opens a pillar after a short settle, so a pointer crossing the row does not flick through all ten.
+    let hoverTimer = 0;
+    if (window.matchMedia('(hover: hover)').matches) {
+      items.forEach((it, i) => {
+        it.addEventListener('pointerenter', (e) => {
+          if (e.pointerType !== 'mouse') return;
+          clearTimeout(hoverTimer);
+          hoverTimer = window.setTimeout(() => { if (i !== open) set(i); }, 140);
+        });
+        it.addEventListener('pointerleave', () => clearTimeout(hoverTimer));
+      });
+    }
+
+    root.querySelectorAll<HTMLButtonElement>('[data-prev]').forEach((b) => b.addEventListener('click', () => set(open - 1)));
+    root.querySelectorAll<HTMLButtonElement>('[data-next]').forEach((b) => b.addEventListener('click', () => set(open + 1)));
+
+    const fromHash = () => {
+      const id = decodeURIComponent(location.hash.slice(1));
+      const k = items.findIndex((it) => it.id === id);
+      if (k >= 0) set(k);
+    };
+    window.addEventListener('hashchange', fromHash);
+    phone.addEventListener('change', window3);
+    set(open);
+    fromHash();
+  });
+</script>

@@ -1,0 +1,127 @@
+---
+/*
+  SignatureTabs (visual study D8): Belle's "signature culinary experiences" (BD-88), the three course
+  Mediterranean chef curated dining experience and the pasta making masterclass, as a tabbed block in
+  COMO's manner: two quiet tabs between hairlines, a 5:6 photograph on the left and about 100 words on
+  the right, cross-fading 600ms. Words come from the harvest verbatim; a flag marks what Belle still
+  has to confirm (who runs the masterclass, plan/11 Q3).
+
+  <SignatureTabs items={signature} />
+  Props: items [{ id, label, title, paragraphs, media, by?, flag?, href? }], label (tablist name)
+  Build items from the experiences collection (see src/pages/styleguide/systems.astro for the pattern).
+*/
+import Media from '../media/Media.astro';
+import ArrowLink from '../base/ArrowLink.astro';
+import { uid } from '../../lib/text';
+
+interface Item { id: string; label: string; title: string; paragraphs: string[]; media: string; by?: string | null; flag?: string | null; href?: string }
+interface Props { items: Item[]; label?: string; id?: string; class?: string }
+const { items, label = 'Signature culinary experiences', id, class: className } = Astro.props;
+const base = id ?? uid('sig');
+---
+<div class:list={['sig', className]} id={id} data-sig>
+  <div class="sig-tabs" role="tablist" aria-label={label}>
+    {items.map((it, i) => (
+      <button type="button" role="tab" class="sig-tab" id={`${base}-tab-${it.id}`} aria-controls={`${base}-panel-${it.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-sig-tab>
+        {it.label}
+      </button>
+    ))}
+  </div>
+
+  <div class="sig-panels">
+    {items.map((it, i) => (
+      <div class="sig-panel" role="tabpanel" id={`${base}-panel-${it.id}`} aria-labelledby={`${base}-tab-${it.id}`} tabindex="0" data-sig-panel data-on={i === 0 ? '' : undefined}>
+        <div class="sig-media"><Media media={it.media} aspect="fill" /></div>
+        <div class="sig-copy">
+          <p class="sig-kicker">Signature culinary experience</p>
+          <h3 class="sig-title">{it.title}</h3>
+          {it.paragraphs.map((p) => <p class="sig-p">{p}</p>)}
+          {it.by && <p class="sig-by">{it.by}</p>}
+          {it.flag && <p class="sig-flag" data-flag>{it.flag}</p>}
+          {it.href && <ArrowLink href={it.href} label="Discover more" class="sig-more" />}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .sig { width: 100%; }
+  .sig-tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 2.5rem);
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  }
+  .sig-tabs::before, .sig-tabs::after { content: ''; flex: 0 1 3rem; height: 1px; background: var(--sage-40); }
+  .sig-tab {
+    position: relative;
+    min-height: 2.75rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font-family: var(--font-ui);
+    font-size: var(--fs-nav);
+    letter-spacing: var(--track-label);
+    transition: color var(--dur-fast) var(--ease-soft);
+  }
+  .sig-tab::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0.55rem; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform var(--dur-step) var(--ease-soft); }
+  .sig-tab[aria-selected='true'] { color: var(--heading); }
+  .sig-tab[aria-selected='true']::after { transform: none; }
+  @media (hover: hover) { .sig-tab:hover { color: var(--heading); } }
+
+  .sig-panels { display: grid; }
+  .sig-panel {
+    grid-area: 1 / 1;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    gap: clamp(2rem, 7vw, 7.5rem);
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--dur-step) var(--ease-soft), visibility 0s linear var(--dur-step);
+  }
+  .sig-panel[data-on] { opacity: 1; visibility: visible; transition: opacity var(--dur-step) var(--ease-soft) 150ms, visibility 0s; }
+  .sig-panel:focus-visible { outline-offset: 8px; }
+  .sig-media { position: relative; aspect-ratio: 5 / 6; overflow: hidden; }
+  .sig-copy { max-width: 28rem; }
+  .sig-kicker { margin: 0 0 1.1rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .sig-title { margin: 0 0 1.25rem; font-size: clamp(1.75rem, 1.45rem + 1vw, 2.35rem); line-height: 1.12; }
+  .sig-p { font-size: var(--fs-small); line-height: 1.7; color: var(--sage-100); }
+  .sig-p + .sig-p { margin-top: 0.8em; }
+  .sig-by { margin: 1.1rem 0 0; font-family: var(--font-serif); font-size: 1.15rem; color: var(--heading); }
+  .sig-flag { margin: 1rem 0 0; padding-left: 0.6rem; border-left: 1px solid var(--sage-40); font-family: var(--font-ui); font-size: 0.72rem; line-height: 1.45; letter-spacing: 0.03em; color: var(--muted); }
+  :global(html[data-media-notes='off']) .sig-flag { display: none; }
+  .sig-copy :global(.sig-more) { margin-top: 1.25rem; }
+
+  @media (max-width: 799px) {
+    .sig-panel { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+    .sig-tabs::before, .sig-tabs::after { display: none; }
+    .sig-tabs { justify-content: flex-start; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sig-panel, .sig-panel[data-on], .sig-tab::after { transition: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-sig]').forEach((root) => {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-sig-tab]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-sig-panel]'));
+    const select = (k: number, focus = false) => {
+      tabs.forEach((t, j) => { t.setAttribute('aria-selected', String(j === k)); t.tabIndex = j === k ? 0 : -1; });
+      panels.forEach((p, j) => { p.toggleAttribute('data-on', j === k); p.inert = j !== k; });
+      if (focus) tabs[k].focus();
+    };
+    tabs.forEach((t, j) => {
+      t.addEventListener('click', () => select(j));
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') { e.preventDefault(); select((j + 1) % tabs.length, true); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); select((j - 1 + tabs.length) % tabs.length, true); }
+      });
+    });
+    select(0);
+  });
+</script>

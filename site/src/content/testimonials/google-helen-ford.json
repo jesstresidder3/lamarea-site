@@ -1,0 +1,30 @@
+{
+  "quote": "I cannot recommend Jamie's yoga session more highly. I hadn't practiced regular yoga for many years and was in a group with younger, more regular yoga devotees. Jamie easily accommodated the different abilities within the group and quietly modified any movements that might have been more difficult for me over the course of the session. I came away feeling refreshed and revived and keen to get back into regular yoga!",
+  "reviewer_as_published": "Helen Ford",
+  "reviewer_note": "Kept for records only. The site shows the descriptor, never the name, until Belle has permission.",
+  "descriptor": "Guest",
+  "descriptor_basis": "Derived by the build only from the review text: Original of the home page slide",
+  "group_type": "unstated",
+  "format": "unknown",
+  "format_label": null,
+  "format_basis": "The review does not say which format it was",
+  "venue": null,
+  "source_type": "google",
+  "source": {
+    "type": "google_reviews_widget",
+    "url": "https://www.lamarea.com.au/",
+    "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+    "captured": "24-09-2026"
+  },
+  "rating": 5,
+  "date": "19-02-2026",
+  "retreat_type_as_stated": null,
+  "experiences_mentioned": [
+    "yoga"
+  ],
+  "image": "testimonial-yoga",
+  "featured_on": [],
+  "duplicate_of": "home-helen",
+  "status": "hidden",
+  "review": "Hidden because the home page carries Belle's edited version (instructor name spelt Jaimi). Swap statuses if Belle prefers the Google original."
+}

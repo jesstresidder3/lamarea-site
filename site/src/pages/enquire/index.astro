@@ -1,0 +1,18 @@
+---
+/*
+  /enquire, the stepped funnel (page builder A). plan/11 Part 5 and 4.23, plan/10 section 6, build
+  spec 7 and 12. The header is the minimal funnel header (logo and one exit link) and the phone
+  "Plan your day" bar is off here (Base does both on /enquire). Everything is in
+  components/pages/a/Funnel.astro and funnel.ts; the endpoint stub is functions/api/enquiry.js.
+*/
+import Base from '../../layouts/Base.astro';
+import Funnel from '../../components/pages/a/Funnel.astro';
+---
+<Base
+  title="Plan your day, Fleurieu Peninsula retreats"
+  description="Plan an 8 hour wellness retreat on the Fleurieu Peninsula for your private group or team. A few questions, then a discovery call with Belle."
+  headerTone="solid"
+  stickyCta={false}
+>
+  <Funnel />
+</Base>

@@ -1,0 +1,196 @@
+---
+/*
+  A pillar page, /philosophy/<pillar>. Owner: page builder B.
+  Built only for pillars whose evidence and references exist (build spec 12: Sleep and recovery at
+  launch). Every other pillar opens at its anchor on /philosophy. Belle: "if they want to learn
+  more... it takes them to a separate site where there is our science... and our references" (BD-44),
+  "in a really beautiful, minimalistic way. So it’s not heaps wordy and busy" (BD-45).
+
+  1 the pillar’s video, full width, no words over it
+  2 the word and its line, large, with the experiences it runs through
+  3 the evidence (Accordion, as published on the live philosophy page)
+  4 references in small type (from Belle’s sleep article)
+  5 journal posts tagged to the pillar
+  6 Plan your day
+*/
+import Base from '../../layouts/Base.astro';
+import MediaBand from '../../components/base/MediaBand.astro';
+import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
+import SectionHead from '../../components/base/SectionHead.astro';
+import Accordion from '../../components/base/Accordion.astro';
+import ArrowLink from '../../components/base/ArrowLink.astro';
+import CtaBand from '../../components/base/CtaBand.astro';
+import Icon from '../../components/base/Icon.astro';
+import JournalCards from '../../components/journal/JournalCards.astro';
+import Flag from '../../components/pages/b/Flag.astro';
+import { getPillars, getExperiences, getJournal, type Pillar } from '../../lib/content';
+import { listHtml } from '../../components/pages/b/copy';
+import { site } from '../../data/settings';
+
+export async function getStaticPaths() {
+  const pillars = await getPillars();
+  return pillars.filter((p) => p.data.page).map((p) => ({ params: { pillar: p.id }, props: { pillar: p } }));
+}
+
+interface Props { pillar: Pillar }
+const { pillar } = Astro.props;
+const d = pillar.data;
+const name = d.long_name ?? d.name;
+
+const experiences = (await getExperiences()).filter((e) => e.data.pillars.includes(pillar.id));
+const posts = await getJournal({ pillar: pillar.id });
+const article = posts[0];
+
+/* Evidence as published; the first group on the live panel has no heading, so it takes the pillar’s first word. */
+const firstWord = d.name.split(' ')[0];
+const evidence = d.evidence.map((g, i) => ({
+  title: g.heading ?? firstWord,
+  body: listHtml(g.claims, 'pl-claims'),
+  open: i === 0,
+}));
+const refCount = d.references.reduce((n, g) => n + g.entries.length, 0);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: `${name}, the evidence behind a La maréa pillar`,
+  about: { '@type': 'Thing', name },
+  isPartOf: { '@type': 'WebSite', name: site.name, url: site.url },
+  ...(article ? { citation: d.references.flatMap((g) => g.entries) } : {}),
+};
+---
+<Base
+  title={`${name} on a Fleurieu retreat`}
+  description={`The evidence and references behind La maréa’s ${name.toLowerCase()} pillar, part of every 8 hour wellness retreat on the Fleurieu Peninsula.`}
+  headerTone="over-media"
+  jsonLd={jsonLd}
+>
+  <!-- 1. The pillar’s video -->
+  <div class="pl-hero">
+    <MediaBand media={`pillar-hero-${pillar.id}`} height="band" hero parallax={false} />
+  </div>
+
+  <!-- 2. The word and its line -->
+  <section class="section pl-word" aria-labelledby="pl-title">
+    <div class="wrap">
+      <Breadcrumbs items={[{ label: 'Philosophy', href: '/philosophy' }, { label: name }]} />
+      <div class="pl-word__grid">
+        <Icon name={d.icon.replace(/\.svg$/, '')} size="clamp(4.5rem, 9vw, 7.5rem)" class="pl-word__icon" />
+        <div>
+          <p class="label">One of ten pillars</p>
+          <h1 class="pl-word__title" id="pl-title">{name}</h1>
+          <p class="pl-word__line">{d.line}</p>
+          {experiences.length > 0 && (
+            <p class="pl-word__on">
+              <span class="pl-word__k">On a retreat</span>
+              <span class="pl-word__links">{experiences.map((e) => <a href={`/experiences/${e.id}`}>{e.data.name}</a>)}</span>
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. The evidence -->
+  <section class="section band-salt pl-evidence" aria-labelledby="pl-ev">
+    <div class="wrap pl-evidence__grid">
+      <div>
+        <SectionHead heading="The evidence" id="pl-ev" size="small" />
+        <p class="pl-evidence__intro" data-draft>As published on our philosophy page, each claim with its authors and year.</p>
+      </div>
+      <div>
+        <Accordion items={evidence} titleTag="h3" />
+        <Flag>Claims are as published on the live philosophy page and cite author and year only. The reference list below is from Belle’s sleep article and covers sleep; full references for the sauna, cold water and massage claims are still to come from Belle.</Flag>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. References -->
+  {refCount > 0 && (
+    <section class="section pl-refs" aria-labelledby="pl-refs">
+      <div class="wrap pl-refs__grid">
+        <div>
+          <h2 class="pl-refs__title" id="pl-refs">References</h2>
+          {article && <p class="pl-refs__from">From <a href={`/journal/${article.id}`}>{article.data.title}</a>{article.data.byline ? `, by ${article.data.byline.name}` : ''}</p>}
+        </div>
+        <div class="pl-refs__groups">
+          {d.references.map((g) => (
+            <div class="pl-refs__group">
+              <h3 class="pl-refs__head">{g.group}</h3>
+              <ol class="pl-refs__list">{g.entries.map((r) => <li>{r}</li>)}</ol>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- 5. From the journal -->
+  {posts.length > 0 && (
+    <section class="section band-warm pl-journal" aria-labelledby="pl-journal">
+      <div class="wrap pl-journal__grid">
+        <div>
+          <SectionHead eyebrow="From the wellness journal" heading={`Read more on ${name.toLowerCase()}`} id="pl-journal" size="small" draft={{ heading: true }} />
+          <ArrowLink href="/journal" label="The wellness journal" />
+        </div>
+        <JournalCards posts={posts} variant="grid" filters={false} label={`Journal posts on ${name.toLowerCase()}`} />
+      </div>
+    </section>
+  )}
+
+  <!-- 6. Plan your day -->
+  <CtaBand
+    line="Curate a day for your group"
+    params={{ source: `pillar-${pillar.id}` }}
+    note="(Note we can curate a personalised retreat to suit your group)"
+    draft={{ line: true }}
+  />
+</Base>
+
+<style>
+  /* 2 */
+  .pl-word__grid { display: grid; gap: 1.5rem; margin-top: clamp(2rem, 5vw, 4rem); }
+  .pl-word :global(.pl-word__icon) { color: var(--sage-60); }
+  .pl-word__title { margin: 0; font-size: var(--fs-h1); }
+  .pl-word__line {
+    margin: 1.25rem 0 0;
+    max-width: 28em;
+    font-family: var(--font-serif);
+    font-size: clamp(1.45rem, 1.1rem + 1.2vw, 2.1rem);
+    line-height: 1.35;
+    color: var(--sage-100);
+  }
+  .pl-word__on { margin: 2rem 0 0; max-width: none; font-family: var(--font-serif); font-size: 1.15rem; color: var(--heading); }
+  .pl-word__links { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; }
+  .pl-word__on a { color: inherit; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 0.22em; }
+  .pl-word__k { display: block; margin-bottom: 0.35rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  @media (min-width: 900px) {
+    .pl-word__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(2rem, 6vw, 7.5rem); align-items: start; }
+    .pl-word :global(.pl-word__icon) { justify-self: end; margin-top: 2rem; }
+  }
+
+  /* 3 */
+  .pl-evidence__grid { display: grid; gap: var(--space-l); }
+  .pl-evidence__intro { font-size: var(--fs-small); color: var(--sage-80); max-width: 22rem; }
+  @media (min-width: 900px) { .pl-evidence__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(2rem, 6vw, 7.5rem); } }
+  .pl-evidence :global(.pl-claims) { margin: 0; padding: 0; list-style: none; }
+  .pl-evidence :global(.pl-claims li) { padding: 0.55rem 0; border-top: 1px solid var(--sage-20); font-size: var(--fs-small); line-height: 1.6; }
+
+  /* 4 */
+  .pl-refs__grid { display: grid; gap: var(--space-l); }
+  @media (min-width: 900px) { .pl-refs__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(2rem, 6vw, 7.5rem); } }
+  .pl-refs__title { font-size: max(1.75rem, var(--fs-h3)); margin: 0 0 1rem; }
+  .pl-refs__from { font-size: var(--fs-small); color: var(--sage-80); max-width: 22rem; }
+  .pl-refs__from a { color: var(--heading); }
+  .pl-refs__groups { display: grid; gap: 2rem 3rem; }
+  @media (min-width: 1100px) { .pl-refs__groups { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .pl-refs__head { margin: 0 0 0.6rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); font-weight: 400; color: var(--muted); }
+  .pl-refs__list { margin: 0; padding-left: 1.25rem; }
+  .pl-refs__list li { font-size: 0.78rem; line-height: 1.55; color: var(--sage-80); overflow-wrap: anywhere; }
+  .pl-refs__list li + li { margin-top: 0.45rem; }
+
+  /* 5 */
+  .pl-journal__grid { display: grid; gap: var(--space-l); }
+  .pl-journal__grid :global(.section-head) { margin-bottom: 1rem; }
+  @media (min-width: 900px) { .pl-journal__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(2rem, 6vw, 7.5rem); } }
+</style>

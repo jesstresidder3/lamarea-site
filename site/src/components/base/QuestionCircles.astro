@@ -1,0 +1,177 @@
+---
+/*
+  Customise prompts (build spec section 12, replacing The Tailor's overlapping rings, study D12).
+  Belle's Personalisation line icon above the heading, a short line and "Plan your day", then three
+  arch-topped outlined prompts drawn with --arch (the style guide's page 7 swatch; setting --arch to 0
+  squares them). Each prompt is a link into /enquire at its step. The three questions are drafts for
+  Belle, matching funnel steps 1, 2 and 5 (plan/11 Part 5).
+  Used on /enquire beside step 1 and as home moment 10 only.
+
+  <QuestionCircles />
+  <QuestionCircles heading="..." prompts={[{ question, hint, step }]} params={{ source: 'home' }} />
+
+  Props
+  - eyebrow, heading, line, draft { heading?, line? }
+  - prompts: { question, hint, step, draft? }[] (defaults below, all marked draft)
+  - link: the "Plan your day" link (default /enquire)
+  - params: extra prefill parameters added to every link (for example { source: 'home' })
+  - showIntro: false renders the prompts alone (for /enquire, where step 1 carries the heading)
+*/
+import Icon from './Icon.astro';
+import ArrowLink from './ArrowLink.astro';
+import Eyebrow from './Eyebrow.astro';
+import { emphasis, withParams, numeral } from './text';
+import { cta } from '../../data/settings';
+
+interface Prompt { question: string; hint: string; step: number; draft?: boolean }
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  line?: string;
+  prompts?: Prompt[];
+  link?: { label: string; href: string };
+  params?: Record<string, string | number | undefined>;
+  showIntro?: boolean;
+  draft?: { heading?: boolean; line?: boolean };
+  level?: 2 | 3;
+  class?: string;
+}
+
+const {
+  eyebrow,
+  heading = 'A day shaped around your group',
+  line = 'Three questions to begin. We curate the rest with you.',
+  prompts = [
+    { question: 'Who is the day for?', hint: 'A private group or your team', step: 1, draft: true },
+    { question: 'What should the day do for you?', hint: 'The occasion, or what your team needs', step: 2, draft: true },
+    { question: 'By the coast or in the vineyards?', hint: 'Or we can help you choose', step: 5, draft: true },
+  ],
+  link = cta.plan,
+  params,
+  showIntro = true,
+  draft = { heading: true, line: true },
+  level = 2,
+  class: className,
+} = Astro.props;
+const H = `h${level}` as 'h2' | 'h3';
+---
+<div class:list={['prompts', !showIntro && 'prompts--bare', className]}>
+  {showIntro && (
+    <div class="prompts__intro">
+      <Icon name="personalisation" size="3rem" class="prompts__icon" label="Personalisation, one of La maréa’s ten pillars" />
+      {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+      <H class="prompts__heading" data-draft={draft.heading ? '' : undefined} set:html={emphasis(heading)} />
+      <p class="prompts__line" data-draft={draft.line ? '' : undefined}>{line}</p>
+      <ArrowLink href={withParams(link.href, params)} label={link.label} size="large" />
+    </div>
+  )}
+  <ol class="prompts__list" role="list">
+    {prompts.map((p, i) => (
+      <li>
+        <a class="prompt" href={withParams(link.href, { ...params, step: p.step })}>
+          <span class="prompt__num" aria-hidden="true">{numeral(i + 1)}</span>
+          <span class="prompt__q" data-draft={p.draft ? '' : undefined}>{p.question}</span>
+          <span class="prompt__hint" data-draft={p.draft ? '' : undefined}>{p.hint}</span>
+          <svg class="prompt__arrow" viewBox="0 0 28 10" width="28" height="10" aria-hidden="true" focusable="false"><path d="M0.5 5H27.25M22.5 1L27.25 5L22.5 9" /></svg>
+        </a>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<style>
+  .prompts { display: grid; gap: var(--space-xl) clamp(2rem, 6vw, 7rem); align-items: center; }
+  .prompts__intro { max-width: 26rem; }
+  .prompts :global(.prompts__icon) { display: block; color: var(--sage-60); margin-bottom: 1.5rem; }
+  .prompts__heading { margin: 0; }
+  .prompts__line { margin: 1.25rem 0 1.5rem; }
+
+  .prompts__list {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(13.5rem, 72%);
+    gap: 1rem;
+    margin: 0;
+    padding: 0.5rem 0 0.75rem;
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .prompts__list::-webkit-scrollbar { display: none; }
+  .prompts__list li { scroll-snap-align: start; display: flex; }
+
+  /* The arch: a Mediterranean doorway outline, the question inside, the hint beneath it. */
+  .prompt {
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr auto auto auto;
+    justify-items: center;
+    align-content: end;
+    width: 100%;
+    min-height: 19rem;
+    padding: 5.5rem 1.4rem 1.6rem;
+    border: 1px solid var(--sage-40);
+    border-radius: var(--arch);
+    color: var(--sage-80);
+    text-align: center;
+    text-decoration: none;
+    background: transparent;
+    transition:
+      border-color var(--dur-fast) var(--ease-soft),
+      background-color var(--dur-fast) var(--ease-soft),
+      translate var(--dur-fast) var(--ease-soft);
+  }
+  .prompt__num { font-variant-numeric: lining-nums; align-self: start; font-family: var(--font-serif); font-size: 1rem; color: var(--sage-80); margin-bottom: auto; }
+  .prompt__q {
+    margin-top: 1.25rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.35rem, 1.2rem + 0.5vw, 1.625rem);
+    line-height: 1.22;
+    color: var(--sage-80);
+    text-wrap: balance;
+  }
+  .prompt__hint {
+    margin-top: 0.9rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+    color: var(--sage-80);
+    text-wrap: balance;
+  }
+  .prompt__arrow { margin-top: 1.25rem; width: 28px; height: 10px; transition: transform var(--dur-fast) var(--ease-soft); }
+  .prompt__arrow path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+  @media (hover: hover) {
+    .prompt:hover { border-color: var(--sage-80); background: var(--salt-25); translate: 0 -2px; }
+    .prompt:hover .prompt__arrow { transform: translateX(6px); }
+  }
+  .prompt:active { border-color: var(--sage-80); background: var(--salt-25); }
+  .prompt:focus-visible { outline-offset: 4px; }
+
+  @media (min-width: 700px) {
+    .prompts__list {
+      grid-auto-flow: row;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-auto-columns: auto;
+      overflow: visible;
+      margin-inline: 0;
+      padding-inline: 0;
+      gap: clamp(0.75rem, 1.4vw, 1.5rem);
+    }
+    .prompt { min-height: clamp(18rem, 24vw, 22rem); }
+  }
+  @media (min-width: 1100px) {
+    .prompts { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); }
+    .prompts--bare { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .prompt, .prompt__arrow { transition: none; }
+    .prompt:hover { translate: none; }
+  }
+</style>

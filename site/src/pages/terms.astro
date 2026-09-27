@@ -1,0 +1,24 @@
+---
+/*
+  /terms (page builder D). Belle's live terms and conditions, verbatim (components/pages/d/terms.ts
+  lists every change, which are headings in sentence case and dashes only). Conflicts with her FAQ,
+  guide and gift card terms are left exactly as published and shown to Belle as ReviewNotes in the
+  placeholder layer. plan/11 4.25: the live FAQ points to terms that need a home.
+*/
+import Base from '../layouts/Base.astro';
+import LegalDocument from '../components/pages/d/LegalDocument.astro';
+import ReviewNote from '../components/pages/d/ReviewNote.astro';
+import { termsSections, termsSource } from '../components/pages/d/terms';
+---
+<Base
+  title="Terms and conditions"
+  description="The terms and conditions for La maréa retreats, programs, workshops and experiences: bookings, payments, credits, health and safety, and media."
+>
+  <LegalDocument eyebrow="Terms" heading="Terms and conditions" sections={termsSections}>
+    <Fragment slot="intro">
+      <p class="lead" data-draft>These terms apply to every La maréa retreat, program, workshop and experience.</p>
+      <p class="small">Questions about these terms: <a class="text-link" href="mailto:info@lamarea.com.au">info@lamarea.com.au</a></p>
+      <ReviewNote>Verbatim from {termsSource.url}, captured {termsSource.captured}. Only the heading case and dashes changed. Five points need Belle: deposits (2.2), the credit period (3.2), the section 13 cross reference (3.4), photo consent (12.1) and the privacy policy link (17).</ReviewNote>
+    </Fragment>
+  </LegalDocument>
+</Base>

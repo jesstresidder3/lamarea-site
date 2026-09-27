@@ -1,0 +1,61 @@
+{
+  "name": "Evidence-based lifestyle wellness education",
+  "long_name": null,
+  "name_as_published": "Evidence-Based Lifestyle Wellness Education",
+  "science_name_as_published": "Wellness Education",
+  "order": 9,
+  "order_live": 9,
+  "icon": "evidence-based-education.svg",
+  "line": "Science-based lifestyle wellness education delivered by local experts, empowering sustainable, purposeful health journeys.",
+  "line_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+  },
+  "video": "pillar-wellness-education",
+  "evidence": [
+    {
+      "heading": null,
+      "claims": [
+        "Structured lifestyle education (diet, activity, sleep, stress) using behaviour-change techniques improves cardiometabolic risk. (Knowler et al., 2002; Lindström et al., 2013; Uusitupa et al., 2019)",
+        "Programs produce sustained benefits: reduced diabetes incidence, improved weight management, and lasting behaviour change. (Diabetes Prevention Program Research Group, 2009; Lindström et al., 2013; Ali et al., 2012)",
+        "Personalisation and follow-up increase adherence and effectiveness. (Ali et al., 2012; Greaves et al., 2011; Uusitupa et al., 2019)"
+      ]
+    }
+  ],
+  "evidence_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "The Science accordion, item \"Wellness Education\""
+  },
+  "citations": [
+    "Ali et al., 2012",
+    "Diabetes Prevention Program Research Group, 2009",
+    "Greaves et al., 2011",
+    "Knowler et al., 2002",
+    "Lindström et al., 2013",
+    "Uusitupa et al., 2019"
+  ],
+  "references": [],
+  "references_source": null,
+  "page": false,
+  "page_basis": "Build spec 12: pillar pages publish only where evidence exists. Sleep and recovery has the sleep article and its full references; the other nine open on /philosophy#<id>.",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "The Science accordion, item \"Wellness Education\""
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Pillar set is decision 1. Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar. The pillar grid name and the science accordion name differ, as published."
+}

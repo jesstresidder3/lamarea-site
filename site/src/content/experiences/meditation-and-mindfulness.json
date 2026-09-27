@@ -1,0 +1,138 @@
+{
+  "name": "Meditation and mindfulness",
+  "name_as_transcribed": "meditation & mindfulness",
+  "name_as_published": "Guided Group Breathwork, Meditation, Mindfulness & Nervous System Regulation",
+  "kind": "guided",
+  "order": 8,
+  "art_direction": "portrait",
+  "media": "experience-meditation-and-mindfulness",
+  "media_type": "image",
+  "short": {
+    "text": "Group guided meditation, mindfulness, breathwork & nervous system regulation session",
+    "source": {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "15",
+      "captured": "24-09-2026"
+    }
+  },
+  "pillar": "psychological-wellbeing",
+  "pillars": [
+    "psychological-wellbeing"
+  ],
+  "pillar_basis": "Psychological, Emotional & Spiritual Wellbeing pillar text names meditation and mindfulness",
+  "duration": null,
+  "duration_basis": null,
+  "duration_as_published": "9:30 AM to 10:00 AM in the Beresford example",
+  "practitioners": [
+    "jaimi-baker",
+    "natalie-jane",
+    "kristian-ryan"
+  ],
+  "business": {
+    "name": "PEAQ Performance",
+    "person": "jaimi-baker",
+    "url": "https://www.peaq.com.au/"
+  },
+  "business_basis": "Guide p.21 (as for yoga). The live site also lists breathwork and meditation sessions with Kristian Ryan, Third Spaces",
+  "business_conflict": null,
+  "practitioners_as_published": [
+    "Jaimi Baker",
+    "Natalie Jane",
+    "Kristian Ryan"
+  ],
+  "descriptions": [
+    {
+      "text": [
+        "Group guided meditation, mindfulness, breathwork & nervous system regulation session"
+      ],
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": "15",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "Guided Group Breathwork, Meditation, Mindfulness & Nervous System Regulation"
+      ],
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": "23",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "Group guided breathwork, meditation, mindfulness & nervous system regulation session"
+      ],
+      "source": {
+        "type": "live_site_image",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+        "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+        "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "Meditation & Relaxation"
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "captured": "24-09-2026",
+        "section": "What a weekend with us looks like..."
+      }
+    },
+    {
+      "text": [
+        "Guided Meditation & Pranayama, breathwork and mindfulness techniques to calm the mind and regulate the nervous system."
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/jaimi-baker",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "30 or 60 minute Guide Breathwork & Meditation sessions"
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/kristian-ryan",
+        "captured": "24-09-2026",
+        "section": "Services & offerings"
+      }
+    },
+    {
+      "text": [
+        "Mindfulness, meditation and breathwork practices that help manage stress, deepen purpose and foster a grounded sense of self."
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "Psychological, Emotional & Spiritual Wellbeing pillar"
+      }
+    }
+  ],
+  "seed_id": null,
+  "source": [
+    {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+    }
+  ],
+  "status": "draft",
+  "review": null,
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

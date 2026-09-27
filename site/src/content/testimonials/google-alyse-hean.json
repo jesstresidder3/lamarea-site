@@ -1,0 +1,35 @@
+{
+  "quote": "I had such a lovely morning with Belle and La Marea, as part of our corporate Wake Up to Wellness experience. The morning included yoga, breakfast, a nutrition session, massage, pasta making and lunch, the perfect mix of wellness, relaxation and connection.\n\nEverything was beautifully organised, and all the little details were so thoughtfully considered. The La Marea team created such a welcoming and enjoyable experience for our group, and it was a great opportunity to step away from the office and spend quality time together.\n\nI would highly recommend La Marea for a corporate retreat or wellness experience.",
+  "reviewer_as_published": "Alyse Hean",
+  "reviewer_note": "Kept for records only. The site shows the descriptor, never the name, until Belle has permission.",
+  "descriptor": "Corporate team, Wake Up to Wellness morning",
+  "descriptor_basis": "Derived by the build only from the review text: \"as part of our corporate Wake Up to Wellness experience\"",
+  "group_type": "corporate",
+  "format": "wake_up_to_wellness",
+  "format_label": "Wake Up to Wellness morning",
+  "format_basis": "\"as part of our corporate Wake Up to Wellness experience\", \"a lovely morning\"",
+  "venue": null,
+  "source_type": "google",
+  "source": {
+    "type": "google_reviews_widget",
+    "url": "https://www.lamarea.com.au/",
+    "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+    "captured": "24-09-2026"
+  },
+  "rating": 5,
+  "date": "24-08-2026",
+  "retreat_type_as_stated": "corporate Wake Up to Wellness (named in the review)",
+  "experiences_mentioned": [
+    "yoga",
+    "massage",
+    "pasta-making"
+  ],
+  "image": "testimonial-corporate-1",
+  "featured_on": [
+    "home",
+    "corporate"
+  ],
+  "duplicate_of": null,
+  "status": "published",
+  "review": null
+}

@@ -1,0 +1,38 @@
+---
+/*
+  ReviewNote (page builder D). A note for Belle and Jess that sits beside the copy it is about and
+  shows only while the placeholder layer is on (html[data-media-notes='on'], set by Base). Turning the
+  layer off for launch hides every note at once. Use it for conflicts, pending decisions and anything
+  that must not publish unseen.
+
+  <ReviewNote>This answer says credit lasts 2 years. Terms clause 3.2 says 12 months.</ReviewNote>
+  <ReviewNote as="span" label="Belle to confirm">...</ReviewNote>
+*/
+interface Props {
+  label?: string;
+  as?: 'aside' | 'span' | 'p';
+  class?: string;
+}
+const { label = 'For Belle', as: Tag = 'aside', class: className } = Astro.props;
+---
+<Tag class:list={['review-note', className]} data-review-note>
+  <span class="review-note__label">{label}</span>
+  <span class="review-note__text"><slot /></span>
+</Tag>
+
+<style>
+  .review-note {
+    display: block;
+    margin: 1rem 0 0;
+    padding: 0.55rem 0 0.55rem 0.9rem;
+    border-left: 1px dashed color-mix(in srgb, var(--sage-80) 55%, transparent);
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    color: var(--sage-80);
+    max-width: 38rem;
+  }
+  .review-note__label { display: block; margin-bottom: 0.15rem; letter-spacing: var(--track-label); }
+  :global(html:not([data-media-notes='on'])) .review-note { display: none; }
+</style>

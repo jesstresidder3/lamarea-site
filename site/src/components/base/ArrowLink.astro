@@ -1,0 +1,142 @@
+---
+/*
+  La maréa's own link affordance (build spec 10.1, creative brief F12): a fine line arrow drawn at the
+  hairline weight of Belle's pillar icons, extending 6px on hover, and a hairline underline that draws
+  in from the left over 300ms. Never The Tailor's circled arrow. No fill.
+
+  <ArrowLink href="/places" label="Discover Places to Pause" />
+  <ArrowLink href="/enquire?format=full-day" label="Book a discovery call" size="large" />
+  <ArrowLink label="See more" as="button" data-something />       (a button, same look)
+
+  Props
+  - href: omit (or set as="button") for a <button type="button">
+  - label: text, or use the default slot
+  - size: 'default' (28 x 10 arrow, 13px label) or 'large' (56 x 12 arrow, 15px label)
+  - tone: 'default' (sage) or 'light' (salt, for media and sage bands)
+  - arrow: 'after' (default) or 'before'
+  - direction: 'right' (default), 'left' or 'down'
+  - external: opens in a new tab with rel noopener
+  - draft: marks the label as drafted copy for Belle to approve
+  Any other attribute (aria-*, data-*) passes through to the <a> or <button>.
+*/
+interface Props {
+  href?: string;
+  label?: string;
+  size?: 'default' | 'large';
+  tone?: 'default' | 'light';
+  arrow?: 'after' | 'before';
+  direction?: 'right' | 'left' | 'down';
+  external?: boolean;
+  as?: 'a' | 'button';
+  draft?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  href,
+  label,
+  size = 'default',
+  tone = 'default',
+  arrow = 'after',
+  direction = 'right',
+  external = false,
+  as,
+  draft = false,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const Tag = as === 'button' || !href ? 'button' : 'a';
+const large = size === 'large';
+const w = large ? 56 : 28;
+const h = large ? 12 : 10;
+const mid = h / 2;
+const head = large ? 6 : 5;
+const extra = Tag === 'a' ? { href, ...(external ? { target: '_blank', rel: 'noopener' } : {}) } : { type: 'button' };
+---
+<Tag
+  class:list={['arrow-link', `arrow-link--${size}`, `arrow-link--tone-${tone}`, `arrow-link--${arrow}`, `arrow-link--${direction}`, className]}
+  {...extra}
+  {...rest}
+>
+  <span class="arrow-link__label" data-draft={draft ? '' : undefined}>{label}<slot /></span>
+  <svg class="arrow-link__arrow" width={w} height={h} viewBox={`0 0 ${w} ${h}`} aria-hidden="true" focusable="false">
+    <line class="arrow-link__shaft" x1="0.5" y1={mid} x2={w - 0.75} y2={mid} />
+    <polyline class="arrow-link__head" points={`${w - head - 0.75},${mid - head + 0.5} ${w - 0.75},${mid} ${w - head - 0.75},${mid + head - 0.5}`} />
+  </svg>
+  {external && <span class="visually-hidden"> (opens in a new tab)</span>}
+</Tag>
+
+<style>
+  .arrow-link {
+    --al-colour: var(--heading);
+    --al-rule: color-mix(in srgb, var(--al-colour) 28%, transparent);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-height: 2.75rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--al-colour);
+    font-family: var(--font-ui);
+    font-weight: 400;
+    font-size: var(--fs-nav);
+    letter-spacing: 0.08em;
+    line-height: 1.3;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: left;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .arrow-link--large { font-size: 0.9375rem; gap: 1.1rem; letter-spacing: 0.06em; }
+  .arrow-link--tone-light { --al-colour: var(--salt-25); --focus: var(--focus-on-dark); }
+  :global(.band-sage) .arrow-link--tone-default { --al-colour: var(--sand-30); }
+  .arrow-link--before { flex-direction: row-reverse; justify-content: flex-end; }
+
+  /* Hairline under the label: a quiet rule at rest, the full line drawing in from the left on hover. */
+  .arrow-link__label {
+    padding-block: 0.3em;
+    background-image: linear-gradient(currentColor, currentColor), linear-gradient(var(--al-rule), var(--al-rule));
+    background-repeat: no-repeat;
+    background-position: 0 100%, 0 100%;
+    background-size: 0% 1px, 100% 1px;
+    transition: background-size var(--dur-fast) var(--ease-soft);
+  }
+
+  .arrow-link__arrow { flex: none; overflow: visible; }
+  .arrow-link__arrow :is(line, polyline) {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    transform-box: view-box;
+    transition: transform var(--dur-fast) var(--ease-soft);
+  }
+  .arrow-link__shaft { transform-origin: 0 50%; }
+  .arrow-link__shaft { --al-stretch: calc(34 / 28); }
+  .arrow-link--large .arrow-link__shaft { --al-stretch: calc(62 / 56); }
+
+  .arrow-link--left .arrow-link__arrow { transform: scaleX(-1); }
+  .arrow-link--down .arrow-link__arrow { transform: rotate(90deg); }
+
+  @media (hover: hover) {
+    .arrow-link:hover .arrow-link__label { background-size: 100% 1px, 100% 1px; }
+    .arrow-link:hover .arrow-link__shaft { transform: scaleX(var(--al-stretch)); }
+    .arrow-link:hover .arrow-link__head { transform: translateX(6px); }
+  }
+  /* Tap equivalent and keyboard focus show the same drawn state. */
+  .arrow-link:active .arrow-link__label,
+  .arrow-link:focus-visible .arrow-link__label { background-size: 100% 1px, 100% 1px; }
+  .arrow-link:active .arrow-link__shaft,
+  .arrow-link:focus-visible .arrow-link__shaft { transform: scaleX(var(--al-stretch)); }
+  .arrow-link:active .arrow-link__head,
+  .arrow-link:focus-visible .arrow-link__head { transform: translateX(6px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .arrow-link__label, .arrow-link__arrow :is(line, polyline) { transition: none; }
+  }
+</style>

@@ -1,0 +1,166 @@
+---
+/*
+  Slider (T2): a general scroll-snap track with fine line arrows, a live progress rule and an optional
+  counter. Touch scrolls natively, mouse can drag, arrows step one slide with a soft 600ms ease.
+  No autoplay anywhere. Used for the unhurried afternoon, journal, testimonials and the wild side.
+
+  Place it straight inside a full-width section (not inside .wrap). With align="wrap" the first slide
+  lines up with the page's text edge and the track runs off the right edge of the screen, so a partly
+  visible slide shows there is more (visual study C13).
+
+  <Slider label="Recent stories" itemLabel="story" perView={{ phone: 1.2, tablet: 2.2, desktop: 3.3 }}>
+    <article>...</article>
+    <article>...</article>
+  </Slider>
+
+  Props
+  - label: accessible name for the track
+  - itemLabel: what one slide is, for the arrow names ("story", "activity")
+  - perView: visible slides at phone (<700), tablet (700 to 1099), desktop (1100+) and wide (1300+).
+    Default 1.2, 2.2, 3.2, and wide follows desktop
+  - gap: CSS length between slides (default 24px, visual study B1)
+  - align: 'wrap' (default) or 'none' when the slider already sits inside a column
+  - controls: 'below' (default), 'above' or 'none'
+  - counter: show "01 / 06" beside the arrows
+  - tone: 'default' or 'light' (on a sage band)
+  Slots: default (the slides, any element), 'head' (text that sits to the left of the controls when controls="above")
+*/
+import SliderArrows from './SliderArrows.astro';
+import ProgressRule from './ProgressRule.astro';
+
+interface Props {
+  label: string;
+  itemLabel?: string;
+  perView?: { phone?: number; tablet?: number; desktop?: number; wide?: number };
+  gap?: string;
+  align?: 'wrap' | 'none';
+  controls?: 'below' | 'above' | 'none';
+  counter?: boolean;
+  tone?: 'default' | 'light';
+  id?: string;
+  class?: string;
+}
+
+const {
+  label,
+  itemLabel = 'slide',
+  perView = {},
+  gap = '1.5rem',
+  align = 'wrap',
+  controls = 'below',
+  counter = false,
+  tone = 'default',
+  id,
+  class: className,
+} = Astro.props;
+const per = { phone: 1.2, tablet: 2.2, desktop: 3.2, ...perView };
+const wide = perView.wide ?? per.desktop;
+const trackId = id ? `${id}-track` : undefined;
+const hasHead = Astro.slots.has('head');
+---
+<div
+  class:list={['slider', `slider--align-${align}`, `slider--controls-${controls}`, `slider--${tone}`, className]}
+  data-slider
+  id={id}
+  style={`--per-phone:${per.phone};--per-tablet:${per.tablet};--per-desktop:${per.desktop};--per-wide:${wide};--gap:${gap}`}
+>
+  {controls === 'above' && (
+    <div class="slider__head">
+      {hasHead && <div class="slider__head-text"><slot name="head" /></div>}
+      <div class="slider__controls">
+        {counter && <p class="slider__count" aria-live="polite"><span data-count-current>01</span><span class="slider__sep" aria-hidden="true">/</span><span class="visually-hidden"> of </span><span data-count-total>01</span></p>}
+        <SliderArrows label={itemLabel} controls={trackId} tone={tone} />
+      </div>
+    </div>
+  )}
+
+  <div class="slider__track" data-track id={trackId} tabindex="0" role="group" aria-label={label}>
+    <slot />
+  </div>
+
+  {controls !== 'none' && (
+    <div class="slider__foot">
+      <ProgressRule tone={tone} />
+      {controls === 'below' && (
+        <div class="slider__controls">
+          {counter && <p class="slider__count" aria-live="polite"><span data-count-current>01</span><span class="slider__sep" aria-hidden="true">/</span><span class="visually-hidden"> of </span><span data-count-total>01</span></p>}
+          <SliderArrows label={itemLabel} controls={trackId} tone={tone} />
+        </div>
+      )}
+    </div>
+  )}
+</div>
+
+<style>
+  .slider {
+    --per: var(--per-phone);
+    --edge: 0px;
+    position: relative;
+    width: 100%;
+  }
+  .slider--align-wrap { --edge: max(var(--gutter), calc((100% - var(--wrap-max)) / 2 + var(--gutter))); }
+  @media (min-width: 700px) { .slider { --per: var(--per-tablet); } }
+  @media (min-width: 1100px) { .slider { --per: var(--per-desktop); } }
+  @media (min-width: 1300px) { .slider { --per: var(--per-wide); } }
+
+  .slider__track {
+    display: flex;
+    gap: var(--gap);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-inline: var(--edge) var(--gutter);
+    scroll-padding-inline: var(--edge);
+    scrollbar-width: none;
+    outline-offset: -2px;
+    cursor: grab;
+  }
+  .slider--align-none .slider__track { padding-inline: 0; scroll-padding-inline: 0; }
+  .slider__track::-webkit-scrollbar { display: none; }
+  .slider__track[data-dragging] { cursor: grabbing; }
+  .slider__track[data-dragging] :global(*) { pointer-events: none; }
+  .slider__track > :global(*) {
+    flex: 0 0 calc((100% - (var(--per) - 1) * var(--gap)) / var(--per));
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+
+  .slider__track > :global([hidden]) { display: none; }
+
+  .slider__head,
+  .slider__foot {
+    display: grid;
+    align-items: center;
+    gap: 1rem 2rem;
+    padding-inline: var(--edge) var(--gutter);
+  }
+  .slider--align-none .slider__head, .slider--align-none .slider__foot { padding-inline: 0; }
+  .slider__head { grid-template-columns: minmax(0, 1fr) auto; align-items: end; margin-bottom: clamp(1.75rem, 3vw, 3.5rem); }
+  .slider__foot { margin-top: clamp(1.5rem, 2.4vw, 2.5rem); grid-template-columns: minmax(0, 1fr); }
+  .slider--controls-below .slider__foot { grid-template-columns: minmax(0, 1fr) auto; }
+  .slider--controls-above .slider__foot { margin-top: clamp(1.25rem, 2vw, 2rem); }
+
+  .slider__controls { display: flex; align-items: center; gap: 1.25rem; }
+  .slider__count {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .slider__sep { margin-inline: 0.45em; opacity: 0.6; }
+  .slider--light .slider__count { color: var(--salt-25); }
+
+  @media (max-width: 699px) {
+    .slider--controls-below .slider__foot { grid-template-columns: minmax(0, 1fr); }
+    .slider--controls-below .slider__controls { justify-content: space-between; }
+    .slider__head { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
+
+<script>
+  import { initTrack } from '../../lib/slider';
+  document.querySelectorAll<HTMLElement>('[data-slider]').forEach((el) => initTrack(el));
+</script>

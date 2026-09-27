@@ -1,0 +1,256 @@
+{
+  "id": "contact",
+  "emails": [
+    {
+      "address": "info@lamarea.com.au",
+      "source": [
+        {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/contact",
+          "captured": "24-09-2026"
+        },
+        {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/faqs",
+          "captured": "24-09-2026"
+        },
+        {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/gift-cards",
+          "captured": "24-09-2026"
+        },
+        {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/privacy-policy",
+          "captured": "24-09-2026"
+        }
+      ],
+      "status": "in hand"
+    },
+    {
+      "address": "belle@lamarea.com.au",
+      "source": [
+        {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/contact",
+          "captured": "24-09-2026"
+        },
+        {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/privacy-policy",
+          "captured": "24-09-2026"
+        },
+        {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 5,
+          "captured": "24-09-2026"
+        }
+      ],
+      "status": "in hand"
+    }
+  ],
+  "phone": [
+    {
+      "as_published": "0411354356",
+      "label_as_published": "Belle Redden Phone: 0411354356",
+      "source": [
+        {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/faqs",
+          "captured": "24-09-2026",
+          "section": "Airport transfers answer"
+        },
+        {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/privacy-policy",
+          "captured": "24-09-2026",
+          "section": "Questions or Concerns?"
+        }
+      ],
+      "status": "in hand but needs Belle's check"
+    },
+    {
+      "as_published": "+61 411 354 356",
+      "label_as_published": null,
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 5,
+        "captured": "24-09-2026",
+        "section": "A note from Belle"
+      },
+      "status": "in hand but needs Belle's check"
+    }
+  ],
+  "phone_note": "Same number in two formats. plan/11 item 77: Belle confirms whether it is published in the footer.",
+  "instagram": {
+    "handle": "@lamarea_retreats",
+    "url": "https://www.instagram.com/lamarea_retreats",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/",
+      "captured": "24-09-2026",
+      "section": "Follow us on Instagram"
+    },
+    "status": "in hand"
+  },
+  "booking_link": {
+    "label_as_published": "Book a Discovery Call",
+    "url": "https://calendar.app.google/jiKYpzKFiG5XZV9x9",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/contact",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand"
+  },
+  "booking_link_alternate": {
+    "label_as_published": "BOOK A CALL",
+    "url": "https://calendly.com/belle-lamarea/30min",
+    "source": {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": 28,
+      "captured": "24-09-2026",
+      "section": "Next Steps"
+    },
+    "status": "in hand but needs Belle's check",
+    "note": "The guide uses a Calendly link, the live site a Google Calendar link. Build decision 8 uses the Google Calendar link."
+  },
+  "waitlist_links": [
+    {
+      "label_as_published": "Join 2026 Waitlist",
+      "url": "https://form.jotform.com/261441165546860",
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/",
+        "captured": "24-09-2026",
+        "section": "Sunset Reset Wellness Experiences"
+      },
+      "note": "Published with Instagram and fbclid tracking parameters, stripped here."
+    },
+    {
+      "label_as_published": "Join The Waitlist",
+      "url": "https://form.jotform.com/253041258182856",
+      "source": [
+        {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/contact",
+          "captured": "24-09-2026"
+        },
+        {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "captured": "24-09-2026",
+          "section": "Women's Wellness Weekend"
+        }
+      ]
+    }
+  ],
+  "contact_page": {
+    "heading": "Planning a Retreat for Your Team or Private Group",
+    "body": "Whether it's a corporate offsite designed around recovery and sustainable performance, or a private retreat for family and friends, every La maréa experience is built around you, your people, your goals, your pace. Book a discovery call with our team below to explore whats possible.",
+    "button": "Book a Discovery Call",
+    "waitlist_line": "Join our retreat waitlist so you never miss out on retreat releases!",
+    "waitlist_button": "Join The Waitlist",
+    "form_heading": "Contact Us",
+    "form_fields": [
+      "First Name",
+      "Last Name",
+      "Email",
+      "Message"
+    ],
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/contact",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand"
+  },
+  "postal_or_street_address": null,
+  "abn": null,
+  "footer": {
+    "tagline_lines": [
+      "From chaos to calm, stress to serenity..",
+      "Let the tide guide you home."
+    ],
+    "newsletter_line": "Join our lifestyle wellness community & be the first to know about new retreats & exclusive offers!",
+    "newsletter_fields": [
+      "First name*",
+      "Email*"
+    ],
+    "newsletter_consent_as_published": "I want to subscribe to La maréas mailing list.",
+    "links": [
+      "Retreats",
+      "Accommodation",
+      "Our Story",
+      "Philosophy",
+      "Partners",
+      "Research & Recipes",
+      "Gift Cards",
+      "Privacy Policy",
+      "FAQS",
+      "Terms & Conditions",
+      "Follow Us"
+    ],
+    "acknowledgement_of_country": "We acknowledge that the land we are on belongs to the Kaurna people as the Traditional Owners and custodians of the land on which we work. We acknowledge the Traditional Custodians of country throughout Australia and their connections to land, sea and community. We pay our respects to their Elders past and present.",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/",
+      "captured": "24-09-2026",
+      "section": "Site footer (identical on every page)"
+    },
+    "status": "in hand",
+    "note": "The consent line is missing an apostrophe (\"La maréas\"), kept verbatim. The tagline ends with two full stops, kept verbatim."
+  },
+  "header_nav_as_published": [
+    "Retreats",
+    "Accommodation",
+    "Our Story",
+    "Philosophy",
+    "Partners",
+    "Research & Recipes",
+    "Gift Cards",
+    "Enquire"
+  ],
+  "guide_sign_off": {
+    "lines": [
+      "Warmly,",
+      "the La maréa hosting team xx"
+    ],
+    "source": {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": 29,
+      "captured": "24-09-2026"
+    }
+  },
+  "gift_cards": {
+    "product_name": "eGift Card",
+    "description": [
+      "Give the gift of wellbeing with a La maréa gift card.",
+      "These versatile gift cards have no restrictions and can be used for our retreats, experiences or wellness days. Redeemable for up to 2 years."
+    ],
+    "expiry_line": "Gift card expires 24 months after purchase.",
+    "terms_note": "* Please note - Gift cards are non-refundable, non-transferrable and only valid for 2 years from the purchase date. If our retreats or experiences are fully booked the recipient will need to wait until our next available retreat date.",
+    "contact_line": "Please contact us to inquire about retreat availability if needed info@lamarea.com.au",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/gift-cards",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand but needs Belle's check",
+    "note": "Decision 16 decides whether gift cards stay."
+  },
+  "source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/contact",
+    "captured": "24-09-2026"
+  },
+  "dash_note": "Em or en dashes in the client text were replaced for this seed: number and time ranges with \" to \", unspaced word joins (for example sleep-wake, mother-daughter) with a hyphen, everything else with a comma. The verbatim original with dashes is in build/03-content-harvest.md."
+}

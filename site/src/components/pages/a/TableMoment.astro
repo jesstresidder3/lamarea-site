@@ -1,0 +1,81 @@
+---
+/*
+  Home moment 6, Nourish: the Table (build spec 12, creative brief D moment 6).
+  Two of Belle's lines on the Mediterranean, plant-forward table, then her heading "Signature culinary
+  experiences" with the two experiences she named (BD-88), each opening in place (ExpandTile, SHA's
+  "design of our diets" pop-up). The shared table photograph carries the dining tile.
+
+  Sources, verbatim:
+  - "At La maréa, food is a central part of the experience." Encounter Bay guide p.12
+  - "The meals we provide are plant-forward and Mediterranean-inspired. We aim to use local, seasonal
+    and organic produce in our meals where possible." lamarea.com.au/faqs
+  - "Shared dining that encourages connection and unhurried conversation" Encounter Bay guide p.12
+  - Dining detail: Encounter Bay guide p.13 (experiences collection, mediterranean-table)
+  - Pasta detail: Malissa Fedele's live bio (experiences collection, pasta-making). Who runs the
+    masterclass for La maréa is unconfirmed (plan/11 Q3), so no name renders and the gap is marked.
+*/
+import ExpandTile from '../../base/ExpandTile.astro';
+import Eyebrow from '../../base/Eyebrow.astro';
+import ArrowLink from '../../base/ArrowLink.astro';
+import Reveal from '../../base/Reveal.astro';
+import { experiencesById } from '../../../lib/content';
+
+const ex = await experiencesById();
+const dining = ex.get('mediterranean-table');
+const diningText = dining?.data.descriptions[0]?.text.find((t) => t !== t.toUpperCase()) ?? null;
+
+const items = [
+  {
+    eyebrow: 'Signature culinary experience',
+    title: 'Three course Mediterranean chef curated dining',
+    media: 'home-table-shared',
+    summary: 'Shared dining that encourages connection and unhurried conversation',
+    body: diningText ? `<p>${diningText}</p>` : '<p class="placeholder-line">Belle’s description of the chef curated lunch</p>',
+    link: { label: 'The Table', href: '/food' },
+  },
+  {
+    eyebrow: 'Signature culinary experience',
+    title: 'Pasta making masterclass',
+    media: 'home-table-pasta',
+    summary: 'Ideal for group bonding and creating a memorable retreat experience',
+    body:
+      '<p data-draft>Hands-on, interactive sessions where guests learn to make authentic Italian pasta from scratch.</p>' +
+      '<p class="placeholder-line">Who leads the masterclass for La maréa, to confirm with Belle</p>',
+    link: { label: 'The Table', href: '/food' },
+  },
+];
+---
+<section class="table-m" aria-labelledby="table-heading">
+  <div class="wrap table-m__grid">
+    <Reveal class="table-m__text">
+      <Eyebrow>Nourish</Eyebrow>
+      <h2 class="table-m__heading" id="table-heading">Signature culinary experiences</h2>
+      <p class="table-m__lead">At La maréa, food is a central part of the experience.</p>
+      <p>The meals we provide are plant-forward and Mediterranean-inspired. We aim to use local, seasonal and organic produce in our meals where possible.</p>
+      <ArrowLink href="/food" label="The Table" class="table-m__link" />
+    </Reveal>
+    <div class="table-m__tiles">
+      <ExpandTile items={items} height="clamp(24rem, 56vh, 36rem)" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .table-m { padding-block: var(--section-y); background: var(--sand-30); } /* sand: home keeps salt for the Day and proof only (CD review 02 item 19) */
+  .table-m__grid { display: grid; gap: var(--space-l); align-items: end; }
+  .table-m__heading { margin: 0 0 1.5rem; max-width: 10em; }
+  .table-m__lead {
+    margin: 0 0 1rem;
+    font-family: var(--font-serif);
+    font-size: var(--fs-lead);
+    line-height: 1.45;
+    color: var(--sage-80);
+  }
+  .table-m :global(.table-m__text) p { max-width: 26rem; }
+  .table-m :global(.table-m__link) { margin-top: 1.75rem; }
+
+  @media (min-width: 1000px) {
+    .table-m__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2.1fr); gap: clamp(2.5rem, 5vw, 6rem); }
+    .table-m :global(.table-m__text) { padding-bottom: 5.5rem; }
+  }
+</style>

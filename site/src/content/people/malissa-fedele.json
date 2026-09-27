@@ -1,0 +1,68 @@
+{
+  "name": "Malissa Fedele",
+  "team": "food_hospitality",
+  "order": 2,
+  "group_as_published": "Food & Hospitality Partners",
+  "role": "MasterChef Australia Finalist & Nutritionist",
+  "role_long": "MasterChef Australia Finalist & Clinical Nutritionist",
+  "business": "The Mood Boosting Nutritionist™ (malissafedele.com)",
+  "business_url": "https://www.malissafedele.com",
+  "credentials": [
+    "BHSc, Clinical Nutritionist (complementary nutrition)",
+    "MasterChef Australia Season 15 Finalist"
+  ],
+  "credentials_basis": "Picked by the build from the qualifications as published, verbatim.",
+  "qualifications": [
+    "BHSc, Clinical Nutritionist (complementary nutrition)",
+    "MasterChef Australia Season 15 Finalist",
+    "Recipe developer and media personality with expertise in Food & Mood",
+    "Featured on The Morning Show, Sunrise, major publications, podcasts, and wellness events",
+    "Background in Italian cooking and evidence-based nutrition, blending culinary skill with emotional wellbeing"
+  ],
+  "services": [
+    "Mediterranean Pasta-Making Masterclass (2 hours)",
+    "Hands-on, interactive sessions where guests learn to make authentic Italian pasta from scratch with Malissa.",
+    "Includes: Fresh egg pasta, Traditional Mediterranean sauces, Cooking demonstration + guided practice, Tasting + shared meal",
+    "Ideal for group bonding and creating a memorable retreat experience",
+    "Mood-Boosting Cooking Class (90 minutes)",
+    "A nourishing, interactive cooking session focused on simple, mood-supportive meals.",
+    "Options include: Anti-inflammatory meals, Gut-loving bowls, Seasonal Mediterranean dishes, Energy-boosting recipes.",
+    "Guests receive recipes, nutrition education, and a delicious meal to enjoy.",
+    "1:1 Mood Boosting Nutrition Consultation (60 minutes)",
+    "Private, tailored session designed to provide deeper support during retreat stays.",
+    "In this consultation, Malissa helps guests:",
+    "Establish personal health and nutrition goals",
+    "Understand unique Food × Mood patterns",
+    "Identify factors impacting energy, digestion, hormones, or emotional wellbeing",
+    "Break down current eating habits and highlight simple, impactful changes",
+    "Create a personalised action plan with practical recommendations and mood-boosting strategies",
+    "Perfect for guests seeking clarity, guidance, and a supportive plan designed just for them."
+  ],
+  "bio": [
+    {
+      "kind": "para",
+      "text": "Malissa is a Clinical Nutritionist, MasterChef Australia Finalist, recipe developer and media personality known as The Mood Boosting Nutritionist™. With a background in Italian cooking and evidence-based nutrition, she blends culinary skill with emotional wellbeing, specialising in the Food x Mood connection. Malissa has been featured on The Morning Show, Sunrise, across major publications and podcast platforms, and leads sought-after cooking classes, pasta-making masterclasses, corporate workshops and wellness events. Her work blends nutrition science with joyful, mood-boosting cooking."
+    }
+  ],
+  "portrait": "team-malissa-fedele",
+  "pillars": [
+    "nutrition"
+  ],
+  "pillars_basis": "Mapped by the build from the services each person publishes. Belle to confirm.",
+  "live_url": "https://www.lamarea.com.au/malissa-fedele",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/malissa-fedele",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/partners",
+      "captured": "24-09-2026"
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Roster is decision 12. Lists a 2 hour Mediterranean Pasta-Making Masterclass and a 60 minute 1:1 consultation. Not in the Encounter Bay guide. Belle to confirm whether she still runs the pasta masterclass for La maréa.",
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

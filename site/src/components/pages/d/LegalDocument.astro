@@ -1,0 +1,228 @@
+---
+/*
+  LegalDocument (page builder D). Calm long-form typography for the privacy policy and the terms:
+  a reading column of about 38rem, numbered sections separated by hairlines and air, sub-clauses as
+  quiet serif headings, and a contents list that stays beside the text on wide screens (and folds
+  into a native disclosure on phones). The current section is marked in the contents as you read.
+
+  <LegalDocument eyebrow="Terms" heading="Terms and conditions" sections={sections}>
+    <p slot="intro">...</p>
+  </LegalDocument>
+
+  Blocks (see ./legal-types.ts): 'p' (text or html), 'list', 'sub' (a numbered sub-clause heading),
+  'note' (a ReviewNote for Belle, shown only in the placeholder layer) and 'todo' (a marked gap that
+  names what goes there).
+*/
+import Eyebrow from '../../base/Eyebrow.astro';
+import ReviewNote from './ReviewNote.astro';
+import type { LegalSection } from './legal-types';
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  sections: LegalSection[];
+}
+const { eyebrow, heading, sections } = Astro.props;
+---
+<article class="legal" data-legal>
+  <header class="wrap legal__head">
+    {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+    <h1 class="legal__title">{heading}</h1>
+    <div class="legal__intro"><slot name="intro" /></div>
+  </header>
+
+  <div class="wrap legal__grid">
+    <details class="legal__toc-mobile">
+      <summary class="legal__toc-summary">
+        <span>On this page</span>
+        <svg viewBox="0 0 14 8" width="14" height="8" aria-hidden="true" focusable="false"><path d="M1 1l6 6 6-6" /></svg>
+      </summary>
+      <ol class="legal__toc-list" role="list">
+        {sections.map((s) => <li><a href={`#${s.id}`}><span class="legal__toc-num">{s.number}{' '}</span>{s.title}</a></li>)}
+      </ol>
+    </details>
+
+    <nav class="legal__toc" aria-label="On this page">
+      <p class="legal__toc-label">On this page</p>
+      <ol class="legal__toc-list" role="list">
+        {sections.map((s) => <li><a href={`#${s.id}`} data-toc-link={s.id}><span class="legal__toc-num">{s.number}{' '}</span>{s.title}</a></li>)}
+      </ol>
+    </nav>
+
+    <div class="legal__body">
+      {sections.map((s) => (
+        <section class="legal__section" id={s.id} aria-labelledby={`${s.id}-title`} data-legal-section>
+          <h2 class="legal__h2" id={`${s.id}-title`}>
+            <span class="legal__num">{s.number}{' '}</span>
+            <span>{s.title}</span>
+          </h2>
+          {s.blocks.map((b) => {
+            if (b.kind === 'p') return b.html ? <p class="legal__p" data-draft={b.draft ? '' : undefined} set:html={b.text} /> : <p class="legal__p" data-draft={b.draft ? '' : undefined}>{b.text}</p>;
+            if (b.kind === 'list') return (
+              <ul class="legal__list" data-draft={b.draft ? '' : undefined}>
+                {b.items.map((i) => (b.html ? <li set:html={i} /> : <li>{i}</li>))}
+              </ul>
+            );
+            if (b.kind === 'sub') return (
+              <h3 class:list={['legal__h3', !b.number && 'legal__h3--plain']}>
+                {b.number && <span class="legal__num legal__num--sub">{b.number}{' '}</span>}
+                <span>{b.title}</span>
+              </h3>
+            );
+            if (b.kind === 'note') return <ReviewNote>{b.text}</ReviewNote>;
+            if (b.kind === 'todo') return <p class="placeholder-line legal__todo">{b.text}</p>;
+            return null;
+          })}
+        </section>
+      ))}
+    </div>
+  </div>
+</article>
+
+<script>
+  // Marks the section being read in the contents list. Colour only, nothing moves.
+  document.querySelectorAll<HTMLElement>('[data-legal]').forEach((doc) => {
+    const links = new Map<string, HTMLAnchorElement>();
+    doc.querySelectorAll<HTMLAnchorElement>('[data-toc-link]').forEach((a) => links.set(a.dataset.tocLink!, a));
+    const sections = Array.from(doc.querySelectorAll<HTMLElement>('[data-legal-section]'));
+    if (!links.size || !sections.length || !('IntersectionObserver' in window)) return;
+    const visible = new Set<string>();
+    const mark = () => {
+      const first = sections.find((s) => visible.has(s.id));
+      links.forEach((a, id) => (id === first?.id ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')));
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => (e.isIntersecting ? visible.add(e.target.id) : visible.delete(e.target.id)));
+        mark();
+      },
+      { rootMargin: '-20% 0px -55% 0px' },
+    );
+    sections.forEach((s) => io.observe(s));
+  });
+</script>
+
+<style>
+  .legal { padding-bottom: var(--section-y); }
+  .legal__head { padding-block: clamp(2rem, 1.5rem + 3vw, 4.5rem) clamp(2rem, 1.5rem + 2.5vw, 3.5rem); }
+  .legal__title { margin: 0; font-size: var(--fs-h1); max-width: 14em; }
+  .legal__intro { margin-top: 1.5rem; max-width: 38rem; }
+  .legal__intro :global(p) { max-width: 38rem; }
+  .legal__intro :global(.lead) { margin-bottom: 1rem; }
+
+  .legal__grid { display: grid; gap: 2rem; align-items: start; }
+
+  /* Contents: a disclosure on phones, a quiet list beside the text on wide screens. */
+  .legal__toc { display: none; }
+  .legal__toc-mobile { border-block: 1px solid var(--sage-20); }
+  .legal__toc-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 3rem;
+    list-style: none;
+    cursor: pointer;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--sage-80);
+  }
+  .legal__toc-summary::-webkit-details-marker { display: none; }
+  .legal__toc-summary svg { width: 12px; height: 7px; transition: transform var(--dur-step) var(--ease-soft); }
+  .legal__toc-summary path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+  .legal__toc-mobile[open] .legal__toc-summary svg { transform: rotate(180deg); }
+  .legal__toc-mobile .legal__toc-list { padding-bottom: 1rem; }
+
+  .legal__toc-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+  .legal__toc-list a {
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    align-items: baseline;
+    min-height: 2.5rem;
+    padding-block: 0.45rem;
+    font-size: var(--fs-small);
+    line-height: 1.4;
+    color: var(--sage-80);
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-soft);
+  }
+  .legal__toc-num { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.08em; color: var(--sage-80); }
+  .legal__toc-list a[aria-current] { color: var(--sage-100); }
+  .legal__toc-list a[aria-current] .legal__toc-num { opacity: 1; }
+  @media (hover: hover) {
+    .legal__toc-list a:hover { color: var(--sage-100); }
+  }
+  .legal__toc-label { margin: 0 0 0.75rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+
+  @media (min-width: 1024px) {
+    .legal__grid { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(3rem, 6vw, 7rem); }
+    .legal__toc-mobile { display: none; }
+    .legal__toc {
+      display: block;
+      position: sticky;
+      top: calc(var(--header-compact) + 2rem);
+      max-height: calc(100svh - var(--header-compact) - 4rem);
+      overflow-y: auto;
+      padding-right: 1rem;
+      border-top: 1px solid var(--sage-20);
+      padding-top: 1.25rem;
+    }
+  }
+
+  /* The text. */
+  .legal__body { min-width: 0; }
+  .legal__section { padding-block: clamp(2rem, 1.6rem + 1.6vw, 3rem); border-top: 1px solid var(--sage-20); scroll-margin-top: calc(var(--header-compact) + 1.5rem); }
+  .legal__section:first-child { border-top: 0; padding-top: 0.5rem; }
+  .legal__h2 {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    align-items: baseline;
+    margin: 0 0 1.25rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.45rem, 1.3rem + 0.6vw, 1.85rem);
+    line-height: 1.25;
+    letter-spacing: 0.005em;
+    color: var(--heading);
+    text-wrap: pretty;
+  }
+  .legal__num { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.08em; color: var(--sage-80); }
+  .legal__h3 {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    align-items: baseline;
+    margin: 1.75rem 0 0.6rem;
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    line-height: 1.3;
+    color: var(--sage-80);
+  }
+  .legal__h3--plain { display: block; }
+  .legal__p, .legal__list, .legal__body :global(.review-note), .legal__todo, .legal__h3--plain { margin-left: 2.75rem; }
+  .legal__p { max-width: 38rem; margin-top: 0; margin-bottom: 0.9em; line-height: 1.7; }
+  .legal__list { max-width: 38rem; margin-top: 0; margin-bottom: 1em; padding-left: 1.1rem; line-height: 1.65; }
+  .legal__list li { padding-left: 0.2rem; margin-bottom: 0.35em; }
+  .legal__list li::marker { color: var(--sage-40); }
+  .legal__todo { display: flex; margin-top: 0.25rem; margin-bottom: 1em; }
+  .legal__body :global(.review-note) { margin-top: 0.25rem; margin-bottom: 1.25rem; }
+  .legal__body :global(a) { color: var(--heading); text-decoration-color: color-mix(in srgb, currentColor 38%, transparent); }
+  /* "to confirm" markers show with the notes layer on only (CD review 02, notes-off walkthrough). */
+  :global(html:not([data-media-notes='on'])) .legal__body :global(.confirm-wrap) { display: none; }
+  .legal__body :global(.confirm) {
+    padding: 0.05rem 0.35rem;
+    border: 1px dashed color-mix(in srgb, var(--sage-80) 45%, transparent);
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: 0.04em;
+    color: var(--sage-80);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 519px) {
+    .legal__h2, .legal__h3 { grid-template-columns: 2.25rem minmax(0, 1fr); }
+    .legal__p, .legal__list, .legal__body :global(.review-note), .legal__todo, .legal__h3--plain { margin-left: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .legal__toc-summary svg, .legal__toc-list a { transition: none; }
+  }
+</style>

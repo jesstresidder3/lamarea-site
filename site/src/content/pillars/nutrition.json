@@ -1,0 +1,75 @@
+{
+  "name": "Nutrition",
+  "long_name": null,
+  "name_as_published": "Nutrition",
+  "science_name_as_published": "Nutrition",
+  "order": 1,
+  "order_live": 1,
+  "icon": "nutrition.svg",
+  "line": "Seasonal, local and predominantly organic plant-based nourishment, guided by a paddock to plate philosophy and the Mediterranean dietary pattern",
+  "line_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+  },
+  "video": "pillar-nutrition",
+  "evidence": [
+    {
+      "heading": "The Mediterranean Diet",
+      "claims": [
+        "Reduces cardiovascular disease, CVD events, and all-cause mortality. (Martinez-Lacoba et al., 2018; Pant et al., 2023)",
+        "Lowers risk of age-related cognitive disorders including dementia and AD. (Fekete et al., 2021)",
+        "Improves mood and reduces depression risk via anti-inflammatory and gut-microbiome pathways. (Lai et al., 2023)",
+        "Enhances gut health by increasing microbial diversity and SCFA production. (Estruch et al., 2022)"
+      ]
+    },
+    {
+      "heading": "Plant-based diets",
+      "claims": [
+        "Reduce risk of major chronic diseases. (Wang et al., 2023)"
+      ]
+    },
+    {
+      "heading": "Organic diets",
+      "claims": [
+        "Lower pesticide exposure and may improve select metabolic/reproductive markers. (Jiang et al., 2024)"
+      ]
+    }
+  ],
+  "evidence_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "The Science accordion, item \"Nutrition\""
+  },
+  "citations": [
+    "Estruch et al., 2022",
+    "Fekete et al., 2021",
+    "Jiang et al., 2024",
+    "Lai et al., 2023",
+    "Martinez-Lacoba et al., 2018",
+    "Pant et al., 2023",
+    "Wang et al., 2023"
+  ],
+  "references": [],
+  "references_source": null,
+  "page": false,
+  "page_basis": "Build spec 12: pillar pages publish only where evidence exists. Sleep and recovery has the sleep article and its full references; the other nine open on /philosophy#<id>.",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "The Science accordion, item \"Nutrition\""
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Pillar set is decision 1. Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar."
+}

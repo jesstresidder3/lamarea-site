@@ -1,0 +1,18 @@
+{
+  "question": "Are children allowed?",
+  "answer": [
+    "Unfortunately we are not able to cater for children under the age of 16 years old."
+  ],
+  "order": 9,
+  "topic": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    }
+  ],
+  "status": "draft",
+  "review": null
+}

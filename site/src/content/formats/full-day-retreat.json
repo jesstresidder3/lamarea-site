@@ -1,0 +1,48 @@
+{
+  "name": "Full Day Retreats (8 hour)",
+  "kind": "format",
+  "order": 4,
+  "tagline": null,
+  "body": [],
+  "duration": "8 hour",
+  "group_size_text": "12 guests (both worked examples); guide p.24: 10 guests minimum are required for a booking. 14 guests maximum at this venue.",
+  "items": [],
+  "inclusions_heading": null,
+  "inclusions": [],
+  "closing_line": null,
+  "footnote": null,
+  "price_from": null,
+  "price_published_on_live_site": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Format list"
+    },
+    {
+      "type": "live_site_image",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+      "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+      "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "17",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "24",
+      "captured": "24-09-2026"
+    }
+  ],
+  "status": "draft",
+  "review": "Full flow in day.json. Price is internal only, not for publication (build decision 10)."
+}

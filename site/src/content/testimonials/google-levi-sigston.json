@@ -1,0 +1,32 @@
+{
+  "quote": "Belle goes above and beyond with her level of services. She tailored the experience to suit what we needed and went in depth with ways we can better our wellness and nutrition. We also did contrast therapy going from the sauna to cold pool with breathing exercises. I felt so refreshed and motivated after the retreat and have already started implementing my learnings from the experience. It was a great opportunity for team bonding!!",
+  "reviewer_as_published": "Levi Sigston",
+  "reviewer_note": "Kept for records only. The site shows the descriptor, never the name, until Belle has permission.",
+  "descriptor": "Corporate team",
+  "descriptor_basis": "Derived by the build only from the review text: \"It was a great opportunity for team bonding\"",
+  "group_type": "corporate",
+  "format": "unknown",
+  "format_label": null,
+  "format_basis": "The review does not say which format it was",
+  "venue": null,
+  "source_type": "google",
+  "source": {
+    "type": "google_reviews_widget",
+    "url": "https://www.lamarea.com.au/",
+    "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+    "captured": "24-09-2026"
+  },
+  "rating": 5,
+  "date": "13-08-2026",
+  "retreat_type_as_stated": "team retreat with contrast therapy (described in the review)",
+  "experiences_mentioned": [
+    "contrast-therapy"
+  ],
+  "image": "testimonial-corporate-4",
+  "featured_on": [
+    "corporate"
+  ],
+  "duplicate_of": null,
+  "status": "published",
+  "review": null
+}

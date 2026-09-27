@@ -1,0 +1,9 @@
+# La maréa, lamarea.com.au
+# Search and answer engines are welcome (register N5). Utility pages carry their own noindex.
+User-agent: *
+Allow: /
+Disallow: /styleguide/
+Disallow: /admin/
+Disallow: /questionnaire/
+
+Sitemap: https://www.lamarea.com.au/sitemap-index.xml

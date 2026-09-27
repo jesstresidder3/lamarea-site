@@ -1,0 +1,46 @@
+---
+/*
+  /privacy-policy (page builder D). A drafted APP 1 privacy policy for Belle's adviser to review
+  before launch (plan/10 section 6, plan/11 4.25). The draft marker is visible to everyone, not only
+  in the placeholder layer, so the page can never pass as final. Section content: components/pages/d/privacy.ts.
+*/
+import Base from '../layouts/Base.astro';
+import LegalDocument from '../components/pages/d/LegalDocument.astro';
+import { privacySections } from '../components/pages/d/privacy';
+---
+<Base
+  title="Privacy policy"
+  description="How La maréa collects, uses, stores and protects personal information, including guests’ health information, under the Australian Privacy Principles."
+>
+  <LegalDocument eyebrow="Privacy" heading="Privacy policy" sections={privacySections}>
+    <Fragment slot="intro">
+      <p class="lead">How we collect, use and protect your information.</p>
+      <div class="draft-flag" role="note" data-notes-only>
+        <span class="draft-flag__label">Draft for review, 24-09-2026</span>
+        <p>This policy is written for Belle and her adviser to check before the site launches. It is not yet in force. Items marked <span class="draft-flag__confirm">to confirm</span> need their answer first.</p>
+      </div>
+    </Fragment>
+  </LegalDocument>
+</Base>
+
+<style>
+  .draft-flag {
+    display: grid;
+    gap: 0.35rem;
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--salt-25);
+    border-left: 1px solid var(--sage-80);
+    max-width: 38rem;
+  }
+  .draft-flag__label { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); }
+  .draft-flag p { margin: 0; font-size: var(--fs-small); line-height: 1.6; }
+  .draft-flag__confirm {
+    padding: 0.05rem 0.35rem;
+    border: 1px dashed color-mix(in srgb, var(--sage-80) 45%, transparent);
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+</style>

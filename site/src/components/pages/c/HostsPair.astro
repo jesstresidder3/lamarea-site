@@ -1,0 +1,56 @@
+---
+/*
+  Your retreat hosts (plan/11 4.15 section 3): Belle and Zoe, founder and events lead, set unevenly
+  so the founder leads and the pair never reads as a 50/50 grid. Portrait, role, name, credentials
+  and the hosts' words from the Encounter Bay guide p.20, verbatim. Zoe has no bio of her own yet:
+  the guide's two sentences show, with a marked gap for the rest.
+*/
+import Media from '../../media/Media.astro';
+import ArrowLink from '../../base/ArrowLink.astro';
+import ToCome from './ToCome.astro';
+import type { Person } from '../../../lib/content';
+
+interface Props { hosts: Person[] }
+const { hosts } = Astro.props;
+const first = (n: string) => n.split(' ')[0];
+---
+<ul class="hosts" role="list">
+  {hosts.map((p, i) => {
+    const d = p.data;
+    return (
+      <li class:list={['host', i === 0 ? 'host--lead' : 'host--second']}>
+        <a class="host__portrait" href={`/team/${p.id}`} tabindex="-1" aria-hidden="true"><div><Media media={d.portrait} aspect="4 / 5" /></div></a>
+        <div class="host__text">
+          <p class="host__role">{d.role}</p>
+          <h3 class="host__name">{d.name}</h3>
+          {d.credentials.length > 0 && <p class="host__creds">{d.credentials.join(', ')}</p>}
+          {d.bio[0] && <p class="host__bio">{d.bio[0].text}</p>}
+          {d.credentials.length === 0 && d.qualifications.length === 0 && (
+            <ToCome note={`A fuller bio from ${first(d.name)}, in her own words.`} compact />
+          )}
+          <ArrowLink href={`/team/${p.id}`} label={`Meet ${first(d.name)}`} class="host__link" />
+        </div>
+      </li>
+    );
+  })}
+</ul>
+
+<style>
+  .hosts { display: grid; gap: var(--space-xl) clamp(2rem, 5vw, 6rem); margin: 0; padding: 0; list-style: none; }
+  .host { display: grid; gap: 1.5rem; align-content: start; }
+  .host__portrait { display: block; }
+  .host__role { margin: 0 0 0.75rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .host__name { margin: 0 0 0.5rem; font-size: clamp(1.9rem, 1.6rem + 0.8vw, 2.4rem); line-height: 1.1; }
+  .host__creds { margin: 0 0 1rem; font-size: 0.8125rem; line-height: 1.5; color: var(--muted); }
+  .host__bio { font-size: var(--fs-small); line-height: 1.65; color: var(--sage-100); max-width: 30rem; }
+  .host :global(.to-come) { margin-top: 1rem; max-width: 30rem; }
+  .host :global(.host__link) { margin-top: 0.75rem; }
+  @media (min-width: 900px) {
+    .hosts { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: start; }
+    .host { gap: 2rem; }
+    .host--lead .host__portrait { width: 74%; }
+    .host--lead .host__text { max-width: 30rem; }
+    .host--second { margin-top: clamp(6rem, 12vw, 11rem); }
+    .host--second .host__portrait { width: 78%; }
+  }
+</style>

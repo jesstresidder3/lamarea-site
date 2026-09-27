@@ -1,0 +1,22 @@
+{
+  "question": "What is the cancellation, refund and credit policy?",
+  "answer": [
+    "At La maréa we design every retreat as a bespoke experience, working closely with carefully selected partners, local artisans, and service providers to ensure a truly unique and immersive wellness journey. Due to the nature of these arrangements, all bookings are non-refundable.",
+    "If you need to cancel your booking, we are happy to offer a credit for a future retreat or experience. This credit can be applied to any upcoming retreat within 2 years of your original booking date.",
+    "We understand that life happens and schedules can change. While we are unable to provide refunds, we aim to be as flexible as possible in helping you reschedule or transfer your credit to another retreat or guest, subject to availability.",
+    "By booking a retreat with us, you acknowledge and accept that your payment is a commitment to your experience and to our local partners, who dedicate their time and resources to make each retreat exceptional.",
+    "For questions regarding rescheduling or transferring your credit, please contact us at info@lamarea.com.au and we’ll be happy to assist. For more information on our policy please read our terms and conditions."
+  ],
+  "order": 10,
+  "topic": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    }
+  ],
+  "status": "draft",
+  "review": "Says credit applies within 2 years. The live Terms & Conditions page (3.2) says credits are valid for 12 months. Conflict for Belle."
+}

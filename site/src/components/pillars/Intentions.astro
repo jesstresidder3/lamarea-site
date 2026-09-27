@@ -1,0 +1,79 @@
+---
+/*
+  Belle's eight words with her definitions (BD-136), as plain visible word and definition pairs in
+  small type (build spec 12: never hover reveals, never called pillars). Used once, on /philosophy,
+  under her line "Restore. Reconnect. Realign.". Empower is one of the eight and must be present:
+  the component refuses to render without it.
+
+  "Intentions" is the data label only. The page supplies any heading, in Belle's words.
+
+  <Intentions words={await getIntentions()} />
+  <Intentions words={words} heading="Restore. Reconnect. Realign." />
+
+  Props: words (getIntentions() entries), heading (optional, h2 by default), level (2 or 3).
+*/
+import { pad2 } from '../../lib/text';
+import type { Intention } from '../../lib/content';
+
+interface Props {
+  words: Intention[];
+  heading?: string;
+  level?: 2 | 3;
+  class?: string;
+}
+const { words, heading, level = 2, class: className } = Astro.props;
+if (!words.some((w) => w.data.word === 'Empower')) {
+  throw new Error('Intentions: Belle\'s eight words must include Empower.');
+}
+const H = `h${level}` as 'h2' | 'h3';
+---
+<div class:list={['intentions', className]}>
+  {heading && <H class="int-heading">{heading}</H>}
+  <dl class="int-list">
+    {words.map((w, i) => (
+      <div class="int-pair">
+        <dt class="int-word"><span class="int-num" aria-hidden="true">{pad2(i + 1)}</span>{w.data.word}</dt>
+        <dd class="int-def">{w.data.definition}</dd>
+      </div>
+    ))}
+  </dl>
+</div>
+
+<style>
+  .intentions { width: 100%; }
+  .int-heading { font-size: var(--fs-h2); margin: 0 0 clamp(2rem, 3vw, 3rem); }
+  .int-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15.5rem), 1fr));
+    gap: clamp(1.75rem, 2.4vw, 2.5rem) clamp(1.5rem, 3vw, 3.25rem);
+    margin: 0;
+  }
+  .int-pair {
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+  }
+  .int-word {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin: 0 0 0.45rem;
+    font-family: var(--font-serif);
+    font-size: var(--fs-card);
+    line-height: 1.2;
+    color: var(--heading);
+  }
+  .int-num {
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    letter-spacing: var(--track-label);
+    color: var(--muted);
+    transform: translateY(-0.2em);
+  }
+  .int-def {
+    margin: 0;
+    font-size: var(--fs-small);
+    line-height: 1.55;
+    color: var(--sage-100);
+    max-width: 22rem;
+  }
+</style>

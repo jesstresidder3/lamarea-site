@@ -1,0 +1,64 @@
+{
+  "name": "Personalisation",
+  "long_name": null,
+  "name_as_published": "Personalisation",
+  "science_name_as_published": "Personalisation",
+  "order": 8,
+  "order_live": 7,
+  "icon": "personalisation.svg",
+  "line": "Bespoke experiences curated for all stages and seasons of life, designed to meet you wherever you are on your wellness journey",
+  "line_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+  },
+  "video": "pillar-personalisation",
+  "evidence": [
+    {
+      "heading": null,
+      "claims": [
+        "Tailored interventions (nutrition, exercise, recovery) improve adherence, engagement, diet quality, and cardiometabolic outcomes versus generic advice. (Celis-Morales et al., 2017; Zeevi et al., 2015; Ordovas et al., 2018)",
+        "Personalisation enhances effectiveness by accounting for individual variability in physiology, lifestyle, preferences, and goals. (Zeevi et al., 2015; Celis-Morales et al., 2017; Roberts et al., 2019)",
+        "Tailored wellness interventions increase engagement, satisfaction, and likelihood of sustained behaviour change. (Ordovas et al., 2018; OUP Academic, 2023; MDPI, 2022)",
+        "Personalised exercise and recovery strategies improve cardiovascular, metabolic, and musculoskeletal outcomes. (Buchheit & Laursen, 2013; Montero & Lundby, 2017; Roberts et al., 2019)"
+      ]
+    }
+  ],
+  "evidence_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "The Science accordion, item \"Personalisation\""
+  },
+  "citations": [
+    "Buchheit & Laursen, 2013",
+    "Celis-Morales et al., 2017",
+    "MDPI, 2022",
+    "Montero & Lundby, 2017",
+    "OUP Academic, 2023",
+    "Ordovas et al., 2018",
+    "Roberts et al., 2019",
+    "Zeevi et al., 2015"
+  ],
+  "references": [],
+  "references_source": null,
+  "page": false,
+  "page_basis": "Build spec 12: pillar pages publish only where evidence exists. Sleep and recovery has the sleep article and its full references; the other nine open on /philosophy#<id>.",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "The Science accordion, item \"Personalisation\""
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Pillar set is decision 1. Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar."
+}

@@ -1,0 +1,26 @@
+{
+  "name": "Wake Up To Wellness (3 hour)",
+  "kind": "format",
+  "order": 6,
+  "tagline": null,
+  "body": [],
+  "duration": "3 hour",
+  "group_size_text": null,
+  "items": [],
+  "inclusions_heading": null,
+  "inclusions": [],
+  "closing_line": null,
+  "footnote": null,
+  "price_from": null,
+  "price_published_on_live_site": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Format list (names only, no descriptions on the page)"
+    }
+  ],
+  "status": "draft",
+  "review": "Only the name and duration are published. Decision 13 decides which formats still sell. Home page gallery captions: \"Beresford Estate, Womens Wake Up To Wellness Retreat\", \"Private group of professionals, Wake Up To Wellness Retreat\". The Encounter Bay guide p.4 title reads \"Immersive 8 hr Wake Up To Wellness Private Group Retreat\", which conflicts with the 3 hour label here."
+}

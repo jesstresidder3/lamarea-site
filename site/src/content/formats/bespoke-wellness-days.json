@@ -1,0 +1,31 @@
+{
+  "name": "Bespoke Wellness Days",
+  "kind": "pathway",
+  "order": 3,
+  "tagline": "A one-day wellness immersion.",
+  "body": [
+    "For those who do not require an overnight stay, Bespoke Wellness Days offer a focused and highly curated experience delivered at one of our partner properties or at a suitable external venue.",
+    "These days are structured around nervous system support, movement, nourishing food and practical lifestyle wellbeing education. They are intentionally designed to allow space between sessions, ensuring the experience feels restorative rather than demanding.",
+    "Whether shared with friends, extended family or colleagues, a Bespoke Wellness Day creates a private luxury environment for restoration and transformation. It is a chance to reset or build upon wellbeing habits and return to daily life feeling empowered and educated.",
+    "Wellness Days can be brought to you subject to your situation and location. Express your interest or enquire about a bespoke Wellness Day below."
+  ],
+  "duration": null,
+  "group_size_text": null,
+  "items": [],
+  "inclusions_heading": null,
+  "inclusions": [],
+  "closing_line": null,
+  "footnote": null,
+  "price_from": null,
+  "price_published_on_live_site": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Bespoke Wellness Days"
+    }
+  ],
+  "status": "draft",
+  "review": null
+}

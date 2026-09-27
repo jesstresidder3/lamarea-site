@@ -1,0 +1,65 @@
+---
+/*
+  One practitioner, as SHA’s advisory board sets a person out (BD-81): a portrait, the name, the
+  published title and the business behind them, their certifications, and one link to more.
+  `size="feature"` sets the portrait beside the words with the first paragraph of the published bio
+  (the chef on /food); `size="card"` stacks them for a row on an experience page.
+  Everything shown is as published on lamarea.com.au or in Belle’s guide (the people collection).
+  Owner: page builder B.
+
+  <PersonCard person={p} />
+  <PersonCard person={luca} size="feature" />
+*/
+import Media from '../../media/Media.astro';
+import ArrowLink from '../../base/ArrowLink.astro';
+import type { Person } from '../../../lib/content';
+
+interface Props { person: Person; size?: 'card' | 'feature'; credentials?: number; class?: string }
+const { person, size = 'card', credentials = 2, class: className } = Astro.props;
+const d = person.data;
+const first = d.name.split(' ')[0];
+/* The first plain paragraph of the published bio (a line published in capitals is skipped, the site sets nothing in capitals). */
+const mostlyCaps = (t: string) => {
+  const letters = t.replace(/[^A-Za-z]/g, '');
+  return letters.length > 0 && letters.replace(/[^A-Z]/g, '').length / letters.length > 0.3;
+};
+const bio = size === 'feature' ? d.bio.find((b) => b.kind === 'para' && !b.text.trim().endsWith(':') && !mostlyCaps(b.text))?.text : undefined;
+const creds = size === 'feature'
+  ? [...new Set([...d.qualifications, ...d.credentials])].filter((c) => c.length < 140).slice(0, 4)
+  : d.credentials.slice(0, credentials);
+---
+<article class:list={['pc', `pc--${size}`, className]}>
+  <div class="pc__portrait"><Media media={d.portrait} aspect="fill" showNote={size === 'feature'} /></div>
+  <div class="pc__text">
+    {d.business && <p class="pc__biz">{d.business.replace(/ Centre$/, '')}</p>}
+    <h3 class="pc__name">{d.name}</h3>
+    {d.role && <p class="pc__role">{d.role}</p>}
+    {creds.length > 0 && (
+      <ul class="pc__creds" role="list">
+        {creds.map((c) => <li>{c}</li>)}
+      </ul>
+    )}
+    {bio && <p class="pc__bio">{bio}</p>}
+    <ArrowLink href={`/team/${person.id}`} label={`More about ${first}`} class="pc__more" />
+  </div>
+</article>
+
+<style>
+  .pc { min-width: 0; }
+  .pc__portrait { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--sand-40); }
+  .pc__biz { margin: 0 0 0.3rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .pc__name { margin: 0; font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.2; color: var(--heading); }
+  .pc__role { margin: 0.3rem 0 0; font-size: var(--fs-small); line-height: 1.5; color: var(--sage-100); }
+  .pc__creds { margin: 0.9rem 0 0; padding: 0.8rem 0 0; list-style: none; border-top: 1px solid var(--rule); }
+  .pc__creds li { font-size: 0.8125rem; line-height: 1.5; color: var(--sage-80); }
+  .pc__creds li + li { margin-top: 0.25rem; }
+  .pc__bio { margin: 1.1rem 0 0; font-size: var(--fs-small); line-height: 1.65; color: var(--sage-100); max-width: 30rem; }
+  .pc :global(.pc__more) { margin-top: 0.9rem; }
+
+  .pc--card .pc__text { padding-top: 1.1rem; }
+
+  .pc--feature { display: grid; gap: 1.5rem; }
+  @media (min-width: 700px) {
+    .pc--feature { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3.5rem); align-items: end; }
+  }
+</style>

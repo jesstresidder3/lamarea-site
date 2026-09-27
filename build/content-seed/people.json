@@ -1,0 +1,461 @@
+[
+  {
+    "id": "belle-redden",
+    "name": "Belle Redden",
+    "group": "Founder and lead host",
+    "role_title_partners_page": null,
+    "role_title_bio_page": "Performance Nutritionist | Exercise Scientist | Lifestyle Wellness Retreat Host",
+    "business": "La maréa; AB Performance Nutrition",
+    "business_url": null,
+    "qualifications": [
+      "B.Ex.S., B.Nut.Food Sci. (journal byline)",
+      "Her degrees in Exercise & Sports Science and Nutrition & Food Sciences forged a path that led to work in high-performance sport and nutrition. Coaching athletes and active individuals, she developed expertise in lifestyle wellness education and collaborating in multi-disciplinary teams - teaching others how to build sustainable habits that optimise health and performance in everyday life.",
+      "Accredited Sports Nutritionist and Exercise Scientist (Encounter Bay guide p.20)"
+    ],
+    "services": [
+      "Nutrition education and curation of overall experience design (guide p.20)",
+      "Lifestyle wellness & nutrition education sessions (guide p.21)"
+    ],
+    "bio_paragraphs": [
+      "Founder of La maréa. Belle is an Accredited Sports Nutritionist and Exercise Scientist with experience across evidence based lifestyle wellness, nutrition & high-performance. Belle is your lead retreat host and provides nutrition education and curation of overall experience design.",
+      "La maréa & AB Performance Nutrition. Nutritionist & Exercise Scientist, delivering lifestyle wellness & nutrition education sessions. Lead on-site retreat host & coordinator.",
+      "Annabelle Redden is a Performance Nutritionist, Exercise Scientist, Lifestyle Wellness Retreat Host, and founder of La maréa and AB Performance Nutrition. Her work brings together evidence-based nutrition, movement and lifestyle wellbeing to support health, recovery and performance."
+    ],
+    "portrait": null,
+    "live_url": null,
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/our-story",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 20,
+        "captured": "24-09-2026",
+        "section": "Your Retreat Hosts"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 21,
+        "captured": "24-09-2026",
+        "section": "Key Practitioners and Partners"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/post/the-importance-of-sleep-for-wellbeing-recovery-performance-how-to-create-a-pre-bed-routine-that",
+        "captured": "24-09-2026",
+        "section": "About the Author"
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Published as \"Belle Redden\" (guide, FAQ), \"Annabelle Redden\" (journal) and, in an image alt text on /our-story, \"annabelle buttery founder of la maréa luxury retreats\". The founder story itself lives in the Our story section of the harvest. Qualification wording differs between sources (degrees on /our-story, \"Accredited Sports Nutritionist\" in the guide). Belle to confirm the exact wording and whether \"Accredited\" is current."
+  },
+  {
+    "id": "zoe-buttery",
+    "name": "Zoe Buttery",
+    "group": "Retreat host",
+    "role_title_partners_page": null,
+    "role_title_bio_page": "Events lead and retreat host",
+    "business": null,
+    "business_url": null,
+    "qualifications": null,
+    "services": null,
+    "bio_paragraphs": [
+      "Events lead and retreat host. Zoe brings a background in marketing and events, with a focus on thoughtful curation and seamless guest experience. Zoe oversees the retreat flow, logistics and on the ground support throughout the day.",
+      "With Belle, the Founder (left), bringing expertise in nutrition, exercise science, and lifestyle wellness coaching, supported by Zoe her sister (right), and Sarah (back), both with a background in events management, you can be assured that your retreat will be thoughtfully curated and truly unforgettable."
+    ],
+    "portrait": null,
+    "live_url": null,
+    "source": [
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 20,
+        "captured": "24-09-2026",
+        "section": "Your Retreat Hosts"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/our-story",
+        "captured": "24-09-2026",
+        "section": "Meet Your Retreat Hosts"
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "No bio page on the live site. /our-story calls her \"Zoe her sister\". Not on the partners page."
+  },
+  {
+    "id": "sarah-mclachlan",
+    "name": "Sarah McLachlan",
+    "group": "Lifestyle Wellness Partners",
+    "role_title_partners_page": "Retreat Host & Pilates Instructor",
+    "role_title_bio_page": "Retreat Host, Pilates Instructor (in progress) & Founding partner of Happy Melon Studios",
+    "business": "Happy Melon Studios (founding partner)",
+    "business_url": null,
+    "qualifications": [
+      "Bachelor of Business, Entrepreneurship - RMIT",
+      "Founding Partner - Happy Melon Studios",
+      "Marketing & Events - Bird in Hand",
+      "Matwork & Reformer Certification (in progress) - Breathe Education"
+    ],
+    "services": null,
+    "bio_paragraphs": [
+      "Sarah brings extensive experience in PR, Marketing, Events and Brand Communications, with a special passion for partnering with brands in the wellness space. She is currently completing her certification in Group Mat and Reformer Pilates, further aligning her professional skills with her personal interests.",
+      "Living on a farm with her young family, Sarah understands the art of the juggle but remains committed to prioritising her health and wellbeing. She loves spending time outdoors, traveling, exercising, and cheering on her kids at their weekend sports.",
+      "Due to Sarah's extensive background and experience she is one of our key La maréa retreat hosts!"
+    ],
+    "portrait": null,
+    "live_url": "https://www.lamarea.com.au/sarah-mclachlan",
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/sarah-mclachlan",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/partners",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/our-story",
+        "captured": "24-09-2026",
+        "section": "Meet Your Retreat Hosts"
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Pilates certification listed as \"in progress\". Not listed as a host in the Encounter Bay guide (p.20 names Belle, Zoe and Jaimi). Belle to confirm her current role (decision 12)."
+  },
+  {
+    "id": "kristian-ryan",
+    "name": "Kristian Ryan",
+    "group": "Lifestyle Wellness Partners",
+    "role_title_partners_page": "Contrast Therapy & Breathwork Facilitator",
+    "role_title_bio_page": "Founder of Third Spaces, Contrast Therapy & Breathwork Facilitator, Yoga Instructor",
+    "business": "Third Spaces",
+    "business_url": "https://www.thirdspaces.au",
+    "qualifications": [
+      "Nationally Accredited Yoga Instructor",
+      "Certified RYS Yoga Alliance 200 - hour Vinyasa teacher teacher training",
+      "Specializing in stress reduction and mindful movement",
+      "Emphasis on breath-body connection and nervous system regulation",
+      "Certified Wim Hof Method Instructor training",
+      "Certified in the three pillars: breathing, cold exposure, and mindset",
+      "Experienced in guiding individuals through controlled stress exposure",
+      "Focused on building resilience and enhancing human performance",
+      "Oxygen Advantage® Instructor training",
+      "Trained in functional breathing for health and performance",
+      "Specialized in breathing biochemistry and respiratory muscle training",
+      "Expert in BOLT (Body Oxygen Level Test) assessment and improvement",
+      "XPT (Extreme Performance Training) Instructor training",
+      "Experienced in performance optimization and recovery protocols",
+      "Focused on building mental resilience through physical challenges"
+    ],
+    "services": [
+      "- Guided 60 or 90 minute Contrast Therapy Sessions (Rotating between Finnish Sauna & Ice bath)",
+      "Experience the powerful benefits of alternating heat and cold. Sessions include guided rotations between Finnish barrel sauna (80-100 degrees Celsius) and ice bath immersion.",
+      "- Heat or Cold Therapy Sessions (Traditional Finnish wood-fired sauna protocols, with the sauna temperature holding at 80-100 Celsius and Ice bath )",
+      "- 30 or 60 minute Guide Breathwork & Meditation sessions",
+      "- 30 or 60 minute Private group yoga classes (meditation and breathwork integration)"
+    ],
+    "bio_paragraphs": [
+      "Chris believes in the power of \"feeling is understanding\"- a phenomenological principle that experiencing something in your body creates deeper knowledge than intellectual learning alone. Every session he guides is designed to help you feel the immediate effects of these practices, creating embodied knowledge that becomes part of who you are.",
+      "His approach integrates:",
+      "-Evidence-based techniques grounded in current research",
+      "-Personalized instruction adapted to your unique needs and goals",
+      "-Progressive development that honors where you are while challenging you to grow",
+      "- Holistic integration that connects physical practices with mental and emotional well-being",
+      "Whether you're seeking stress relief, performance enhancement, personal growth, or simply curious about these powerful practices, Chris will guide you safely and effectively on your journey. Every session is designed not just to help you feel better in the moment, but to equip you with tools and knowledge you can use for the rest of your life. This is education through experience - learning that lives in your body and becomes part of who you are."
+    ],
+    "portrait": null,
+    "live_url": "https://www.lamarea.com.au/kristian-ryan",
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/kristian-ryan",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/partners",
+        "captured": "24-09-2026"
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "The bio text calls him \"Chris\" and the meta description \"Kris\". Not named in the Encounter Bay guide, which credits contrast therapy to Jaimi Baker (PEAQ). Belle to confirm who runs contrast therapy."
+  },
+  {
+    "id": "jaimi-baker",
+    "name": "Jaimi Baker",
+    "group": "Lifestyle Wellness Partners",
+    "role_title_partners_page": "Yoga & Breathwork Facilitator",
+    "role_title_bio_page": "Yoga & Breathwork Facilitator, Founder of PEAQ Performance Centre",
+    "business": "PEAQ Performance Centre",
+    "business_url": "https://www.peaq.com.au/",
+    "qualifications": [
+      "Business Owner, PEAQ Performance",
+      "B. Psych Science (Hons), University of Adelaide",
+      "200hr Yoga Teacher Training",
+      "Oxygen Advantage Functional Breathing Trainer"
+    ],
+    "services": [
+      "Vinyasa, a dynamic breath-led flow that builds heat and strength.",
+      "Yin, a slow, meditative practice with long holds that target deep connective tissues.",
+      "Guided Meditation & Pranayama, breathwork and mindfulness techniques to calm the mind and regulate the nervous system.",
+      "Roll & Release, a mobility-focused practice using props to ease tension and enhance movement.",
+      "Chair Yoga, a supportive, accessible option ideal for beginners, seniors, or those with limited mobility."
+    ],
+    "bio_paragraphs": [
+      "Jaimi offers a blend of dynamic, restorative, and accessible movement practices designed to support both physical performance and emotional wellbeing. Her teaching draws on evidence-based psychology, functional breathing, and yoga philosophy to create grounded, intentional sessions suitable for a wide range of bodies and experience levels.",
+      "Jaimi offers a range of class styles including:"
+    ],
+    "portrait": null,
+    "live_url": "https://www.lamarea.com.au/jaimi-baker",
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/jaimi-baker",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/partners",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 20,
+        "captured": "24-09-2026",
+        "section": "Your Retreat Hosts"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 21,
+        "captured": "24-09-2026",
+        "section": "Key Practitioners and Partners"
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Guide p.20: \"Yoga & breathwork facilitator, Jaimi is part of the La maréa hosting team and supports guest experience across the day.\" Guide p.21: \"PEAQ Performance. Yoga instructor, Recovery and Breathwork facilitator, delivering yoga, breathwork, contrast therapy and meditation sessions.\" Reviews spell her Jaimi, Jaimee, Jaime and Jamie."
+  },
+  {
+    "id": "natalie-jane",
+    "name": "Natalie Jane",
+    "group": "Lifestyle Wellness Partners",
+    "role_title_partners_page": "Yoga & Pilates Instructor",
+    "role_title_bio_page": "Yoga & Mat Pilates Instructor, Breathwork & Meditation Facilitator",
+    "business": null,
+    "business_url": null,
+    "qualifications": [
+      "200 hour Yoga Teacher Training",
+      "Studio Pilates Matwork Pilates",
+      "Studio Pilates Advanced Matwork Pilates",
+      "Breathwork facilitator",
+      "Meditation facilitator",
+      "Counsellor in training (Institute for Applied Psychology)"
+    ],
+    "services": [
+      "Yoga, Vinyasa and Hatha",
+      "Pilates, Mat Pilates (beginner to advanced)",
+      "Breathwork",
+      "Meditation",
+      "Counselling, currently in training"
+    ],
+    "bio_paragraphs": [
+      "Nat believes that breath, movement, and stillness are the gateway to a calm and peaceful existence. She believes that when we intentionally explore our edges in a controlled and supportive environment, we expand our capacity for resilience and raise our baseline for stress management in everyday life.",
+      "Her offerings are designed to meet individuals where they are and support both physical, mental and emotional wellbeing. Nat’s services include:"
+    ],
+    "portrait": null,
+    "live_url": "https://www.lamarea.com.au/natalie-jane",
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/natalie-jane",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/partners",
+        "captured": "24-09-2026"
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "No business named. Not in the Encounter Bay guide.",
+    "dash_note": "Em or en dashes in the client text were replaced for this seed: number and time ranges with \" to \", unspaced word joins (for example sleep-wake, mother-daughter) with a hyphen, everything else with a comma. The verbatim original with dashes is in build/03-content-harvest.md."
+  },
+  {
+    "id": "malissa-fedele",
+    "name": "Malissa Fedele",
+    "group": "Food & Hospitality Partners",
+    "role_title_partners_page": "MasterChef Australia Finalist & Nutritionist",
+    "role_title_bio_page": "MasterChef Australia Finalist & Clinical Nutritionist",
+    "business": "The Mood Boosting Nutritionist™ (malissafedele.com)",
+    "business_url": "https://www.malissafedele.com",
+    "qualifications": [
+      "BHSc, Clinical Nutritionist (complementary nutrition)",
+      "MasterChef Australia Season 15 Finalist",
+      "Recipe developer and media personality with expertise in Food & Mood",
+      "Featured on The Morning Show, Sunrise, major publications, podcasts, and wellness events",
+      "Background in Italian cooking and evidence-based nutrition, blending culinary skill with emotional wellbeing"
+    ],
+    "services": [
+      "Mediterranean Pasta-Making Masterclass (2 hours)",
+      "Hands-on, interactive sessions where guests learn to make authentic Italian pasta from scratch with Malissa.",
+      "Includes: Fresh egg pasta, Traditional Mediterranean sauces, Cooking demonstration + guided practice, Tasting + shared meal",
+      "Ideal for group bonding and creating a memorable retreat experience",
+      "Mood-Boosting Cooking Class (90 minutes)",
+      "A nourishing, interactive cooking session focused on simple, mood-supportive meals.",
+      "Options include: Anti-inflammatory meals, Gut-loving bowls, Seasonal Mediterranean dishes, Energy-boosting recipes.",
+      "Guests receive recipes, nutrition education, and a delicious meal to enjoy.",
+      "1:1 Mood Boosting Nutrition Consultation (60 minutes)",
+      "Private, tailored session designed to provide deeper support during retreat stays.",
+      "In this consultation, Malissa helps guests:",
+      "-Establish personal health and nutrition goals",
+      "- Understand unique Food × Mood patterns",
+      "- Identify factors impacting energy, digestion, hormones, or emotional wellbeing",
+      "- Break down current eating habits and highlight simple, impactful changes",
+      "- Create a personalised action plan with practical recommendations and mood-boosting strategies",
+      "Perfect for guests seeking clarity, guidance, and a supportive plan designed just for them."
+    ],
+    "bio_paragraphs": [
+      "Malissa is a Clinical Nutritionist, MasterChef Australia Finalist, recipe developer and media personality known as The Mood Boosting Nutritionist™. With a background in Italian cooking and evidence-based nutrition, she blends culinary skill with emotional wellbeing, specialising in the Food x Mood connection. Malissa has been featured on The Morning Show, Sunrise, across major publications and podcast platforms, and leads sought-after cooking classes, pasta-making masterclasses, corporate workshops and wellness events. Her work blends nutrition science with joyful, mood-boosting cooking."
+    ],
+    "portrait": null,
+    "live_url": "https://www.lamarea.com.au/malissa-fedele",
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/malissa-fedele",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/partners",
+        "captured": "24-09-2026"
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Lists a 2 hour Mediterranean Pasta-Making Masterclass and a 60 minute 1:1 consultation. Not in the Encounter Bay guide. Belle to confirm whether she still runs the pasta masterclass for La maréa."
+  },
+  {
+    "id": "luca-guiotto",
+    "name": "Luca Guiotto",
+    "group": "Food & Hospitality Partners",
+    "role_title_partners_page": "Award-Winning Contemporary Italian Chef",
+    "role_title_bio_page": "Internationally Renowned and Award-Winning Chef",
+    "business": "Aromi Dining",
+    "business_url": "https://www.aromidining.com",
+    "qualifications": [
+      "Veneto-born chef, internationally renowned and award-winning head chef",
+      "10 years in Michelin-starred restaurants in Italy (Cinzia & Valerio, Casin del Gamba)",
+      "Experience in luxury 5-star hotels in Switzerland, including Badrutt Palace, St. Moritz",
+      "Awards: Ospitalità Italiana Overseas Excellence, 2016; TAA Top 3 Lifestyle Hotel in Asia & Pacific, 2016; SMH Good Food Guide, 1 Hat, 2017; TAA Chef of the Year Finalist, 2019"
+    ],
+    "services": [
+      "Luca creates menus that showcase Italian-inspired flavours while aligning perfectly with your vision. Whether you’re craving classic dishes, exploring modern interpretations, or accommodating dietary requirements, each dish is thoughtfully curated to suit your needs.",
+      "Using the finest local and seasonal South Australian ingredients, Luca ensures every course tells a story through bold flavours, elegant presentation, and meticulous attention to detail.",
+      "Luca curates a variety of private dining experiences, including individually plated or shared 3-, 4-, and 5-course lunches and dinners, as well as exclusive private pasta-making classes."
+    ],
+    "bio_paragraphs": [
+      "\"ITALIAN FLAVOURS WITH A CONTEMPORARY TWIST, brought TO LIFE THROUGH PERSONALITY, INSTINCT and finesse.\"",
+      "Luca brings Italian flavours with a contemporary twist to the table, infused with personality, instinct, and finesse. At the heart of his culinary philosophy is the belief that every dining experience should be as unique as the individuals enjoying it. He designs tailored menus to reflect your tastes, preferences, and the occasion you’re celebrating."
+    ],
+    "portrait": null,
+    "live_url": "https://www.lamarea.com.au/luca-guiotto",
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/luca-guiotto",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/partners",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 13,
+        "captured": "24-09-2026",
+        "section": "Signature culinary experience"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 21,
+        "captured": "24-09-2026",
+        "section": "Key Practitioners and Partners"
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Guide p.21: \"Aromi Dining. Contemporary Italian award winning chef and founder of Aromi Dining, delivering private dining and chef led experiences.\" The home page testimonial calls him \"Lucas\". The quote line is published in mixed capitals and is kept verbatim."
+  },
+  {
+    "id": "courtney-selfe",
+    "name": "Courtney Selfe",
+    "group": "Massage & Beauty Partner",
+    "role_title_partners_page": "Remedial Massage Therapist & Day Spa Owner",
+    "role_title_bio_page": "Remedial Massage & Beauty Therapist, Founder of Earth House and Spa",
+    "business": "The Earth House and Spa",
+    "business_url": "https://www.earthhousespa.com/",
+    "qualifications": [
+      "Diploma in remedial massage therapy",
+      "Diploma in beauty and advanced treatments"
+    ],
+    "services": [
+      "60 or 45 minute deep tissue remedial massage",
+      "60 or 45 minute restoration & relaxation massage",
+      "60 minute waterlily rose infusion facials"
+    ],
+    "bio_paragraphs": [
+      "Courtney founded The Earth House and Spa; a space created with a clear vision to offer a holistic haven where clients can unwind and feel deeply looked after.",
+      "Courtney is a qualified remedial therapist and entrepreneur with over a decade of experience in the beauty and day spa industry. She is a dedicated remedial and beauty therapist with extensive knowledge of healing the skin from the inside out. She provides deeply nourishing spa rituals that leave you floating out the door. The spa reflects her deep commitment to high-quality care and genuine connection.",
+      "As a mother and business owner, Courtney understands the importance of self-care that is both indulgent and impactful. Her team of skilled practitioners offer a blend of remedial and therapeutic massage, beauty therapy, advanced skin treatments, naturopathy, and Reiki healing. All designed to help you look and feel your best. In a world that moves fast, The Earth House Spa is a place to slow down, reconnect and embrace self-care with purpose."
+    ],
+    "portrait": null,
+    "live_url": "https://www.lamarea.com.au/courtney-selfe",
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/courtney-selfe",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/partners",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 15,
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 21,
+        "captured": "24-09-2026",
+        "section": "Key Practitioners and Partners"
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Guide p.21: \"Earth House and Spa. Qualified remedial and beauty therapist, delivering restorative massage treatments alongside her team.\" Business name appears as \"Earth House and Spa\", \"The Earth House and Spa\", \"Earth House & Spa\" and \"The Earth House Spa\"."
+  }
+]

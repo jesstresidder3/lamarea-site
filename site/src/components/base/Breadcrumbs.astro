@@ -1,0 +1,70 @@
+---
+/*
+  Breadcrumbs for template pages that people reach cold from Instagram (register P8).
+  Emits its own BreadcrumbList JSON-LD unless schema={false}.
+
+  <Breadcrumbs items={[{ label: 'Places to Pause', href: '/places' }, { label: 'Naiko Deep Creek' }]} />
+
+  Props: items (Home is added first automatically), home (default true), tone ('default' | 'light'
+  over media), schema (default true), class
+*/
+import { breadcrumbJsonLd } from './schema';
+
+interface Crumb { label: string; href?: string }
+interface Props {
+  items: Crumb[];
+  home?: boolean;
+  tone?: 'default' | 'light';
+  schema?: boolean;
+  class?: string;
+}
+const { items, home = true, tone = 'default', schema = true, class: className } = Astro.props;
+const crumbs: Crumb[] = [...(home ? [{ label: 'Home', href: '/' }] : []), ...items];
+const json = breadcrumbJsonLd(crumbs, Astro.site?.href);
+---
+<nav class:list={['crumbs', `crumbs--${tone}`, className]} aria-label="Breadcrumb">
+  <ol role="list">
+    {crumbs.map((c, i) => {
+      const last = i === crumbs.length - 1;
+      return (
+        <li>
+          {c.href && !last ? <a href={c.href}>{c.label}</a> : <span aria-current={last ? 'page' : undefined}>{c.label}</span>}
+          {!last && (
+            <svg class="crumbs__sep" viewBox="0 0 6 10" width="6" height="10" aria-hidden="true" focusable="false"><path d="M1 1l4 4-4 4" /></svg>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</nav>
+{schema && <script type="application/ld+json" set:html={JSON.stringify(json)} />}
+
+<style>
+  .crumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: 0 0.7rem; margin: 0; padding: 0; list-style: none; }
+  .crumbs li { display: inline-flex; align-items: center; gap: 0.7rem; min-width: 0; }
+  .crumbs a, .crumbs span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: 0.08em;
+    color: var(--sage-80);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .crumbs span[aria-current] { color: var(--sage-100); }
+  .crumbs a { background: linear-gradient(currentColor, currentColor) 0 calc(100% - 0.75rem) / 0% 1px no-repeat; transition: background-size var(--dur-fast) var(--ease-soft); }
+  @media (hover: hover) {
+    .crumbs a:hover { background-size: 100% 1px; }
+  }
+  .crumbs a:active { background-size: 100% 1px; }
+  @media (prefers-reduced-motion: reduce) {
+    .crumbs a { transition: none; }
+  }
+  .crumbs__sep { flex: none; width: 5px; height: 9px; }
+  .crumbs__sep path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; color: var(--sage-40); }
+  .crumbs--light a, .crumbs--light span { color: var(--salt-25); }
+  .crumbs--light { --focus: var(--focus-on-dark); }
+  .crumbs--light .crumbs__sep path { stroke: var(--salt-25); }
+</style>

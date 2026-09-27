@@ -1,0 +1,33 @@
+{
+  "name": "Corporate Retreats",
+  "kind": "pathway",
+  "order": 2,
+  "tagline": "A strategic reset for leadership teams and high-performing professionals.",
+  "body": [
+    "Corporate retreats are designed for teams who understand that sustainable performance requires recovery, clarity and nervous system regulation, not just output.",
+    "Drawing from La maréa’s ten evidence-based pillars each retreat integrates structured movement, restorative wellness practices, Mediterranean-inspired nourishment and practical lifestyle wellness education. The experience is private by design, creating psychological safety and space for meaningful conversation without distraction.",
+    "This is not a conference and not a bootcamp. It is an intentional luxury reset for teams who carry significant responsibility.",
+    "When leaders return regulated and restored, decision-making sharpens, communication strengthens and long-term resilience improves.",
+    "Suitable for leadership teams and groups of up to 20, depending on venue."
+  ],
+  "duration": null,
+  "group_size_text": "Suitable for leadership teams and groups of up to 20, depending on venue.",
+  "items": [],
+  "inclusions_heading": null,
+  "inclusions": [],
+  "closing_line": null,
+  "footnote": null,
+  "price_from": null,
+  "price_published_on_live_site": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Corporate Retreats"
+    }
+  ],
+  "status": "draft",
+  "review": null,
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

@@ -1,0 +1,69 @@
+---
+/*
+  Belle's real logo and submarks from the Ponder Designs style guide. Never redrawn. Colour follows CSS
+  `color`. Size it with `height`; the width follows the artwork, so the whole mark always shows (never
+  cropped at 320px).
+
+  <Logo variant="primary" height="30px" />
+
+  The primary logo and the lm submark are small, so they are inlined (crisp and instant in the header).
+  The circle submark (39 KB of glyph paths) and the tagline lockup (49 KB) are drawn as a CSS mask over
+  `currentColor` from one cached file, so a page carrying them in the menu and footer stays light.
+  Pass inline={true} to force inlining.
+*/
+import primary from '../../assets/brand/logo-primary.svg?raw';
+import tagline from '../../assets/brand/logo-tagline.svg?raw';
+import circle from '../../assets/brand/submark-circle.svg?raw';
+import lm from '../../assets/brand/submark-lm.svg?raw';
+import taglineUrl from '../../assets/brand/logo-tagline.svg?url';
+import circleUrl from '../../assets/brand/submark-circle.svg?url';
+
+interface Props {
+  variant?: 'primary' | 'tagline' | 'circle' | 'lm';
+  height?: string;
+  label?: string;
+  inline?: boolean;
+  class?: string;
+}
+
+const { variant = 'primary', height = '2rem', label, inline, class: className } = Astro.props;
+const svgs = { primary, tagline, circle, lm };
+const urls: Partial<Record<string, string>> = { tagline: taglineUrl, circle: circleUrl };
+const labels = {
+  primary: 'La maréa',
+  tagline: 'La maréa, luxury coastal wellness reimagined',
+  circle: 'luxury coastal wellness reimagined',
+  lm: 'La maréa',
+};
+const raw = svgs[variant];
+const vb = raw.match(/viewBox="([^"]+)"/)?.[1].split(/\s+/).map(Number) ?? [0, 0, 4, 1];
+const ratio = `${vb[2]} / ${vb[3]}`;
+const url = urls[variant];
+const useMask = Boolean(url) && inline !== true;
+const maskStyle = useMask ? `;-webkit-mask:url(${url}) center / contain no-repeat;mask:url(${url}) center / contain no-repeat` : '';
+---
+{useMask ? (
+  <span
+    class:list={['lm-logo', 'lm-logo--mask', `lm-logo--${variant}`, className]}
+    style={`height:${height};aspect-ratio:${ratio}${maskStyle}`}
+    role="img"
+    aria-label={label ?? labels[variant]}
+  />
+) : (
+  <span
+    class:list={['lm-logo', `lm-logo--${variant}`, className]}
+    style={`height:${height};aspect-ratio:${ratio}`}
+    role="img"
+    aria-label={label ?? labels[variant]}
+    set:html={raw}
+  />
+)}
+
+<style>
+  .lm-logo { display: inline-block; flex: none; line-height: 0; color: inherit; }
+  .lm-logo :global(svg) { display: block; width: 100%; height: 100%; }
+  .lm-logo--mask { background-color: currentColor; }
+  @media (forced-colors: active) {
+    .lm-logo--mask { background-color: CanvasText; }
+  }
+</style>

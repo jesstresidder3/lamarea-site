@@ -1,0 +1,29 @@
+{
+  "quote": "The wellness workshop with La Maréa was relaxing, informative and so much fun! Belle and the team are so welcoming and knowledgeable, and they curated the event for our group so that everyone felt like it resonated, and the goodies throughout the day were so yummy! Thanks so much Belle",
+  "reviewer_as_published": "Emma Hockney",
+  "reviewer_note": "Kept for records only. The site shows the descriptor, never the name, until Belle has permission.",
+  "descriptor": "Guest, wellness workshop",
+  "descriptor_basis": "Derived by the build only from the review text: \"The wellness workshop with La Maréa\" and \"curated the event for our group\"",
+  "group_type": "unstated",
+  "format": "workshop",
+  "format_label": "Wellness workshop",
+  "format_basis": "\"The wellness workshop with La Maréa\"",
+  "venue": null,
+  "source_type": "google",
+  "source": {
+    "type": "google_reviews_widget",
+    "url": "https://www.lamarea.com.au/",
+    "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+    "captured": "24-09-2026"
+  },
+  "rating": 5,
+  "date": "23-08-2026",
+  "retreat_type_as_stated": null,
+  "experiences_mentioned": [],
+  "image": "testimonial-workshop",
+  "featured_on": [],
+  "duplicate_of": null,
+  "status": "published",
+  "review": null,
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

@@ -1,0 +1,31 @@
+{
+  "quote": "I had an amazing experience, and this is coming from someone who has never done anything like this ever before, so it was all very new to me. The yoga, breath work and mindfulness, as well as lifestyle advice was really insightful, and the hot/cold therapy was an exhilarating experience. Highly recommend.",
+  "reviewer_as_published": "Matthew Lindblom",
+  "reviewer_note": "Kept for records only. The site shows the descriptor, never the name, until Belle has permission.",
+  "descriptor": "Guest",
+  "descriptor_basis": "Derived by the build only from the review text: \"this is coming from someone who has never done anything like this ever before\"",
+  "group_type": "unstated",
+  "format": "unknown",
+  "format_label": null,
+  "format_basis": "The review does not say which format it was",
+  "venue": null,
+  "source_type": "google",
+  "source": {
+    "type": "google_reviews_widget",
+    "url": "https://www.lamarea.com.au/",
+    "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+    "captured": "24-09-2026"
+  },
+  "rating": 5,
+  "date": "14-08-2026",
+  "retreat_type_as_stated": null,
+  "experiences_mentioned": [
+    "yoga",
+    "contrast-therapy"
+  ],
+  "image": "testimonial-contrast",
+  "featured_on": [],
+  "duplicate_of": null,
+  "status": "published",
+  "review": null
+}

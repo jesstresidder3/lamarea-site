@@ -1,0 +1,110 @@
+---
+/*
+  Base layout for every page.
+
+  <Base title="Places to Pause" description="..." headerTone="solid" jsonLd={schema}>
+    ...page sections...
+  </Base>
+
+  Props
+  - title, description: page title (the site name is appended) and meta description
+  - canonical: path or URL, defaults to the current path
+  - image, imageAlt: Open Graph image (path under public/)
+  - ogType: 'website' (default) or 'article'
+  - jsonLd: page schema, one object or an array. Organization is always included.
+  - headerTone: 'over-media' when the page opens on a full-bleed hero (Hero, or MediaBand with `hero`):
+    the header starts transparent with salt text and becomes the compact sand strip once the element
+    marked data-hero has passed. 'solid' otherwise (sand strip, content starts below it). Default
+    'solid'. The header never hides (build spec section 12).
+  - noindex: true for the styleguide, thank-you and utility pages
+  - stickyCta: false hides the phone "Plan your day" bar (it is hidden on /enquire automatically)
+
+  Slots: default (inside <main>), 'head' (extra head tags), 'before-footer'.
+
+  Serif body variant (build spec section 7): add ?body=serif to any URL to set body copy in the
+  display serif at 17px; it persists for the session. ?body=sans switches back.
+*/
+import '../styles/base.css';
+import Seo from '../components/layout/Seo.astro';
+import Header from '../components/layout/Header.astro';
+import Menu from '../components/layout/Menu.astro';
+import Footer from '../components/layout/Footer.astro';
+import StickyCta from '../components/layout/StickyCta.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+  imageAlt?: string;
+  ogType?: 'website' | 'article';
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  headerTone?: 'over-media' | 'solid';
+  noindex?: boolean;
+  stickyCta?: boolean;
+  mediaNotes?: 'on' | 'off';
+  class?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  image,
+  imageAlt,
+  ogType,
+  jsonLd,
+  headerTone = 'solid',
+  noindex = false,
+  stickyCta = true,
+  mediaNotes = 'on',
+  class: bodyClass,
+} = Astro.props;
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const onEnquire = path.startsWith('/enquire');
+---
+<!doctype html>
+<html lang="en-AU" data-media-notes={mediaNotes} data-header-tone={headerTone}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f8f3e4" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <Seo
+      title={title}
+      description={description}
+      canonical={canonical}
+      image={image}
+      imageAlt={imageAlt}
+      ogType={ogType}
+      noindex={noindex}
+      jsonLd={jsonLd}
+    />
+    <script is:inline>
+      // Serif body variant for the walkthrough with Belle. Runs before paint so nothing flashes.
+      (function () {
+        var root = document.documentElement;
+        root.classList.add('js');
+        try {
+          var q = new URLSearchParams(location.search).get('body');
+          if (q === 'serif' || q === 'sans') sessionStorage.setItem('lm-body', q);
+          if (sessionStorage.getItem('lm-body') === 'serif') root.setAttribute('data-body', 'serif');
+        } catch (e) {}
+      })();
+    </script>
+    <slot name="head" />
+  </head>
+  <body class={bodyClass}>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header tone={headerTone} current={path} />
+    <Menu current={path} />
+    <main id="main" tabindex="-1" class:list={['site-main', `site-main--${headerTone}`]}>
+      <slot />
+    </main>
+    <slot name="before-footer" />
+    <Footer />
+    {stickyCta && !onEnquire && <StickyCta />}
+  </body>
+</html>

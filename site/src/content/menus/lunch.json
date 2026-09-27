@@ -1,0 +1,84 @@
+{
+  "name": "Lunch",
+  "service": "lunch",
+  "order": 3,
+  "time": null,
+  "time_basis": "Removed so a time from the Beresford example is not paired with Encounter Bay menu words (CD review D1). Kicker used instead.",
+  "time_source": {
+    "type": "live_site_image",
+    "url": "https://www.lamarea.com.au/luxury-retreats",
+    "captured": "24-09-2026",
+    "note": "Beresford example day, schedule image"
+  },
+  "line": "Shared private chef curated Mediterranean-inspired lunch",
+  "line_source": {
+    "type": "document",
+    "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+    "page": "12",
+    "captured": "24-09-2026",
+    "section": "RETREAT MEAL INCLUSIONS"
+  },
+  "detail": [
+    "Private shared 3 course mediterranean-inspired lunch with Award-Winning Chef, Luca Guiotto of Aromi Dining. Enjoy a fresh, seasonal, plant-forward lunch showcasing the finest local South Australian ingredients, where every course tells a story through bold flavours and elegant presentation."
+  ],
+  "detail_source": {
+    "type": "document",
+    "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+    "page": "13",
+    "captured": "24-09-2026"
+  },
+  "title_as_published": "Example Menu",
+  "courses": [
+    {
+      "course": "Entrée",
+      "dishes": [
+        "Poached beetroot carpaccio style, local goats cheese, kohlrabi, white balsamic dressing, macadamia, mint",
+        "House-made hummus, organic vegetables crudité, “Peninsula Providore” marinated olives and Greek pita bread"
+      ]
+    },
+    {
+      "course": "Mid-course",
+      "dishes": [
+        "Baked eggplant parmigiana, “La Vera” fresh mozzarella, rich house-made tomato sugo, basil pesto"
+      ]
+    },
+    {
+      "course": "Main course & sides",
+      "dishes": [
+        "Locally caught yellow eyed mullet, fennel velouté, kalamata, burnt oranges, salmoriglio dressing",
+        "Double cooked organic potatoes, parmigiano, chives",
+        "Miso baked pumpkin, pepitas, freshly picked herbs",
+        "Sauteed greens, preserved lemons, toasted almonds"
+      ]
+    }
+  ],
+  "producers": [
+    "Peninsula Providore",
+    "La Vera"
+  ],
+  "media": "food-lunch",
+  "placeholder": false,
+  "placeholder_note": null,
+  "chef": "luca-guiotto",
+  "public": true,
+  "signature": true,
+  "review": "Seven dishes across three courses as published. Whether the example menu is public is decision 8, the public flag switches it.",
+  "source": [
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "page": "12",
+      "captured": "24-09-2026",
+      "section": "RETREAT MEAL INCLUSIONS"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "page": "13",
+      "captured": "24-09-2026"
+    }
+  ],
+  "status": "draft",
+  "time_as_published_elsewhere": "12:30 to 2:00pm",
+  "kicker": "Midday"
+}

@@ -1,0 +1,143 @@
+---
+/*
+  Experiences, /experiences. Owner: page builder B.
+  The section Belle calls missing: "one of the key sections at the moment that’s missing on the site
+  is the sections that really highlight our experiences" (BD-15), as sliders "that have imagery as
+  well as sliders that have videos" (BD-97).
+
+  1 hero (MediaBand, one video)
+  2 the ten guided experiences (PaneSlider, video plays on the tile in view)
+  3 the six self-led activities (a full-width Slider, a different mechanic on purpose)
+  4 how they come together (one block, linking to the 8 hour day)
+  5 who leads them (the local businesses behind the day, a compact row)
+  6 Plan your day
+*/
+import Base from '../../layouts/Base.astro';
+import MediaBand from '../../components/base/MediaBand.astro';
+import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
+import SectionHead from '../../components/base/SectionHead.astro';
+import TextPair from '../../components/base/TextPair.astro';
+import ArrowLink from '../../components/base/ArrowLink.astro';
+import CtaBand from '../../components/base/CtaBand.astro';
+import PaneSlider from '../../components/experiences/PaneSlider.astro';
+import Media from '../../components/media/Media.astro';
+import AfternoonTiles from '../../components/pages/b/AfternoonTiles.astro';
+import PeopleRow from '../../components/pages/b/PeopleRow.astro';
+import Flag from '../../components/pages/b/Flag.astro';
+import { getExperiences, getPeople } from '../../lib/content';
+import { day } from '../../data/day';
+import { site } from '../../data/settings';
+
+const guided = await getExperiences('guided');
+const selfLed = await getExperiences('self_led');
+const everyone = await getPeople();
+// Belle hosts every day, so she sits in a line above the row rather than among the partner
+// practitioners (CD review 02 item 23).
+const order = ['courtney-selfe', 'jaimi-baker', 'kristian-ryan', 'luca-guiotto'];
+const belle = everyone.find((p) => p.id === 'belle-redden');
+const leads = order.map((id) => everyone.find((p) => p.id === id)).filter(Boolean) as typeof everyone;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Wellness experiences on the Fleurieu Peninsula',
+  itemListElement: [...guided, ...selfLed].map((e, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: e.data.name,
+    url: `${site.url}/experiences/${e.id}`,
+  })),
+};
+---
+<Base
+  title="Wellness experiences on the Fleurieu Peninsula"
+  description="Sauna, massage, contrast therapy, yoga, pilates, meditation, chef curated Mediterranean dining and more, led by qualified South Australian practitioners."
+  headerTone="over-media"
+  jsonLd={jsonLd}
+>
+  <div class="ex-hero">
+    <MediaBand
+      media="experiences-hero"
+      height="tall"
+      hero
+      parallax={false}
+      text="over"
+      eyebrow="Experiences"
+      heading="Wellness experiences on the *Fleurieu Peninsula*"
+      level={1}
+      draft={{ heading: true }}
+    />
+  </div>
+
+  <div class="wrap ex-crumbs">
+    <Breadcrumbs items={[{ label: 'Experiences' }]} />
+  </div>
+
+  <PaneSlider
+    id="experiences"
+    items={guided}
+    eyebrow="Ten guided experiences"
+    heading="Your retreat, your rhythm, your routine"
+    intro="Luxury South Australian wellness experiences, curated to form La maréa."
+    note={day.note}
+    linkBase="/experiences/"
+    class="ex-guided"
+  />
+
+  <section class="section band-warm ex-self" aria-labelledby="self-heading">
+    <div class="wrap">
+      <SectionHead
+        eyebrow="Self-led, in the afternoon"
+        heading="The unhurried afternoon"
+        id="self-heading"
+        intro="There is space to rest, journal, explore the coastline, or simply unwind."
+      />
+    </div>
+    <AfternoonTiles items={selfLed} id="self-led" />
+  </section>
+
+  <section class="section ex-together" aria-labelledby="together-heading">
+    <div class="wrap">
+      <TextPair eyebrow="How they come together" heading="One day, from 7am to 5pm" headingId="together-heading" mediaSide="left" split="wide" draft={{ heading: true }} link={{ label: 'See the 8 hour day', href: '/experiences/full-day-retreat' }}>
+        <div slot="media" class="ex-together__media"><Media media="experiences-together" aspect="3 / 2" /></div>
+        <p>Your luxury retreat includes a curated day program designed around movement, recovery, nourishing food, nervous system support, nature immersion, education and connection.</p>
+        <p class="ex-together__small" data-draft>Yoga or pilates and breathwork in the morning, then massage, contrast therapy and a workshop in three small groups, a shared lunch and an unhurried afternoon.</p>
+      </TextPair>
+    </div>
+  </section>
+
+  <section class="section band-salt ex-people" aria-labelledby="people-heading">
+    <div class="wrap">
+      <SectionHead
+        eyebrow="Who leads them"
+        heading="Wellness and hospitality practitioners"
+        id="people-heading"
+        intro="Run by qualified health professionals & experts in their chosen field."
+      >
+        <ArrowLink slot="aside" href="/team" label="Meet the team" />
+      </SectionHead>
+      {belle && (
+        <p class="ex-people__host" data-draft>Every day is hosted by <a class="text-link" href="/team/belle-redden">Belle Redden</a>, founder and lead host.</p>
+      )}
+      <PeopleRow people={leads} experiences={[...guided, ...selfLed]} />
+      <Flag>Kristian Ryan’s title is as published on the live partners page. Who delivers contrast therapy is still to confirm (partners page: Kristian Ryan, Third Spaces; Encounter Bay guide: Jaimi Baker, PEAQ Performance), so no experience is linked to either for it. Portraits are to come (plan/11 Q9).</Flag>
+    </div>
+  </section>
+
+  <CtaBand
+    line="Curate a day for your group"
+    params={{ source: 'experiences' }}
+    note="A few short questions about your group, then a discovery call with Belle."
+    draft={{ line: true, note: true }}
+  />
+</Base>
+
+<style>
+  .ex-people__host { margin: 0 0 clamp(1.5rem, 3vw, 2.25rem); font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.45; color: var(--sage-100); max-width: 34rem; }
+  .ex-crumbs { padding-top: clamp(1rem, 2vw, 1.5rem); }
+  :global(.pane-slider.ex-guided) { padding-top: clamp(2rem, 4vw, 3.5rem); }
+  .ex-self :global(.section-head) { margin-bottom: clamp(2.5rem, 4vw, 3.5rem); }
+  .ex-together__media { width: 100%; }
+  .ex-together__small { margin-top: 1.25rem; font-size: var(--fs-small); color: var(--sage-80); }
+  .ex-people :global(.flag) { margin-top: 2.5rem; }
+</style>

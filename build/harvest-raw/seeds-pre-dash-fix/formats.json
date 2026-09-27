@@ -1,0 +1,414 @@
+[
+  {
+    "id": "private-group-retreats",
+    "name": "Private Group Retreats",
+    "kind": "pathway",
+    "tagline": "For friends and families seeking meaningful time together in a setting that restores rather than overwhelms.",
+    "body_paragraphs": [
+      "Private Group Retreats are designed for those who want to step away together. Not to fill a schedule, but to create space. Birthdays, milestone celebrations, sister weekends, family resets or simply time with people who matter.",
+      "Across a weekend, the environment does much of the work. Ocean air, open landscape, nourishing food and guided movement begin to soften the pace of conversation and daily urgency. Sleep deepens. Meals stretch longer. Devices are put down.",
+      "La maréa retreats are grounded in evidence-based lifestyle wellness principles — nutrition, movement, sleep & recovery, nature immersion and connection — but delivered in a way that feels intuitive and unforced. The result is not just a beautiful weekend away, but a subtle recalibration and transformation.",
+      "You return home feeling calm, clearer, and more connected to your wellbeing, to yourself and to one another.",
+      "Ideal for 6–10 guests, depending on property."
+    ],
+    "duration": null,
+    "group_size_text": "Ideal for 6–10 guests, depending on property.",
+    "price_public": null,
+    "price_internal": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Private Group Retreats"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Group size conflicts with the Encounter Bay guide (10 guests minimum, 14 maximum at that venue). Decision 14."
+  },
+  {
+    "id": "corporate-retreats",
+    "name": "Corporate Retreats",
+    "kind": "pathway",
+    "tagline": "A strategic reset for leadership teams and high-performing professionals.",
+    "body_paragraphs": [
+      "Corporate retreats are designed for teams who understand that sustainable performance requires recovery, clarity and nervous system regulation — not just output.",
+      "Drawing from La maréa’s ten evidence-based pillars each retreat integrates structured movement, restorative wellness practices, Mediterranean-inspired nourishment and practical lifestyle wellness education. The experience is private by design, creating psychological safety and space for meaningful conversation without distraction.",
+      "This is not a conference and not a bootcamp. It is an intentional luxury reset for teams who carry significant responsibility.",
+      "When leaders return regulated and restored, decision-making sharpens, communication strengthens and long-term resilience improves.",
+      "Suitable for leadership teams and groups of up to 20, depending on venue."
+    ],
+    "duration": null,
+    "group_size_text": "Suitable for leadership teams and groups of up to 20, depending on venue.",
+    "price_public": null,
+    "price_internal": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Corporate Retreats"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": null
+  },
+  {
+    "id": "bespoke-wellness-days",
+    "name": "Bespoke Wellness Days",
+    "kind": "pathway",
+    "tagline": "A one-day wellness immersion.",
+    "body_paragraphs": [
+      "For those who do not require an overnight stay, Bespoke Wellness Days offer a focused and highly curated experience delivered at one of our partner properties or at a suitable external venue.",
+      "These days are structured around nervous system support, movement, nourishing food and practical lifestyle wellbeing education. They are intentionally designed to allow space between sessions, ensuring the experience feels restorative rather than demanding.",
+      "Whether shared with friends, extended family or colleagues, a Bespoke Wellness Day creates a private luxury environment for restoration and transformation. It is a chance to reset or build upon wellbeing habits and return to daily life feeling empowered and educated.",
+      "Wellness Days can be brought to you subject to your situation and location. Express your interest or enquire about a bespoke Wellness Day below."
+    ],
+    "duration": null,
+    "group_size_text": null,
+    "price_public": null,
+    "price_internal": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Bespoke Wellness Days"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": null
+  },
+  {
+    "id": "full-day-retreat",
+    "name": "Full Day Retreats (8 hour)",
+    "kind": "format",
+    "tagline": null,
+    "body_paragraphs": null,
+    "duration": "8 hour",
+    "group_size_text": "12 guests (both worked examples); guide p.24: 10 guests minimum are required for a booking. 14 guests maximum at this venue.",
+    "price_public": null,
+    "price_internal": {
+      "text": "EXCLUSIVE INTRODUCTORY LA MARÉA X NAIKO RATE: $899 PER GUEST. BASED ON A 12-GUEST PRIVATE RETREAT, $10,788 TOTAL",
+      "for_publication": false,
+      "label": "not for publication",
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 24,
+        "captured": "24-09-2026",
+        "section": "Quote"
+      }
+    },
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "captured": "24-09-2026",
+        "section": "Format list"
+      },
+      {
+        "type": "live_site_image",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+        "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+        "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 17,
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 24,
+        "captured": "24-09-2026"
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Full flow in day.json. Price is internal only, not for publication (build decision 10)."
+  },
+  {
+    "id": "half-day-retreat",
+    "name": "Half Day Retreats (5 hour)",
+    "kind": "format",
+    "tagline": null,
+    "body_paragraphs": null,
+    "duration": "5 hour",
+    "group_size_text": null,
+    "price_public": null,
+    "price_internal": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Format list (names only, no descriptions on the page)"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Only the name and duration are published. Decision 13 decides which formats still sell."
+  },
+  {
+    "id": "wake-up-to-wellness",
+    "name": "Wake Up To Wellness (3 hour)",
+    "kind": "format",
+    "tagline": null,
+    "body_paragraphs": null,
+    "duration": "3 hour",
+    "group_size_text": null,
+    "price_public": null,
+    "price_internal": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Format list (names only, no descriptions on the page)"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Only the name and duration are published. Decision 13 decides which formats still sell. Home page gallery captions: \"Beresford Estate - Womens Wake Up To Wellness Retreat\", \"Private group of professionals - Wake Up To Wellness Retreat\". The Encounter Bay guide p.4 title reads \"Immersive 8 hr Wake Up To Wellness Private Group Retreat\", which conflicts with the 3 hour label here."
+  },
+  {
+    "id": "sunset-reset",
+    "name": "Sunset Reset (3 hour)",
+    "kind": "format",
+    "tagline": null,
+    "body_paragraphs": [
+      "Join La maréa for bespoke Sunset Reset experiences designed to help you slow down, reconnect, and restore by the sea.",
+      "Each curated evening brings together gentle movement, breathwork, nourishing food, meaningful connection, and beautiful coastal settings at sunset.",
+      "Gather a family member, friend or private group and experience an intentional evening of holistic wellness and calm.",
+      "Place your name on our waitlist to be the first to hear about upcoming exclusive Sunset Reset experiences, and future La maréa experience offerings."
+    ],
+    "duration": "3 hour",
+    "group_size_text": null,
+    "price_public": null,
+    "price_internal": null,
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "captured": "24-09-2026",
+        "section": "Format list"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/",
+        "captured": "24-09-2026",
+        "section": "Sunset Reset Wellness Experiences"
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Only the name and duration are published. Decision 13 decides which formats still sell."
+  },
+  {
+    "id": "personalised-retreats",
+    "name": "Personalised Retreats",
+    "kind": "format",
+    "tagline": null,
+    "body_paragraphs": null,
+    "duration": null,
+    "group_size_text": null,
+    "price_public": null,
+    "price_internal": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Format list (names only, no descriptions on the page)"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Only the name and duration are published. Decision 13 decides which formats still sell."
+  },
+  {
+    "id": "womens-wellness-weekend",
+    "name": "Women's Wellness Weekend",
+    "kind": "format",
+    "tagline": "For women seeking space to restore, reconnect and return to rhythm.",
+    "body_paragraphs": [
+      "Our Women’s Wellness Weekend is designed for those ready to step away from constant output and immerse themselves in a guided, restorative wellness experience. This is not a retreat built around performance or perfection, but around nourishment, movement, nature, education and meaningful connection.",
+      "Across the weekend, the environment and structure work together. Ocean air, expansive landscape, Mediterranean-inspired meals and evidence-based wellness sessions begin to soften the pace of daily life. Sleep deepens. Conversation opens. Devices are set aside. The nervous system begins to settle.",
+      "Grounded in La maréa’s ten wellness pillars — including nutrition, movement, recovery, psychological wellbeing, connection and nature immersion — the experience is both restorative and practical. Women leave not only feeling recalibrated, but equipped with sustainable tools they can integrate into everyday life.",
+      "You return home feeling clearer, calmer and more connected to your wellbeing.",
+      "Join the waitlist to receive upcoming dates and early access to bookings."
+    ],
+    "duration": null,
+    "group_size_text": null,
+    "price_public": null,
+    "price_internal": null,
+    "inclusions_list": [
+      "3 Course Mediteranean-Inspired Lunch with Private Chef",
+      "Meditation & Relaxation",
+      "Nature Immersion & Coastal Hiking",
+      "Contrast Therapy (Sauna & Ice Bath)",
+      "Remedial Massage & A Good Nights Sleep",
+      "Evidence-Based Lifestyle Wellness Education",
+      "Connection With Other Like-Minded Individuals"
+    ],
+    "inclusions_heading": "What a weekend with us looks like...",
+    "closing_line": "We invite you to experience the restorative power of this extraordinary coastal retreat - a weekend to calm your nervous system, nourish your mind, body, and soul, and return home feeling reconnected, inspired, and deeply renewed.",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Women's Wellness Weekend"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Waitlist button links to Jotform 253041258182856."
+  },
+  {
+    "id": "wellness-day-experiences",
+    "name": "Wellness Day Experiences",
+    "kind": "pathway",
+    "tagline": null,
+    "body_paragraphs": [
+      "A single-day reset designed for groups seeking guided restoration without an overnight stay. Expressions of interest are open for upcoming dates and bespoke bookings."
+    ],
+    "duration": null,
+    "group_size_text": null,
+    "price_public": null,
+    "price_internal": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/",
+      "captured": "24-09-2026",
+      "section": "Experience La maréa"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Home page name for what the retreats page calls Bespoke Wellness Days."
+  },
+  {
+    "id": "mediterranean-womens-wellness-weekend",
+    "name": "Mediterranean Women's Wellness Weekend ($3150 pp)",
+    "kind": "past_product",
+    "tagline": "Mediterranean Women’s Wellness Weekend Experience (2 night stay)",
+    "body_paragraphs": [
+      "All-Inclusive | Mediterranean Living & Luxury Wellness",
+      "A deeply restorative, Mediterranean-inspired women’s wellness experience designed to help you live a healthier life, reduce stress and enhance longevity - all within a luxurious, boutique coastal retreat setting.",
+      "This science-led nourishing retreat invites you to reconnect with your health through the timeless principles of the Mediterranean diet and lifestyle - outdoor movement, plant based nourishment, rest, connection, community and pleasure.",
+      "Ideal for: Best friends, sisters & mother–daughter duos - all women welcome!",
+      "Limited Availability – 3 'Duo' Weekend Tickets Only (note: 1 ticket is purchased for 2 people)",
+      "What You’ll Learn & Experience",
+      "• Learn how to implement healthy lifestyle habits that influence energy, mood, hormones and long-term vitality",
+      "• Explore the proven benefits of the Mediterranean diet & lifestyle for longevity, heart health, hormone health and brain health",
+      "• Gain practical, evidence-based tools to restore balance and support your body with confidence",
+      "• Experience deep restoration, meaningful connection & science-based education",
+      "This Retreat Is Perfect For Women Who Are:",
+      "• Seeking a science-backed, holistic approach to women’s wellness",
+      "• Wanting clarity, confidence and actionable strategies for lifelong health",
+      "• Feeling stressed, depleted or disconnected from their body",
+      "• Craving deep restoration, meaningful connection & Mediterranean-style luxury",
+      "• Ready to prioritise themselves in a nourishing, sustainable way",
+      "Bespoke Luxury Inclusions & Experience",
+      "Enjoy 2.5 days (2 nights: Friday Afternoon- Sunday night) of elevated luxury wellness, where you and your chosen retreat partner are completely taken care of from the moment you step into our private luxury transport.",
+      "With four dedicated retreat hosts, multiple industry-leading wellness experts, 5-star accommodation, and premium locally sourced South Australian food and beverages, every detail of this experience has been intentionally curated to feel seamless, personalised and indulgent.",
+      "• Tickets are purchased as a ‘duo’ due to Naiko’s twin-share luxury accommodation with king single beds",
+      "• Experiences can be tailored to your individual needs",
+      "• A pre-retreat questionnaire will be sent to personalise your experience as deeply as possible",
+      "• Please review our booking terms & conditions prior to purchase",
+      "Additional Travel Information",
+      "• Guests are required to arrange their own return flights to Adelaide Airport",
+      "• Travel insurance is mandatory and must be organised independently",
+      "• Please refer to our FAQs for airport transfer details and additional information"
+    ],
+    "duration": "2.5 days (2 nights: Friday Afternoon- Sunday night)",
+    "group_size_text": "Limited Availability – 3 'Duo' Weekend Tickets Only (note: 1 ticket is purchased for 2 people)",
+    "price_public": {
+      "text": "$6,300.00 per duo ticket, title says $3150 pp",
+      "date_listed": "MARCH 20-22 (store category page)"
+    },
+    "price_internal": null,
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/product-page/mediterranean-womens-wellness-weekend-3150-pp",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/category/2026-retreats",
+        "captured": "24-09-2026"
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Live Wix store product, published price. Plan decision 13 and the redirect map treat it as a past or pending product."
+  },
+  {
+    "id": "mediterranean-womens-wellness-day",
+    "name": "Mediterranean Women's Wellness Day ($999 pp)",
+    "kind": "past_product",
+    "tagline": "Mediterranean Women’s Wellness Day Experience (1 day)",
+    "body_paragraphs": [
+      "All-Inclusive | Mediterranean Living & Luxury Wellness",
+      "A deeply restorative, Mediterranean-inspired one-day women’s wellness experience designed to help you live a healthier life, reduce stress and enhance longevity -all within a luxurious, boutique coastal retreat setting.",
+      "This science-led, nourishing wellness day invites you to reconnect with your health through the timeless principles of the Mediterranean diet and lifestyle - outdoor movement, plant-based nourishment, connection, community and pleasure.",
+      "Ideal for: Best friends, sisters & mother–daughter duos - all women welcome!",
+      "Limited Availability – 4 'DUO' Day Tickets Only (note: 1 ticket purchased for 2 people)",
+      "What You’ll Learn & Experience",
+      "• Learn how to implement healthy lifestyle habits that influence energy, mood, hormones and long-term vitality",
+      "• Explore the proven benefits of the Mediterranean diet & lifestyle for longevity, heart health, hormone health and brain health",
+      "• Gain practical, evidence-based tools to restore balance and support your body with confidence",
+      "• Experience deep restoration, meaningful connection and science-based education within a luxury setting",
+      "This Experience Is Perfect For Women Who Are:",
+      "• Seeking a science-backed, holistic approach to women’s wellness",
+      "• Wanting clarity, confidence and actionable strategies for lifelong health",
+      "• Feeling stressed, depleted or disconnected from their body",
+      "• Craving some restoration, meaningful connection & Mediterranean-style luxury",
+      "• Ready to prioritise themselves in a nourishing, sustainable way",
+      "Bespoke Day Guest Luxury Wellness Experience",
+      "Enjoy 1 full day of elevated luxury wellness, where you and your chosen wellness partner are completely taken care of from the moment you step into our private luxury transport.",
+      "This intimate duo-only experience is intentionally designed for connection, nourishment and restoration - offering a powerful wellness reset without an overnight stay.",
+      "With dedicated retreat hosts, multiple wellness experts in their chosen fields, and premium locally sourced South Australian food and beverages, every detail of your day is curated to feel seamless, indulgent and personalised.",
+      "• Tickets must be purchased as a duo (1 ticket for 2 people)",
+      "• Experiences can be tailored to you and your partner’s needs",
+      "• A pre–wellness day questionnaire will be sent prior to your experience so we can personalise your journey as deeply as possible",
+      "• Please review our booking terms & conditions prior to purchase"
+    ],
+    "duration": "1 day",
+    "group_size_text": "Limited Availability – 4 'DUO' Day Tickets Only (note: 1 ticket purchased for 2 people)",
+    "price_public": {
+      "text": "$1,998.00 per duo ticket, title says $999 pp",
+      "date_listed": "MARCH 21 (store category page)"
+    },
+    "price_internal": null,
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/product-page/bespoke-bestfriends-womens-wellness-day-2-x-tickets",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/category/2026-retreats",
+        "captured": "24-09-2026"
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Live Wix store product at URL slug bespoke-bestfriends-womens-wellness-day-2-x-tickets."
+  },
+  {
+    "id": "bespoke-additions",
+    "name": "Bespoke wellness additions: individual & group offerings",
+    "kind": "add_ons",
+    "tagline": null,
+    "body_paragraphs": null,
+    "items": [
+      "Relaxation Waterlily Rose Facial",
+      "Personalised Individual Nutrition & Lifestyle Consultation & Plan (created post weekend retreat)",
+      "Australian Native Ingredient Tour",
+      "Mediterranean Cooking Class",
+      "Wellness Education Session",
+      "(with key guest speaker)"
+    ],
+    "duration": null,
+    "group_size_text": null,
+    "price_public": null,
+    "price_internal": null,
+    "footnote": "*please note all bespoke additions must be booked and paid for prior to attending your retreat or experience",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Bespoke wellness additions"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Item \"Wellness Education Session\" and \"(with key guest speaker)\" are two lines on the page. Belle to confirm which additions are still offered (plan/11 item 23)."
+  }
+]

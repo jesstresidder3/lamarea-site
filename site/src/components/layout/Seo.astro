@@ -1,0 +1,70 @@
+---
+/*
+  Head tags for every page: title, description, canonical, Open Graph, Twitter card,
+  robots, and JSON-LD (Organization site-wide plus any page schema passed in).
+  Used by layouts/Base.astro. Pages set these through Base props, never directly.
+*/
+import { site, organizationJsonLd } from '../../data/settings';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Path ('/places') or absolute URL. Defaults to the current path. */
+  canonical?: string;
+  /** Open Graph image, path under public/ or absolute URL. */
+  image?: string;
+  imageAlt?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description = site.defaultDescription,
+  canonical,
+  image = site.defaultImage,
+  imageAlt = 'The Fleurieu Peninsula coastline, South Australia',
+  ogType = 'website',
+  noindex = false,
+  jsonLd,
+} = Astro.props;
+
+const base = Astro.site ?? new URL(site.url);
+const fullTitle = !title ? `${site.name}, luxury coastal wellness retreats on the Fleurieu Peninsula` : title.includes(site.name) ? title : `${title} | ${site.name}`;
+const canonicalUrl = new URL(canonical ?? Astro.url.pathname, base).href;
+const imageUrl = new URL(image, base).href;
+// Page URLs in JSON-LD end in a slash, as the canonicals do (QA m12). Files, queries and fragments are left alone.
+const origin = base.origin;
+const slashed = (v: unknown): unknown => {
+  if (typeof v === 'string') {
+    if (!v.startsWith(origin)) return v;
+    const u = new URL(v);
+    if (u.search || u.hash || /\.[a-z0-9]{2,5}$/i.test(u.pathname)) return v;
+    return `${u.origin}${u.pathname.replace(/\/?$/, '/')}`;
+  }
+  if (Array.isArray(v)) return v.map(slashed);
+  if (v && typeof v === 'object') return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, slashed(x)]));
+  return v;
+};
+const schemas = [organizationJsonLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])].map(slashed);
+---
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+{!noindex && <link rel="canonical" href={canonicalUrl} />}
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content={site.locale} />
+<meta property="og:type" content={ogType} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:alt" content={imageAlt} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+{schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}

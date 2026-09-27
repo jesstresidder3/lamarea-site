@@ -1,0 +1,28 @@
+{
+  "quote": "Belle has created a beautiful space for women to come authentically as themselves, in whatever season in life they are, and in the knowledge they will be completely supported. Give yourself permission to take a moment of time at a La Marèa retreat experience, bring your energy back within, breathe and let go, and meet some wonderful people along the way. Your soul will thank you, endlessly.",
+  "reviewer_as_published": "Belinda Angus",
+  "reviewer_note": "Kept for records only. The site shows the descriptor, never the name, until Belle has permission.",
+  "descriptor": "Guest, women's retreat",
+  "descriptor_basis": "Derived by the build only from the review text: \"a La Marèa retreat experience\"",
+  "group_type": "unstated",
+  "format": "womens_retreat",
+  "format_label": "Women's retreat",
+  "format_basis": "\"a beautiful space for women\" at \"a La Marèa retreat experience\"",
+  "venue": null,
+  "source_type": "google",
+  "source": {
+    "type": "google_reviews_widget",
+    "url": "https://www.lamarea.com.au/",
+    "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+    "captured": "24-09-2026"
+  },
+  "rating": 5,
+  "date": "02-08-2026",
+  "retreat_type_as_stated": null,
+  "experiences_mentioned": [],
+  "image": "testimonial-retreat-2",
+  "featured_on": [],
+  "duplicate_of": null,
+  "status": "published",
+  "review": null
+}

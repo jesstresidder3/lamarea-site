@@ -1,0 +1,351 @@
+{
+  "id": "the-day",
+  "examples": [
+    {
+      "id": "beresford-corporate-12",
+      "title_as_published": "EXAMPLE FULL DAY (8 HOUR) RETREAT SCHEDULE",
+      "subtitle_as_published": "BESPOKE LUXURY CORPORATE WELLNESS DAY - 12 guests",
+      "note_as_published": "(Note we can curate a personalised retreat to suit your group)",
+      "venue": "beresford-estate",
+      "guests": 12,
+      "steps": [
+        {
+          "order": 1,
+          "time_as_published": "7 : 00 AM to 8 : 00 AM",
+          "start_24h": "07:00",
+          "end_24h": "08:00",
+          "lines": [
+            "Luxury private transfer - Group pickup from work office at 7:00 am"
+          ],
+          "arc_beat": null
+        },
+        {
+          "order": 2,
+          "time_as_published": "8 : 00 AM to 8 : 15 AM",
+          "start_24h": "08:00",
+          "end_24h": "08:15",
+          "lines": [
+            "Arrival to Beresford Estate",
+            "Warm welcome drinks, refreshments & group connection"
+          ],
+          "arc_beat": null
+        },
+        {
+          "order": 3,
+          "time_as_published": "8 : 15 AM to 9 : 00 AM",
+          "start_24h": "08:15",
+          "end_24h": "09:00",
+          "lines": [
+            "Energising Group Vinyasa Yoga Flow or Mat Pilates Session"
+          ],
+          "arc_beat": null
+        },
+        {
+          "order": 4,
+          "time_as_published": "9 : 00 AM to 9 : 30 AM",
+          "start_24h": "09:00",
+          "end_24h": "09:30",
+          "lines": [
+            "Nourishing wholefood seasonal breakfast & beverages, group connection time"
+          ],
+          "arc_beat": null
+        },
+        {
+          "order": 5,
+          "time_as_published": "9 : 30 AM - 10 : 00 AM",
+          "start_24h": "09:30",
+          "end_24h": "10:00",
+          "lines": [
+            "Group guided breathwork, meditation, mindfulness & nervous system regulation session"
+          ],
+          "arc_beat": null
+        },
+        {
+          "order": 6,
+          "time_as_published": "10 : 00 AM - 12 : 20 AM",
+          "start_24h": "10:00",
+          "end_24h": "12:20",
+          "lines": [
+            "Premium wellness rotations commence (40 minutes per rotation, 10 min changeovers - split into 3 small groups of 4 guests):",
+            "Experience 1: Individual Restorative Massage Therapy",
+            "Experience 2: Contrast Therapy Experience (sauna, breathwork & cold plunge)",
+            "Experience 3: Lifestyle Wellness Workshop: The Foundations of High Performance Wellbeing: Build Lifestyle Habits for Energy, Focus & Burnout Prevention"
+          ],
+          "arc_beat": null
+        },
+        {
+          "order": 7,
+          "time_as_published": "12 : 20 AM to 12 : 30 PM",
+          "start_24h": "12:20",
+          "end_24h": "12:30",
+          "lines": [
+            "Refresh & recovery transition, drinks & refreshments",
+            "(showers available, change in preparation for group culinary experience)"
+          ],
+          "arc_beat": null
+        },
+        {
+          "order": 8,
+          "time_as_published": "12 : 30 PM - 2 : 00 PM",
+          "start_24h": "12:30",
+          "end_24h": "14:00",
+          "lines": [
+            "Shared chef curated Mediterranean lunch provided by Beresford"
+          ],
+          "arc_beat": null
+        },
+        {
+          "order": 9,
+          "time_as_published": "2 : 00 PM - 3 : 45 PM",
+          "start_24h": "14:00",
+          "end_24h": "15:45",
+          "lines": [
+            "Recovery Time",
+            "Unstructured restorative time as a group for team bonding with access to;",
+            "Vineyard Hiking",
+            "Plunge Pool swimming",
+            "Relaxing By The Fire",
+            "Accessing Recovery Lounge Equipment"
+          ],
+          "arc_beat": null
+        },
+        {
+          "order": 10,
+          "time_as_published": "3 : 45 PM to 4 : 00 PM",
+          "start_24h": "15:45",
+          "end_24h": "16:00",
+          "lines": [
+            "Closing reflection & wellness gift bags presented upon departure at 4:00 pm"
+          ],
+          "arc_beat": null
+        },
+        {
+          "order": 11,
+          "time_as_published": "4 : 00 PM to 5 : 00 PM",
+          "start_24h": "16:00",
+          "end_24h": "17:00",
+          "lines": [
+            "Luxury private transfer back to Adelaide - Group drop off to work office at 5:00 pm"
+          ],
+          "arc_beat": null
+        }
+      ],
+      "source": {
+        "type": "live_site_image",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+        "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+        "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+        "captured": "24-09-2026"
+      },
+      "status": "in hand but needs Belle's check",
+      "notes": "Published in capitals in the image; the build must not reproduce the uppercase. \"12 : 20 AM\" appears twice where 12:20 PM is meant, kept verbatim in time_as_published and corrected only in start_24h and end_24h. The rotation block adds up: 3 rotations of 40 minutes plus 2 changeovers of 10 minutes is 140 minutes, 10:00 to 12:20. arc_beat (Arrive, Move, Nourish, Restore) is a build decision and is left null here."
+    },
+    {
+      "id": "encounter-bay-private-12",
+      "title_as_published": "Full Day 8 hr Retreat - 12 guests",
+      "intro_as_published": "Here’s an example of what you can expect during your luxury private wellness retreat with us at Naiko Encounter Bay.",
+      "overview_heading": "Overview of Experience Design & Flow",
+      "overview_points": [
+        "Full-day wellness immersion experience designed around movement, recovery, nourishing food, education, connection & nervous system support",
+        "Three-tier wellness rotation system over the morning (4 guests per station) including massage, contrast therapy & wellness workshop",
+        "Private chef-led Mediteranean lunch in the middle of the day",
+        "Unstructured restorative time in the afternoon with access to pool, sauna, ocean, coastal walks, relaxing by a fire & team connection"
+      ],
+      "times_as_published": "RETREAT TIME: 8AM-4PM (APPROX. PICK UP 7AM, DROP OFF 5PM)",
+      "times_source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 24,
+        "captured": "24-09-2026",
+        "section": "Quote"
+      },
+      "venue": "naiko-encounter-bay",
+      "guests": 12,
+      "source": [
+        {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 17,
+          "captured": "24-09-2026"
+        },
+        {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 24,
+          "captured": "24-09-2026"
+        }
+      ],
+      "status": "in hand but needs Belle's check",
+      "notes": "The text layer of guide p.17 holds only this overview. If p.17 also carries an hour-by-hour graphic, it is an image the Drive reader could not return, and the 43 MB PDF was too large to download here. \"Mediteranean\" is misspelt as published."
+    }
+  ],
+  "inclusions": {
+    "guide_p10_intro": [
+      "This retreat is designed to feel seamless. From the moment you arrive you are completely looked after by our team.",
+      "Everything to follow is included in your day, unless marked as optional."
+    ],
+    "guide_p15_intro": "Your luxury retreat includes a curated day program designed around movement, recovery, nourishing food, nervous system support, nature immersion, education and connection. All sessions are delivered by qualified health and wellness practitioners in South Australia and can be tailored to suit your groups objectives.",
+    "included_wellness_sessions": [
+      "Group guided energising yoga or mat pilates session",
+      "Group guided meditation, mindfulness, breathwork & nervous system regulation session",
+      "Group guided contrast therapy experience (infrared sauna & cold plunge)",
+      "Individual therapeutic massage experience with Earth House & Spa",
+      "Lifestyle wellness workshop: The Foundations of High Performance Wellbeing: Build Lifestyle Habits for Energy, Capacity, Stress Management & Burnout Prevention",
+      "Luxury wellness gift bag valued at over $50",
+      "Take home educational resources to support a healthy sustainable lifestyle post retreat"
+    ],
+    "guest_amenities": [
+      "Full-day exclusive hire of Naiko Villa, Encounter Bay",
+      "Luxury recovery environment including sauna, plunge pool, recovery lounge & relaxation zones",
+      "Premium wellness equipment and complete setup (yoga mats, props, bolsters, towels, therapy stations)",
+      "Shower, change and reset facilities"
+    ],
+    "summary_p23": {
+      "intro": "This is a complete curated La maréa experience, refer to the retreat schedule seen on p. 17 for reference on how the day will flow. Designed for teams and groups seeking the full integration of luxury recovery, food, movement, and wellness education - within a 5 star venue and flexibility to refine select elements to align with your team’s priorities.",
+      "Wellness Experiences": [
+        "Energising Group Vinyasa Yoga Flow or Mat Pilates",
+        "Guided Group Breathwork, Meditation, Mindfulness & Nervous System Regulation",
+        "Individual Restorative Massage Therapy",
+        "Guided Group Contrast Therapy Experience",
+        "Group Lifestyle Wellness Workshop"
+      ],
+      "Food, Beverage & Culinary Experience": [
+        "Nourishing wholefood seasonal organic breakfast",
+        "Private shared 3 course Mediterranean-inspired lunch with award-winning chef Luca Guiotto",
+        "Fresh, local and seasonal wholefood snacks & refreshments over the day",
+        "Coffee, herbal tea, mineral water, tonics and organic cold-pressed juices",
+        "(note wine can be discussed as an option to be paired with Lunch)",
+        "Mediterranean-inspired menu over the day with an emphasis on plant-based whole foods"
+      ],
+      "Guest Amenities & Transport": [
+        "Luxury private return group transport from Adelaide",
+        "Full-day exclusive use of 5 star venue: Naiko at the Bluff, Encounter Bay",
+        "Access to luxury recovery environment including sauna, plunge pool & relaxation zones",
+        "Easy coastal access for hiking and ocean swimming",
+        "Premium wellness equipment and complete setup provided",
+        "Shower and change facilities",
+        "Luxury wellness gift bag to take home (value $50+)"
+      ],
+      "Retreat Curation & Expert Facilitation": [
+        "Hosted and facilitated by qualified wellness practitioners and experienced industry professionals",
+        "Bespoke retreat itinerary curated around the needs, goals and wellbeing priorities of the team or group",
+        "Expert-led small-group experiences designed to provide a personalised experience for every guest",
+        "Dedicated La maréa hosts throughout the retreat",
+        "Full retreat coordination and event management",
+        "Premium hospitality and guest service from arrival through to departure"
+      ]
+    },
+    "quote_p24_text": [
+      "This is an all-inclusive 8 hour luxury wellness retreat delivered by qualified health and wellness practitioners, as per this retreat guide and schedule on p.17.",
+      "A completely curated luxury experience where everything is taken care of, venue, meals, wellness sessions, experiences, and clean-up, allowing your group to simply arrive, relax, and enjoy quality time together."
+    ],
+    "source": [
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 10,
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 15,
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 16,
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 23,
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 24,
+        "captured": "24-09-2026"
+      }
+    ],
+    "status": "in hand but needs Belle's check"
+  },
+  "group_size": {
+    "guide_minimum": 10,
+    "guide_maximum_encounter_bay": 14,
+    "text": "10 guests minimum are required for a booking. 14 guests maximum at this venue.",
+    "source": {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": 24,
+      "captured": "24-09-2026"
+    },
+    "conflict": "Live retreats page: \"Ideal for 6 to 10 guests, depending on property.\" (private) and \"groups of up to 20, depending on venue\" (corporate). Decision 14."
+  },
+  "booking_terms_guide": {
+    "text": [
+      "Kindly note that this quote is valid for two weeks from the date issued and booking will be pending team and venue availability.",
+      "Upon booking we require a 50% group booking deposit to secure the venue and book our team in to your chosen dates."
+    ],
+    "source": {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": 24,
+      "captured": "24-09-2026"
+    },
+    "conflict": "Live Terms & Conditions 2.2 says \"We do not currently take deposits due to the way our experiences are run, we require full payment at the time of booking.\""
+  },
+  "price_internal": {
+    "text": "EXCLUSIVE INTRODUCTORY LA MARÉA X NAIKO RATE: $899 PER GUEST. BASED ON A 12-GUEST PRIVATE RETREAT, $10,788 TOTAL",
+    "for_publication": false,
+    "label": "not for publication",
+    "source": {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": 24,
+      "captured": "24-09-2026",
+      "section": "Quote"
+    }
+  },
+  "hour_by_hour_for_encounter_bay": null,
+  "source": [
+    {
+      "type": "live_site_image",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+      "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+      "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": 17,
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": 24,
+      "captured": "24-09-2026"
+    }
+  ],
+  "dash_note": "Em or en dashes in the client text were replaced for this seed: number and time ranges with \" to \", unspaced word joins (for example sleep-wake, mother-daughter) with a hyphen, everything else with a comma. The verbatim original with dashes is in build/03-content-harvest.md."
+}

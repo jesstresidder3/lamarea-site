@@ -1,0 +1,153 @@
+/*
+  Shared utility classes (owner: foundation layout builder). Small and few on purpose.
+  Components keep their own scoped styles; these are the pieces every page repeats.
+
+  Layout
+    .wrap            content capped at 1440 with fluid gutters (text grids; photography bleeds)
+    .wrap--narrow    a reading column for long copy
+    .section         vertical rhythm between page sections
+    .section--flush-top, .section--flush-bottom
+    .band-salt, .band-warm, .band-deep, .band-sage   background bands from the palette
+    .clip-x          overflow-x: clip for sections that bring things in from the side
+
+  Type
+    .label           small sentence-case tracked label (never uppercase)
+    .lead            Cormorant lead at about 20px
+    .small           14px secondary copy
+    .place           (base.css) italic Cormorant for place names, the only italic on the site
+
+  Actions
+    .btn-filled      the one filled element: header "Plan your day" and form submits only
+    .text-link       quiet inline link with a hairline underline
+
+  Placeholders
+    [data-draft]         drafted copy awaiting Belle, faintly marked while media notes are on
+    .placeholder-line    a marked gap in the copy that names what goes there
+    [data-notes-only]    a block that shows only while the notes layer is on
+*/
+
+/* Layout ----------------------------------------------------------------- */
+.wrap {
+  width: 100%;
+  max-width: var(--wrap-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.wrap--narrow { max-width: calc(var(--measure-wide) + 2 * var(--gutter)); }
+
+.section { padding-block: var(--section-y); }
+.section--flush-top { padding-top: 0; }
+.section--flush-bottom { padding-bottom: 0; }
+.section--tight { padding-block: calc(var(--section-y) * 0.6); }
+
+.band-salt { background: var(--salt-25); }
+.band-warm { background: var(--sand-40); }
+.band-deep { background: var(--sand-60); }
+.band-sage {
+  background: var(--sage-80);
+  color: var(--sand-30);
+  --heading: var(--sand-30);
+  --text: var(--sand-30);
+  --focus: var(--focus-on-dark);
+}
+.band-sage :is(h1, h2, h3, h4) { color: var(--sand-30); }
+
+.clip-x { overflow-x: clip; }
+
+/* Type ------------------------------------------------------------------- */
+.label {
+  display: block;
+  margin: 0 0 1.25rem;
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--track-label);
+  color: var(--muted);
+}
+.band-sage .label { color: var(--sand-40); }
+
+.lead {
+  font-family: var(--font-serif);
+  font-size: var(--fs-lead);
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  color: var(--sage-100);
+}
+.band-sage .lead { color: var(--sand-30); }
+
+.small { font-size: var(--fs-small); line-height: 1.55; }
+
+
+/* Actions ---------------------------------------------------------------- */
+.btn-filled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 2.75rem;
+  padding: 0 1.25rem;
+  border: 1px solid var(--sage-80);
+  border-radius: 0;
+  background: var(--sage-80);
+  color: var(--sand-30);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: var(--fs-nav);
+  letter-spacing: var(--track-nav);
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--dur-fast) var(--ease-soft), border-color var(--dur-fast) var(--ease-soft), color var(--dur-fast) var(--ease-soft);
+}
+@media (hover: hover) {
+  .btn-filled:hover { background: var(--sage-100); border-color: var(--sage-100); }
+}
+.btn-filled:active { background: var(--sage-100); border-color: var(--sage-100); }
+
+.text-link {
+  color: var(--heading);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, currentColor 38%, transparent);
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color var(--dur-fast) var(--ease-soft), color var(--dur-fast) var(--ease-soft);
+}
+@media (hover: hover) {
+  .text-link:hover { text-decoration-color: currentColor; }
+}
+.text-link:active { text-decoration-color: currentColor; }
+
+/* Placeholders ----------------------------------------------------------- */
+html[data-media-notes='on'] [data-draft] {
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: color-mix(in srgb, currentColor 32%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.28em;
+}
+
+/* With the notes layer off (data-media-notes not 'on'), every marked gap, "To come" box and draft
+   marker goes, so the site reads finished in a walkthrough (CD review 02 items 6, 7 and 11).
+   Wrap a block that holds nothing but a gap in [data-notes-only] so it goes too. */
+html:not([data-media-notes='on']) :is(.placeholder-line, .to-come, [data-notes-only]) { display: none !important; }
+
+.placeholder-line {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  max-width: 100%;
+  padding: 0.45rem 0.7rem;
+  border: 1px dashed color-mix(in srgb, currentColor 40%, transparent);
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+  letter-spacing: 0.02em;
+  color: inherit;
+}
+.placeholder-line::before {
+  content: 'To come';
+  flex: none;
+  letter-spacing: var(--track-label);
+  opacity: 0.75;
+}

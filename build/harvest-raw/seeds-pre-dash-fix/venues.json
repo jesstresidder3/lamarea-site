@@ -1,0 +1,522 @@
+[
+  {
+    "id": "naiko-deep-creek",
+    "name_as_published_by_la_marea": "Naiko Retreat",
+    "name_as_published_by_venue": "Naiko Retreat",
+    "region": "coast",
+    "locality": "Deep Creek, Fleurieu Peninsula",
+    "address_as_published_by_venue": "333 Rarkang Road, Deep Creek, South Australia",
+    "sleeps": 6,
+    "sleeps_sources": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Partner Accomodation / locations: \"Naiko Deep Creek (sleeps 6)\""
+      },
+      {
+        "type": "venue_site",
+        "url": "https://naikoretreat.com.au/",
+        "captured": "24-09-2026",
+        "note": "\"sleeps a maximum of six guests in three spacious, identical king bedrooms\""
+      }
+    ],
+    "day_retreat_group_size": null,
+    "distance_from_adelaide_as_published": "approximately 90 minutes from Adelaide (venue site)",
+    "la_marea_copy": {
+      "eyebrow": "Primary partner",
+      "heading": "Naiko Retreat’s luxurious, remote coastal setting offers the ultimate escape to disconnect, reconnect, and embrace nature",
+      "paragraphs": [
+        "Perched on the cliffs of Deep Creek in the Fleurieu Peninsula, Naiko Retreat offers an exclusive coastal escape. A private, secluded beach lies just steps from your luxury accommodation, with crystal-clear waters perfect for swimming, relaxation, and soaking in the serene beauty of the coast.",
+        "“Naiko,” a Ramindjeri word for “Mother,” honours the rich indigenous heritage of this land. Partnering with Naiko felt natural and allows us to offer an immersive wellness experience that connects guests to land.",
+        "Following recent bushfires in the region, Naiko is undergoing careful landscape restoration, with bookings now open for late 2026 as the coastline continues its natural regeneration."
+      ],
+      "five_star_wording": [
+        "5 Star Unique Eco-friendly Coastal Luxury Accomodation in Deep Creek, South Australia;",
+        "with exceptional attention to detail, amenities & guest experiences."
+      ],
+      "award_logos_shown": [
+        "2025 Gold List of Australian Accommodation (starratingsaustralia)",
+        "Sustainable Tourism, Quality Tourism Accredited Business, five stars, Accredited Self Catering",
+        "2023 South Australian Tourism Awards Hall of Fame 2021, 2022, 2023"
+      ],
+      "award_logos_note": "Logos only, text read from the images. They sit next to the Naiko copy on /accommodation-partners. Belle and Naiko to confirm they apply to Naiko Retreat before reuse.",
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/accommodation-partners",
+        "captured": "24-09-2026",
+        "section": "Primary partner"
+      }
+    },
+    "venue_facts": [
+      {
+        "fact": "Nestled between Deep Creek National Park and Talisker Conservation Park, Naiko Retreat (pronounced Nay-co) is located approximately 90 minutes from Adelaide, South Australia on the tourist treasure Fleurieu Peninsula."
+      },
+      {
+        "fact": "Situated on a 2000-acre farm known as “Rarkang”, the Retreat is set majestically on a cliff overlooking its own pristine and secluded beach and beyond with uninterrupted views across the Southern Ocean to Kangaroo Island."
+      },
+      {
+        "fact": "The eco conscious and secluded Retreat sleeps a maximum of six guests in three spacious, identical king bedrooms each with its own luxury ensuite bathroom.  The king beds can be split into king single beds."
+      },
+      {
+        "fact": "Designed by Max Pritchard, Naiko Retreat is an Eco-Accredited retreat and was constructed to have as little impact on the environment as possible."
+      },
+      {
+        "fact": "The Retreat is completely off-grid with power supplied by a solar and battery system with a back-up generator."
+      },
+      {
+        "fact": "The expansive front deck, with comfortable outdoor lounge furniture, overlooking the beach is perfect for relaxing with a book, letting your mind wander as you stare out to sea or and enjoy nibbles and drinks while the sun goes down."
+      },
+      {
+        "fact": "An efficient, low-emission wood-burning heater keeps you warm on those cold nights and heat can be ducted through to the bedrooms."
+      },
+      {
+        "fact": "Guests are just a short stroll to Naiko’s own secluded beach with its crystal clear aquamarine waters which are perfect for swimming."
+      },
+      {
+        "fact": "Naiko Retreat is a luxury self-contained single unit sleeping a maximum of six guests in three well-appointed king bedrooms, each with luxurious spa bathrooms.  The free-standing bath is perfect for a long soak while gazing out to sea."
+      },
+      {
+        "fact": "Guests have exclusive use of the Retreat and the four bespoke walking trails on the property. The only people you may see are the occasional walkers on the Heysen Trail which passes through the property."
+      },
+      {
+        "fact": "The local pod of dolphins are regularly spotted lazily swimming near the rocks of Naiko’s beach and from May through to October guests have a front row seat to whale watching."
+      },
+      {
+        "fact": "The Futuro is not part of the retreat accommodation and is only available to guests who book a massage with one of Naiko’s preferred therapists."
+      },
+      {
+        "fact": "The Retreat is part of a working sheep farm situated between two national parks and pets are strictly prohibited"
+      }
+    ],
+    "venue_facts_source": {
+      "type": "venue_site",
+      "url": "https://naikoretreat.com.au/",
+      "captured": "24-09-2026",
+      "note": "Home page only. Sub-pages (about, walking trails, FAQs) returned the host firewall page \"This request was blocked\" on 24-09-2026."
+    },
+    "includes": {
+      "rooms": "three king bedrooms, each with ensuite (venue)",
+      "pool": null,
+      "sauna": null,
+      "plunge": null,
+      "bath": "free-standing bath (venue)",
+      "deck": "expansive front deck (venue)",
+      "fireplace": "low-emission wood-burning heater or fireplace (venue)",
+      "walking_trails": "four bespoke walking trails on the property, Heysen Trail passes through (venue)",
+      "conservation_parks": "between Deep Creek National Park and Talisker Conservation Park (venue)",
+      "beach": "own secluded beach (venue)"
+    },
+    "notes": "La maréa copy says \"Following recent bushfires in the region, Naiko is undergoing careful landscape restoration, with bookings now open for late 2026\". The venue home page does not mention it (plan/11 item 42). The Naiko logo on the La maréa page reads \"RARKANG - FLEURIEU PENINSULA\".",
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/accommodation-partners",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "venue_site",
+        "url": "https://naikoretreat.com.au/",
+        "captured": "24-09-2026"
+      }
+    ],
+    "status": "in hand but needs Belle's check"
+  },
+  {
+    "id": "naiko-encounter-bay",
+    "name_as_published_by_la_marea": "Naiko at The Bluff, Encounter Bay (live site); Naiko at the Bluff and Naiko Encounter Bay (guide)",
+    "name_as_published_by_venue": "Naiko at the Bluff (the building is \"The Villa at Naiko at the Bluff\")",
+    "region": "coast",
+    "locality": "Encounter Bay, Victor Harbor",
+    "address_as_published_by_venue": "28 Jagger Rd, Encounter Bay, South Australia 5211",
+    "sleeps": 10,
+    "sleeps_sources": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Partner Accomodation / locations: \"Naiko Encounter Bay (sleeps 10)\""
+      },
+      {
+        "type": "venue_site",
+        "url": "https://naikoatthebluff.com.au/",
+        "captured": "24-09-2026",
+        "note": "\"can comfortably accommodate up to 10 guests across two wings\""
+      }
+    ],
+    "day_retreat_group_size": {
+      "minimum": 10,
+      "maximum": 14,
+      "text": "10 guests minimum are required for a booking. 14 guests maximum at this venue.",
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 24,
+        "captured": "24-09-2026"
+      }
+    },
+    "distance_from_adelaide_as_published": null,
+    "la_marea_copy": {
+      "live_site_heading": "Naiko at The Bluff, Encounter Bay",
+      "live_site_line": "Refined coastal architecture with expansive ocean views. Designed for privacy and immersion in landscape.",
+      "guide_p7": [
+        "Positioned along the dramatic coastline of the Fleurieu Peninsula, Naiko at the Bluff offers a refined, private coastal retreat experience with expansive ocean views and contemporary architectural design.",
+        "Designed for comfort, privacy and immersion in nature, the property provides a calm and elevated environment for groups seeking space to reset and reconnect. Open plan living areas, generous outdoor entertaining spaces and uninterrupted coastal outlooks create a sense of openness and perspective.",
+        "Moments from the shoreline and surrounded by the natural beauty of the Fleurieu, Naiko at the Bluff offers the ideal setting for focused conversation, restoration and shared wellness retreat experiences."
+      ],
+      "guide_p7_caption": "A beautiful coastal walk at the bottom of the Naiko property",
+      "guide_p11_heading": "5-Star Luxury Venue",
+      "guide_p11": [
+        "Enjoy exclusive use of Naiko at the Bluff, an elevated coastal retreat designed for both connection and deep rest. Light-filled open plan living flows effortlessly to expansive outdoor spaces, inviting shared and relaxed moments by the pool, in the sauna or by the fire with ocean views beyond.",
+        "Large windows invite in natural light and ocean views, creating a seamless connection to the surrounding environment. Whether you’re sipping tea on the deck, laying in the sun by the plunge pool or gathering indoors by the fire after a day of guided wellness experiences, movement and connection, this is a space intentionally held for you to slow down, reset, and reconnect."
+      ],
+      "guide_p16_amenities": [
+        "Full-day exclusive hire of Naiko Villa, Encounter Bay",
+        "Luxury recovery environment including sauna, plunge pool, recovery lounge & relaxation zones",
+        "Premium wellness equipment and complete setup (yoga mats, props, bolsters, towels, therapy stations)",
+        "Shower, change and reset facilities"
+      ],
+      "source": [
+        {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/accommodation-partners",
+          "captured": "24-09-2026",
+          "section": "Our South Australian accommodation partner collection"
+        },
+        {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 7,
+          "captured": "24-09-2026"
+        },
+        {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 11,
+          "captured": "24-09-2026"
+        },
+        {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 16,
+          "captured": "24-09-2026"
+        }
+      ]
+    },
+    "venue_facts": [
+      {
+        "fact": "The Villa at Naiko at the Bluff redefines luxury accommodation in Victor Harbor, offering a private escape with no close neighbouring properties to disturb your stay. Designed by the acclaimed Max Pritchard Gunner Architects, this stunning family accommodation blends contemporary architecture with the natural beauty of Encounter Bay."
+      },
+      {
+        "fact": "Built for luxury accommodation for families or friends travelling together, The Villa, including the double carport and the storerooms, makes up an impressive 305 square meters and can comfortably accommodate up to 10 guests across two wings, each featuring a master bedroom with ensuite bathrooms."
+      },
+      {
+        "fact": "Set on a working sheep farm, this beautifully appointed luxury family villa offers sweeping views of The Bluff and Encounter Bay where the charm of country life meets high-end coastal living."
+      },
+      {
+        "fact": "For added flexibility, the fourth bedroom features high-end, custom-designed bunk beds that can accommodate up to four additional guests, making it possible to extend the capacity to four couples and comfortably cater to a total of 10 guests for the entire villa."
+      },
+      {
+        "fact": "Below the deck, the pool is ideal for cooling off during warm summer days or simply relaxing by the water with views of the ocean stretching before you."
+      },
+      {
+        "fact": "The expansive front deck, designed to be the heart of outdoor gatherings, features a Weber electric BBQ"
+      },
+      {
+        "fact": "In 2026, Stage 2 will unveil four high-end luxury one-bedroom retreats and a two-bedroom retreat, all set in a breathtaking location surrounded by beautiful farmland and overlooking The Bluff and the blue expanse of the Southern Ocean. These adults-only retreats will offer unparalleled privacy, with no nearby neighbours, ensuring a secluded and luxurious escape."
+      }
+    ],
+    "venue_facts_source": {
+      "type": "venue_site",
+      "url": "https://naikoatthebluff.com.au/",
+      "captured": "24-09-2026",
+      "note": "Home page only. The location, about, villa and FAQ pages returned the host firewall page on 24-09-2026, so distance from Adelaide was not captured."
+    },
+    "includes": {
+      "rooms": "four bedrooms across two wings, two master bedrooms with ensuites, bunk room (venue)",
+      "pool": "pool below the deck (venue); plunge pool (guide p.11, p.16)",
+      "sauna": "sauna (guide p.11, p.16 only, not mentioned on the venue home page)",
+      "plunge": "plunge pool (guide)",
+      "bath": null,
+      "deck": "expansive front deck (venue)",
+      "fireplace": "fire (guide p.11)",
+      "walking_trails": "coastal walk at the bottom of the property (guide p.7 caption)",
+      "conservation_parks": null,
+      "beach": null
+    },
+    "notes": "The guide says sauna and plunge pool, the venue home page only says pool. Belle to confirm whether the sauna is the venue's or brought in (plan/11 item 19). Published name for this venue is decision 43.",
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/accommodation-partners",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 7,
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 11,
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "venue_site",
+        "url": "https://naikoatthebluff.com.au/",
+        "captured": "24-09-2026"
+      }
+    ],
+    "status": "in hand but needs Belle's check"
+  },
+  {
+    "id": "beresford-estate",
+    "name_as_published_by_la_marea": "Beresford Estate, McLaren Vale",
+    "name_as_published_by_venue": "Beresford Estate",
+    "region": "vineyard",
+    "locality": "Blewitt Springs, McLaren Vale",
+    "address_as_published_by_venue": null,
+    "sleeps": null,
+    "sleeps_as_stated_by_belle": "20+",
+    "sleeps_sources": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Partner Accomodation / locations: \"Beresford Estate (sleeps 20+)\""
+      }
+    ],
+    "day_retreat_group_size": {
+      "minimum": null,
+      "maximum": null,
+      "text": "Worked example is for 12 guests",
+      "source": {
+        "type": "live_site_image",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+        "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+        "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+        "captured": "24-09-2026"
+      }
+    },
+    "distance_from_adelaide_as_published": null,
+    "la_marea_copy": {
+      "live_site_heading": "Beresford Estate, McLaren Vale",
+      "live_site_line": "Vineyard setting with contemporary accommodation and event spaces suited to larger leadership groups and extended retreats.",
+      "home_gallery_caption": "Beresford Estate - Womens Wake Up To Wellness Retreat",
+      "schedule_mentions": [
+        "Arrival to Beresford Estate",
+        "Shared chef curated Mediterranean lunch provided by Beresford",
+        "Vineyard Hiking",
+        "Plunge Pool swimming",
+        "Relaxing By The Fire",
+        "Accessing Recovery Lounge Equipment"
+      ],
+      "source": [
+        {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/accommodation-partners",
+          "captured": "24-09-2026"
+        },
+        {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/",
+          "captured": "24-09-2026",
+          "section": "2026 La maréa retreats gallery"
+        },
+        {
+          "type": "live_site_image",
+          "url": "https://www.lamarea.com.au/luxury-retreats",
+          "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+          "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+          "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+          "captured": "24-09-2026"
+        }
+      ]
+    },
+    "venue_facts": [
+      {
+        "fact": "Beresford Estate is a 70-acre vineyard located in the world-class wine region of Blewitt Springs, McLaren Vale.",
+        "url": "https://www.beresfordestate.com.au/"
+      },
+      {
+        "fact": "Delivering unparalleled luxury, the Grand Reserve Suites are nestled in 70-acres of rolling vineyard. Boasting galley kitchenette, private bedroom, indoor & outdoor living spaces and private bathhouse.",
+        "url": "https://www.beresfordestate.com.au/pages/accommodation"
+      },
+      {
+        "fact": "Unwind in your outdoor terrace featuring a secluded private plunge pool and outdoor lounging area, creating your very own oasis wrapped in natures tranquillity.",
+        "url": "https://www.beresfordestate.com.au/pages/accommodation"
+      },
+      {
+        "fact": "Soak in your imported Italian freestanding bathtub pampering yourself with luxury Australian made organic skincare then book your in-room massage or indulge in our extensive range of onsite experiences.",
+        "url": "https://www.beresfordestate.com.au/pages/accommodation"
+      },
+      {
+        "fact": "GRAND RESERVE SUITES 2-6; SUITE 1 - Accessible (No Bath); THE RESERVE SUITES 7-15; SHIRAZ VILLA; GRENACHE VILLA",
+        "url": "https://www.beresfordestate.com.au/pages/accommodation"
+      },
+      {
+        "fact": "The Grenache Villa is a clever remodelling of the original 19th century cottage that sleeps six.",
+        "url": "https://www.beresfordestate.com.au/pages/accommodation"
+      },
+      {
+        "fact": "Beresford House, a luxury retreat nestled within the majestic vineyards of Beresford Estate.",
+        "url": "https://www.beresfordestate.com.au/pages/venues"
+      },
+      {
+        "fact": "Nestled amongst the vineyards in the heart of our estate is Beresford House; a luxurious homestead comprising two exquisite living quarters, an open-plan gallery room and an underground cellar. The bell tower deck provides 360-degree views of the estate property.",
+        "url": "https://www.beresfordestate.com.au/pages/story"
+      },
+      {
+        "fact": "Established in 1985 in the heart of McLaren Vale, Beresford Estate is family-owned and passionately South Australian.",
+        "url": "https://www.beresfordestate.com.au/pages/venues"
+      },
+      {
+        "fact": "Tasting Pavilion ... Open 7 days, 10 am – 5 pm",
+        "url": "https://www.beresfordestate.com.au/pages/venues"
+      },
+      {
+        "fact": "Vale Restaurant & Bar",
+        "url": "https://www.beresfordestate.com.au/pages/venues"
+      }
+    ],
+    "venue_facts_source": {
+      "type": "venue_site",
+      "url": "https://www.beresfordestate.com.au/pages/accommodation",
+      "captured": "24-09-2026",
+      "note": "Also /pages/venues, /pages/story and the home page meta description"
+    },
+    "includes": {
+      "rooms": "Grand Reserve Suites 1 to 6, Reserve Suites 7 to 15, Shiraz Villa, Grenache Villa (sleeps six), Beresford House (venue)",
+      "pool": null,
+      "sauna": null,
+      "plunge": "private plunge pool on Grand Reserve Suite terraces (venue); \"Plunge Pool swimming\" (La maréa schedule)",
+      "bath": "imported Italian freestanding bathtub, private bathhouse (venue)",
+      "deck": "bell tower deck; Tasting Pavilion deck (venue)",
+      "fireplace": "fireplace in the Tasting Pavilion (venue); \"Relaxing By The Fire\" (La maréa schedule)",
+      "walking_trails": null,
+      "conservation_parks": null,
+      "vineyard": "70 acres (venue)"
+    },
+    "notes": "The venue publishes no whole-property guest total. No street address found on the pages fetched (plan/11 item 39). The Beresford 8 hour retreat Drive folder could not be opened.",
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/accommodation-partners",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "venue_site",
+        "url": "https://www.beresfordestate.com.au/",
+        "captured": "24-09-2026"
+      }
+    ],
+    "status": "in hand but needs Belle's check"
+  },
+  {
+    "id": "the-vineyard-retreat",
+    "name_as_published_by_la_marea": null,
+    "name_as_published_by_venue": "The Vineyard Retreat McLaren Vale (site brand \"The Vineyard McLaren Vale\")",
+    "region": "vineyard",
+    "locality": "Blewitt Springs, McLaren Vale",
+    "address_as_published_by_venue": "165 Whitings Road, Blewitt Springs, South Australia 5171",
+    "sleeps": null,
+    "sleeps_as_stated_by_belle": "10",
+    "sleeps_sources": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Partner Accomodation / locations: \"The Vineyard Retreat (sleeps 10)\""
+      }
+    ],
+    "sleeps_venue_per_house": {
+      "Cadole Avalon": "2",
+      "Cadole Sierra": "2",
+      "The Ardmore": "2",
+      "The Highland": "2 or 4",
+      "The Manhattan": "2 or 4",
+      "The Strand": "2",
+      "The Catalina (Main Street Retreat, McLaren Flat)": "2",
+      "The Hermosa (Main Street Retreat, McLaren Flat)": "2"
+    },
+    "sleeps_note": "The venue site gives per-house figures only, no total. The six vineyard houses add up to 16 at most, which matches the \"16\" in the requirements register (Q6), but that sum is ours, not a published figure.",
+    "day_retreat_group_size": null,
+    "distance_from_adelaide_as_published": "Just 50 minutes from Adelaide (venue home page); approximately 50 minutes south of Adelaide (venue FAQ)",
+    "la_marea_copy": null,
+    "venue_facts": [
+      {
+        "fact": "Just 50 minutes from Adelaide, The Vineyard Retreat offers eight private guest houses across two distinctive McLaren Vale locations.",
+        "url": "https://thevineyardmv.com.au/"
+      },
+      {
+        "fact": "Stay among the vines at our 15-acre working vineyard in Blewitt Springs, where six individual guest houses enjoy sweeping views, space and privacy. Or settle into village life at Main Street Retreat in McLaren Flat, home to two private one-bedroom guest houses within easy reach of cellar doors, restaurants and local favourites.",
+        "url": "https://thevineyardmv.com.au/"
+      },
+      {
+        "fact": "Set at the highest point of the property, our guest wellness area brings together a sauna, cold plunge and Jacuzzi with sweeping views across the vines to the Willunga hills, d'Arenberg Cube and Gulf St Vincent beyond.",
+        "url": "https://thevineyardmv.com.au/"
+      },
+      {
+        "fact": "The wellness area is exclusively available to guests staying at The Vineyard.",
+        "url": "https://thevineyardmv.com.au/"
+      },
+      {
+        "fact": "Tranquility, privacy, nature, space, stunning views, fireplaces, complimentary mini bar & breakfast provisions, self check-in.",
+        "url": "https://thevineyardmv.com.au/"
+      },
+      {
+        "fact": "Each stay includes locally sourced breakfast provisions and a complimentary minibar, with private decks or outdoor spaces overlooking the surrounding vines and landscape.",
+        "url": "https://thevineyardmv.com.au/about-us/"
+      },
+      {
+        "fact": "The Vineyard Retreat is entering an exciting new chapter under the ownership of Valtteri Bottas and Tiffany Cromwell.",
+        "url": "https://thevineyardmv.com.au/about-us/"
+      },
+      {
+        "fact": "Adelaide CBD and Adelaide Airport are approximately 50 minutes away, depending on traffic.",
+        "url": "https://thevineyardmv.com.au/frequently-asked-questions/"
+      },
+      {
+        "fact": "The Vineyard is approximately eight minutes by car from McLaren Vale township and around two minutes from McLaren Flat. Willunga and the coast are approximately 15 minutes away.",
+        "url": "https://thevineyardmv.com.au/frequently-asked-questions/"
+      }
+    ],
+    "venue_facts_source": {
+      "type": "venue_site",
+      "url": "https://thevineyardmv.com.au/",
+      "captured": "24-09-2026",
+      "note": "Official domain is thevineyardmv.com.au. thevineyardretreat.com.au does not resolve (proxy CONNECT 502)."
+    },
+    "includes": {
+      "rooms": "eight guest houses: six at The Vineyard, two at Main Street Retreat (venue)",
+      "pool": null,
+      "sauna": "sauna in the guest wellness area (venue)",
+      "plunge": "cold plunge (venue)",
+      "bath": "Jacuzzi (venue)",
+      "deck": "private decks or outdoor spaces (venue)",
+      "fireplace": "fireplaces (venue)",
+      "walking_trails": null,
+      "conservation_parks": null,
+      "vineyard": "15-acre working vineyard (venue)"
+    },
+    "notes": "No La maréa copy exists for this venue anywhere on the live site or in the Encounter Bay guide. Not on /accommodation-partners. Capacity conflict Q6 and no imagery (S3).",
+    "source": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Partner Accomodation / locations"
+      },
+      {
+        "type": "venue_site",
+        "url": "https://thevineyardmv.com.au/",
+        "captured": "24-09-2026"
+      }
+    ],
+    "status": "in hand but needs Belle's check"
+  }
+]

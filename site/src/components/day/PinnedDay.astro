@@ -1,0 +1,348 @@
+---
+/*
+  The signature interaction: one real 8 hour day, told in Belle's four beats (build spec 10.5 and
+  visual study D3, as revised by section 12).
+
+  "An 8 hour day on the Fleurieu". One example, "An example day at Beresford Estate, 12 guests", with
+  Belle's line "(Note we can curate a personalised retreat to suit your group)". Four panels, Arrive,
+  Move, Nourish and Restore, slide in from the right and settle; nothing moves inside a settled panel.
+  A thin time rail across the top carries the example's times and the four beat names and marks
+  progress. Surfaces are --salt-25 and --sand-30 only; Restore is a full-bleed venue photograph in
+  late light with a local gradient under its words. Every line in the panels is Belle's published
+  schedule (data/day.ts), and every time is sourced.
+
+  Behaviour (src/scripts/pinned-day.ts)
+  - 900px and wider, 600px and taller, motion allowed: GSAP ScrollTrigger pins the section and the
+    panels travel in, linear with scroll, with a hold on each. GSAP loads only on pages using this.
+  - Below 900px: a horizontal scroll-snap row of four full-width panels the visitor swipes, rail above
+    it, hairline arrows beneath.
+  - Reduced motion: a static stack at every width, the rail as a list of anchors.
+
+  <PinnedDay />
+  <PinnedDay seeFullDay={false} />   (on the Day page itself)
+
+  Props
+  - heading: default 'An 8 hour day on the *Fleurieu*' (asterisks mark the place name)
+  - seeFullDay: show "See the full day" at the end (default true)
+  - params: prefill parameters for "Plan your day" (default { format: 'full-day' })
+  - id: section id (default 'the-day')
+*/
+import Media from '../media/Media.astro';
+import ArrowLink from '../base/ArrowLink.astro';
+import Eyebrow from '../base/Eyebrow.astro';
+import { emphasis, withParams, numeral } from '../base/text';
+import { day } from '../../data/day';
+import { cta } from '../../data/settings';
+
+interface Props {
+  heading?: string;
+  eyebrow?: string;
+  seeFullDay?: boolean;
+  params?: Record<string, string | number | undefined>;
+  id?: string;
+}
+const {
+  heading = day.heading,
+  eyebrow = 'The 8 hour day',
+  seeFullDay = true,
+  params = { format: 'full-day' },
+  id = 'the-day',
+} = Astro.props;
+const beats = day.beats;
+const planHref = withParams(cta.plan.href, params);
+---
+<section class="pd" id={id} aria-labelledby={`${id}-heading`} data-pinned-day>
+  <div class="pd__stage" data-pd-stage>
+    <div class="pd__base">
+      <div class="pd__base-text">
+        <Eyebrow>{eyebrow}</Eyebrow>
+        <h2 class="pd__heading" id={`${id}-heading`} set:html={emphasis(heading)} />
+        <p class="pd__example">{day.example}</p>
+        <p class="pd__note">{day.note}</p>
+      </div>
+      <div class="pd__base-media"><Media media="day-base" aspect="fill" /></div>
+    </div>
+
+    <div class="pd__rail-row">
+      <ol class="pd__rail" aria-label="The day at a glance">
+        {beats.map((b, i) => (
+          <li class="pd__stop" style={`--k:${i}`}>
+            <a href={`#${id}-${b.id}`} data-pd-go={i}>
+              <span class="pd__stop-name">{b.name}</span>
+              <span class="pd__stop-time">{b.railTime}</span>
+            </a>
+          </li>
+        ))}
+        <li class="pd__stop pd__stop--end" aria-hidden="true"><span class="pd__stop-time">{day.railEnd}</span></li>
+      </ol>
+      <span class="pd__rail-line" aria-hidden="true"><span class="pd__rail-fill" data-pd-fill></span></span>
+    </div>
+
+    <div class="pd__viewport">
+      <div class="pd__track" data-pd-track tabindex="-1">
+        {beats.map((b, i) => (
+          <article class:list={['pd__panel', `pd__panel--${b.id}`]} id={`${id}-${b.id}`} data-pd-panel={i} aria-labelledby={`${id}-${b.id}-title`}>
+            <div class="pd__panel-media"><Media media={b.media} aspect="fill" notePosition={b.id === 'restore' ? 'top-right' : 'bottom-left'} /></div>
+            <div class="pd__panel-text">
+              <p class="pd__beat-meta" aria-hidden="true"><span class="pd__beat-num">{numeral(i + 1)}</span><span>of {numeral(beats.length)}</span></p>
+              <h3 class="pd__beat" id={`${id}-${b.id}-title`}>{b.name}</h3>
+              <ol class="pd__steps" role="list">
+                {b.steps.map((s) => (
+                  <li class="pd__step">
+                    <span class="pd__time">{s.time}</span>
+                    <span class="pd__what">
+                      {s.display.map((line, j) => <span class:list={['pd__line', j > 0 && 'pd__line--sub']}>{line}</span>)}
+                      {s.items && (
+                        <span class="pd__items">
+                          {s.items.map((it) => <span class="pd__item">{it}</span>)}
+                        </span>
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+              {b.id === 'restore' && (
+                <div class="pd__actions">
+                  {seeFullDay && <ArrowLink href={cta.seeFullDay.href} label={cta.seeFullDay.label} tone="light" />}
+                  <ArrowLink href={planHref} label={cta.plan.label} tone="light" size="large" />
+                </div>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div class="pd__controls" aria-hidden="true">
+      <button class="pd__arrow pd__arrow--prev" type="button" data-pd-prev tabindex="-1" aria-label="Previous part of the day">
+        <svg viewBox="0 0 88 14" width="88" height="14" focusable="false"><path d="M87.5 7H1M7 1L1 7l6 6" /></svg>
+      </button>
+      <span class="pd__count"><span data-pd-count>01</span> / {numeral(beats.length)}</span>
+      <button class="pd__arrow" type="button" data-pd-next tabindex="-1" aria-label="Next part of the day">
+        <svg viewBox="0 0 88 14" width="88" height="14" focusable="false"><path d="M0.5 7H87M81 1l6 6-6 6" /></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../../scripts/pinned-day';
+</script>
+
+<style>
+  .pd { position: relative; background: var(--sand-30); --pd-pad: var(--gutter); }
+
+  /* ---------- Shared pieces ---------- */
+  .pd__heading { margin: 0; max-width: 12em; }
+  .pd__example {
+    margin: 1.5rem 0 0;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--sage-80);
+  }
+  .pd__note { margin: 0.6rem 0 0; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.45; color: var(--sage-100); max-width: 26rem; }
+
+  .pd__rail-row { position: relative; }
+  .pd__rail {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .pd__rail-line { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--sage-20); }
+  .pd__rail-fill { position: absolute; inset: 0 auto 0 0; width: 0%; background: var(--sage-80); transition: width 400ms var(--ease-soft); }
+  .pd__stop { position: relative; min-width: 0; }
+  .pd__stop::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -3px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--sand-30);
+    border: 1px solid var(--sage-40);
+    z-index: 1;
+    transition: background-color var(--dur-fast) var(--ease-soft), border-color var(--dur-fast) var(--ease-soft);
+  }
+  .pd__stop.is-reached::before { background: var(--sage-80); border-color: var(--sage-80); }
+  .pd__stop a {
+    display: grid;
+    gap: 0.1rem;
+    min-height: 2.75rem;
+    padding: 0.85rem 0.5rem 0.5rem 0;
+    color: var(--sage-80);
+    text-decoration: none;
+  }
+  .pd__stop-name { font-family: var(--font-serif); font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.3rem); line-height: 1.2; color: var(--sage-80); transition: color var(--dur-fast) var(--ease-soft); }
+  .pd__stop.is-reached .pd__stop-name { color: var(--sage-100); }
+  .pd__stop.is-current .pd__stop-name { color: var(--sage-100); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.3em; text-decoration-color: var(--sage-40); }
+  .pd__stop-time { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.08em; color: var(--sage-80); }
+  .pd__stop--end { position: absolute; right: 0; top: 0; text-align: right; }
+  .pd__stop--end::before { left: auto; right: 0; }
+  .pd__stop--end .pd__stop-time { display: block; padding-top: 2.35rem; }
+  @media (hover: hover) {
+    .pd__stop a:hover .pd__stop-name { color: var(--sage-100); }
+  }
+
+  .pd__panel { position: relative; background: var(--salt-25); color: var(--sage-100); }
+  .pd__panel--move { background: var(--sand-30); }
+  .pd__panel--nourish { background: var(--salt-25); }
+  .pd__panel-media { position: relative; overflow: hidden; background: var(--sand-40); }
+  .pd__beat-meta {
+    display: flex;
+    gap: 0.4rem;
+    margin: 0 0 0.6rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--sage-80);
+  }
+  .pd__beat-num { color: var(--sage-80); }
+  .pd__beat { margin: 0 0 1.25rem; font-size: clamp(2rem, 1.5rem + 1.6vw, 3rem); line-height: 1.05; }
+
+  .pd__steps { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--sage-20); }
+  .pd__step {
+    display: grid;
+    grid-template-columns: 4.25rem minmax(0, 1fr);
+    gap: 0 1rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--sage-20);
+  }
+  .pd__time { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.06em; line-height: 1.7; color: var(--sage-80); font-variant-numeric: tabular-nums; }
+  .pd__what { display: grid; gap: 0.2rem; font-size: 0.9375rem; line-height: 1.5; }
+  .pd__line--sub { font-size: var(--fs-small); color: var(--sage-80); }
+  .pd__items { display: grid; gap: 0.15rem; margin-top: 0.3rem; padding-left: 0.9rem; border-left: 1px solid var(--sage-20); font-size: var(--fs-small); color: var(--sage-80); }
+
+  .pd__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 2rem; margin-top: 1.5rem; }
+
+  /* Restore: the photograph fills the panel; a local gradient sits under the words only. */
+  .pd__panel--restore { background: var(--sage-40); color: var(--salt-25); --heading: var(--salt-25); --focus: var(--focus-on-dark); }
+  .pd__panel--restore .pd__panel-media { position: absolute; inset: 0; aspect-ratio: auto; }
+  .pd__panel--restore .pd__panel-text { position: relative; z-index: 1; }
+  .pd__panel--restore::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(35 32 14 / 0.55), rgb(35 32 14 / 0.34) 55%, rgb(35 32 14 / 0) 100%);
+    pointer-events: none;
+  }
+  .pd__panel--restore :is(.pd__beat, .pd__beat-meta, .pd__beat-num, .pd__time, .pd__line--sub, .pd__items) { color: var(--salt-25); }
+  .pd__panel--restore :is(.pd__steps, .pd__step) { border-color: rgb(250 249 245 / 0.35); }
+  .pd__panel--restore .pd__items { border-left-color: rgb(250 249 245 / 0.35); }
+  /* While the Restore photograph is still a light placeholder, the words take sage ink and the
+     gradient goes, so the panel reads bright rather than as a dark field (CD review 02 item 1, QA M3). */
+  .pd__panel--restore:has(.media--placeholder) { background: var(--sand-40); color: var(--sage-100); --heading: var(--sage-80); --focus: var(--sage-80); }
+  .pd__panel--restore:has(.media--placeholder)::after { display: none; }
+  .pd__panel--restore:has(.media--placeholder) :is(.pd__beat, .pd__beat-meta, .pd__beat-num, .pd__time, .pd__line--sub, .pd__items) { color: var(--sage-100); }
+  .pd__panel--restore:has(.media--placeholder) .pd__beat { color: var(--sage-100); }
+  .pd__panel--restore:has(.media--placeholder) :is(.pd__steps, .pd__step) { border-color: var(--rule); }
+  .pd__panel--restore:has(.media--placeholder) .pd__items { border-left-color: var(--rule); }
+  .pd__panel--restore:has(.media--placeholder) :global(.arrow-link--tone-light) { --al-colour: var(--sage-100); --focus: var(--sage-80); }
+
+  .pd__controls { display: none; }
+
+  /* ---------- Below 900px: swipe row, rail above ---------- */
+  .pd__stage { padding-top: var(--section-y); }
+  .pd__base { padding: 0 var(--pd-pad) var(--space-l); }
+  .pd__base-media { display: none; }
+  .pd__rail-row { margin: 0 var(--pd-pad) 1.25rem; }
+  /* Panels keep their own height; scripts/pinned-day.ts sets the row to the panel in view, so a short
+     panel carries no empty space on phones (CD review 02 item 9). */
+  .pd__track {
+    display: flex;
+    align-items: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    outline: none;
+  }
+  .pd__track::-webkit-scrollbar { display: none; }
+  .pd__panel { flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always; display: flex; flex-direction: column; }
+  .pd__panel-media { aspect-ratio: 4 / 3; }
+  .pd__panel-text { padding: 1.5rem var(--pd-pad) 2rem; }
+  .pd__panel--restore { justify-content: flex-end; }
+  .pd__panel--restore .pd__panel-text { padding-top: clamp(12rem, 40vh, 18rem); }
+
+  .pd__controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem var(--pd-pad) var(--section-y);
+    color: var(--sage-80);
+  }
+  .pd__count { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.08em; font-variant-numeric: tabular-nums; }
+  .pd__arrow { display: grid; place-items: center; min-width: 2.75rem; height: 2.75rem; padding: 0; border: 0; background: none; color: var(--sage-40); transition: color var(--dur-fast) var(--ease-soft); }
+  .pd__arrow svg { width: clamp(3.5rem, 12vw, 5.5rem); height: 14px; overflow: visible; }
+  .pd__arrow path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+  .pd__arrow:not(:disabled) { color: var(--sage-80); }
+  .pd__arrow:disabled { opacity: 0.45; cursor: default; }
+  @media (hover: hover) {
+    .pd__arrow:not(:disabled):hover { color: var(--sage-100); }
+  }
+
+  /* ---------- 900px and up: pinned stage ---------- */
+  @media (min-width: 900px) {
+    .pd__base { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 6rem); align-items: center; }
+    .pd__base-media { display: block; position: relative; aspect-ratio: 16 / 10; overflow: hidden; }
+    .pd__panel { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 6rem); align-items: center; padding: clamp(2rem, 5vh, 3.5rem) var(--pd-pad); }
+    .pd__panel-media { aspect-ratio: 4 / 5; max-height: 100%; }
+    .pd__panel-text { padding: 0; grid-row: 1; grid-column: 1; }
+    .pd__panel--arrive .pd__panel-media { grid-column: 2; justify-self: end; width: min(100%, 30rem); }
+    .pd__panel--move { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+    .pd__panel--move .pd__panel-media { grid-column: 1; aspect-ratio: 3 / 2; }
+    .pd__panel--move .pd__panel-text { grid-column: 2; }
+    .pd__panel--nourish .pd__panel-media { grid-column: 2; aspect-ratio: 16 / 10; }
+    .pd__panel--restore { display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; }
+    .pd__panel--restore .pd__panel-text { padding: 0; width: min(100%, 34rem); }
+    /* The gradient stays local: lower left, under the words, fading out well before the centre. */
+    .pd__panel--restore::after { background: radial-gradient(ellipse 58% 78% at 12% 100%, rgb(35 32 14 / 0.56), rgb(35 32 14 / 0.3) 48%, rgb(35 32 14 / 0) 100%); }
+  }
+
+  /* Pinned layout, only once JavaScript has set it up (scripts/pinned-day.ts adds .is-pinned). */
+  .pd.is-pinned .pd__stage {
+    display: grid;
+    grid-template-rows: var(--header-compact) auto minmax(0, 1fr);
+    grid-template-areas: 'gap' 'rail' 'panels';
+    height: 100svh;
+    padding: 0;
+    overflow: hidden;
+    background: var(--sand-30);
+  }
+  .pd.is-pinned .pd__controls { display: none; }
+  .pd.is-pinned .pd__base { grid-area: panels; padding: clamp(1.5rem, 4vh, 3rem) var(--pd-pad) clamp(2rem, 6vh, 4rem); min-height: 0; }
+  .pd.is-pinned .pd__base-media { max-height: calc(100svh - var(--header-compact) - 12rem); justify-self: end; width: min(100%, calc((100svh - var(--header-compact) - 12rem) * 1.6)); }
+  .pd.is-pinned .pd__rail-row { grid-area: rail; margin: 1.25rem var(--pd-pad) 0; }
+  .pd.is-pinned .pd__viewport { grid-area: panels; position: relative; overflow: hidden; min-height: 0; pointer-events: none; }
+  .pd.is-pinned .pd__track { display: block; height: 100%; overflow: visible; }
+  .pd.is-pinned .pd__panel {
+    position: absolute;
+    inset: 0;
+    pointer-events: auto;
+    box-shadow: -1px 0 0 rgb(99 91 57 / 0.12), -24px 0 48px -24px rgb(35 32 14 / 0.16);
+    will-change: transform;
+  }
+  .pd.is-pinned .pd__panel-media { max-height: calc(100svh - var(--header-compact) - 9rem); }
+  .pd.is-pinned .pd__panel--restore .pd__panel-media { max-height: none; }
+  .pd.is-pinned .pd__panel--arrive .pd__panel-media { width: min(100%, calc((100svh - var(--header-compact) - 9rem) * 0.8)); }
+
+  /* ---------- Reduced motion: a static stack at every width ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    .pd__track { display: block; overflow: visible; }
+    .pd__panel { display: block; }
+    .pd__controls { display: none; }
+    .pd__stage { padding-bottom: 0; }
+    .pd__rail-fill { transition: none; }
+    .pd__stop::before, .pd__stop-name, .pd__arrow { transition: none; }
+  }
+  @media (prefers-reduced-motion: reduce) and (min-width: 900px) {
+    .pd__panel { display: grid; }
+    .pd__panel--restore { display: flex; min-height: 80svh; }
+  }
+</style>

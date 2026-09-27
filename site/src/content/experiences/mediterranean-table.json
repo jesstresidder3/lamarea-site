@@ -1,0 +1,90 @@
+{
+  "name": "Chef curated Mediterranean dining",
+  "name_as_transcribed": "chef curated mediterranean dining",
+  "name_as_published": "Signature culinary experience: private shared 3 course Mediterranean-inspired lunch",
+  "kind": "guided",
+  "order": 5,
+  "art_direction": "split",
+  "media": "experience-mediterranean-table",
+  "media_type": "video",
+  "short": {
+    "text": "Shared private chef curated Mediterranean-inspired lunch",
+    "source": {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "page": "12",
+      "section": "RETREAT MEAL INCLUSIONS",
+      "captured": "24-09-2026",
+      "note": "Changed from the Beresford example line so the tile does not credit two kitchens (page builder B request, orchestrator 24-09-2026)"
+    }
+  },
+  "pillar": null,
+  "pillars": [],
+  "pillar_basis": "No published pillar text names this experience, so no link is recorded",
+  "duration": null,
+  "duration_basis": null,
+  "duration_as_published": "12:30 PM to 2:00 PM in the Beresford example",
+  "practitioners": [
+    "luca-guiotto"
+  ],
+  "business": {
+    "name": "Aromi Dining",
+    "person": "luca-guiotto",
+    "url": "https://www.aromidining.com"
+  },
+  "business_basis": "Guide p.13: \"with Award-Winning Chef, Luca Guiotto of Aromi Dining\"",
+  "business_conflict": null,
+  "practitioners_as_published": [
+    "Luca Guiotto, Aromi Dining (guide p.13)",
+    "Beresford (Beresford example)"
+  ],
+  "descriptions": [
+    {
+      "text": [
+        "SIGNATURE CULINARY EXPERIENCE INCLUDED",
+        "Private shared 3 course mediterranean-inspired lunch with Award-Winning Chef, Luca Guiotto of Aromi Dining. Enjoy a fresh, seasonal, plant-forward lunch showcasing the finest local South Australian ingredients, where every course tells a story through bold flavours and elegant presentation."
+      ],
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": "13",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "Shared chef curated Mediterranean lunch provided by Beresford"
+      ],
+      "source": {
+        "type": "live_site_image",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+        "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+        "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "3 Course Mediteranean-Inspired Lunch with Private Chef"
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "captured": "24-09-2026",
+        "section": "What a weekend with us looks like..."
+      }
+    }
+  ],
+  "seed_id": "mediterranean-dining",
+  "source": [
+    {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+    }
+  ],
+  "status": "draft",
+  "review": "Example menu in menu.json."
+}

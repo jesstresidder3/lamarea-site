@@ -1,0 +1,9 @@
+---
+/*
+  The customise prompts under the name build spec section 12 uses. Same component as QuestionCircles
+  (kept under that name because build spec sections 4 and 11 list it); every prop passes through.
+*/
+import QuestionCircles from './QuestionCircles.astro';
+const props = Astro.props;
+---
+<QuestionCircles {...props} />

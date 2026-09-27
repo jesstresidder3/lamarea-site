@@ -1,0 +1,264 @@
+[
+  {
+    "id": "faq-01",
+    "order": 1,
+    "question": "What’s included in your wellness retreats and what can I expect?",
+    "answer_paragraphs": [
+      "This will depend on what type of lifestyle wellness retreat you have chosen but generally there will be a range of transportation, dining, wellness, spa/beauty and education inclusions.",
+      "On top of this there are ‘add ons’ you can pay for on top of your retreat to include in your experience.",
+      "Our retreats offer a balance between rest, movement, activities and free time. You can expect a welcoming and supportive environment where you are completely looked after from the moment you arrive to embark on a wellness retreat with us.",
+      "Our retreats are designed to nurture your body, mind and soul through evidence based strategies.",
+      "They allow you to slow down and reclaim your health and wellbeing through nature, human connection, and lifestyle wellness experiences & education.",
+      "Please head HERE to view some of the activities you’ll find on a La Maréa wellness retreat."
+    ],
+    "group": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Refers to \"Please head HERE\" but HERE is not a link in the published answer."
+  },
+  {
+    "id": "faq-02",
+    "order": 2,
+    "question": "Do I need to be experienced with yoga, meditation, or fitness? Am I fit enough to attend a retreat?",
+    "answer_paragraphs": [
+      "You do not need any experience in these activities, our retreats are bespoke and will be personalised to you and your level of fitness. If you want to participate fully in all aspects of the retreat i.e the hiking, then we do recommend a moderate level of fitness.",
+      "However, the hikes can always be shortened, and activities swapped out for time spent relaxing at the private beach, on the deck or in the bath.",
+      "It is not compulsory to partake in anything so if you wish to opt out on any activity you don't feel comfortable with you are very welcome to do so!"
+    ],
+    "group": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": null
+  },
+  {
+    "id": "faq-03",
+    "order": 3,
+    "question": "What kind of food is provided, and can dietary requirements be accommodated?",
+    "answer_paragraphs": [
+      "The meals we provide are plant-forward and Mediterranean-inspired. We aim to use local, seasonal and organic produce in our meals where possible.",
+      "Dietary requirements will of course be catered for whether you are gluten-free, dairy-free, or have allergies. Please note your dietary requirements will need to be given in your ‘pre-retreat’ health screening form at least 2 weeks prior to you commencing on a retreat with us!"
+    ],
+    "group": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": null
+  },
+  {
+    "id": "faq-04",
+    "order": 4,
+    "question": "Is the retreat suitable for solo travellers?",
+    "answer_paragraphs": [
+      "Solo retreat guests must feel safe and comfortable.",
+      "Ours will depend on where we are hosting our retreats and how many rooms we have available.",
+      "Currently we can only cater for ‘pairs’ due to our accommodation partners however we hope to offer solo retreats in the near future.",
+      "For now, we invite you to share the experience with someone special, such as a friend, your partner or your daughter."
+    ],
+    "group": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Says La maréa can only cater for pairs. plan/11 flags that Belle must confirm this still holds."
+  },
+  {
+    "id": "faq-05",
+    "order": 5,
+    "question": "What should I pack?",
+    "answer_paragraphs": [
+      "We will send you a ‘Preparing for La maréa’’ document with a full outline of what to bring and what not to bring prior to your retreat experience.",
+      "We recommend being prepared for all seasons as coastal weather can be unpredictable!"
+    ],
+    "group": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": null
+  },
+  {
+    "id": "faq-06",
+    "order": 6,
+    "question": "Where is the retreat located, and how do I get there?",
+    "answer_paragraphs": [
+      "This will be unique to our accommodation partner, but generally our retreats will be held on the Fleurieu Peninsula, South Australia.",
+      "We cover your transport from Adelaide, meeting spot details for pick up/drop off will be provided to you prior to your retreat."
+    ],
+    "group": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Says transport from Adelaide is covered."
+  },
+  {
+    "id": "faq-07",
+    "order": 7,
+    "question": "Is there free time, or is the schedule full?",
+    "answer_paragraphs": [
+      "Our weekend retreats are relatively structured; however, you are welcome to pick which activities you wish to participate in. Nothing is compulsory, your retreat - your choice!",
+      "Our wish is that you get whatever you need out of this experience; if it means choosing to sauna or relax in the bath instead of hiking, then that is perfect.",
+      "There is space to rest, journal, explore the coastline, or simply unwind."
+    ],
+    "group": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": null
+  },
+  {
+    "id": "faq-08",
+    "order": 8,
+    "question": "Will I have internet access?",
+    "answer_paragraphs": [
+      "All guests attending a retreat will have access to the internet at our partner's accommodation.",
+      "However, we encourage you to switch your devices off and disconnect as much as possible to embrace the digital detox.",
+      "With this in mind, we also ask you to please respect others who are wishing to embrace a digital detox, therefore discourage the use of phones and Wi-Fi in any of the public spaces."
+    ],
+    "group": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": null
+  },
+  {
+    "id": "faq-09",
+    "order": 9,
+    "question": "Are children allowed?",
+    "answer_paragraphs": [
+      "Unfortunately we are not able to cater for children under the age of 16 years old."
+    ],
+    "group": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": null
+  },
+  {
+    "id": "faq-10",
+    "order": 10,
+    "question": "What is the cancellation, refund and credit policy?",
+    "answer_paragraphs": [
+      "At La maréa we design every retreat as a bespoke experience, working closely with carefully selected partners, local artisans, and service providers to ensure a truly unique and immersive wellness journey. Due to the nature of these arrangements, all bookings are non-refundable.",
+      "If you need to cancel your booking, we are happy to offer a credit for a future retreat or experience. This credit can be applied to any upcoming retreat within 2 years of your original booking date.",
+      "We understand that life happens and schedules can change. While we are unable to provide refunds, we aim to be as flexible as possible in helping you reschedule or transfer your credit to another retreat or guest, subject to availability.",
+      "By booking a retreat with us, you acknowledge and accept that your payment is a commitment to your experience and to our local partners, who dedicate their time and resources to make each retreat exceptional.",
+      "For questions regarding rescheduling or transferring your credit, please contact us at info@lamarea.com.au and we’ll be happy to assist. For more information on our policy please read our terms and conditions."
+    ],
+    "group": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Says credit applies within 2 years. The live Terms & Conditions page (3.2) says credits are valid for 12 months. Conflict for Belle."
+  },
+  {
+    "id": "faq-11",
+    "order": 11,
+    "question": "Can I pay in installments?",
+    "answer_paragraphs": [
+      "We are currently in the process of setting up Afterpay. Please contact us to express your interest."
+    ],
+    "group": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Says Afterpay is being set up. Belle to confirm."
+  },
+  {
+    "id": "faq-12",
+    "order": 12,
+    "question": "Do you arrange airport transfers to and from your guest meeting spot?",
+    "answer_paragraphs": [
+      "We may be able to offer airport transfers for guests travelling from interstate, depending on availability and retreat scheduling.",
+      "Transfers are not automatically included in your booking.",
+      "How do I request an airport transfer?",
+      "If you require a transfer, please contact us before purchasing your retreat ticket so we can confirm whether we can accommodate your arrival and departure times.",
+      "Email: info@lamarea.com.au",
+      "Belle Redden Phone: 0411354356",
+      "Which airports do you service?",
+      "We primarily service Adelaide Airport (ADL).",
+      "If you plan to arrive via another airport, please get in touch so we can advise your best travel options.",
+      "How much does the transfer cost?",
+      "Transfer pricing varies depending on:",
+      "Your arrival and departure times",
+      "Number of guests travelling",
+      "Vehicle availability",
+      "We will provide a quote when you enquire if we need to charge you for this service.",
+      "What if you cannot accommodate my airport transfer?",
+      "If we’re unable to provide a transfer for your retreat dates, we will guide you through alternate options, such as:",
+      "Private car services",
+      "Local transfer companies",
+      "Rental car recommendations",
+      "Taxi or rideshare availability",
+      "Do you offer shared transfers with other guests?",
+      "If multiple guests arrive around the same time, we may be able to coordinate a shared transfer at a reduced rate.",
+      "We’ll let you know if this is an option when you enquire.",
+      "How far is La Maréa & Naiko Retreat from the airport?",
+      "La Maréa is located at various locations on the Fleurieu Peninsula.",
+      "Transfer time from Adelaide Airport is typically 90-120 minutes, depending on traffic and time of day.",
+      "What information do I need to provide when requesting a transfer?",
+      "To help us confirm availability, please include:",
+      "Your full name",
+      "Retreat date",
+      "Flight number",
+      "Arrival and departure times",
+      "Number of guests requiring transfer",
+      "Where will my driver meet me?",
+      "If your transfer is confirmed, your driver will meet you at the designated meeting point in the arrivals area. We will send you exact instructions before your travel day.",
+      "Can I change my transfer details later?",
+      "Yes, where possible. Please contact us as soon as your flight details change so we can adjust your transfer arrangements."
+    ],
+    "group": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Long answer with sub-questions, kept as paragraphs. Contains Belle's phone number 0411354356 and \"La Maréa & Naiko Retreat\". Transfer time given as 90-120 minutes."
+  }
+]

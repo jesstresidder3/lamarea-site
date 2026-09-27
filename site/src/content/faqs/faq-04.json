@@ -1,0 +1,21 @@
+{
+  "question": "Is the retreat suitable for solo travellers?",
+  "answer": [
+    "Solo retreat guests must feel safe and comfortable.",
+    "Ours will depend on where we are hosting our retreats and how many rooms we have available.",
+    "Currently we can only cater for ‘pairs’ due to our accommodation partners however we hope to offer solo retreats in the near future.",
+    "For now, we invite you to share the experience with someone special, such as a friend, your partner or your daughter."
+  ],
+  "order": 4,
+  "topic": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    }
+  ],
+  "status": "draft",
+  "review": "Says La maréa can only cater for pairs. plan/11 flags that Belle must confirm this still holds."
+}

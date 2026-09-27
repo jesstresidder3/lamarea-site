@@ -1,0 +1,98 @@
+---
+/*
+  Belle’s ten pillar icons, large, appearing one after another as the philosophy page opens ("as soon
+  as people come to the philosophy page, yeah, I’d really love those sort of brand pillars to pop up",
+  BD-37; "these need to be bigger and... more luxurious", BD-29). Each is a link that opens its pillar
+  in the FlexShowcase below (the showcase reads the hash). A soft fade and rise, staggered, once;
+  shown at rest under reduced motion. Owner: page builder B.
+
+  <PillarIcons pillars={pillars} />
+*/
+import Icon from '../../base/Icon.astro';
+import { pad2 } from '../../../lib/text';
+import type { Pillar } from '../../../lib/content';
+
+interface Props { pillars: Pillar[]; label?: string; class?: string }
+const { pillars, label = 'Our ten pillars', class: className } = Astro.props;
+---
+<nav class:list={['picons', className]} aria-label={label}>
+  <ol class="picons__list" role="list">
+    {pillars.map((p, i) => (
+      <li class="picons__item" style={`--k:${i}`}>
+        <a class="picons__link" href={`#${p.id}`}>
+          <Icon name={p.data.icon.replace(/\.svg$/, '')} size="clamp(2.75rem, 6vw, 5.5rem)" class="picons__icon" />
+          <span class="picons__num" aria-hidden="true">{pad2(i + 1)}</span>
+          <span class="picons__name">{p.data.name}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .picons { width: 100%; }
+  .picons__list {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: clamp(1.75rem, 3vw, 2.5rem) clamp(0.5rem, 2vw, 1.5rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (min-width: 1000px) { .picons__list { grid-template-columns: repeat(10, minmax(0, 1fr)); } }
+  .picons__item { min-width: 0; }
+  .picons__link {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    justify-items: center;
+    align-content: start;
+    height: 100%;
+    gap: 0.55rem;
+    padding: 0.5rem 0.25rem;
+    color: var(--sage-80);
+    text-align: center;
+    text-decoration: none;
+  }
+  .picons__link :global(.picons__icon) {
+    color: var(--sage-60);
+    transition: color var(--dur-fast) var(--ease-soft), transform 700ms var(--ease-soft);
+  }
+  .picons__num { font-family: var(--font-ui); font-size: 0.68rem; letter-spacing: var(--track-label); color: var(--muted); }
+  .picons__name {
+    font-family: var(--font-serif);
+    font-size: clamp(0.95rem, 0.85rem + 0.35vw, 1.1rem);
+    line-height: 1.2;
+    color: var(--heading);
+    text-wrap: balance;
+  }
+  @media (hover: hover) {
+    .picons__link:hover :global(.picons__icon) { color: var(--sage-100); transform: translateY(-3px); }
+  }
+  .picons__link:focus-visible :global(.picons__icon) { color: var(--sage-100); }
+
+  /* The pop-up on arrival: each icon fades and rises in turn, once, as the page opens. */
+  @media (prefers-reduced-motion: no-preference) {
+    .picons__item { animation: picon-in 900ms var(--ease-soft) both; animation-delay: calc(300ms + var(--k) * 110ms); }
+  }
+  @keyframes picon-in {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .picons__link :global(.picons__icon) { transition: none; }
+  }
+  /* Phones: a two-column legend, icon beside its name, so no name is squeezed or broken. */
+  @media (max-width: 599px) {
+    .picons__list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.25rem 1rem; }
+    .picons__link { grid-template-columns: 2.75rem minmax(0, 1fr); grid-template-rows: auto; justify-items: start; align-items: center; text-align: left; gap: 0.75rem; padding: 0.35rem 0; }
+    .picons__num { display: none; }
+    .picons__name { font-size: 1rem; }
+  }
+  /* The narrowest phones: a smaller icon column so "Personalisation" fits its cell (QA m5). */
+  @media (max-width: 399px) {
+    .picons__list { column-gap: 0.75rem; }
+    .picons__name { font-size: min(1rem, 4.4vw); }
+    .picons__link { grid-template-columns: 2.25rem minmax(0, 1fr); gap: 0.5rem; }
+    .picons__link :global(.picons__icon) { width: 2.25rem !important; height: 2.25rem !important; }
+  }
+</style>

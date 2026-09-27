@@ -1,0 +1,19 @@
+{
+  "question": "What kind of food is provided, and can dietary requirements be accommodated?",
+  "answer": [
+    "The meals we provide are plant-forward and Mediterranean-inspired. We aim to use local, seasonal and organic produce in our meals where possible.",
+    "Dietary requirements will of course be catered for whether you are gluten-free, dairy-free, or have allergies. Please note your dietary requirements will need to be given in your ‘pre-retreat’ health screening form at least 2 weeks prior to you commencing on a retreat with us!"
+  ],
+  "order": 3,
+  "topic": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    }
+  ],
+  "status": "draft",
+  "review": null
+}

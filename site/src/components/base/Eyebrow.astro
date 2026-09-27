@@ -1,0 +1,43 @@
+---
+/*
+  Small sentence-case tracked label above a heading (never uppercase, orchestration brief rule).
+  <Eyebrow>Fleurieu Peninsula, South Australia</Eyebrow>
+  <Eyebrow icon="personalisation">Your day, shaped around you</Eyebrow>
+  Props: as (default 'p'), icon (one of Belle's icon names, shown before the label), tone ('light' on media),
+  draft (marks drafted copy), class.
+*/
+import Icon from './Icon.astro';
+
+interface Props {
+  as?: 'p' | 'span' | 'div' | 'h2' | 'h3';
+  icon?: string;
+  tone?: 'default' | 'light';
+  draft?: boolean;
+  class?: string;
+}
+const { as: Tag = 'p', icon, tone = 'default', draft = false, class: className } = Astro.props;
+---
+<Tag class:list={['eyebrow', `eyebrow--${tone}`, className]} data-draft={draft ? '' : undefined}>
+  {icon && <Icon name={icon} size="1.5rem" class="eyebrow__icon" />}
+  <span><slot /></span>
+</Tag>
+
+<style>
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 0 0 1.25rem;
+    font-family: var(--font-ui);
+    font-weight: 400;
+    font-size: var(--fs-label);
+    line-height: var(--lh-label);
+    letter-spacing: var(--track-label);
+    color: var(--muted);
+    max-width: none;
+  }
+  .eyebrow--light { color: var(--salt-25); }
+  :global(.band-sage) .eyebrow { color: var(--sand-40); }
+  .eyebrow :global(.eyebrow__icon) { color: var(--sage-60); }
+  .eyebrow--light :global(.eyebrow__icon) { color: currentColor; }
+</style>

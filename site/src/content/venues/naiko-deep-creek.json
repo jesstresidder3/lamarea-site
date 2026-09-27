@@ -1,0 +1,241 @@
+{
+  "name": "Naiko Deep Creek",
+  "name_as_published_by_la_marea": "Naiko Retreat",
+  "name_as_published_by_venue": "Naiko Retreat",
+  "order": 1,
+  "region": "coast",
+  "locality": "Deep Creek, Fleurieu Peninsula",
+  "location_label": "Deep Creek, Fleurieu Peninsula",
+  "address": "333 Rarkang Road, Deep Creek, South Australia",
+  "coordinates": {
+    "lat": -35.6246,
+    "lng": 138.1673,
+    "precision": "street",
+    "basis": "Street centroid from OpenStreetMap Nominatim for the address the venue publishes, 24-09-2026. Road level, not the building. Rarkang Road, Silverton SA 5204 (the venue writes Deep Creek)."
+  },
+  "sleeps": {
+    "display": "6",
+    "value": 6,
+    "basis": "Belle and the venue agree",
+    "conflict": null,
+    "sources": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Partner Accomodation / locations: \"Naiko Deep Creek (sleeps 6)\""
+      },
+      {
+        "type": "venue_site",
+        "url": "https://naikoretreat.com.au/",
+        "captured": "24-09-2026",
+        "note": "\"sleeps a maximum of six guests in three spacious, identical king bedrooms\""
+      }
+    ]
+  },
+  "day_capacity": null,
+  "distance_from_adelaide": "approximately 90 minutes from Adelaide (venue site)",
+  "five_star": true,
+  "five_star_basis": "Build spec 12: \"five star\" appears only where a rating exists. Naiko: La maréa publishes five star wording and Star Ratings Australia badges sit beside it (Gold List 2025).",
+  "partner_label": "Five star partner venue",
+  "drive_from_adelaide": {
+    "text": "About 90 minutes from Adelaide",
+    "basis": "Venue site: \"approximately 90 minutes from Adelaide\"",
+    "source": {
+      "type": "venue_site",
+      "url": "https://naikoretreat.com.au/",
+      "captured": "24-09-2026"
+    }
+  },
+  "five_star_wording": [
+    "5 Star Unique Eco-friendly Coastal Luxury Accomodation in Deep Creek, South Australia;",
+    "with exceptional attention to detail, amenities & guest experiences."
+  ],
+  "partner_approved": false,
+  "partner_approved_note": "Open decision 8. Venues publish only when the partner has approved. This prototype shows all four with a \"partner approval pending\" flag in the placeholder layer.",
+  "intro": {
+    "text": "Perched on the cliffs of Deep Creek in the Fleurieu Peninsula, Naiko Retreat offers an exclusive coastal escape.",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/accommodation-partners",
+      "captured": "24-09-2026",
+      "section": "Primary partner, first sentence"
+    }
+  },
+  "about": [
+    {
+      "text": "Perched on the cliffs of Deep Creek in the Fleurieu Peninsula, Naiko Retreat offers an exclusive coastal escape. A private, secluded beach lies just steps from your luxury accommodation, with crystal-clear waters perfect for swimming, relaxation, and soaking in the serene beauty of the coast.",
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/accommodation-partners",
+        "captured": "24-09-2026",
+        "section": "Primary partner"
+      }
+    },
+    {
+      "text": "“Naiko,” a Ramindjeri word for “Mother,” honours the rich indigenous heritage of this land. Partnering with Naiko felt natural and allows us to offer an immersive wellness experience that connects guests to land.",
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/accommodation-partners",
+        "captured": "24-09-2026",
+        "section": "Primary partner"
+      }
+    }
+  ],
+  "features": [
+    {
+      "name": "The deck",
+      "text": "The front deck has outdoor lounge furniture and looks over the beach.",
+      "media": "venue-naiko-deep-creek-deck",
+      "source": {
+        "type": "venue_facts",
+        "url": "https://naikoretreat.com.au/",
+        "captured": "24-09-2026",
+        "note": "Venue facts, rewritten as plain lines from the venue's published details (orchestrator decision, CD review 02 item 3). The venue's own wording stays in build/03-content-harvest.md."
+      }
+    },
+    {
+      "name": "The bath",
+      "text": "The house is self-contained and sleeps up to six guests in three king bedrooms, each with an ensuite. The free-standing bath looks out to sea.",
+      "media": "venue-naiko-deep-creek-bath",
+      "source": {
+        "type": "venue_facts",
+        "url": "https://naikoretreat.com.au/",
+        "captured": "24-09-2026",
+        "note": "Venue facts, rewritten as plain lines from the venue's published details (orchestrator decision, CD review 02 item 3). The venue's own wording stays in build/03-content-harvest.md."
+      }
+    },
+    {
+      "name": "The beach",
+      "text": "Naiko’s own beach is a short walk from the house, and guests can swim there.",
+      "media": "venue-naiko-deep-creek-beach",
+      "source": {
+        "type": "venue_facts",
+        "url": "https://naikoretreat.com.au/",
+        "captured": "24-09-2026",
+        "note": "Venue facts, rewritten as plain lines from the venue's published details (orchestrator decision, CD review 02 item 3). The venue's own wording stays in build/03-content-harvest.md."
+      }
+    },
+    {
+      "name": "The walking trails",
+      "text": "Guests have exclusive use of the house and its four walking trails.",
+      "media": "venue-naiko-deep-creek-trails",
+      "source": {
+        "type": "venue_facts",
+        "url": "https://naikoretreat.com.au/",
+        "captured": "24-09-2026",
+        "note": "Venue facts, rewritten as plain lines from the venue's published details (orchestrator decision, CD review 02 item 3). The venue's own wording stays in build/03-content-harvest.md."
+      }
+    },
+    {
+      "name": "The bedrooms",
+      "text": "The eco conscious and secluded Retreat sleeps a maximum of six guests in three spacious, identical king bedrooms each with its own luxury ensuite bathroom. The king beds can be split into king single beds.",
+      "media": "venue-naiko-deep-creek-bedrooms",
+      "source": {
+        "type": "venue_site",
+        "url": "https://naikoretreat.com.au/",
+        "captured": "24-09-2026"
+      }
+    }
+  ],
+  "nearby": [
+    {
+      "name": "Deep Creek National Park and Talisker Conservation Park",
+      "kind": "park",
+      "text": "Naiko sits between Deep Creek National Park and Talisker Conservation Park, about 90 minutes from Adelaide.",
+      "source": {
+        "type": "venue_facts",
+        "url": "https://naikoretreat.com.au/",
+        "captured": "24-09-2026",
+        "note": "Venue facts, rewritten as plain lines from the venue's published details (orchestrator decision, CD review 02 item 3). The venue's own wording stays in build/03-content-harvest.md."
+      }
+    },
+    {
+      "name": "The Heysen Trail",
+      "kind": "trail",
+      "text": "The Heysen Trail passes through the property.",
+      "source": {
+        "type": "venue_facts",
+        "url": "https://naikoretreat.com.au/",
+        "captured": "24-09-2026",
+        "note": "Venue facts, rewritten as plain lines from the venue's published details (orchestrator decision, CD review 02 item 3). The venue's own wording stays in build/03-content-harvest.md."
+      }
+    },
+    {
+      "name": "Dolphins and whales",
+      "kind": "wildlife",
+      "text": "A local pod of dolphins is often seen near the rocks off Naiko’s beach, and whales pass from May to October.",
+      "source": {
+        "type": "venue_facts",
+        "url": "https://naikoretreat.com.au/",
+        "captured": "24-09-2026",
+        "note": "Venue facts, rewritten as plain lines from the venue's published details (orchestrator decision, CD review 02 item 3). The venue's own wording stays in build/03-content-harvest.md."
+      }
+    }
+  ],
+  "on_site": [
+    {
+      "label": "Rooms",
+      "text": "three king bedrooms, each with ensuite (venue)"
+    },
+    {
+      "label": "Bath",
+      "text": "free-standing bath (venue)"
+    },
+    {
+      "label": "Deck",
+      "text": "expansive front deck (venue)"
+    },
+    {
+      "label": "Fire",
+      "text": "low-emission wood-burning heater or fireplace (venue)"
+    },
+    {
+      "label": "Walking trails",
+      "text": "four bespoke walking trails on the property, Heysen Trail passes through (venue)"
+    },
+    {
+      "label": "Parks",
+      "text": "between Deep Creek National Park and Talisker Conservation Park (venue)"
+    },
+    {
+      "label": "Beach",
+      "text": "own secluded beach (venue)"
+    }
+  ],
+  "card_media": "venue-naiko-deep-creek-card",
+  "map_media": "venue-naiko-deep-creek-map",
+  "gallery": [
+    "venue-naiko-deep-creek-deck",
+    "venue-naiko-deep-creek-bath",
+    "venue-naiko-deep-creek-beach",
+    "venue-naiko-deep-creek-trails",
+    "venue-naiko-deep-creek-bedrooms"
+  ],
+  "price_from": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/accommodation-partners",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "venue_site",
+      "url": "https://naikoretreat.com.au/",
+      "captured": "24-09-2026"
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. La maréa copy says \"Following recent bushfires in the region, Naiko is undergoing careful landscape restoration, with bookings now open for late 2026\". The venue home page does not mention it (plan/11 item 42). The Naiko logo on the La maréa page reads \"RARKANG, FLEURIEU PENINSULA\".",
+  "held_back": [
+    {
+      "text": "Following recent bushfires in the region, Naiko is undergoing careful landscape restoration, with bookings now open for late 2026 as the coastline continues its natural regeneration.",
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/accommodation-partners",
+        "captured": "24-09-2026",
+        "section": "Primary partner"
+      },
+      "reason": "Unconfirmed in late September 2026. Off the public page until Belle confirms (CD review 02 item 4). Shown in the notes layer only."
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "name": "Sarah McLachlan",
+  "team": "wellness",
+  "order": 7,
+  "group_as_published": "Lifestyle Wellness Partners",
+  "role": "Retreat Host & Pilates Instructor",
+  "role_long": "Retreat Host, Pilates Instructor (in progress) & Founding partner of Happy Melon Studios",
+  "business": "Happy Melon Studios (founding partner)",
+  "business_url": null,
+  "credentials": [
+    "Matwork & Reformer Certification (in progress), Breathe Education"
+  ],
+  "credentials_basis": "Picked by the build from the qualifications as published, verbatim.",
+  "qualifications": [
+    "Bachelor of Business, Entrepreneurship, RMIT",
+    "Founding Partner, Happy Melon Studios",
+    "Marketing & Events, Bird in Hand",
+    "Matwork & Reformer Certification (in progress), Breathe Education"
+  ],
+  "services": [],
+  "bio": [
+    {
+      "kind": "para",
+      "text": "Sarah brings extensive experience in PR, Marketing, Events and Brand Communications, with a special passion for partnering with brands in the wellness space. She is currently completing her certification in Group Mat and Reformer Pilates, further aligning her professional skills with her personal interests."
+    },
+    {
+      "kind": "para",
+      "text": "Living on a farm with her young family, Sarah understands the art of the juggle but remains committed to prioritising her health and wellbeing. She loves spending time outdoors, traveling, exercising, and cheering on her kids at their weekend sports."
+    },
+    {
+      "kind": "para",
+      "text": "Due to Sarah's extensive background and experience she is one of our key La maréa retreat hosts!"
+    }
+  ],
+  "portrait": "team-sarah-mclachlan",
+  "pillars": [
+    "movement"
+  ],
+  "pillars_basis": "Mapped by the build from the services each person publishes. Belle to confirm.",
+  "live_url": "https://www.lamarea.com.au/sarah-mclachlan",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/sarah-mclachlan",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/partners",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/our-story",
+      "captured": "24-09-2026",
+      "section": "Meet Your Retreat Hosts"
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Roster is decision 12. Pilates certification listed as \"in progress\". Not listed as a host in the Encounter Bay guide (p.20 names Belle, Zoe and Jaimi). Belle to confirm her current role (decision 12).",
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

@@ -1,0 +1,52 @@
+---
+/*
+  What is around the venue (plan/11 4.10 section 6, creative brief D "Where the Fleurieu appears"):
+  a wide band of the landscape with a soft parallax, then the surroundings, each arriving from the
+  right (Belle's "coming out from the the right hand side"). Words are the venue's own, verbatim.
+
+  <VenueAround heading="Around *Deep Creek*" media="venue-around-naiko-deep-creek" items={[...]} />
+*/
+import MediaBand from '../../base/MediaBand.astro';
+import SectionHead from '../../base/SectionHead.astro';
+import SlideIn from '../../base/SlideIn.astro';
+
+interface Item { name: string; kind: string; text: string | null; draft?: boolean }
+interface Props { heading: string; media: string; items: Item[]; id?: string }
+const { heading, media, items, id } = Astro.props;
+---
+<section class="around" id={id} aria-labelledby={`${id ?? 'around'}-heading`}>
+  <div class="around__band">
+    <MediaBand media={media} height="band" />
+  </div>
+  <div class="wrap around__body">
+    <SectionHead id={`${id ?? 'around'}-heading`} eyebrow="What is around it" heading={heading} />
+    <ul class="around__list" role="list" style={`--n:${Math.min(items.length, 4)}`}>
+      {items.map((it, i) => (
+        <SlideIn as="li" index={i} distance="18%" class="around__item">
+          <p class="around__kind">{it.kind}</p>
+          <h3 class="around__name">{it.name}</h3>
+          {it.text && <p class="around__text" data-draft={it.draft ? '' : undefined}>{it.text}</p>}
+        </SlideIn>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .around { padding-bottom: var(--section-y); }
+  .around__body { padding-top: var(--space-xl); }
+  .around__list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.25rem clamp(1.5rem, 3vw, 3rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (min-width: 700px) { .around__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1100px) { .around__list { grid-template-columns: repeat(var(--n), minmax(0, 1fr)); } }
+  .around :global(.around__item) { padding-top: 1.1rem; border-top: 1px solid var(--rule); }
+  .around__kind { margin: 0 0 0.9rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .around__name { margin: 0 0 0.75rem; font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.2; letter-spacing: 0.005em; }
+  .around__text { margin: 0; font-size: var(--fs-small); line-height: 1.65; color: var(--sage-100); max-width: 24rem; }
+</style>

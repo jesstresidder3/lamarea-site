@@ -1,0 +1,31 @@
+---
+/*
+  /gallery (page builder D). Belle wants a gallery of previous retreats for "credibility and trust"
+  (BD-124). Opens on imagery, not a text heading (plan/12 fix 27): three photographs beside the H1,
+  above it on phones. Then the filters and the retreats, each photograph opening in place to its
+  caption. Starts with A Sunset Reset (May 2026, Joe's Henley) and the three 2026 retreats on the
+  live home page. Guest consent sits in the placeholder layer on every slot with people in frame.
+*/
+import Base from '../layouts/Base.astro';
+import PageIntro from '../components/pages/d/PageIntro.astro';
+import GalleryGrid from '../components/pages/d/GalleryGrid.astro';
+import CtaBand from '../components/base/CtaBand.astro';
+---
+<Base
+  title="Past retreats gallery"
+  description="Photographs from past La maréa wellness retreats in South Australia, from A Sunset Reset in May 2026 to a retreat at Beresford Estate, McLaren Vale."
+>
+  <PageIntro
+    variant="cluster"
+    mediaFirst
+    eyebrow="Gallery"
+    heading="Past retreats"
+    lead="Photographs from the retreats and experiences we have curated so far. Open any image to read about the day."
+    leadDraft
+    media={['gallery-intro-1', 'gallery-intro-2', 'gallery-intro-3']}
+  />
+
+  <GalleryGrid />
+
+  <CtaBand line="Plan a day of your own" params={{ source: 'gallery' }} tone="salt" draft={{ line: true }} />
+</Base>

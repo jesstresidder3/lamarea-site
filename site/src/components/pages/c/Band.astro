@@ -1,0 +1,18 @@
+---
+/*
+  MediaBand, placed straight inside a page. Astro reads a `slot` attribute on a direct child of a
+  component (here <Base>) as a named slot, so <MediaBand media="..."> written at the top level of a
+  page silently renders nothing. This wrapper takes the media id as `media` and hands everything
+  else to MediaBand unchanged. A hero band holds still; MediaBand keeps its placeholder note clear of
+  the header.
+
+  <Band media="places-hero" height="tall" hero text="over" level={1} heading="Places to Pause" />
+*/
+import MediaBand from '../../base/MediaBand.astro';
+
+interface Props { media: string; hero?: boolean; parallax?: boolean; [key: string]: unknown }
+// A hero band holds still (the parallax is for bands further down the page).
+const { media, hero = false, parallax = !hero, ...rest } = Astro.props;
+---
+<div class="c-band"><MediaBand media={media} hero={hero} parallax={parallax} {...rest} /></div>
+

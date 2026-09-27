@@ -1,0 +1,403 @@
+[
+  {
+    "id": "home-megan",
+    "quote": "Lucas’ lunch was stunning. The use and caretaking of local ingredients was so encouraging to see. The pasta was a stand out with complex and yet somehow, delicate flavours. Delicious. He was also very engaging which added greatly to the whole experience.",
+    "attribution": "Megan",
+    "display_context": "Home page testimonial slideshow",
+    "rating": null,
+    "date": null,
+    "retreat_type": null,
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/",
+      "captured": "24-09-2026",
+      "section": "Testimonial slideshow (two slides)"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Edited version of the Google review by Meg Hansen (19-02-2026): the Google text says \"so exciting to see\", this slide says \"so encouraging to see\". The chef named \"Lucas\" appears to be Luca Guiotto. Belle to confirm which wording is approved."
+  },
+  {
+    "id": "home-helen",
+    "quote": "I cannot recommend Jaimi's yoga session more highly. I hadn't practiced regular yoga for many years and was in a group with younger, more regular yoga devotees. Jaimi easily accommodated the different abilities within the group and quietly modified any movements that might have been more difficult for me over the course of the session. I came away feeling refreshed and revived and keen to get back into regular yoga!",
+    "attribution": "Helen",
+    "display_context": "Home page testimonial slideshow",
+    "rating": null,
+    "date": null,
+    "retreat_type": null,
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/",
+      "captured": "24-09-2026",
+      "section": "Testimonial slideshow (two slides)"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Edited version of the Google review by Helen Ford (19-02-2026): the Google text spells the instructor \"Jamie\", this slide spells \"Jaimi\"."
+  },
+  {
+    "id": "google-sara-natasha",
+    "quote": null,
+    "attribution": "Sara Natasha",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-08-27",
+    "rating": 5,
+    "date": "27-08-2026",
+    "retreat_type": null,
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": "Five-star rating with no written review."
+  },
+  {
+    "id": "google-alyse-hean",
+    "quote": "I had such a lovely morning with Belle and La Marea, as part of our corporate Wake Up to Wellness experience. The morning included yoga, breakfast, a nutrition session, massage, pasta making and lunch, the perfect mix of wellness, relaxation and connection.\n\nEverything was beautifully organised, and all the little details were so thoughtfully considered. The La Marea team created such a welcoming and enjoyable experience for our group, and it was a great opportunity to step away from the office and spend quality time together.\n\nI would highly recommend La Marea for a corporate retreat or wellness experience.",
+    "attribution": "Alyse Hean",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-08-24",
+    "rating": 5,
+    "date": "24-08-2026",
+    "retreat_type": "corporate Wake Up to Wellness (named in the review)",
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": null
+  },
+  {
+    "id": "google-emma-hockney",
+    "quote": "The wellness workshop with La Maréa was relaxing, informative and so much fun! Belle and the team are so welcoming and knowledgeable, and they curated the event for our group so that everyone felt like it resonated - and the goodies throughout the day were so yummy! Thanks so much Belle",
+    "attribution": "Emma Hockney",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-08-23",
+    "rating": 5,
+    "date": "23-08-2026",
+    "retreat_type": null,
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": null
+  },
+  {
+    "id": "google-matthew-lindblom",
+    "quote": "I had an amazing experience, and this is coming from someone who has never done anything like this ever before, so it was all very new to me. The yoga, breath work and mindfulness, as well as lifestyle advice was really insightful, and the hot/cold therapy was an exhilarating experience. Highly recommend.",
+    "attribution": "Matthew Lindblom",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-08-14",
+    "rating": 5,
+    "date": "14-08-2026",
+    "retreat_type": null,
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": null
+  },
+  {
+    "id": "google-chelsea-casey",
+    "quote": "Recently attended a corporate retreat with Belle and the La Marea team, and from start to finish, it was absolutely wonderful!\n\nEverything was so thoughtfully planned and organised, with every little detail taken care of. I absolutely loved my massage, and the pasta-making class was such a fun experience.\n\nI couldn’t recommend the La Marea team highly enough for anyone looking to organise a corporate retreat or getaway.",
+    "attribution": "Chelsea Casey",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-08-13",
+    "rating": 5,
+    "date": "13-08-2026",
+    "retreat_type": "corporate retreat (named in the review)",
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": null
+  },
+  {
+    "id": "google-justin-kurenda",
+    "quote": "We spent a wonderful morning with Belle and her team. Our corporate team particiapted in the Wake Up to Wellness program and we left feeling relaxed, recovered, and empowered! Would highly reccommend.",
+    "attribution": "Justin Kurenda",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-08-13",
+    "rating": 5,
+    "date": "13-08-2026",
+    "retreat_type": "corporate Wake Up to Wellness (named in the review)",
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": null
+  },
+  {
+    "id": "google-levi-sigston",
+    "quote": "Belle goes above and beyond with her level of services. She tailored the experience to suit what we needed and went in depth with ways we can better our wellness and nutrition. We also did contrast therapy going from the sauna to cold pool with breathing exercises. I felt so refreshed and motivated after the retreat and have already started implementing my learnings from the experience. It was a great opportunity for team bonding!!",
+    "attribution": "Levi Sigston",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-08-13",
+    "rating": 5,
+    "date": "13-08-2026",
+    "retreat_type": "team retreat with contrast therapy (described in the review)",
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": null
+  },
+  {
+    "id": "google-emma-knight",
+    "quote": "During and after this retreat, I felt calm, nourished, and informed about prioritising my wellness. I’m forever grateful for this experience and truly valued the time to rest, connect with myself, and do something just for me ❤️",
+    "attribution": "Emma Knight",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-08-03",
+    "rating": 5,
+    "date": "03-08-2026",
+    "retreat_type": null,
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": null
+  },
+  {
+    "id": "google-belinda-angus",
+    "quote": "Belle has created a beautiful space for women to come authentically as themselves, in whatever season in life they are, and in the knowledge they will be completely supported. Give yourself permission to take a moment of time at a La Marèa retreat experience, bring your energy back within, breathe and let go, and meet some wonderful people along the way. Your soul will thank you, endlessly.",
+    "attribution": "Belinda Angus",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-08-02",
+    "rating": 5,
+    "date": "02-08-2026",
+    "retreat_type": null,
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": null
+  },
+  {
+    "id": "google-donna-giannetta",
+    "quote": "What a beautiful way to spend a Sunday evening.\n\nFrom the moment we walked in, we were completely taken care of. Everything had been thoughtfully prepared, delicious protein balls, herbal teas, relaxing tonics, and all the yoga mats and bolsters laid out ready for us overlooking the beach as we waited for the sunset.\n\nThe evening began with breathwork, which helped me slow down, focus, and reconnect with myself. This flowed into a beautiful yoga reset, followed by an informative nutrition session on the Mediterranean way of eating and its benefits for health and wellbeing.\n\nThroughout the evening, we were nurtured with more delicious snacks and a gorgeous Mediterranean bowl of chickpeas and quinoa for dinner.\n\nThe whole experience felt calming, restorative, and incredibly nourishing. I left feeling relaxed, grounded, and completely cared for. A truly special evening that I would highly recommend to anyone needing a little reset and some time to refill their cup. 💗",
+    "attribution": "Donna Giannetta",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-05-31",
+    "rating": 5,
+    "date": "31-05-2026",
+    "retreat_type": "Sunday evening sunset session (described in the review)",
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": null
+  },
+  {
+    "id": "google-janelle-hueppauff",
+    "quote": "The Sunset Retreat experience with Belle and Jaimi was truly wonderful. A nurturing experience, from the warmth I felt from the onset of arriving and right thru. Belle, your considered planning and vision to make us feel special is a credit to you. I left grounded, inspired, cared for and mindful of my body and how treating myself with kindness is the best investment inside and out. Keep shining with your beautiful heart x",
+    "attribution": "Janelle Hueppauff",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-05-29",
+    "rating": 5,
+    "date": "29-05-2026",
+    "retreat_type": "Sunset Retreat (named in the review)",
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": null
+  },
+  {
+    "id": "google-alysha-mines",
+    "quote": "I recently attended the Sunset Retreat and honestly had such a beautiful experience. From the moment I arrived, everything felt so calming and thoughtfully planned. The venue itself was stunning, the large glass windows overlooking the beach while watching the sunset created the most peaceful atmosphere. It was absolutely beautiful.\n\nThe little details made the experience feel extra special. I loved the sweet treat ball and the delicious health drink on arrival. The aesthetic of the whole event was gorgeous, from the colour scheme to the beautiful Fleurieu candle and the amazing goodie bags.\n\nAs a busy working and studying mum, I rarely take time to properly relax or do something just for myself, so I’m really glad I chose to attend. The yoga practice was incredible, gentle, grounding and accessible without being too difficult. It gave my body such a needed stretch and release. The breathwork session and the empowering words Jaimee shared were such a beautiful reminder to slow down and reconnect with myself. It’s honestly not often that my body fully relaxes, but after the practice I felt calm, lighter and genuinely relaxed.\n\nThe group of women attending was also lovely. The environment felt welcoming and wholesome, never intimidating. Jaimee and Belle both made such an effort to personally greet everyone and create a warm, inclusive space.\n\nI also really enjoyed Belle’s nutrition education talk. I took away some valuable tips and I loved the recipes and information sheets that were provided to continue learning afterwards.\n\nOverall, it was such a nourishing and thoughtfully curated experience. I would absolutely recommend the Sunset Retreat to others and I’m already looking forward to attending the next event.",
+    "attribution": "Alysha Mines",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-05-28",
+    "rating": 5,
+    "date": "28-05-2026",
+    "retreat_type": "Sunset Retreat (named in the review)",
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": "Contains \"honestly\" and names Jaimi as \"Jaimee\". Verbatim as published.",
+    "dash_note": "Em or en dashes in the client text were replaced for this seed: number and time ranges with \" to \", unspaced word joins (for example sleep-wake, mother-daughter) with a hyphen, everything else with a comma. The verbatim original with dashes is in build/03-content-harvest.md."
+  },
+  {
+    "id": "google-maria-turnbull",
+    "quote": "What an amazing retreat. A beautiful night, well organised. The Yoga by Jaime was just what we needed. Education and food by Belle was great. We will definitely book in again. 🫶❤️",
+    "attribution": "Maria Turnbull",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-05-28",
+    "rating": 5,
+    "date": "28-05-2026",
+    "retreat_type": null,
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": "Names Jaimi as \"Jaime\". Verbatim as published."
+  },
+  {
+    "id": "google-melissa-brown",
+    "quote": "Professional and knowledgeable - this was a beautifully curated experience that left me feeling calm and nurtured. The setting by the beach was perfect and listening to the waves during the yoga session delivered by Jaimi added to the serenity. Jaimi’s yoga session was so calming and I loved the breath work. Belles session on Mediterranean diet and lifestyle was informative and full of so many practical and useful tips to easily integrate into daily life on how to improve my wellbeing. The take home goody bag was full of top quality products and very generous! Highly recommend Lamarea as part of your wellness journey.",
+    "attribution": "Melissa Brown",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-05-24",
+    "rating": 5,
+    "date": "24-05-2026",
+    "retreat_type": null,
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": null
+  },
+  {
+    "id": "google-taylah-g",
+    "quote": null,
+    "attribution": "Taylah G",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-05-24",
+    "rating": 5,
+    "date": "24-05-2026",
+    "retreat_type": null,
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": "Five-star rating with no written review."
+  },
+  {
+    "id": "google-nicky-orchard",
+    "quote": "Beautiful wellness experience to nurture the soul and clear the mind. Loved it, thank you.",
+    "attribution": "Nicky Orchard",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-05-24",
+    "rating": 5,
+    "date": "24-05-2026",
+    "retreat_type": null,
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": null
+  },
+  {
+    "id": "google-helen-ford",
+    "quote": "I cannot recommend Jamie's yoga session more highly. I hadn't practiced regular yoga for many years and was in a group with younger, more regular yoga devotees. Jamie easily accommodated the different abilities within the group and quietly modified any movements that might have been more difficult for me over the course of the session. I came away feeling refreshed and revived and keen to get back into regular yoga!",
+    "attribution": "Helen Ford",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-02-19",
+    "rating": 5,
+    "date": "19-02-2026",
+    "retreat_type": null,
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": "Original of the home page \"Helen\" slide."
+  },
+  {
+    "id": "google-meg-hansen",
+    "quote": "Lucas’ lunch was stunning. The use and caretaking of local ingredients was so exciting to see. The pasta was a stand out with complex and yet somehow, delicate flavours. Delicious. He was also very engaging which added greatly to the whole experience.",
+    "attribution": "Meg Hansen",
+    "display_context": "Google reviews widget (floating \"5.0, 18 reviews\" badge, site-wide). Widget shows name and date 2026-02-19",
+    "rating": 5,
+    "date": "19-02-2026",
+    "retreat_type": null,
+    "audience": null,
+    "photo": null,
+    "permission_confirmed": null,
+    "source": {
+      "type": "google_reviews_widget",
+      "url": "https://www.lamarea.com.au/",
+      "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+      "captured": "24-09-2026"
+    },
+    "status": "in hand",
+    "notes": "Original of the home page \"Megan\" slide."
+  }
+]

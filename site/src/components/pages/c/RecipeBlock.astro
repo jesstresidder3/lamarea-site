@@ -1,0 +1,97 @@
+---
+/*
+  A migrated recipe set as a recipe (plan/11 4.19 section 4): serves, prep and cook time as a quiet
+  row, the ingredients in their groups on the left (sticky while the method scrolls on a wide screen),
+  the method as numbered steps on the right, then Belle's notes, her brand recommendations and the
+  nutrition panel where the post has them. Every word is the post's own (lib/recipe.ts reads it).
+*/
+import type { Recipe } from './lib/recipe';
+import { numeral } from '../../base/text';
+
+interface Props { recipe: Recipe }
+const { recipe: r } = Astro.props;
+const facts = [
+  ...(r.serves ? [{ k: 'Serves', v: r.serves }] : []),
+  ...(r.prep ? [{ k: 'Prep', v: r.prep }] : []),
+  ...(r.cook ? [{ k: 'Cook', v: r.cook }] : []),
+];
+---
+<section class="recipe" aria-label="Recipe">
+  {facts.length > 0 && (
+    <dl class="recipe__facts">
+      {facts.map((f) => <div><dt>{f.k}</dt><dd>{f.v}</dd></div>)}
+    </dl>
+  )}
+
+  <div class="recipe__grid">
+    <div class="recipe__ingredients">
+      <h2 class="recipe__h">Ingredients</h2>
+      {r.groups.map((g) => (
+        <div class="recipe__group">
+          {g.title && <h3 class="recipe__group-title">{g.title}</h3>}
+          <ul class="recipe__items">{g.items.map((i) => <li>{i}</li>)}</ul>
+        </div>
+      ))}
+    </div>
+
+    <div class="recipe__method">
+      <h2 class="recipe__h">Method</h2>
+      <ol class="recipe__steps">
+        {r.steps.map((s, i) => (
+          <li><span class="recipe__num" aria-hidden="true">{numeral(i + 1)}</span><p>{s}</p></li>
+        ))}
+      </ol>
+
+      {r.notes.length > 0 && (
+        <div class="recipe__aside">
+          <h3 class="recipe__aside-title">Notes</h3>
+          {r.notes.map((n) => <p>{n}</p>)}
+        </div>
+      )}
+      {r.brands.length > 0 && (
+        <div class="recipe__aside">
+          <h3 class="recipe__aside-title">Brand recommendations</h3>
+          <ul class="recipe__plain">{r.brands.map((b) => <li>{b}</li>)}</ul>
+        </div>
+      )}
+      {r.nutrition.length > 0 && (
+        <div class="recipe__aside">
+          <h3 class="recipe__aside-title">Nutrition</h3>
+          <ul class="recipe__plain">{r.nutrition.map((b) => <li>{b}</li>)}</ul>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .recipe { margin-top: clamp(2.5rem, 5vw, 4rem); }
+  .recipe__facts { display: flex; flex-wrap: wrap; gap: 0; margin: 0 0 clamp(2rem, 4vw, 3rem); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .recipe__facts > div { display: grid; gap: 0.35rem; padding: 1rem 2rem 1.05rem 0; margin-right: 2rem; }
+  .recipe__facts > div + div { padding-left: 2rem; border-left: 1px solid var(--rule); }
+  .recipe__facts dt { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .recipe__facts dd { margin: 0; font-family: var(--font-serif); font-size: 1.3rem; color: var(--sage-100); }
+
+  .recipe__grid { display: grid; gap: var(--space-l) clamp(2rem, 5vw, 5rem); align-items: start; }
+  .recipe__h { margin: 0 0 1.25rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); line-height: var(--lh-label); color: var(--muted); }
+  .recipe__ingredients { padding: clamp(1.5rem, 3vw, 2.25rem); background: var(--salt-25); }
+  .recipe__group + .recipe__group { margin-top: 1.5rem; }
+  .recipe__group-title { margin: 0 0 0.6rem; font-family: var(--font-serif); font-size: 1.25rem; line-height: 1.3; color: var(--heading); }
+  .recipe__items { margin: 0; padding: 0; list-style: none; }
+  .recipe__items li { padding: 0.5rem 0; border-bottom: 1px solid var(--rule); font-size: var(--fs-small); line-height: 1.5; color: var(--sage-100); }
+  .recipe__items li:last-child { border-bottom: 0; }
+
+  .recipe__steps { margin: 0; padding: 0; list-style: none; }
+  .recipe__steps li { display: grid; grid-template-columns: 2.75rem minmax(0, 1fr); gap: 1rem; padding: 0 0 1.5rem; }
+  .recipe__num { font-family: var(--font-serif); font-size: 1.6rem; line-height: 1; color: var(--sage-60); padding-top: 0.1rem; }
+  .recipe__steps p { margin: 0; max-width: 34rem; color: var(--sage-100); }
+  .recipe__aside { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); }
+  .recipe__aside-title { margin: 0 0 0.6rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); line-height: var(--lh-label); color: var(--muted); }
+  .recipe__aside p { color: var(--sage-100); }
+  .recipe__plain { margin: 0; padding: 0; list-style: none; font-size: var(--fs-small); line-height: 1.7; color: var(--sage-100); }
+
+  @media (min-width: 900px) {
+    .recipe__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+    .recipe__ingredients { position: sticky; top: calc(var(--header-compact) + 1.5rem); }
+  }
+</style>

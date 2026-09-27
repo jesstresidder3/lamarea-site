@@ -1,0 +1,48 @@
+{
+  "name": "Zoe Buttery",
+  "team": "hosts",
+  "order": 2,
+  "group_as_published": "Retreat host",
+  "role": "Events lead and retreat host",
+  "role_long": "Events lead and retreat host",
+  "business": null,
+  "business_url": null,
+  "credentials": [],
+  "credentials_basis": "No qualifications published.",
+  "qualifications": [],
+  "services": [],
+  "bio": [
+    {
+      "kind": "para",
+      "text": "Events lead and retreat host. Zoe brings a background in marketing and events, with a focus on thoughtful curation and seamless guest experience. Zoe oversees the retreat flow, logistics and on the ground support throughout the day."
+    },
+    {
+      "kind": "para",
+      "text": "With Belle, the Founder (left), bringing expertise in nutrition, exercise science, and lifestyle wellness coaching, supported by Zoe her sister (right), and Sarah (back), both with a background in events management, you can be assured that your retreat will be thoughtfully curated and truly unforgettable."
+    }
+  ],
+  "portrait": "team-zoe-buttery",
+  "pillars": [
+    "luxury-and-heartfelt-hospitality"
+  ],
+  "pillars_basis": "Mapped by the build from the services each person publishes. Belle to confirm.",
+  "live_url": null,
+  "source": [
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "20",
+      "captured": "24-09-2026",
+      "section": "Your Retreat Hosts"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/our-story",
+      "captured": "24-09-2026",
+      "section": "Meet Your Retreat Hosts"
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Roster is decision 12. No bio page on the live site. /our-story calls her \"Zoe her sister\". Not on the partners page."
+}

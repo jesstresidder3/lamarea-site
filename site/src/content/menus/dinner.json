@@ -1,0 +1,28 @@
+{
+  "name": "Dinner",
+  "service": "dinner",
+  "order": 4,
+  "time": null,
+  "time_basis": null,
+  "time_source": null,
+  "line": null,
+  "line_source": null,
+  "detail": [],
+  "detail_source": null,
+  "courses": [],
+  "media": "food-dinner",
+  "placeholder": true,
+  "placeholder_note": "Dinner menu to come from Belle's retreat guide (transcript BD-87, \"I've got some of them in my guide\"). The 8 hour day itself has no dinner.",
+  "chef": null,
+  "public": true,
+  "signature": false,
+  "source": [
+    {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Food"
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check."
+}

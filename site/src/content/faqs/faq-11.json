@@ -1,0 +1,18 @@
+{
+  "question": "Can I pay in installments?",
+  "answer": [
+    "We are currently in the process of setting up Afterpay. Please contact us to express your interest."
+  ],
+  "order": 11,
+  "topic": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    }
+  ],
+  "status": "draft",
+  "review": "Says Afterpay is being set up. Belle to confirm."
+}

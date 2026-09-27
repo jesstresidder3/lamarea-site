@@ -1,0 +1,31 @@
+---
+/*
+  A note for Jess and Belle that lives in the placeholder layer only: a hairline rule and small
+  type, shown while html[data-media-notes='on'] and gone when the notes are switched off. Used for
+  source conflicts and spellings to confirm, which must never read to a visitor as fact.
+  Owner: page builder B.
+
+  <Flag>Who delivers contrast therapy is to confirm with Belle.</Flag>
+*/
+interface Props { tone?: 'default' | 'light'; class?: string }
+const { tone = 'default', class: className } = Astro.props;
+---
+<p class:list={['flag', `flag--${tone}`, className]} data-flag><span class="flag__k">Note for Belle</span><slot /></p>
+
+<style>
+  .flag {
+    display: block;
+    margin: 1rem 0 0;
+    padding-left: 0.65rem;
+    border-left: 1px solid var(--sage-40);
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+    max-width: 34rem;
+  }
+  .flag__k { display: block; margin-bottom: 0.15rem; letter-spacing: var(--track-label); }
+  .flag--light { color: var(--salt-25); border-left-color: rgb(250 249 245 / 0.5); }
+  :global(html[data-media-notes='off']) .flag { display: none; }
+</style>

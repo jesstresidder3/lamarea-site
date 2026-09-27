@@ -1,0 +1,73 @@
+{
+  "name": "Courtney Selfe",
+  "team": "wellness",
+  "order": 4,
+  "group_as_published": "Massage & Beauty Partner",
+  "role": "Remedial Massage Therapist & Day Spa Owner",
+  "role_long": "Remedial Massage & Beauty Therapist, Founder of Earth House and Spa",
+  "business": "The Earth House and Spa",
+  "business_url": "https://www.earthhousespa.com/",
+  "credentials": [
+    "Diploma in remedial massage therapy",
+    "Diploma in beauty and advanced treatments"
+  ],
+  "credentials_basis": "Picked by the build from the qualifications as published, verbatim.",
+  "qualifications": [
+    "Diploma in remedial massage therapy",
+    "Diploma in beauty and advanced treatments"
+  ],
+  "services": [
+    "60 or 45 minute deep tissue remedial massage",
+    "60 or 45 minute restoration & relaxation massage",
+    "60 minute waterlily rose infusion facials"
+  ],
+  "bio": [
+    {
+      "kind": "para",
+      "text": "Courtney founded The Earth House and Spa; a space created with a clear vision to offer a holistic haven where clients can unwind and feel deeply looked after."
+    },
+    {
+      "kind": "para",
+      "text": "Courtney is a qualified remedial therapist and entrepreneur with over a decade of experience in the beauty and day spa industry. She is a dedicated remedial and beauty therapist with extensive knowledge of healing the skin from the inside out. She provides deeply nourishing spa rituals that leave you floating out the door. The spa reflects her deep commitment to high-quality care and genuine connection."
+    },
+    {
+      "kind": "para",
+      "text": "As a mother and business owner, Courtney understands the importance of self-care that is both indulgent and impactful. Her team of skilled practitioners offer a blend of remedial and therapeutic massage, beauty therapy, advanced skin treatments, naturopathy, and Reiki healing. All designed to help you look and feel your best. In a world that moves fast, The Earth House Spa is a place to slow down, reconnect and embrace self-care with purpose."
+    }
+  ],
+  "portrait": "team-courtney-selfe",
+  "pillars": [
+    "sleep-and-recovery"
+  ],
+  "pillars_basis": "Mapped by the build from the services each person publishes. Belle to confirm.",
+  "live_url": "https://www.lamarea.com.au/courtney-selfe",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/courtney-selfe",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/partners",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "15",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "21",
+      "captured": "24-09-2026",
+      "section": "Key Practitioners and Partners"
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Roster is decision 12. Guide p.21: \"Earth House and Spa. Qualified remedial and beauty therapist, delivering restorative massage treatments alongside her team.\" Business name appears as \"Earth House and Spa\", \"The Earth House and Spa\", \"Earth House & Spa\" and \"The Earth House Spa\"."
+}

@@ -1,0 +1,33 @@
+{
+  "name": "Bespoke wellness additions: individual & group offerings",
+  "kind": "add_ons",
+  "order": 13,
+  "tagline": null,
+  "body": [],
+  "duration": null,
+  "group_size_text": null,
+  "items": [
+    "Relaxation Waterlily Rose Facial",
+    "Personalised Individual Nutrition & Lifestyle Consultation & Plan (created post weekend retreat)",
+    "Australian Native Ingredient Tour",
+    "Mediterranean Cooking Class",
+    "Wellness Education Session",
+    "(with key guest speaker)"
+  ],
+  "inclusions_heading": null,
+  "inclusions": [],
+  "closing_line": null,
+  "footnote": "*please note all bespoke additions must be booked and paid for prior to attending your retreat or experience",
+  "price_from": null,
+  "price_published_on_live_site": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Bespoke wellness additions"
+    }
+  ],
+  "status": "draft",
+  "review": "Item \"Wellness Education Session\" and \"(with key guest speaker)\" are two lines on the page. Belle to confirm which additions are still offered (plan/11 item 23)."
+}

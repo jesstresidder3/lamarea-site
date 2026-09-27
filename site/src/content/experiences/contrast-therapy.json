@@ -1,0 +1,127 @@
+{
+  "name": "Contrast therapy",
+  "name_as_transcribed": "contrast therapy",
+  "name_as_published": "Contrast Therapy Experience",
+  "kind": "guided",
+  "order": 3,
+  "art_direction": "split",
+  "media": "experience-contrast-therapy",
+  "media_type": "video",
+  "short": {
+    "text": "Group guided contrast therapy experience (infrared sauna & cold plunge)",
+    "source": {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "15",
+      "captured": "24-09-2026"
+    }
+  },
+  "pillar": "sleep-and-recovery",
+  "pillars": [
+    "sleep-and-recovery"
+  ],
+  "pillar_basis": "Sleep & Recovery pillar text names contrast therapy",
+  "duration": "40 minutes per rotation",
+  "duration_basis": "Beresford example day, live retreats page schedule image",
+  "duration_as_published": "40 minutes per rotation (Beresford example); 60 or 90 minutes (Kristian Ryan services)",
+  "practitioners": [
+    "kristian-ryan",
+    "jaimi-baker"
+  ],
+  "business": null,
+  "business_basis": null,
+  "business_conflict": "Sources disagree, recorded rather than chosen: the live partners page credits Kristian Ryan of Third Spaces (\"Contrast Therapy & Breathwork Facilitator\"); the Encounter Bay guide p.21 credits Jaimi Baker of PEAQ Performance. Belle to confirm (plan/11 item 60)",
+  "practitioners_as_published": [
+    "Kristian Ryan, Third Spaces (live partners page)",
+    "Jaimi Baker, PEAQ Performance (guide p.21 says she delivers contrast therapy)"
+  ],
+  "descriptions": [
+    {
+      "text": [
+        "Group guided contrast therapy experience (infrared sauna & cold plunge)"
+      ],
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": "15",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "Guided Group Contrast Therapy Experience"
+      ],
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": "23",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "Experience 2: Contrast Therapy Experience (sauna, breathwork & cold plunge)"
+      ],
+      "source": {
+        "type": "live_site_image",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+        "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+        "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "Contrast Therapy (Sauna & Ice Bath)"
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "captured": "24-09-2026",
+        "section": "What a weekend with us looks like..."
+      }
+    },
+    {
+      "text": [
+        "Guided 60 or 90 minute Contrast Therapy Sessions (Rotating between Finnish Sauna & Ice bath)",
+        "Experience the powerful benefits of alternating heat and cold. Sessions include guided rotations between Finnish barrel sauna (80 to 100 degrees Celsius) and ice bath immersion."
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/kristian-ryan",
+        "captured": "24-09-2026",
+        "section": "Services & offerings"
+      }
+    },
+    {
+      "text": [
+        "Cold-Water Immersion & Contrast Therapy",
+        "Reduces muscle soreness (DOMS), perceived fatigue, and improves subjective recovery (first 24 to 72h post-exercise). (Xiao et al., 2023; Machado et al., 2016)",
+        "Contrast therapy reduces post-exercise fatigue and soreness, enhancing perceived recovery. (Machado et al., 2016; Higgins et al., 2017)",
+        "May reduce post-exercise inflammation and markers of muscle damage; timing, temperature, and duration matter. (Bleakley et al., 2012; Machado et al., 2016)",
+        "Can improve mood, reduce stress, and enhance well-being; benefits similar for women. (Knechtle et al., 2020; Higgins et al., 2017)"
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "The Science, Sleep & Recovery"
+      }
+    }
+  ],
+  "seed_id": null,
+  "source": [
+    {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+    }
+  ],
+  "status": "draft",
+  "review": "Who runs contrast therapy differs between the live site and the guide. Belle to confirm (plan/11 item 60).",
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

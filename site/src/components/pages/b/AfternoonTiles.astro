@@ -1,0 +1,65 @@
+---
+/*
+  The six self-led activities (BD-127) as a Slider of tall frames that step up and down, each opening
+  its own page. Deliberately unlike the experiences PaneSlider: no fixed pane, the track runs the full
+  width, and the frames alternate 4:5 and 3:4 so the row has a tide to it. Sourced lines only; a tile
+  without one shows its name alone. Video tiles play only while in view (Media). Owner: page builder B.
+
+  <AfternoonTiles items={await getExperiences('self_led')} />
+*/
+import Slider from '../../slider/Slider.astro';
+import Media from '../../media/Media.astro';
+import { pad2 } from '../../../lib/text';
+import type { Experience } from '../../../lib/content';
+
+interface Props { items: Experience[]; id?: string; label?: string }
+const { items, id = 'afternoon-slider', label = 'Six self-led activities' } = Astro.props;
+---
+<Slider label={label} itemLabel="activity" counter perView={{ phone: 1.25, tablet: 2.4, desktop: 3.4, wide: 4.3 }} gap="clamp(1.25rem, 2vw, 2rem)" id={id}>
+  {items.map((e, i) => (
+    <article class:list={['aft', i % 2 ? 'aft--low' : 'aft--high']}>
+      <a class="aft__link" href={`/experiences/${e.id}`}>
+        <span class="aft__media"><Media media={e.data.media} aspect="fill" notePosition="top-left" /></span>
+        <span class="aft__name"><span class="aft__num" aria-hidden="true">{pad2(i + 1)}</span>{e.data.name}</span>
+      </a>
+      {e.data.short && <p class="aft__line">{e.data.short.text}</p>}
+    </article>
+  ))}
+</Slider>
+
+<style>
+  .aft { display: flex; flex-direction: column; }
+  .aft__link { position: relative; display: block; color: inherit; text-decoration: none; }
+  .aft__media { position: relative; display: block; overflow: hidden; aspect-ratio: 4 / 5; }
+  .aft--low .aft__media { aspect-ratio: 3 / 4; margin-top: clamp(1.5rem, 3vw, 3rem); }
+  .aft__media :global(.media) { transition: transform 900ms var(--ease-soft); }
+  .aft__num {
+    flex: none;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--muted);
+    transform: translateY(-0.15em);
+  }
+  .aft__name {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    margin-top: 1.1rem;
+    font-family: var(--font-serif);
+    font-size: var(--fs-card);
+    line-height: 1.2;
+    color: var(--heading);
+  }
+  .aft__line { margin: 0.45rem 0 0; font-size: var(--fs-small); line-height: 1.55; color: var(--sage-100); max-width: 24rem; }
+  @media (hover: hover) {
+    .aft__link:hover .aft__media :global(.media) { transform: scale(1.035); }
+    .aft__link:hover .aft__name { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); }
+  }
+  .aft__link:focus-visible { outline: none; }
+  .aft__link:focus-visible .aft__media { outline: 1.5px solid var(--focus); outline-offset: 4px; }
+  @media (prefers-reduced-motion: reduce) {
+    .aft__media :global(.media) { transition: none; }
+    .aft__link:hover .aft__media :global(.media) { transform: none; }
+  }
+</style>

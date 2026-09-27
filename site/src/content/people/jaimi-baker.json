@@ -1,0 +1,75 @@
+{
+  "name": "Jaimi Baker",
+  "team": "wellness",
+  "order": 3,
+  "group_as_published": "Lifestyle Wellness Partners",
+  "role": "Yoga & Breathwork Facilitator",
+  "role_long": "Yoga & Breathwork Facilitator, Founder of PEAQ Performance Centre",
+  "business": "PEAQ Performance Centre",
+  "business_url": "https://www.peaq.com.au/",
+  "credentials": [
+    "B. Psych Science (Hons), University of Adelaide",
+    "200hr Yoga Teacher Training"
+  ],
+  "credentials_basis": "Picked by the build from the qualifications as published, verbatim.",
+  "qualifications": [
+    "Business Owner, PEAQ Performance",
+    "B. Psych Science (Hons), University of Adelaide",
+    "200hr Yoga Teacher Training",
+    "Oxygen Advantage Functional Breathing Trainer"
+  ],
+  "services": [
+    "Vinyasa, a dynamic breath-led flow that builds heat and strength.",
+    "Yin, a slow, meditative practice with long holds that target deep connective tissues.",
+    "Guided Meditation & Pranayama, breathwork and mindfulness techniques to calm the mind and regulate the nervous system.",
+    "Roll & Release, a mobility-focused practice using props to ease tension and enhance movement.",
+    "Chair Yoga, a supportive, accessible option ideal for beginners, seniors, or those with limited mobility."
+  ],
+  "bio": [
+    {
+      "kind": "para",
+      "text": "Jaimi offers a blend of dynamic, restorative, and accessible movement practices designed to support both physical performance and emotional wellbeing. Her teaching draws on evidence-based psychology, functional breathing, and yoga philosophy to create grounded, intentional sessions suitable for a wide range of bodies and experience levels."
+    },
+    {
+      "kind": "para",
+      "text": "Jaimi offers a range of class styles including:"
+    }
+  ],
+  "portrait": "team-jaimi-baker",
+  "pillars": [
+    "movement",
+    "psychological-wellbeing"
+  ],
+  "pillars_basis": "Mapped by the build from the services each person publishes. Belle to confirm.",
+  "live_url": "https://www.lamarea.com.au/jaimi-baker",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/jaimi-baker",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/partners",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "20",
+      "captured": "24-09-2026",
+      "section": "Your Retreat Hosts"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "21",
+      "captured": "24-09-2026",
+      "section": "Key Practitioners and Partners"
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Roster is decision 12. Guide p.20: \"Yoga & breathwork facilitator, Jaimi is part of the La maréa hosting team and supports guest experience across the day.\" Guide p.21: \"PEAQ Performance. Yoga instructor, Recovery and Breathwork facilitator, delivering yoga, breathwork, contrast therapy and meditation sessions.\" Reviews spell her Jaimi, Jaimee, Jaime and Jamie."
+}

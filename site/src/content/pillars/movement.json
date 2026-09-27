@@ -1,0 +1,83 @@
+{
+  "name": "Movement",
+  "long_name": null,
+  "name_as_published": "Movement",
+  "science_name_as_published": "Movement",
+  "order": 2,
+  "order_live": 2,
+  "icon": "movement.svg",
+  "line": "Yoga, pilates, swimming, hiking in nature & resistance training",
+  "line_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+  },
+  "video": "pillar-movement",
+  "evidence": [
+    {
+      "heading": "Resistance & Strenth Training",
+      "claims": [
+        "Reduces all-cause mortality and risk of CVD, cancer, and type 2 diabetes.",
+        "Preserves muscle mass, metabolic rate, and functional independence. (Shailendra et al., 2022)"
+      ]
+    },
+    {
+      "heading": "Swimming & Aerobic Exercise",
+      "claims": [
+        "Improves cardiorespiratory fitness, body composition, and cardiometabolic markers.",
+        "Swimming is low-impact and highly effective. (Lahart & Metsios, 2018)"
+      ]
+    },
+    {
+      "heading": "Pilates",
+      "claims": [
+        "Improves chronic low-back pain, functional ability, and quality of life.",
+        "Enhances core strength, mobility, and movement control. (Yu et al., 2023)"
+      ]
+    },
+    {
+      "heading": "Yoga",
+      "claims": [
+        "Reduces depression, anxiety, stress, and blood-pressure markers.",
+        "Improves balance, mobility, breathing efficiency, and mind-body awareness. (White et al., 2024)",
+        "Nature-Based Physical Activity (Hiking, Open-Water Swimming)",
+        "Combines exercise benefits with restorative effects of nature.",
+        "Improves mood, reduces stress, and increases adherence when enjoyable and social. (White et al., 2024)"
+      ]
+    }
+  ],
+  "evidence_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "The Science accordion, item \"Movement\""
+  },
+  "citations": [
+    "Lahart & Metsios, 2018",
+    "Shailendra et al., 2022",
+    "White et al., 2024",
+    "Yu et al., 2023"
+  ],
+  "references": [],
+  "references_source": null,
+  "page": false,
+  "page_basis": "Build spec 12: pillar pages publish only where evidence exists. Sleep and recovery has the sleep article and its full references; the other nine open on /philosophy#<id>.",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "The Science accordion, item \"Movement\""
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Pillar set is decision 1. Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar.",
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

@@ -1,0 +1,194 @@
+---
+/*
+  Site footer (build spec section 3, plan/11 Part 3).
+  Belle's live footer line, the circle submark "luxury coastal wellness reimagined", four columns
+  (Plan a retreat, Explore, La maréa, Stay close with the newsletter), contact exactly as harvested,
+  the True South line as a marked placeholder for Belle's own words, the Acknowledgement of Country
+  from her live footer, then privacy and terms. No agency credit.
+*/
+import Logo from './Logo.astro';
+import LeadCapture from '../base/LeadCapture.astro';
+import { footerGroups, legalLinks, contact, social, footerLines } from '../../data/settings';
+
+const year = new Date().getFullYear();
+// The enquiry funnel and its thank-you page get a slim footer (logo, contact, privacy and terms) so
+// nothing pulls attention from the one task on the page (CD review 02 item 17).
+const slim = Astro.url.pathname.startsWith('/enquire');
+---
+<footer class:list={['footer', slim && 'footer--slim']}>
+  <div class="wrap">
+    {!slim && (<>
+    <div class="footer__intro">
+      <Logo variant="circle" height="clamp(5.5rem, 4.5rem + 3vw, 7.5rem)" class="footer__submark" />
+      <p class="footer__tide">
+        <span>{footerLines.tide.display[0].replace(/\.$/, '')}</span>
+        <span>{footerLines.tide.display[1]}</span>
+      </p>
+    </div>
+
+    <div class="footer__grid">
+      <section class="footer__stay" aria-labelledby="footer-stay">
+        <h2 class="footer__title" id="footer-stay">Stay close</h2>
+        <LeadCapture
+          list="newsletter"
+          intro="Be the first to know about new retreats and exclusive offers."
+          introDraft
+          firstName={false}
+          submitLabel="Join"
+        />
+      </section>
+
+      <nav class="footer__nav" aria-label="Footer">
+        {footerGroups.map((g) => (
+          <div class="footer__col">
+            <h2 class="footer__title">{g.title}</h2>
+            <ul role="list">
+              {g.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+            </ul>
+          </div>
+        ))}
+      </nav>
+    </div>
+    </>)}
+
+    <div class="footer__contact">
+      <h2 class="visually-hidden">Contact</h2>
+      <ul role="list">
+        {contact.emails.map((e) => <li><a href={`mailto:${e.address}`}>{e.address}</a></li>)}
+        {contact.phone.showInFooter && (
+          <li><a href={`tel:${contact.phone.tel}`} data-check="Belle to confirm the phone number shows in the footer">{contact.phone.display}</a></li>
+        )}
+        <li><a href={social.instagram.url} target="_blank" rel="noopener">Instagram {social.instagram.handle}<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+      </ul>
+    </div>
+
+    {!slim && (
+    <div class="footer__notes">
+      {footerLines.trueSouth.text ? (
+        <p class="footer__truesouth">{footerLines.trueSouth.text}</p>
+      ) : (
+        <p class="footer__truesouth" data-notes-only><span class="placeholder-line" data-draft>{footerLines.trueSouth.placeholder}</span></p>
+      )}
+      <p class="footer__ack">{footerLines.acknowledgement}</p>
+    </div>
+    )}
+
+    <div class="footer__base">
+      <a class="footer__logo" href="/" aria-label="La maréa, home"><Logo variant="primary" height="1.4rem" /></a>
+      <ul role="list" class="footer__legal">
+        {legalLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        <li><span>&copy; {year} La maréa</span></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--sand-40);
+    color: var(--sage-100);
+    padding-top: var(--section-y);
+    padding-bottom: calc(var(--space-l) + env(safe-area-inset-bottom));
+  }
+  .footer--slim { padding-top: var(--space-l); border-top: 1px solid var(--sage-20); }
+  .footer ul { margin: 0; padding: 0; list-style: none; }
+  .footer a { color: inherit; text-decoration: none; }
+
+  .footer__intro {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-m);
+    text-align: center;
+    padding-bottom: var(--space-xl);
+  }
+  .footer__intro :global(.footer__submark) { color: var(--sage-60); }
+  .footer__tide {
+    display: grid;
+    gap: 0.1em;
+    margin: 0;
+    max-width: none;
+    font-family: var(--font-serif);
+    font-size: var(--fs-h4);
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+    color: var(--sage-80);
+  }
+
+  .footer__grid {
+    display: grid;
+    gap: var(--space-xl) var(--space-l);
+    padding-block: var(--space-l);
+    border-top: 1px solid var(--sage-20);
+  }
+  .footer__title {
+    margin: 0 0 0.9rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    font-weight: 400;
+    letter-spacing: var(--track-label);
+    line-height: var(--lh-label);
+    color: var(--sage-80);
+  }
+  .footer__nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+    gap: var(--space-l) var(--space-m);
+  }
+  .footer__col a,
+  .footer__legal a,
+  .footer__contact a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-small);
+    letter-spacing: 0.02em;
+    background: linear-gradient(currentColor, currentColor) 0 calc(100% - 0.72rem) / 0% 1px no-repeat;
+    transition: background-size var(--dur-fast) var(--ease-soft);
+  }
+  .footer__col li { line-height: 1.2; }
+  @media (hover: hover) {
+    .footer__col a:hover,
+    .footer__legal a:hover,
+    .footer__contact a:hover { background-size: 100% 1px; }
+  }
+  .footer a:active { background-size: 100% 1px; }
+
+  .footer__contact {
+    padding-block: var(--space-m);
+    border-top: 1px solid var(--sage-20);
+  }
+  .footer__contact ul { display: flex; flex-wrap: wrap; gap: 0 clamp(1.25rem, 3vw, 2.75rem); }
+  .footer__contact a { overflow-wrap: anywhere; }
+  .footer--slim .footer__contact { border-top: 0; padding-top: 0; }
+
+  .footer__notes {
+    display: grid;
+    gap: var(--space-s);
+    padding-block: var(--space-m) var(--space-l);
+  }
+  .footer__truesouth { margin: 0; max-width: none; font-size: var(--fs-small); }
+  .footer__ack { margin: 0; max-width: 46rem; font-size: var(--fs-label); line-height: 1.6; letter-spacing: 0.02em; color: var(--sage-80); }
+
+  .footer__base {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s) var(--space-l);
+    padding-top: var(--space-m);
+    border-top: 1px solid var(--sage-20);
+  }
+  .footer__logo { display: inline-flex; align-items: center; min-height: 2.75rem; color: var(--sage-80); }
+  .footer__legal { display: flex; flex-wrap: wrap; align-items: center; gap: 0 var(--space-m); }
+  .footer__legal span { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--sage-80); }
+
+  @media (min-width: 900px) {
+    .footer__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+    .footer__nav { grid-template-columns: repeat(3, minmax(0, 1fr)); padding-left: clamp(0rem, 4vw, 4rem); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .footer a { transition: none; }
+  }
+</style>

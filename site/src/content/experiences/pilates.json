@@ -1,0 +1,85 @@
+{
+  "name": "Pilates",
+  "name_as_transcribed": "pilates",
+  "name_as_published": "Mat Pilates",
+  "kind": "guided",
+  "order": 7,
+  "art_direction": "inset",
+  "media": "experience-pilates",
+  "media_type": "image",
+  "short": {
+    "text": "Pilates, Mat Pilates (beginner to advanced)",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/natalie-jane",
+      "captured": "24-09-2026"
+    }
+  },
+  "pillar": "movement",
+  "pillars": [
+    "movement"
+  ],
+  "pillar_basis": "Movement pillar text names pilates",
+  "duration": null,
+  "duration_basis": null,
+  "duration_as_published": null,
+  "practitioners": [
+    "natalie-jane",
+    "sarah-mclachlan"
+  ],
+  "business": null,
+  "business_basis": null,
+  "business_conflict": null,
+  "practitioners_as_published": [
+    "Natalie Jane",
+    "Sarah McLachlan (certification in progress)"
+  ],
+  "descriptions": [
+    {
+      "text": [
+        "Group guided energising yoga or mat pilates session"
+      ],
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": "15",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "Pilates, Mat Pilates (beginner to advanced)"
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/natalie-jane",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "Pilates",
+        "Improves chronic low-back pain, functional ability, and quality of life.",
+        "Enhances core strength, mobility, and movement control. (Yu et al., 2023)"
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "The Science, Movement"
+      }
+    }
+  ],
+  "seed_id": null,
+  "source": [
+    {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+    }
+  ],
+  "status": "draft",
+  "review": "No standalone pilates description exists.",
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

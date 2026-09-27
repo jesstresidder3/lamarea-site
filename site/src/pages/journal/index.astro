@@ -1,0 +1,111 @@
+---
+/*
+  /journal, the wellness journal (plan/11 4.18 with build spec 7 and 12, page builder C).
+  Belle: "a wellness journal editorial... a much more visually sort of appealing blog section, so that
+  I can go in and add research and different blogs and recipes" (BD-68), The Tailor's recent stories
+  slider (BD-69), and filters from the start because she will keep adding (BD-99, BD-100).
+
+  Order: the heading and Belle's own intro, the latest story large, the "Recent stories" slider, the
+  whole journal filterable by category (from eight posts), then journal updates by email. Every list reads the journal
+  collection, so a post Belle adds appears in all three with no code change.
+
+  voice-verbatim-source: lamarea.com.au/blog ("Research & Recipes" intro, first two sentences, the
+  dash set as a comma). Drafted lines carry data-draft.
+*/
+import Base from '../../layouts/Base.astro';
+import SectionHead from '../../components/base/SectionHead.astro';
+import Eyebrow from '../../components/base/Eyebrow.astro';
+import LeadCapture from '../../components/base/LeadCapture.astro';
+import Reveal from '../../components/base/Reveal.astro';
+import JournalCards from '../../components/journal/JournalCards.astro';
+import FeaturedPost from '../../components/pages/c/FeaturedPost.astro';
+import NoteFlag from '../../components/pages/c/NoteFlag.astro';
+import { authorOf, minutesOf } from '../../components/pages/c/lib/journal';
+import { getJournal, peopleById } from '../../lib/content';
+import { site } from '../../data/settings';
+
+const posts = await getJournal();
+const people = await peopleById();
+const [featured, ...rest] = posts;
+const recent = rest.slice(0, 8);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'La maréa wellness journal',
+  url: new URL('/journal', site.url).href,
+  blogPost: posts.map((p) => ({
+    '@type': 'BlogPosting',
+    headline: p.data.title,
+    datePublished: p.data.date.toISOString().slice(0, 10),
+    url: new URL(`/journal/${p.id}`, site.url).href,
+  })),
+};
+---
+<Base
+  title="Wellness journal, research and recipes"
+  description="Research, recipes and lifestyle wellness from La maréa, rooted in the Mediterranean way of eating and the evidence behind rest, movement and food."
+  jsonLd={jsonLd}
+>
+  <section class="section j-head">
+    <div class="wrap j-head__grid">
+      <div>
+        <Eyebrow>Research and recipes</Eyebrow>
+        <h1 class="j-head__title">Wellness journal</h1>
+      </div>
+      <p class="j-head__intro">Food and nutrition are integral to our philosophy. Our lifestyle wellness retreats are deeply inspired by the Mediterranean way of living, where nourishment is simple, seasonal, and shared.</p>
+    </div>
+  </section>
+
+  {featured && (
+    <section class="section section--flush-top" aria-label="The latest story">
+      <div class="wrap">
+        <FeaturedPost post={featured} minutes={minutesOf(featured)} author={authorOf(featured, people)} />
+      </div>
+    </section>
+  )}
+
+  {recent.length > 0 && (
+    <section class="section band-salt j-recent" aria-labelledby="recent-heading">
+      <div class="wrap">
+        <Reveal><SectionHead id="recent-heading" eyebrow="From the journal" heading="Recent stories" /></Reveal>
+      </div>
+      <JournalCards posts={recent} variant="slider" label="Recent stories" id="recent-stories" />
+    </section>
+  )}
+
+  <section class="section section--tight j-updates" aria-labelledby="updates-heading">
+    <div class="wrap j-updates__grid">
+      <div>
+        <Eyebrow>Journal updates</Eyebrow>
+        <h2 class="j-updates__title" id="updates-heading" data-draft>New research and recipes, by email</h2>
+      </div>
+      <LeadCapture list="newsletter" submitLabel="Keep me posted" successMessage="Thank you. New stories will come to your inbox." id="lead-journal" />
+    </div>
+  </section>
+
+  {/* The filtered grid returns at eight posts. With four, it showed the same stories a third time (CD review 02 item 21). */}
+  {posts.length >= 8 && (
+  <section class="section j-all" aria-labelledby="all-heading">
+    <div class="wrap">
+      <Reveal><SectionHead id="all-heading" eyebrow="Browse by topic" heading="Every story" /></Reveal>
+      <JournalCards posts={posts} variant="grid" label="Every story in the wellness journal" id="journal-grid" />
+      <NoteFlag items={['Category names are decision 24: "Recipes" follows Belle\'s own "research and recipe section" and "Sleep and recovery" is the live category.']} />
+    </div>
+  </section>
+  )}
+
+
+</Base>
+
+<style>
+  .j-head { padding-top: clamp(2.5rem, 5vw, 4.5rem); padding-bottom: clamp(2.5rem, 4vw, 3.5rem); }
+  .j-head__grid { display: grid; gap: 1.5rem clamp(2rem, 6vw, 7.5rem); align-items: end; }
+  .j-head__title { margin: 0; }
+  .j-head__intro { margin: 0; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.5; color: var(--sage-100); max-width: 30rem; }
+  @media (min-width: 900px) { .j-head__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); } }
+
+  .j-updates__grid { display: grid; gap: 1.5rem clamp(2rem, 6vw, 7.5rem); align-items: end; }
+  .j-updates__title { margin: 0; max-width: 14em; font-size: max(1.75rem, var(--fs-h3)); }
+  @media (min-width: 900px) { .j-updates__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+</style>

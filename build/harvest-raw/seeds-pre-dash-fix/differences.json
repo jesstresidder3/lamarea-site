@@ -1,0 +1,67 @@
+[
+  {
+    "id": "difference-01",
+    "number": "01",
+    "text": "South Australian based luxury lifestyle wellness retreats & experiences",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/",
+      "captured": "24-09-2026",
+      "section": "Our difference"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": null
+  },
+  {
+    "id": "difference-02",
+    "number": "02",
+    "text": "Built upon on evidence-based lifestyle wellness pillars that support holistic wellness & inspired by the Mediteranean lifestyle",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/",
+      "captured": "24-09-2026",
+      "section": "Our difference"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Two typos as published: \"Built upon on\" and \"Mediteranean\". Kept verbatim. plan/11 item 49 says Belle must agree before they are corrected (decision 21)."
+  },
+  {
+    "id": "difference-03",
+    "number": "03",
+    "text": "Run by qualified health professionals & experts in their chosen field",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/",
+      "captured": "24-09-2026",
+      "section": "Our difference"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": null
+  },
+  {
+    "id": "difference-04",
+    "number": "04",
+    "text": "Partner with local South Australian companies, supporting local Fleurieu Peninsula farmers, producers & communities",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/",
+      "captured": "24-09-2026",
+      "section": "Our difference"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": null
+  },
+  {
+    "id": "difference-05",
+    "number": "05",
+    "text": "Family owned business originating from the Fleurieu Peninsula",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/",
+      "captured": "24-09-2026",
+      "section": "Our difference"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": null
+  }
+]

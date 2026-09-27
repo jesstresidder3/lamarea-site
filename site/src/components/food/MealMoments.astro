@@ -1,0 +1,187 @@
+---
+/*
+  MealMoments (visual study D8): the day at the table, in Belle's own sequence, "from breakfast to
+  refreshments, um, to... lunches like three course Mediterranean inspired lunches, and maybe a dinner"
+  (BD-86) and "breakfast, lunch, dinner, dessert" (BD-131). SHA's diet cards give the mechanic: the
+  chosen card widens and its sample menu settles in on a salt panel inside a 12px inset frame, sand
+  light, never SHA's dark wash. Dinner and dessert are marked placeholders until Belle's retreat guide
+  menus arrive. Phones: the cards stack with each menu shown open.
+
+  <MealMoments moments={await getMealMoments({ publicOnly: true })} />
+  Props: moments (getMealMoments() entries), start (index resting open, default 0), label
+*/
+import Media from '../media/Media.astro';
+import { uid } from '../../lib/text';
+import type { MealMoment } from '../../lib/content';
+
+interface Props { moments: MealMoment[]; start?: number; label?: string; id?: string; class?: string }
+const { moments, start = 0, label = 'The day at the table', id, class: className } = Astro.props;
+const base = id ?? uid('meals');
+---
+<ol class:list={['meals', className]} id={id} aria-label={label} data-meals>
+  {moments.map((m, i) => {
+    const d = m.data;
+    const pid = `${base}-menu-${i}`;
+    const open = i === start;
+    return (
+      <li class:list={['meal', d.placeholder && 'meal--placeholder']} data-meal data-open={open ? '' : undefined} data-notes-only={d.placeholder ? '' : undefined}>
+        <button type="button" class="meal__trigger" aria-expanded={open ? 'true' : 'false'} aria-controls={pid} data-meal-trigger>
+          <span class="meal__media"><Media media={d.media} aspect="fill" showNote={!d.placeholder} notePosition="top-left" /></span>
+          <span class="meal__label">
+            <span class="meal__name">{d.name}</span>
+            {d.time && <span class="meal__time">{d.time}</span>}
+          </span>
+        </button>
+        <div class="meal__panel" id={pid} data-meal-panel tabindex="0" aria-label={`${d.name}, sample menu`}>
+          <div class="meal__panel-inner">
+            <p class="meal__kicker">{d.time ?? d.kicker ?? (d.placeholder ? 'To come' : 'Across the day')}</p>
+            <h3 class="meal__title">{d.name}</h3>
+            {d.line && <p class="meal__line">{d.line}</p>}
+            {d.detail.map((t) => <p class="meal__detail">{t}</p>)}
+            {d.courses.length > 0 && (
+              <div class="meal__menu">
+                {d.title_as_published && <p class="meal__menu-title">{d.title_as_published}</p>}
+                {d.courses.map((c) => (
+                  <div class="meal__course">
+                    <p class="meal__course-name">{c.course}</p>
+                    <ul>{c.dishes.map((dish) => <li>{dish}</li>)}</ul>
+                  </div>
+                ))}
+              </div>
+            )}
+            {d.placeholder && <p class="placeholder-line">{d.placeholder_note}</p>}
+          </div>
+        </div>
+      </li>
+    );
+  })}
+</ol>
+
+<style>
+  .meals {
+    --row-h: clamp(32rem, 70vh, 40rem);
+    display: flex;
+    gap: clamp(0.5rem, 1vw, 0.9rem);
+    height: var(--row-h);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .meal {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+    background: var(--sand-40);
+    transition: flex-grow var(--dur-slow) var(--ease-como) var(--delay-como);
+  }
+  .meal[data-open] { flex-grow: 2.6; }
+
+  .meal__trigger { position: absolute; inset: 0; display: block; width: 100%; padding: 0; border: 0; background: none; color: var(--salt-25); text-align: left; cursor: pointer; }
+  .meal__media { position: absolute; inset: 0; display: block; }
+  .meal__label {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    gap: 0.3rem;
+    padding: 3rem 1.1rem 1.1rem;
+    background: linear-gradient(to top, rgb(35 32 14 / 0.42), rgb(35 32 14 / 0));
+    transition: opacity var(--dur-fast) var(--ease-soft);
+  }
+  .meal__name { font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.1; }
+  .meal__time { font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: 0.1em; }
+  .meal[data-open] .meal__label { opacity: 0; }
+  .meal__trigger:focus-visible { outline-offset: -4px; outline-color: var(--salt-25); }
+  .meal--placeholder .meal__media :global(.ph) { filter: saturate(0.6); }
+  /* While the slot still shows its light placeholder, the label takes sage ink and the gradient goes (QA M3). */
+  .meal__trigger:has(.media--placeholder) { color: var(--sage-100); }
+  .meal__trigger:has(.media--placeholder) .meal__label { background: none; }
+  .meal__trigger:has(.media--placeholder):focus-visible { outline-color: var(--sage-80); }
+
+  /* The sample menu settles inside a 12px inset frame on salt. */
+  .meal__panel {
+    position: absolute;
+    inset: 12px;
+    z-index: 2;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    background: var(--salt-25);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 300ms var(--ease-soft), visibility 0s linear 300ms;
+  }
+  .meal[data-open] .meal__panel { opacity: 1; visibility: visible; transition: opacity 600ms var(--ease-soft) 700ms, visibility 0s; }
+  .meal__panel-inner { padding: clamp(1.1rem, 1.8vw, 1.6rem); min-width: 15rem; }
+  .meal__panel:focus-visible { outline-offset: -3px; }
+  .meal__kicker { margin: 0 0 0.5rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .meal__title { margin: 0 0 0.75rem; font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.15; color: var(--heading); }
+  .meal__line { margin: 0 0 0.6rem; font-family: var(--font-serif); font-size: 1.125rem; line-height: 1.4; color: var(--sage-100); }
+  .meal__detail { margin: 0 0 0.6rem; font-size: 0.8125rem; line-height: 1.55; color: var(--sage-100); }
+  .meal__menu { margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid var(--rule); }
+  .meal__menu-title { margin: 0 0 0.6rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .meal__course + .meal__course { margin-top: 0.7rem; }
+  .meal__course-name { margin: 0 0 0.25rem; font-family: var(--font-serif); font-size: 1.05rem; color: var(--heading); }
+  .meal__course ul { margin: 0; padding: 0; list-style: none; }
+  .meal__course li { font-size: 0.8125rem; line-height: 1.5; color: var(--sage-100); }
+  .meal__course li + li { margin-top: 0.3rem; }
+  .meal :global(.placeholder-line) { margin-top: 0.5rem; }
+
+  /* Collapsed columns are narrow from 900 to about 1180px: the name scales with its column so the
+     longest one, Refreshments, always fits (QA m4). */
+  @media (min-width: 900px) {
+    .meal { container-type: inline-size; }
+    .meal__label { padding-inline: 0.9rem; }
+    .meal__name { font-size: min(var(--fs-card), calc((100cqi - 1.8rem) / 5.8)); }
+  }
+
+  /* Phones and portrait tablets: stacked, every menu open beneath its photograph. */
+  @media (max-width: 899px) {
+    .meals { flex-direction: column; height: auto; gap: 2.5rem; }
+    .meal { flex: none; overflow: visible; background: none; }
+    .meal__trigger { position: relative; height: auto; aspect-ratio: 3 / 2; cursor: default; }
+    .meal__label { display: none; }
+    .meal__panel, .meal[data-open] .meal__panel { position: static; opacity: 1; visibility: visible; overflow: visible; background: none; transition: none; }
+    .meal__panel-inner { padding: 1.1rem 0 0; min-width: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .meal, .meal__label, .meal__panel, .meal[data-open] .meal__panel { transition: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-meals]').forEach((root) => {
+    const meals = Array.from(root.querySelectorAll<HTMLElement>('[data-meal]'));
+    const triggers = meals.map((m) => m.querySelector<HTMLButtonElement>('[data-meal-trigger]')!);
+    const panels = meals.map((m) => m.querySelector<HTMLElement>('[data-meal-panel]')!);
+    const stacked = window.matchMedia('(max-width: 899px)');
+    const open = (k: number) => {
+      meals.forEach((m, j) => {
+        const on = stacked.matches || j === k;
+        m.toggleAttribute('data-open', j === k);
+        triggers[j].setAttribute('aria-expanded', String(on));
+        triggers[j].tabIndex = stacked.matches ? -1 : 0;
+        panels[j].inert = !on;
+      });
+    };
+    let current = meals.findIndex((m) => m.hasAttribute('data-open'));
+    triggers.forEach((t, j) => {
+      t.addEventListener('click', () => { current = j; open(j); });
+      t.addEventListener('focus', () => { if (!stacked.matches) { current = j; open(j); } });
+    });
+    if (window.matchMedia('(hover: hover)').matches) {
+      let timer = 0;
+      meals.forEach((m, j) =>
+        m.addEventListener('pointerenter', (e) => {
+          if (e.pointerType !== 'mouse' || stacked.matches) return;
+          clearTimeout(timer);
+          timer = window.setTimeout(() => { current = j; open(j); }, 140);
+        }),
+      );
+    }
+    stacked.addEventListener('change', () => open(current));
+    open(Math.max(current, 0));
+  });
+</script>

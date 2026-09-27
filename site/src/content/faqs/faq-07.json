@@ -1,0 +1,21 @@
+{
+  "question": "Is there free time, or is the schedule full?",
+  "answer": [
+    "Our weekend retreats are relatively structured; however, you are welcome to pick which activities you wish to participate in. Nothing is compulsory, your retreat, your choice!",
+    "Our wish is that you get whatever you need out of this experience; if it means choosing to sauna or relax in the bath instead of hiking, then that is perfect.",
+    "There is space to rest, journal, explore the coastline, or simply unwind."
+  ],
+  "order": 7,
+  "topic": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    }
+  ],
+  "status": "draft",
+  "review": null,
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

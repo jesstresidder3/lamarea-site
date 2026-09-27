@@ -1,0 +1,52 @@
+{
+  "name": "Refreshments",
+  "service": "refreshments",
+  "order": 2,
+  "time": null,
+  "time_basis": null,
+  "time_source": null,
+  "line": "Refreshments & wholefood snacks provided over the day",
+  "line_source": {
+    "type": "document",
+    "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+    "page": "12",
+    "captured": "24-09-2026",
+    "section": "RETREAT MEAL INCLUSIONS"
+  },
+  "detail": [
+    "Coffee, herbal tea, mineral water, tonics and cold-pressed juices",
+    "(note wine can be discussed as an option to be paired with Lunch)"
+  ],
+  "detail_source": {
+    "type": "document",
+    "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+    "page": "13",
+    "captured": "24-09-2026",
+    "section": "BEVERAGES INCLUDED"
+  },
+  "courses": [],
+  "media": "food-refreshments",
+  "placeholder": false,
+  "placeholder_note": null,
+  "chef": null,
+  "public": true,
+  "signature": false,
+  "source": [
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "page": "12",
+      "captured": "24-09-2026",
+      "section": "RETREAT MEAL INCLUSIONS"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "page": "13",
+      "captured": "24-09-2026",
+      "section": "BEVERAGES INCLUDED"
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check."
+}

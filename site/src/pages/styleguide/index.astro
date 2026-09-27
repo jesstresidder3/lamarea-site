@@ -1,0 +1,279 @@
+---
+/*
+  Foundation styleguide (noindex, not linked from the site). Every component the foundation layout
+  builder owns, with real harvested content from build/content-seed, in the order the home page
+  runs them: the Hero, the ZoomMosaic and the PinnedDay first, so they can be reviewed as they will
+  scroll. The systems builder's components live at /styleguide/systems.
+*/
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/hero/Hero.astro';
+import ZoomMosaic from '../../components/hero/ZoomMosaic.astro';
+import PinnedDay from '../../components/day/PinnedDay.astro';
+import TextPair from '../../components/base/TextPair.astro';
+import SectionHead from '../../components/base/SectionHead.astro';
+import Eyebrow from '../../components/base/Eyebrow.astro';
+import ArrowLink from '../../components/base/ArrowLink.astro';
+import MediaBand from '../../components/base/MediaBand.astro';
+import SlideIn from '../../components/base/SlideIn.astro';
+import Reveal from '../../components/base/Reveal.astro';
+import NumberedMoments from '../../components/base/NumberedMoments.astro';
+import CtaBand from '../../components/base/CtaBand.astro';
+import LeadCapture from '../../components/base/LeadCapture.astro';
+import AnswerBlock from '../../components/base/AnswerBlock.astro';
+import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
+import Accordion from '../../components/base/Accordion.astro';
+import ExpandTile from '../../components/base/ExpandTile.astro';
+import QuestionCircles from '../../components/base/QuestionCircles.astro';
+import DataTable from '../../components/base/DataTable.astro';
+import Icon from '../../components/base/Icon.astro';
+import Logo from '../../components/layout/Logo.astro';
+import Media from '../../components/media/Media.astro';
+import { differences } from '../../data/settings';
+import { hourByHour, day } from '../../data/day';
+
+const pillarIcons = ['nutrition', 'movement', 'sleep-recovery', 'psychological-wellbeing', 'nature-immersion', 'connection', 'personalisation', 'balance', 'evidence-based-education', 'luxury'];
+
+// Live FAQ answers, verbatim (content-seed/faqs.json, lamarea.com.au/faqs, captured 24-09-2026).
+const faqs = [
+  {
+    title: 'Do I need to be experienced with yoga, meditation, or fitness? Am I fit enough to attend a retreat?',
+    paragraphs: [
+      'You do not need any experience in these activities, our retreats are bespoke and will be personalised to you and your level of fitness. If you want to participate fully in all aspects of the retreat i.e the hiking, then we do recommend a moderate level of fitness.',
+      'However, the hikes can always be shortened, and activities swapped out for time spent relaxing at the private beach, on the deck or in the bath.',
+    ],
+  },
+  {
+    title: 'What kind of food is provided, and can dietary requirements be accommodated?',
+    paragraphs: ['The meals we provide are plant-forward and Mediterranean-inspired. We aim to use local, seasonal and organic produce in our meals where possible.'],
+  },
+  {
+    title: 'What should I pack?',
+    paragraphs: ['We recommend being prepared for all seasons as coastal weather can be unpredictable!'],
+  },
+  { title: 'Are children allowed?', paragraphs: ['Unfortunately we are not able to cater for children under the age of 16 years old.'] },
+];
+
+const moments = differences.map((d, i) => ({
+  text: d.display,
+  href: d.href,
+  linkLabel: ['Places to Pause', 'Our philosophy', 'The team', 'The Table', 'Our story'][i],
+  icons: i === 1 ? pillarIcons : undefined,
+  iconsHref: '/philosophy',
+  iconsLabel: 'Our ten pillars, on the philosophy page',
+}));
+
+const components = [
+  'Hero', 'ZoomMosaic', 'PinnedDay', 'TextPair', 'MediaBand', 'SlideIn', 'Reveal', 'NumberedMoments', 'ExpandTile',
+  'Accordion', 'AnswerBlock', 'DataTable', 'QuestionCircles', 'CtaBand', 'LeadCapture', 'Breadcrumbs', 'SectionHead',
+  'Eyebrow', 'ArrowLink', 'Icon', 'Logo', 'Media',
+];
+---
+<Base title="Foundation styleguide" description="La maréa foundation components, for review only." noindex headerTone="over-media">
+  <div id="sg-hero"><Hero /></div>
+
+
+  <section class="section wrap" id="sg-textpair">
+    <p class="sg-label">TextPair, variant left (home moment 2)</p>
+    <TextPair eyebrow="An invitation to pause" heading="Restore. Reconnect. Realign.">
+      <p>La maréa was created as an invitation to pause. La maréa curates bespoke wellness retreats for those who understand that wellbeing is not indulgence, it is foundation. <span data-draft>8 hour wellness retreats for private groups and corporate teams, south of Adelaide.</span></p>
+    </TextPair>
+  </section>
+
+  <div id="sg-zoommosaic"><ZoomMosaic /></div>
+
+  <div id="sg-pinnedday"><PinnedDay /></div>
+
+  <section class="section wrap sg-intro sg-intro--after">
+    <p class="sg-label">Styleguide, foundation layout. Not linked from the site. Above: the hero, moment 2, the Fleurieu zoom and the 8 hour day, in the order and at the pace they run on home.</p>
+    <ul class="sg-index" role="list">
+      {components.map((c) => <li><a href={`#sg-${c.toLowerCase()}`}>{c}</a></li>)}
+    </ul>
+  </section>
+
+  <div id="sg-mediaband">
+    <MediaBand media="sg-band" height="band" text="below" eyebrow="The Fleurieu Peninsula" heading="Coast and vineyard, south of *Adelaide*" body="Deep Creek and Encounter Bay on the coast, and the vineyards of McLaren Vale, all within a morning’s drive." link={{ label: 'Discover the Fleurieu', href: '/fleurieu-peninsula-retreats' }} draft={{ heading: true, body: true }} caption="MediaBand, parallax, text below" />
+  </div>
+
+  <section class="section wrap clip-x" id="sg-slidein">
+    <p class="sg-label">SlideIn, three items entering from the right</p>
+    <div class="sg-three">
+      <SlideIn index={0}><p class="sg-fact"><span class="place">McLaren Vale</span><span>About 50 minutes from Adelaide</span></p></SlideIn>
+      <SlideIn index={1}><p class="sg-fact"><span class="place">Deep Creek</span><span>About 90 minutes from Adelaide</span></p></SlideIn>
+      <SlideIn index={2}><p class="sg-fact"><span class="place">Adelaide Airport</span><span>Transfers typically take 90 to 120 minutes</span></p></SlideIn>
+    </div>
+  </section>
+
+  <section class="section band-salt" id="sg-numberedmoments">
+    <div class="wrap">
+      <p class="sg-label">NumberedMoments with SlideIn, Belle's five differences (typo fixes shown in the display field only)</p>
+      <Reveal><SectionHead eyebrow="Our difference" heading="What sets La maréa apart" draft={{ heading: true }} /></Reveal>
+      <NumberedMoments items={moments} slide />
+    </div>
+  </section>
+
+  <section class="section wrap" id="sg-expandtile">
+    <p class="sg-label">ExpandTile, opens in place</p>
+    <SectionHead eyebrow="The Table" heading="Signature culinary experiences" />
+    <ExpandTile items={[
+      {
+        eyebrow: 'Signature culinary experience',
+        title: 'Three course Mediterranean chef curated dining',
+        media: 'sg-dining',
+        body: '<p>Private shared 3 course mediterranean-inspired lunch with Award-Winning Chef, Luca Guiotto of Aromi Dining. Enjoy a fresh, seasonal, plant-forward lunch showcasing the finest local South Australian ingredients, where every course tells a story through bold flavours and elegant presentation.</p>',
+        link: { label: 'The Table', href: '/food' },
+      },
+      {
+        eyebrow: 'Signature culinary experience',
+        title: 'Pasta making masterclass',
+        media: 'sg-pasta',
+        body: '<p>Hands-on, interactive sessions where guests learn to make authentic Italian pasta from scratch with Malissa.</p><p>Ideal for group bonding and creating a memorable retreat experience</p>',
+      },
+    ]} />
+    <p class="sg-note">Copy verbatim from the Encounter Bay guide p.13 and Malissa Fedele's live bio. Who runs the masterclass for La maréa is still Belle's to confirm.</p>
+  </section>
+
+  <section class="section wrap" id="sg-accordion">
+    <p class="sg-label">Accordion, native details with name, chevron</p>
+    <div class="sg-split">
+      <SectionHead eyebrow="Questions" heading="Before your day" draft={{ heading: true }} size="small" />
+      <Accordion items={faqs} />
+    </div>
+  </section>
+
+  <section class="section band-warm" id="sg-answerblock">
+    <div class="wrap">
+      <p class="sg-label">AnswerBlock</p>
+      <AnswerBlock question="What is a full day wellness retreat?" answer="Your luxury retreat includes a curated day program designed around movement, recovery, nourishing food, nervous system support, nature immersion, education and connection. A completely curated luxury experience where everything is taken care of, venue, meals, wellness sessions, experiences, and clean-up, allowing your group to simply arrive, relax, and enjoy quality time together." />
+    </div>
+  </section>
+
+  <section class="section wrap" id="sg-datatable">
+    <p class="sg-label">DataTable, the hour by hour day (12:20pm corrected from the published "12 : 20 AM", logged for Belle)</p>
+    <DataTable caption={day.example} columns={[{ key: 'time', label: 'Time' }, { key: 'what', label: 'What happens' }]} rows={hourByHour} note={day.note} />
+  </section>
+
+  <section class="section band-salt" id="sg-questioncircles">
+    <div class="wrap">
+      <p class="sg-label">QuestionCircles, the customise prompts (arch from --arch, questions drafted for Belle)</p>
+      <QuestionCircles params={{ source: 'styleguide' }} />
+    </div>
+  </section>
+
+  <div id="sg-ctaband">
+    <CtaBand line="An 8 hour day on the *Fleurieu*, shaped around your group" params={{ format: 'full-day', source: 'styleguide' }} note={day.note} draft={{ line: true }} />
+  </div>
+
+  <section class="section wrap" id="sg-leadcapture">
+    <p class="sg-label">LeadCapture (stub, stores in sessionStorage)</p>
+    <div class="sg-split">
+      <TextPair variant="narrow" heading="Coming 2027" body="The La maréa app arrives in 2027, with foundational subscriptions. Leave your email to hear first." draft={{ body: true }} />
+      <LeadCapture list="app" firstName submitLabel="Keep me posted" successMessage="Thank you. We will write when the app is ready." />
+    </div>
+  </section>
+
+  <section class="section band-warm" id="sg-textpair-variants">
+    <div class="wrap sg-stack">
+      <p class="sg-label">TextPair variants: right, centred, and beside media (a contained 9:16 reel)</p>
+      <TextPair variant="right" eyebrow="Places to Pause" heading="Stays on the coast and in the vineyards" body="La maréa retreats are intentionally limited and venue selection is highly considered." link={{ label: 'Places to Pause', href: '/places' }} draft={{ heading: true }} />
+      <TextPair variant="centred" heading="An invitation to pause" body="La maréa was created as an invitation to pause." />
+      <TextPair heading="The day at *Beresford Estate*" mediaSide="left" split="wide" body="Belle’s reel of a private group day, with the full schedule beside it on the Day page." link={{ label: 'See the full day', href: '/experiences/full-day-retreat' }} draft={{ body: true }}>
+        <div class="sg-reel" slot="media"><Media media="sg-reel" aspect="9 / 16" fit="contain" /></div>
+      </TextPair>
+    </div>
+  </section>
+
+  <div id="sg-mediaband-over">
+    <MediaBand media="sg-pair" height="tall" text="over" heading="Walks on the coast at *Deep Creek*" link={{ label: 'Places to Pause', href: '/places' }} draft={{ heading: true }} />
+  </div>
+
+  <section class="section wrap sg-stack" id="sg-breadcrumbs">
+    <div id="sg-sectionhead">
+      <p class="sg-label">Breadcrumbs, SectionHead, Eyebrow, ArrowLink</p>
+      <Breadcrumbs items={[{ label: 'Places to Pause', href: '/places' }, { label: 'Naiko Deep Creek' }]} schema={false} />
+      <SectionHead eyebrow="Places to Pause" heading="Naiko at *Deep Creek*" intro="La maréa retreats are intentionally limited and venue selection is highly considered." icon="nature-immersion" />
+    </div>
+    <div class="sg-row" id="sg-eyebrow">
+      <Eyebrow>Fleurieu Peninsula, South Australia</Eyebrow>
+      <Eyebrow icon="personalisation">Personalisation</Eyebrow>
+    </div>
+    <div class="sg-row" id="sg-arrowlink">
+      <ArrowLink href="/places" label="Discover Places to Pause" />
+      <ArrowLink href="/enquire" label="Plan your day" size="large" />
+      <ArrowLink href="/journal" label="Back to the journal" direction="left" arrow="before" />
+      <a class="btn-filled" href="/enquire">Plan your day</a>
+    </div>
+    <div class="sg-row sg-dark">
+      <ArrowLink href="/places" label="On sage and over media" tone="light" />
+      <Logo variant="primary" height="1.75rem" />
+    </div>
+  </section>
+
+  <section class="section band-salt" id="sg-icon">
+    <div class="wrap">
+      <p class="sg-label">Icon, Belle's ten line icons, and Logo</p>
+      <ul class="sg-icons" role="list">
+        {pillarIcons.map((n) => <li><Icon name={n} size="3rem" /><span>{n}</span></li>)}
+      </ul>
+      <div class="sg-row" id="sg-logo">
+        <Logo variant="primary" height="2.5rem" />
+        <Logo variant="tagline" height="4rem" />
+        <Logo variant="lm" height="3rem" />
+        <Logo variant="circle" height="6rem" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" id="sg-media">
+    <p class="sg-label">Media placeholders in five tones, and type</p>
+    <div class="sg-media">
+      <Media media="menu-default" aspect="4 / 5" />
+      <Media media="zoom-table" aspect="4 / 5" />
+      <Media media="sg-reel" aspect="4 / 5" />
+      <Media media="zoom-bath" aspect="4 / 5" />
+    </div>
+    <div class="sg-type" id="sg-reveal">
+      <Reveal stagger>
+        <p class="display" style="font-size:var(--fs-h1)">Luxury coastal wellness retreats on the <span class="place">Fleurieu Peninsula</span></p>
+        <h2>An 8 hour day on the <span class="place">Fleurieu</span></h2>
+        <h3>Signature culinary experiences</h3>
+        <h4>Three course Mediterranean dining</h4>
+        <p class="lead">La maréa was created as an invitation to pause.</p>
+        <p>Body copy is Jost at 16 on 1.6. Your luxury retreat includes a curated day program designed around movement, recovery, nourishing food, nervous system support, nature immersion, education and connection.</p>
+        <p class="label">Small label, sentence case, tracked</p>
+      </Reveal>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .sg-intro { padding-bottom: 0; }
+  .sg-intro--after { padding-top: var(--section-y); }
+  .sg-label {
+    margin: 0 0 1.5rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px dashed var(--sage-20);
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: 0.06em;
+    color: var(--sage-80);
+    max-width: none;
+  }
+  .sg-index { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin: 0; padding: 0; list-style: none; }
+  .sg-index a { display: inline-flex; min-height: 2.75rem; align-items: center; font-family: var(--font-ui); font-size: var(--fs-small); color: var(--sage-80); }
+  .sg-note { margin-top: 1.5rem; font-size: var(--fs-small); color: var(--sage-80); }
+  .sg-three { display: grid; gap: 1rem; }
+  @media (min-width: 760px) { .sg-three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .sg-fact { display: grid; gap: 0.3rem; margin: 0; padding: 1.4rem 1.6rem; background: var(--salt-25); border: 1px solid var(--sage-20); }
+  .sg-fact .place { font-size: 1.5rem; color: var(--sage-80); }
+  .sg-fact span:last-child { font-size: var(--fs-small); }
+  .sg-split { display: grid; gap: var(--space-l); }
+  @media (min-width: 900px) { .sg-split { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); } }
+  .sg-stack { display: grid; gap: var(--space-2xl); }
+  .sg-reel { width: min(100%, 20rem); margin-inline: auto; }
+  .sg-row { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem 2.5rem; }
+  .sg-dark { padding: 1.5rem; background: var(--sage-80); color: var(--salt-25); }
+  .sg-icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr)); gap: 2rem 1rem; margin: 0 0 3rem; padding: 0; list-style: none; color: var(--sage-80); }
+  .sg-icons li { display: grid; justify-items: center; gap: 0.6rem; font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.04em; text-align: center; overflow-wrap: anywhere; }
+  .sg-media { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: 1rem; margin-bottom: var(--space-xl); }
+  .sg-type h1 { font-size: var(--fs-display); }
+</style>

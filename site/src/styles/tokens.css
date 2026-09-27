@@ -1,0 +1,111 @@
+/*
+  La maréa design tokens.
+  Colour values come from Belle's style guide (Ponder Designs, page 7): Sage Pantone 7771CP,
+  Sand Pantone 468CP, Salt Pantone 7527CP, with the in-between steps read from the guide's swatches.
+  Belle's direction: soft sand as the dominant background, sage for wording and headings,
+  light and bright rather than green as the base.
+*/
+:root {
+  /* Sand, the base of the site */
+  --sand-100: #e6d6a4;
+  --sand-80: #ead8ae;
+  --sand-60: #efe0c0;
+  --sand-40: #f4ead3;
+  --sand-30: #f8f3e4;
+  --sand-20: #f9f4e7;
+
+  /* Salt, the lightest surfaces */
+  --salt-100: #e9e5d6;
+  --salt-60: #eeeade;
+  --salt-40: #f3f1e8;
+  --salt-25: #faf9f5;
+
+  /* Sage, wording and headings */
+  --sage-100: #433d1b; /* body text, 9.85:1 on sand-30 */
+  --sage-80: #635b39;  /* headings and links, 6.13:1 on sand-30 */
+  --sage-60: #7d7455;  /* large display text only (24px and up, 4.21:1). Never body copy */
+  --sage-40: #aaa38b;  /* logo tint, rules, icons. Decorative only, fails as text */
+  --sage-20: #cbc6b7;  /* hairlines, placeholder texture */
+
+  /* Roles */
+  --bg: var(--sand-30);
+  --bg-alt: var(--salt-25);
+  --bg-warm: var(--sand-40);
+  --bg-deep: var(--sand-60);
+  --surface: var(--salt-25);
+  --text: var(--sage-100);
+  --heading: var(--sage-80);
+  --muted: var(--sage-80);
+  --rule: color-mix(in srgb, var(--sage-40) 55%, transparent);
+  --rule-strong: var(--sage-40);
+  --on-image: #faf9f5;
+  /* No full-frame scrim over footage (pre-build review item 1). A bottom-third gradient behind hero text only. */
+  --scrim-soft: linear-gradient(to top, rgb(35 32 14 / 0.22), rgb(35 32 14 / 0) 38%);
+
+  /* Type. HV Muse is the brand face (style guide page 6, web licence not yet confirmed, Belle decides).
+     Italiana is the closest free match to HV Muse and the logo lettering, and it is used for headings
+     at 28px and above only (too thin below that). Cormorant Garamond carries leads, card titles, quotes
+     and the one italic flourish, place names. Jost sits close to the guide's Geosans Light and Avenir Next.
+     Swap here only. Pre-build review 24-09-2026, item 21. */
+  --font-display: 'Italiana', 'Cormorant Garamond', Georgia, serif;
+  --font-serif: 'Cormorant Garamond', 'Cormorant', Georgia, 'Times New Roman', serif;
+  --font-body: 'Jost', 'Avenir Next', 'Avenir', 'Helvetica Neue', sans-serif;
+
+  --fs-label: 0.78rem;                                        /* 12.5px */
+  --fs-small: 0.875rem;                                       /* 14px */
+  --fs-body: 1rem;                                            /* 16px */
+  --fs-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);         /* 17 to 20px */
+  --fs-h4: clamp(1.3rem, 1.18rem + 0.45vw, 1.6rem);           /* 21 to 26px */
+  --fs-h3: clamp(1.6rem, 1.4rem + 0.8vw, 2.1rem);             /* 26 to 34px */
+  --fs-h2: clamp(1.875rem, 0.625rem + 2.4vw, 2.75rem);         /* 30 to 44px, the Tailor and Aman range */
+  --fs-h1: clamp(2.3rem, 1.75rem + 2.3vw, 3.6rem);            /* 37 to 58px */
+  --fs-display: clamp(2.25rem, 4vw, 3.5rem);                  /* 36 to 56px, hero line only (pre-build review item 2) */
+  --fs-place: clamp(2.5rem, 4vw, 3.75rem);                    /* 40 to 60px, large italic place or pillar names */
+  --fs-card: clamp(1.375rem, 1.2rem + 0.4vw, 1.625rem);       /* 22 to 26px card titles */
+
+  --lh-tight: 1.08;
+  --lh-heading: 1.16;
+  --lh-body: 1.62;
+  --lh-label: 1.4;
+  --track-label: 0.14em;
+  --track-body: 0.01em;
+  --track-heading: 0.004em;
+
+  /* Space. Margins scale continuously with the viewport (O9), never in breakpoint steps. */
+  --gutter: clamp(1.25rem, 5.5vw, 6rem);   /* 20px at 320, 21.5px at 390, 79px at 1440, 96px cap */
+  --wrap-max: 1440px;
+  --measure: 34rem;         /* body copy line length */
+  --measure-wide: 44rem;
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-s: 1rem;
+  --space-m: clamp(1.25rem, 1rem + 1vw, 2rem);
+  --space-l: clamp(2rem, 1.5rem + 2vw, 3.5rem);
+  --space-xl: clamp(3rem, 2rem + 4vw, 6rem);
+  --space-2xl: clamp(4.5rem, 2.5rem + 7vw, 9rem);
+  --section-y: clamp(4rem, 9vw, 8.5rem);   /* 64px on phones, 130px at 1440, 136px cap */
+
+  /* Motion. Nothing bounces. Easing only from the recorded references. */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);    /* long ease-out that never overshoots (visual study B10) */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);  /* gentle decelerate, no overshoot */
+  --ease-como: ease-out;                           /* COMO flex 0.8s ease-out 0.2s */
+  --dur-fast: 300ms;    /* colour and opacity hovers */
+  --dur: 500ms;         /* header hide and show, overlays */
+  --dur-step: 600ms;    /* slider steps, accordions */
+  --dur-slow: 800ms;    /* flex trades (COMO), with --delay-como */
+  --dur-slower: 900ms;  /* crossfades, side panels */
+  --delay-como: 200ms;
+
+  /* Layers */
+  --z-header: 50;
+  --z-menu: 60;
+  --z-overlay: 70;
+
+  --radius: 2px;
+  /* The arch-topped swatch from style guide page 7, used as the one frame shape in three places only
+     (hero door images, /places venue cards, the customise prompts). Belle decides; set to 0 to square. */
+  --arch: 999px 999px 0 0;
+  --header-h: clamp(4.25rem, 3.8rem + 1.5vw, 5.5rem);
+}

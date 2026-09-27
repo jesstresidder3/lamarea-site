@@ -1,0 +1,58 @@
+---
+/*
+  A short statement in Belle's words set large in the serif, Aman's manner: a small label in the left
+  third, the statement in the right two thirds, and an optional quieter line beneath it. Used to open
+  pages after the hero (Places to Pause, the team, Our story).
+
+  <Statement label="Our accommodation partners" text="We collaborate with..." after="La maréa retreats are..." />
+  Props: label, text (the statement), after (a quieter second line), source (never rendered, for the
+  reader of the code), draft ({ text?, after? }), id, class. A default slot renders under `after`.
+*/
+import Reveal from '../../base/Reveal.astro';
+
+interface Props { label?: string; text: string; after?: string; draft?: { text?: boolean; after?: boolean }; id?: string; class?: string; source?: string }
+const { label, text, after, draft = {}, id, class: className } = Astro.props;
+---
+<Reveal class:list={['statement', className]}>
+  <div id={id} class="statement__grid">
+    {label && <p class="statement__label">{label}</p>}
+    <div class="statement__body">
+      <p class="statement__text" data-draft={draft.text ? '' : undefined}>{text}</p>
+      {after && <p class="statement__after" data-draft={draft.after ? '' : undefined}>{after}</p>}
+      <slot />
+    </div>
+  </div>
+</Reveal>
+
+<style>
+  .statement__grid { display: grid; gap: 1.25rem clamp(2rem, 6vw, 7.5rem); }
+  .statement__label {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    line-height: var(--lh-label);
+    letter-spacing: var(--track-label);
+    color: var(--muted);
+  }
+  .statement__text {
+    margin: 0;
+    max-width: 30em;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(1.45rem, 1.1rem + 1.35vw, 2.35rem);
+    line-height: 1.32;
+    letter-spacing: 0.002em;
+    color: var(--sage-100);
+    text-wrap: pretty;
+  }
+  .statement__after {
+    margin: clamp(1.5rem, 2.5vw, 2.25rem) 0 0;
+    max-width: 30rem;
+    font-size: var(--fs-body);
+    color: var(--sage-80);
+  }
+  @media (min-width: 900px) {
+    .statement__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+    .statement__label { padding-top: 0.75rem; }
+  }
+</style>

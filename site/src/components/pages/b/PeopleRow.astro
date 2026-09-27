@@ -1,0 +1,95 @@
+---
+/*
+  Who leads the experiences: a compact row of the local businesses and people behind the day (build
+  spec 12, CD review B2: The Earth House and Spa, PEAQ Performance, Aromi Dining, Third Spaces). A
+  small portrait, the business in the serif, the person and their published title, then the
+  experiences the collections link to them. Titles are as published on lamarea.com.au. Nothing here
+  says who delivers a contested experience (contrast therapy): links come only from an experience’s
+  `business.person`. Owner: page builder B.
+
+  <PeopleRow people={[...]} experiences={guided} />
+*/
+import Media from '../../media/Media.astro';
+import type { Person, Experience } from '../../../lib/content';
+
+interface Props { people: Person[]; experiences: Experience[]; class?: string }
+const { people, experiences, class: className } = Astro.props;
+
+const ledBy = (id: string) => experiences.filter((e) => e.data.business?.person === id);
+const businessOf = (p: Person) => (p.id === 'belle-redden' ? 'La maréa' : p.data.business?.replace(/ Centre$/, '') ?? null);
+---
+<ul class:list={['people', className]} role="list">
+  {people.map((p) => {
+    const led = ledBy(p.id);
+    const biz = businessOf(p);
+    return (
+      <li class="person">
+        <a class="person__portrait" href={`/team/${p.id}`} tabindex="-1" aria-hidden="true">
+          <Media media={p.data.portrait} aspect="fill" showNote={false} />
+        </a>
+        <div class="person__text">
+          {biz && <p class="person__biz">{biz}</p>}
+          <h3 class="person__name"><a href={`/team/${p.id}`}>{p.data.name}</a></h3>
+          {p.data.role && <p class="person__role">{p.data.role}</p>}
+          {led.length > 0 && (
+            <p class="person__led">
+              {led.map((e, i) => (
+                <>
+                  <a href={`/experiences/${e.id}`}>{e.data.name}</a>{i < led.length - 1 ? ', ' : ''}
+                </>
+              ))}
+            </p>
+          )}
+        </div>
+      </li>
+    );
+  })}
+</ul>
+
+<style>
+  .people {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (min-width: 760px) { .people { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem 2rem; } }
+  @media (min-width: 1100px) { .people { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 2rem; } }
+
+  .person { min-width: 0; display: flex; flex-direction: column; }
+  .person__portrait { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; background: var(--sand-40); }
+  .person__portrait :global(.media) { transition: transform 900ms var(--ease-soft); }
+  @media (hover: hover) {
+    .person:hover .person__portrait :global(.media) { transform: scale(1.03); }
+  }
+  .person__text { padding-top: 1.1rem; border-top: 0; }
+  .person__biz {
+    margin: 0 0 0.35rem;
+    font-family: var(--font-serif);
+    font-size: var(--fs-card);
+    line-height: 1.15;
+    color: var(--heading);
+  }
+  .person__name { margin: 0; font-family: var(--font-ui); font-size: var(--fs-small); letter-spacing: 0.04em; line-height: 1.4; color: var(--sage-100); }
+  .person__name a { color: inherit; text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 0% 1px no-repeat; transition: background-size var(--dur-fast) var(--ease-soft); }
+  @media (hover: hover) { .person__name a:hover { background-size: 100% 1px; } }
+  .person__name a:focus-visible { background-size: 100% 1px; }
+  .person__role { margin: 0.2rem 0 0; font-size: 0.8125rem; line-height: 1.45; color: var(--muted); }
+  .person__led {
+    margin: 0.8rem 0 0;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .person__led a { color: var(--heading); text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 0.25em; }
+  @media (prefers-reduced-motion: reduce) {
+    .person__portrait :global(.media), .person__name a { transition: none; }
+    .person:hover .person__portrait :global(.media) { transform: none; }
+  }
+</style>

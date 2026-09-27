@@ -1,0 +1,43 @@
+---
+/*
+  A soft fade and 16px rise as it comes into view, once (visual study B10: 700ms, --ease-soft).
+  With `stagger`, each direct child arrives in turn (90ms apart) instead of the block as one.
+  Content is only hidden once JavaScript is running, and never under reduced motion or in print.
+
+  <Reveal><SectionHead ... /></Reveal>
+  <Reveal stagger as="ul">...</Reveal>
+*/
+interface Props {
+  stagger?: boolean;
+  delay?: number;
+  as?: 'div' | 'ul' | 'ol' | 'section' | 'article';
+  class?: string;
+}
+const { stagger = false, delay = 0, as: Tag = 'div', class: className } = Astro.props;
+---
+<Tag class:list={['reveal', className]} data-reveal={stagger ? 'children' : 'self'} style={delay ? `--reveal-delay:${delay}ms` : undefined}>
+  <slot />
+</Tag>
+
+<script>
+  import '../../scripts/reveal';
+</script>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.js) [data-reveal='self'],
+    :global(html.js) [data-reveal='children'] > :global(*) {
+      transition:
+        opacity 700ms var(--ease-soft) calc(var(--reveal-delay, 0ms) + var(--i, 0) * 90ms),
+        translate 700ms var(--ease-soft) calc(var(--reveal-delay, 0ms) + var(--i, 0) * 90ms);
+    }
+    :global(html.js) [data-reveal='self']:not(.is-in),
+    :global(html.js) [data-reveal='children']:not(.is-in) > :global(*) {
+      opacity: 0;
+      translate: 0 16px;
+    }
+  }
+  @media print {
+    [data-reveal], [data-reveal] > :global(*) { opacity: 1 !important; translate: none !important; }
+  }
+</style>

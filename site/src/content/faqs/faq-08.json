@@ -1,0 +1,20 @@
+{
+  "question": "Will I have internet access?",
+  "answer": [
+    "All guests attending a retreat will have access to the internet at our partner's accommodation.",
+    "However, we encourage you to switch your devices off and disconnect as much as possible to embrace the digital detox.",
+    "With this in mind, we also ask you to please respect others who are wishing to embrace a digital detox, therefore discourage the use of phones and Wi-Fi in any of the public spaces."
+  ],
+  "order": 8,
+  "topic": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    }
+  ],
+  "status": "draft",
+  "review": null
+}

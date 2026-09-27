@@ -1,0 +1,236 @@
+---
+/*
+  /our-story (plan/11 4.17 with build decision 7 and build spec 12, page builder C).
+  Belle on the Fleurieu, her note that opens with "La maréa was created as an invitation to pause.",
+  growing up on the Fleurieu, the name (linking to /philosophy, where the full name story lives), the
+  family business, then two marked gaps in her own words: starting La maréa on the Fleurieu (in place
+  of the "South Australian first" claim, which is held back) and how La maréa works on the Fleurieu
+  against True South (no badge, no claim of accreditation).
+
+  voice-verbatim-source: Encounter Bay guide p.5 "A note from Belle" (paragraphs one to three and the
+  sign-off; the private group paragraph and the guide's closing line are left out as specific to the
+  guide), lamarea.com.au/our-story (captured 24-09-2026): the founder story cut for length with Belle's
+  permission to retire wording ("Happy to retire wording to achieve the more minimalist, chic/lux
+  design"), whole sentences only, the stray "born." line removed, dashes set as commas, "Belles"
+  given its apostrophe (flagged); the name line; the hosts paragraph, mission and closing line; the
+  live difference 05.
+*/
+import Base from '../layouts/Base.astro';
+import Band from '../components/pages/c/Band.astro';
+import Eyebrow from '../components/base/Eyebrow.astro';
+import TextPair from '../components/base/TextPair.astro';
+import ArrowLink from '../components/base/ArrowLink.astro';
+import CtaBand from '../components/base/CtaBand.astro';
+import Reveal from '../components/base/Reveal.astro';
+import SlideIn from '../components/base/SlideIn.astro';
+import Media from '../components/media/Media.astro';
+import ToCome from '../components/pages/c/ToCome.astro';
+import NoteFlag from '../components/pages/c/NoteFlag.astro';
+import { emphasis } from '../components/base/text';
+import { differences, site } from '../data/settings';
+import submark from '../assets/brand/submark-lm.svg?raw';
+
+const d5 = differences.find((d) => d.id === 'difference-05');
+
+const note = [
+  // The guide's opening pair, kept together so the second sentence never stands alone (CD review 02 item 20).
+  'La maréa was created as an invitation to pause. Not to step away from ambition, but to support it more sustainably.',
+  'The Fleurieu Peninsula has always been home for me. It shaped my early connection to the ocean, movement and nourishing food long before I formally studied exercise and nutrition science. Those formative years immersed in nature, combined with my professional background working in high performance sport and evidence based lifestyle wellness, form the foundation of La maréa.',
+  'Over time, I’ve seen that true health and high performance are not built through intensity or quick fixes. They are built through realistic, sustainable and restorative wellbeing habits that protect energy, capacity and resilience.',
+];
+
+const chapters = [
+  {
+    media: 'story-moana',
+    aspect: '4 / 5',
+    text: [
+      'For Belle, the founder of La maréa, the Fleurieu Peninsula coastline wasn’t just a backdrop, it was home. She grew up in McLaren Vale on thirteen acres of land, spending most of her childhood outdoors, training for swimming and surf lifesaving at Moana Beach.',
+    ],
+  },
+  {
+    media: 'story-myponga',
+    aspect: '3 / 2',
+    text: [
+      'Her love for the Fleurieu Peninsula was nurtured from a young age, with her summers filled with long days at Myponga Beach, family, water activities, sunshine, and afternoons enjoying freshly caught squid. It was in these simple, joyful moments that her lifelong passion for health, movement, food, and lifestyle wellness was born.',
+    ],
+  },
+  {
+    media: null,
+    aspect: null,
+    text: [
+      'Adulthood, however, also revealed life’s challenges. She felt the strain herself: long hours behind screens, the pull of social media, and the disconnection that comes from a technology-driven world. The contrast to her own childhood, where she was immersed outdoors, was striking.',
+      'It was through this reflection that the vision for La maréa began to take shape. Belle started exploring how people could reclaim their health and wellbeing through nutrition, movement, and holistic lifestyle wellness experiences, grounded in nature, connection, and the Fleurieu Peninsula, where her own wellness journey as a child began.',
+    ],
+  },
+  {
+    media: 'story-mediterranean',
+    aspect: '4 / 5',
+    text: [
+      'Belle’s travels through the Mediterranean, especially along the Sardinian coastline, a Blue Zone where people live longer, healthier lives, paired with her deep knowledge of the Mediterranean diet, its evidence-based health benefits, and its joyful, communal approach to food, it felt only natural that La maréa would carry a Mediterranean influence.',
+      'Today La maréa retreats are inspired by the elements of a Mediterranean lifestyle; plant based nourishment, connection, community and lessons of longevity flow into every retreat experience.',
+    ],
+  },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: 'Our story',
+  url: new URL('/our-story', site.url).href,
+  mainEntity: {
+    '@type': 'Organization',
+    name: 'La maréa',
+    url: site.url,
+    founder: { '@type': 'Person', name: 'Belle Redden', jobTitle: 'Founder and lead host', url: new URL('/team/belle-redden', site.url).href },
+    foundingLocation: { '@type': 'Place', name: 'Fleurieu Peninsula, South Australia' },
+  },
+};
+---
+<Base
+  title="Our story, a family business from the Fleurieu"
+  description="How Belle Redden's childhood on the Fleurieu Peninsula, her work in nutrition and exercise science, and the Mediterranean shaped La maréa."
+  headerTone="over-media"
+  jsonLd={jsonLd}
+>
+  <Band media="story-hero" height="screen" hero text="over" level={1} eyebrow="Belle Redden, founder" heading="Our story" />
+
+  <section class="section story-note" aria-labelledby="note-heading">
+    <div class="wrap story-note__grid">
+      <Reveal class="story-note__head">
+        <h2 class="story-note__title" id="note-heading">A note from Belle</h2>
+      </Reveal>
+      <Reveal class="story-note__letter">
+        {note.map((p) => <p>{p}</p>)}
+        <p class="story-note__sign">With gratitude,<br />Belle Redden<br /><span>Founder, La maréa</span></p>
+      </Reveal>
+    </div>
+  </section>
+
+  <section class="section band-salt story-life" aria-labelledby="life-heading">
+    <div class="wrap">
+      <Reveal>
+        <Eyebrow>McLaren Vale, Moana Beach and Myponga Beach</Eyebrow>
+        <h2 class="story-life__title" id="life-heading" set:html={emphasis('Growing up on the *Fleurieu*')} data-draft />
+      </Reveal>
+      <ol class="chapters" role="list">
+        {chapters.map((c, i) => (
+          <li class:list={['chapter', c.media ? (i % 2 ? 'chapter--right' : 'chapter--left') : 'chapter--text']}>
+            {c.media && (
+              <SlideIn from={i % 2 ? 'right' : 'left'} distance="10%" class="chapter__media">
+                <div><Media media={c.media} aspect={c.aspect ?? '4 / 5'} /></div>
+              </SlideIn>
+            )}
+            <Reveal class="chapter__text">
+              {c.text.map((t, j) => <p class:list={[j === 0 && !c.media && 'chapter__lead']}>{t}</p>)}
+            </Reveal>
+          </li>
+        ))}
+      </ol>
+      <NoteFlag items={[
+        'Cut for length from the live Our story, whole sentences only: the horizons paragraph, the degrees paragraph (it lives on Belle\'s team page) and the sentence about family and friends facing illness and loss. Belle confirms the cut.',
+        '"Belles travels" is published without its apostrophe; set here as "Belle\'s travels" pending Belle.',
+      ]} />
+    </div>
+  </section>
+
+  <!-- The name story lives on /philosophy once (build/01 E, CD review 02 item 20); here it is a link. -->
+  <section class="section section--tight story-name" aria-labelledby="name-heading">
+    <div class="wrap story-name__inner">
+      <span class="story-name__mark" aria-hidden="true" set:html={submark} />
+      <Eyebrow as="h2" class="story-name__label"><span id="name-heading">The name</span></Eyebrow>
+      <ArrowLink href="/philosophy#ph-name" label="Read the story of the name" />
+    </div>
+  </section>
+
+  <section class="section band-warm" aria-label="Family owned">
+    <div class="wrap">
+      <TextPair eyebrow="Your hosts" heading={d5 ? d5.display.replace('Fleurieu Peninsula', '*Fleurieu Peninsula*') : 'Family owned'} mediaSide="left" split="wide" link={{ label: 'Meet the team', href: '/team' }}>
+        <div slot="media"><Media media="story-hosts" aspect="3 / 2" /></div>
+        <p>With Belle, the Founder (left), bringing expertise in nutrition, exercise science, and lifestyle wellness coaching, supported by Zoe her sister (right), and Sarah (back), both with a background in events management, you can be assured that your retreat will be thoughtfully curated and truly unforgettable.</p>
+        <p>Our mission is to combine holistic lifestyle wellness practices with luxury heartfelt hospitality, and our team is dedicated to creating personalised experiences that cater to your individual needs and wellness journey.</p>
+        <p class="story-family__close">From our family to yours, we can’t wait to share our special retreats and experiences with you soon.</p>
+      </TextPair>
+    </div>
+  </section>
+
+  <section class="section story-gaps" aria-label="Still to come from Belle" data-notes-only>
+    <div class="wrap story-gaps__grid">
+      <ToCome
+        heading="Starting La maréa on the *Fleurieu*"
+        note="A note from Belle, in her own words, about starting La maréa on the Fleurieu."
+        level={2}
+      >
+        <NoteFlag items={['Takes the place of the "South Australian first" line, which is held back (build decision 7, decision 3 for Belle). Told as her own experience, never as a market claim.']} />
+      </ToCome>
+      <ToCome
+        heading="How we work on the *Fleurieu*"
+        note="Belle's own practices on the Fleurieu, in her words, set against the four True South pillars."
+        level={2}
+      >
+        <NoteFlag items={['Stated as intent only: no badge, no SATC logo and no claim of accreditation (register N2, R). Belle is still looking into True South.']} />
+      </ToCome>
+    </div>
+  </section>
+
+  <CtaBand line="Spend a day with us" params={{ source: 'our-story' }} tone="salt" draft={{ line: true }} />
+</Base>
+
+<style>
+  .story-note__grid { display: grid; gap: var(--space-l) clamp(2rem, 7vw, 8rem); align-items: start; }
+  .story-note__title { margin: 0; max-width: 12em; font-size: var(--fs-h1); line-height: 1.12; }
+  .story-note :global(.story-note__letter) p {
+    max-width: 34rem;
+    margin: 0 0 1.1em;
+    font-family: var(--font-serif);
+    font-size: var(--fs-lead);
+    line-height: 1.55;
+    color: var(--sage-100);
+  }
+  .story-note :global(.story-note__letter) .story-note__sign {
+    margin-top: 2rem;
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    line-height: 1.5;
+    color: var(--heading);
+  }
+  .story-note__sign span { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  @media (min-width: 900px) {
+    .story-note__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+    .story-note :global(.story-note__head) { position: sticky; top: calc(var(--header-compact) + 2rem); }
+  }
+
+  .story-life__title { margin: 0 0 clamp(2.5rem, 5vw, 4.5rem); }
+  .chapters { display: grid; gap: clamp(3.5rem, 8vw, 7rem); margin: 0; padding: 0; list-style: none; }
+  .chapter { display: grid; gap: 1.75rem clamp(2rem, 6vw, 7rem); align-items: center; }
+  .chapter :global(.chapter__text) p { max-width: 32rem; color: var(--sage-100); }
+  .chapter :global(.chapter__text) p:first-child { font-family: var(--font-serif); font-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.5rem); line-height: 1.5; }
+  .chapter--text { justify-items: center; }
+  .chapter--text :global(.chapter__text) { max-width: 38rem; padding-block: clamp(0rem, 2vw, 1.5rem); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 2rem 0; }
+  .chapter--text :global(.chapter__text) p { max-width: none; }
+  @media (min-width: 900px) {
+    .chapter--left { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+    .chapter--right { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); }
+    .chapter--right :global(.chapter__media) { order: 2; justify-self: end; width: 100%; max-width: 34rem; }
+    .chapter--left :global(.chapter__media) { max-width: 30rem; }
+  }
+
+  .story-name__inner { display: grid; justify-items: center; text-align: center; gap: 0; max-width: 46rem; }
+  .story-name__mark { display: block; width: clamp(3rem, 5vw, 4rem); color: var(--sage-40); margin-bottom: 1.75rem; }
+  .story-name__mark :global(svg) { width: 100%; height: auto; }
+  .story-name :global(.story-name__label) { justify-content: center; }
+  .story-name__text {
+    margin: 0 auto 1.75rem;
+    max-width: 36rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.4rem, 1.1rem + 1.1vw, 2.1rem);
+    line-height: 1.38;
+    color: var(--sage-100);
+    text-wrap: balance;
+  }
+
+  .story-family__close { font-family: var(--font-serif); font-size: var(--fs-lead); color: var(--heading); }
+
+  .story-gaps__grid { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); }
+  @media (min-width: 900px) { .story-gaps__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .story-gaps :global(.c-flag) { margin-top: 1rem; }
+</style>

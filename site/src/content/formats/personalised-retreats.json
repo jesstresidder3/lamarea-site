@@ -1,0 +1,26 @@
+{
+  "name": "Personalised Retreats",
+  "kind": "format",
+  "order": 8,
+  "tagline": null,
+  "body": [],
+  "duration": null,
+  "group_size_text": null,
+  "items": [],
+  "inclusions_heading": null,
+  "inclusions": [],
+  "closing_line": null,
+  "footnote": null,
+  "price_from": null,
+  "price_published_on_live_site": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Format list (names only, no descriptions on the page)"
+    }
+  ],
+  "status": "draft",
+  "review": "Only the name and duration are published. Decision 13 decides which formats still sell."
+}

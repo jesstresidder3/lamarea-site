@@ -1,0 +1,62 @@
+{
+  "name": "Balance",
+  "long_name": null,
+  "name_as_published": "Balance",
+  "science_name_as_published": "Balance",
+  "order": 7,
+  "order_live": 8,
+  "icon": "balance.svg",
+  "line": "The harmony between movement and rest, between nourishing whole foods and ‘soul foods,’ supporting sustainable habits and happiness",
+  "line_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+  },
+  "video": "pillar-balance",
+  "evidence": [
+    {
+      "heading": null,
+      "claims": [
+        "Realistic programs balancing structure, flexibility, and enjoyment improve adherence and outcomes. (Michie et al., 2011; GOV.UK, 2021)",
+        "Balanced nutrition (minimally processed, culturally meaningful foods) supports long-term adherence and metabolic health. (Reicks et al., 2014; Sacks et al., 2009; GOV.UK, 2021)",
+        "Movement-rest balance is essential for recovery, mental health, and sustainable performance. (Garber et al., 2011; Saunders et al., 2017)",
+        "Combining structure with enjoyment enhances engagement, satisfaction, and long-term health. (Michie et al., 2011; GOV.UK, 2021)"
+      ]
+    }
+  ],
+  "evidence_source": {
+    "type": "live_site",
+    "url": "https://www.lamarea.com.au/philosophy",
+    "captured": "24-09-2026",
+    "section": "The Science accordion, item \"Balance\""
+  },
+  "citations": [
+    "GOV.UK, 2021",
+    "Garber et al., 2011",
+    "Michie et al., 2011",
+    "Reicks et al., 2014",
+    "Sacks et al., 2009",
+    "Saunders et al., 2017"
+  ],
+  "references": [],
+  "references_source": null,
+  "page": false,
+  "page_basis": "Build spec 12: pillar pages publish only where evidence exists. Sleep and recovery has the sleep article and its full references; the other nine open on /philosophy#<id>.",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/philosophy",
+      "captured": "24-09-2026",
+      "section": "The Science accordion, item \"Balance\""
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Pillar set is decision 1. Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar."
+}

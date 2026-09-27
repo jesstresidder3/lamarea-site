@@ -1,0 +1,30 @@
+{
+  "quote": "We spent a wonderful morning with Belle and her team. Our corporate team particiapted in the Wake Up to Wellness program and we left feeling relaxed, recovered, and empowered! Would highly reccommend.",
+  "reviewer_as_published": "Justin Kurenda",
+  "reviewer_note": "Kept for records only. The site shows the descriptor, never the name, until Belle has permission.",
+  "descriptor": "Corporate team, Wake Up to Wellness morning",
+  "descriptor_basis": "Derived by the build only from the review text: \"Our corporate team particiapted in the Wake Up to Wellness program\"",
+  "group_type": "corporate",
+  "format": "wake_up_to_wellness",
+  "format_label": "Wake Up to Wellness morning",
+  "format_basis": "\"participated in the Wake Up to Wellness program\", \"a wonderful morning\"",
+  "venue": null,
+  "source_type": "google",
+  "source": {
+    "type": "google_reviews_widget",
+    "url": "https://www.lamarea.com.au/",
+    "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+    "captured": "24-09-2026"
+  },
+  "rating": 5,
+  "date": "13-08-2026",
+  "retreat_type_as_stated": "corporate Wake Up to Wellness (named in the review)",
+  "experiences_mentioned": [],
+  "image": "testimonial-corporate-3",
+  "featured_on": [
+    "corporate"
+  ],
+  "duplicate_of": null,
+  "status": "published",
+  "review": null
+}

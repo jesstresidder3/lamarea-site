@@ -1,0 +1,92 @@
+{
+  "name": "Kristian Ryan",
+  "team": "wellness",
+  "order": 5,
+  "group_as_published": "Lifestyle Wellness Partners",
+  "role": "Contrast Therapy & Breathwork Facilitator",
+  "role_long": "Founder of Third Spaces, Contrast Therapy & Breathwork Facilitator, Yoga Instructor",
+  "business": "Third Spaces",
+  "business_url": "https://www.thirdspaces.au",
+  "credentials": [
+    "Nationally Accredited Yoga Instructor",
+    "Certified Wim Hof Method Instructor training"
+  ],
+  "credentials_basis": "Picked by the build from the qualifications as published, verbatim.",
+  "qualifications": [
+    "Nationally Accredited Yoga Instructor",
+    "Certified RYS Yoga Alliance 200-hour Vinyasa teacher teacher training",
+    "Specializing in stress reduction and mindful movement",
+    "Emphasis on breath-body connection and nervous system regulation",
+    "Certified Wim Hof Method Instructor training",
+    "Certified in the three pillars: breathing, cold exposure, and mindset",
+    "Experienced in guiding individuals through controlled stress exposure",
+    "Focused on building resilience and enhancing human performance",
+    "Oxygen Advantage® Instructor training",
+    "Trained in functional breathing for health and performance",
+    "Specialized in breathing biochemistry and respiratory muscle training",
+    "Expert in BOLT (Body Oxygen Level Test) assessment and improvement",
+    "XPT (Extreme Performance Training) Instructor training",
+    "Experienced in performance optimization and recovery protocols",
+    "Focused on building mental resilience through physical challenges"
+  ],
+  "services": [
+    "Guided 60 or 90 minute Contrast Therapy Sessions (Rotating between Finnish Sauna & Ice bath)",
+    "Experience the powerful benefits of alternating heat and cold. Sessions include guided rotations between Finnish barrel sauna (80 to 100 degrees Celsius) and ice bath immersion.",
+    "Heat or Cold Therapy Sessions (Traditional Finnish wood-fired sauna protocols, with the sauna temperature holding at 80 to 100 Celsius and Ice bath )",
+    "30 or 60 minute Guide Breathwork & Meditation sessions",
+    "30 or 60 minute Private group yoga classes (meditation and breathwork integration)"
+  ],
+  "bio": [
+    {
+      "kind": "para",
+      "text": "Chris believes in the power of \"feeling is understanding\", a phenomenological principle that experiencing something in your body creates deeper knowledge than intellectual learning alone. Every session he guides is designed to help you feel the immediate effects of these practices, creating embodied knowledge that becomes part of who you are."
+    },
+    {
+      "kind": "para",
+      "text": "His approach integrates:"
+    },
+    {
+      "kind": "item",
+      "text": "Evidence-based techniques grounded in current research"
+    },
+    {
+      "kind": "item",
+      "text": "Personalized instruction adapted to your unique needs and goals"
+    },
+    {
+      "kind": "item",
+      "text": "Progressive development that honors where you are while challenging you to grow"
+    },
+    {
+      "kind": "item",
+      "text": "Holistic integration that connects physical practices with mental and emotional well-being"
+    },
+    {
+      "kind": "para",
+      "text": "Whether you're seeking stress relief, performance enhancement, personal growth, or simply curious about these powerful practices, Chris will guide you safely and effectively on your journey. Every session is designed not just to help you feel better in the moment, but to equip you with tools and knowledge you can use for the rest of your life. This is education through experience, learning that lives in your body and becomes part of who you are."
+    }
+  ],
+  "portrait": "team-kristian-ryan",
+  "pillars": [
+    "sleep-and-recovery",
+    "psychological-wellbeing",
+    "movement"
+  ],
+  "pillars_basis": "Mapped by the build from the services each person publishes. Belle to confirm.",
+  "live_url": "https://www.lamarea.com.au/kristian-ryan",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/kristian-ryan",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/partners",
+      "captured": "24-09-2026"
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Roster is decision 12. The bio text calls him \"Chris\" and the meta description \"Kris\". Not named in the Encounter Bay guide, which credits contrast therapy to Jaimi Baker (PEAQ). Belle to confirm who runs contrast therapy.",
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

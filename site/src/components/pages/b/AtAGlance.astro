@@ -1,0 +1,83 @@
+---
+/*
+  A quiet row of sourced facts under an opening statement: a value in the serif, a small label
+  beneath, hairlines between. Four across on wide screens, two by two on phones. Only facts that
+  appear in Belle’s sources go in here; the label wording is ours, so a label can be marked draft.
+  Owner: page builder B.
+
+  <AtAGlance items={[{ value: '8am to 4pm', label: 'At the venue', draft: true }]} />
+
+  Each fact arrives from the right in turn as the row scrolls into view (Belle's "coming out from the
+  right hand side", BD-55), bound to scroll where the browser supports it; otherwise, and under
+  reduced motion, the row simply sits at rest.
+*/
+interface Item { value: string; label: string; draft?: boolean; href?: string }
+interface Props { items: Item[]; label?: string; class?: string }
+const { items, label = 'At a glance', class: className } = Astro.props;
+---
+<dl class:list={['glance', className]} aria-label={label}>
+  {items.map((it, i) => (
+    <div class="glance__item" style={`--k:${i}`}>
+      <dt class="glance__label" data-draft={it.draft ? '' : undefined}>{it.label}</dt>
+      <dd class="glance__value">{it.href ? <a href={it.href}>{it.value}</a> : it.value}</dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  .glance {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    margin: 0;
+    border-top: 1px solid var(--rule);
+    overflow-x: clip;
+  }
+  .glance__item {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 0.45rem;
+    padding: 1.25rem 1rem 1.35rem 0;
+    border-bottom: 1px solid var(--rule);
+    min-width: 0;
+  }
+  .glance__item:nth-child(2n) { padding-left: 1rem; border-left: 1px solid var(--rule); }
+  .glance__value {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.3rem, 1.1rem + 0.8vw, 1.75rem);
+    line-height: 1.2;
+    color: var(--heading);
+    text-wrap: balance;
+  }
+  .glance__value a { color: inherit; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); }
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .glance { view-timeline: --glance block; }
+      .glance__item {
+        animation: glance-in linear both;
+        animation-timeline: --glance;
+        animation-range: entry calc(10% + var(--k) * 8%) cover calc(30% + var(--k) * 8%);
+      }
+    }
+  }
+  @keyframes glance-in {
+    from { opacity: 0; translate: 2.5rem 0; }
+    to { opacity: 1; translate: 0 0; }
+  }
+  .glance__label {
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    line-height: var(--lh-label);
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  @media (min-width: 900px) {
+    .glance { grid-template-columns: repeat(var(--glance-n, 4), minmax(0, 1fr)); border-bottom: 1px solid var(--rule); }
+    .glance__item { border-bottom: 0; padding: 1.6rem 1.5rem 0.2rem; border-left: 1px solid var(--rule); }
+    .glance__item:first-child { padding-left: 0; border-left: 0; }
+    .glance__item:nth-child(2n) { padding-left: 1.5rem; }
+    .glance__item { padding-bottom: 1.6rem; }
+  }
+</style>

@@ -1,0 +1,207 @@
+---
+/*
+  SteppedGallery (C5): Basq House's feature gallery ("an image and then some information on the left,
+  and then you click the arrows, and it... takes you through different images", BD-25). Text on the
+  left, a 5:4 photograph on the right, arrows stepping both together, a counter and a rule. The text
+  cross-fades while the image slides in a short way, both 600ms, no overshoot.
+  Used for "within the venue", the morning rotation and the day at the table.
+
+  <SteppedGallery label="Places to Pause" sublabel="Naiko Deep Creek" items={venue.data.features} />
+
+  Props
+  - items: [{ name, text, media, pictured? }] (venue features fit as they are)
+  - label, sublabel: the small label pair above (Basq's "Experiences / Within the house")
+  - variant: 'split' (default, text left and image right) or 'compact' (image, then a caption line and
+    the controls, for the venue side panel)
+  - aria: accessible name of the gallery (defaults to sublabel or label)
+*/
+import Media from '../media/Media.astro';
+import SliderArrows from '../slider/SliderArrows.astro';
+import { pad2, uid } from '../../lib/text';
+
+interface Item { name: string; text?: string | null; media: string; pictured?: string }
+interface Props {
+  items: Item[];
+  label?: string;
+  sublabel?: string;
+  variant?: 'split' | 'compact';
+  aria?: string;
+  id?: string;
+  class?: string;
+}
+const { items, label, sublabel, variant = 'split', aria, id, class: className } = Astro.props;
+const base = id ?? uid('gallery');
+const name = aria ?? sublabel ?? label ?? 'Gallery';
+---
+<section
+  class:list={['stepped', `stepped--${variant}`, className]}
+  id={id}
+  aria-roledescription="carousel"
+  aria-label={name}
+  data-stepped
+  data-total={items.length}
+>
+  <div class="sg-text">
+    {(label || sublabel) && (
+      <p class="sg-labels">{label && <span>{label}</span>}{sublabel && <span class="sg-sub">{sublabel}</span>}</p>
+    )}
+    <div class="sg-texts" aria-live="polite">
+      {items.map((it, i) => (
+        <div class="sg-item" role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${items.length}`} data-sg-text data-on={i === 0 ? '' : undefined}>
+          <h3 class="sg-name">{it.name}</h3>
+          {it.text && <p class="sg-body">{it.text}</p>}
+        </div>
+      ))}
+    </div>
+    <div class="sg-nav">
+      <p class="sg-count"><span data-sg-current>01</span><span class="sg-sep" aria-hidden="true">/</span><span class="visually-hidden"> of </span><span>{pad2(items.length)}</span></p>
+      <span class="sg-rule" aria-hidden="true"><span class="sg-rule__bar" style={`width:${100 / Math.max(items.length, 1)}%`} data-sg-bar></span></span>
+      <SliderArrows label={variant === 'compact' ? 'photograph' : 'feature'} size="small" controls={`${base}-media`} />
+    </div>
+  </div>
+
+  <div class="sg-media" id={`${base}-media`}>
+    {items.map((it, i) => (
+      <figure class="sg-figure" data-sg-figure data-on={i === 0 ? '' : undefined} aria-hidden={i === 0 ? undefined : 'true'}>
+        <div class="sg-frame"><Media media={it.media} aspect="fill" /></div>
+        <figcaption class="sg-caption"><span class="sg-caption__k">Pictured</span><span>{it.pictured ?? it.name}</span></figcaption>
+      </figure>
+    ))}
+  </div>
+</section>
+
+<style>
+  .stepped {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.55fr);
+    gap: clamp(2rem, 6vw, 7rem);
+    align-items: stretch;
+  }
+  .sg-text { display: flex; flex-direction: column; min-width: 0; }
+  .sg-labels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.75rem;
+    margin: 0 0 clamp(2rem, 5vw, 4.5rem);
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--muted);
+  }
+  .sg-sub { font-family: var(--font-serif); font-size: 1.05rem; letter-spacing: 0.01em; color: var(--heading); }
+
+  /* Texts share one cell and cross-fade. */
+  .sg-texts { display: grid; }
+  .sg-item {
+    grid-area: 1 / 1;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity var(--dur-step) var(--ease-soft), transform var(--dur-step) var(--ease-soft), visibility 0s linear var(--dur-step);
+  }
+  .sg-item[data-on] { opacity: 1; visibility: visible; transform: none; transition-delay: 120ms, 120ms, 0s; }
+  .sg-name {
+    margin: 0 0 1.25rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 1.3rem + 0.9vw, 2rem);
+    line-height: 1.15;
+    color: var(--heading);
+  }
+  .sg-body { font-size: var(--fs-small); line-height: 1.65; color: var(--sage-100); max-width: 26rem; margin: 0; }
+
+  .sg-nav {
+    display: grid;
+    grid-template-columns: auto minmax(3rem, 1fr) auto;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: auto;
+    padding-top: 2.5rem;
+  }
+  .sg-count { margin: 0; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .sg-sep { margin-inline: 0.4em; opacity: 0.6; }
+  .sg-rule { position: relative; height: 2px; background: linear-gradient(var(--sage-20), var(--sage-20)) 0 50% / 100% 1px no-repeat; }
+  .sg-rule__bar { position: absolute; left: 0; top: 0; height: 2px; background: var(--sage-80); transition: transform var(--dur-step) var(--ease-soft); }
+
+  /* Images share one frame; the incoming one slides a short way in as it fades up. */
+  .sg-media { display: grid; min-width: 0; touch-action: pan-y; }
+  .sg-figure {
+    grid-area: 1 / 1;
+    margin: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--dur-step) var(--ease-soft), visibility 0s linear var(--dur-step);
+  }
+  .sg-figure[data-on] { opacity: 1; visibility: visible; transition: opacity var(--dur-step) var(--ease-soft), visibility 0s; z-index: 1; }
+  .sg-frame { position: relative; aspect-ratio: 5 / 4; overflow: hidden; }
+  .sg-frame :global(.media) { transform: translateX(3%); transition: transform var(--dur-step) var(--ease-soft); }
+  .sg-figure[data-on] .sg-frame :global(.media) { transform: none; }
+  .sg-caption {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.9rem;
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--heading);
+  }
+  .sg-caption__k { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); padding-top: 0.15em; }
+
+  /* Compact: the photograph first, one caption line, controls under it (venue panel). */
+  .stepped--compact { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .stepped--compact .sg-media { order: -1; }
+  .stepped--compact .sg-labels { display: none; }
+  .stepped--compact .sg-caption { display: none; }
+  .stepped--compact .sg-name { font-size: 1.25rem; margin: 1rem 0 0.4rem; }
+  .stepped--compact .sg-body { font-size: 0.875rem; }
+  .stepped--compact .sg-nav { padding-top: 1rem; }
+
+  @media (max-width: 799px) {
+    .stepped { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+    .stepped .sg-media { order: -1; }
+    .sg-labels { margin-bottom: 1.25rem; }
+    .sg-nav { padding-top: 1.5rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sg-item, .sg-figure, .sg-rule__bar, .sg-frame :global(.media) { transition: none; }
+    .sg-item, .sg-frame :global(.media) { transform: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-stepped]').forEach((root) => {
+    const texts = Array.from(root.querySelectorAll<HTMLElement>('[data-sg-text]'));
+    const figs = Array.from(root.querySelectorAll<HTMLElement>('[data-sg-figure]'));
+    const cur = root.querySelector<HTMLElement>('[data-sg-current]');
+    const bar = root.querySelector<HTMLElement>('[data-sg-bar]');
+    const prevs = root.querySelectorAll<HTMLButtonElement>('[data-prev]');
+    const nexts = root.querySelectorAll<HTMLButtonElement>('[data-next]');
+    const n = texts.length;
+    let i = 0;
+    const show = (k: number) => {
+      i = Math.max(0, Math.min(n - 1, k));
+      texts.forEach((t, j) => { t.toggleAttribute('data-on', j === i); t.inert = j !== i; });
+      figs.forEach((f, j) => { f.toggleAttribute('data-on', j === i); f.setAttribute('aria-hidden', String(j !== i)); });
+      if (cur) cur.textContent = String(i + 1).padStart(2, '0');
+      if (bar) bar.style.transform = `translateX(${i * 100}%)`;
+      prevs.forEach((b) => b.setAttribute('aria-disabled', String(i === 0)));
+      nexts.forEach((b) => b.setAttribute('aria-disabled', String(i === n - 1)));
+    };
+    prevs.forEach((b) => b.addEventListener('click', () => show(i - 1)));
+    nexts.forEach((b) => b.addEventListener('click', () => show(i + 1)));
+    root.addEventListener('keydown', (e) => {
+      if ((e.target as HTMLElement).closest('input, textarea')) return;
+      if (e.key === 'ArrowRight') { show(i + 1); }
+      if (e.key === 'ArrowLeft') { show(i - 1); }
+    });
+    // Swipe on the photograph for touch
+    const media = root.querySelector<HTMLElement>('.sg-media');
+    let x0 = 0;
+    media?.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') x0 = e.clientX; });
+    media?.addEventListener('pointerup', (e) => {
+      if (e.pointerType === 'mouse' || !x0) return;
+      const dx = e.clientX - x0; x0 = 0;
+      if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1));
+    });
+    show(0);
+  });
+</script>

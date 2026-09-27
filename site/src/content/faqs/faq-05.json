@@ -1,0 +1,19 @@
+{
+  "question": "What should I pack?",
+  "answer": [
+    "We will send you a ‘Preparing for La maréa’’ document with a full outline of what to bring and what not to bring prior to your retreat experience.",
+    "We recommend being prepared for all seasons as coastal weather can be unpredictable!"
+  ],
+  "order": 5,
+  "topic": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    }
+  ],
+  "status": "draft",
+  "review": null
+}

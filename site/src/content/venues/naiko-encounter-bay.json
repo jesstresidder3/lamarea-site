@@ -1,0 +1,247 @@
+{
+  "name": "Naiko Encounter Bay",
+  "name_as_published_by_la_marea": "Naiko at The Bluff, Encounter Bay (live site); Naiko at the Bluff and Naiko Encounter Bay (guide)",
+  "name_as_published_by_venue": "Naiko at the Bluff (the building is \"The Villa at Naiko at the Bluff\")",
+  "order": 2,
+  "region": "coast",
+  "locality": "Encounter Bay, Victor Harbor",
+  "location_label": "Encounter Bay, Fleurieu Peninsula",
+  "address": "28 Jagger Rd, Encounter Bay, South Australia 5211",
+  "coordinates": {
+    "lat": -35.5873,
+    "lng": 138.5906,
+    "precision": "street",
+    "basis": "Street centroid from OpenStreetMap Nominatim for the address the venue publishes, 24-09-2026. Road level, not the building. Jagger Road, Encounter Bay SA 5211."
+  },
+  "sleeps": {
+    "display": "10",
+    "value": 10,
+    "basis": "Belle and the venue agree",
+    "conflict": null,
+    "sources": [
+      {
+        "type": "transcript",
+        "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+        "section": "Partner Accomodation / locations: \"Naiko Encounter Bay (sleeps 10)\""
+      },
+      {
+        "type": "venue_site",
+        "url": "https://naikoatthebluff.com.au/",
+        "captured": "24-09-2026",
+        "note": "\"can comfortably accommodate up to 10 guests across two wings\""
+      }
+    ]
+  },
+  "day_capacity": {
+    "min": 10,
+    "max": 14,
+    "text": "10 guests minimum are required for a booking. 14 guests maximum at this venue.",
+    "source": {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "24",
+      "captured": "24-09-2026"
+    }
+  },
+  "distance_from_adelaide": null,
+  "five_star": true,
+  "five_star_basis": "Build spec 12: \"five star\" appears only where a rating exists. Naiko: La maréa publishes five star wording and Star Ratings Australia badges sit beside it (Gold List 2025).",
+  "partner_label": "Five star partner venue",
+  "drive_from_adelaide": null,
+  "five_star_wording": null,
+  "partner_approved": false,
+  "partner_approved_note": "Open decision 8. Venues publish only when the partner has approved. This prototype shows all four with a \"partner approval pending\" flag in the placeholder layer.",
+  "intro": {
+    "text": "Refined coastal architecture with expansive ocean views. Designed for privacy and immersion in landscape.",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/accommodation-partners",
+      "captured": "24-09-2026",
+      "section": "Our South Australian accommodation partner collection"
+    }
+  },
+  "about": [
+    {
+      "text": "Positioned along the dramatic coastline of the Fleurieu Peninsula, Naiko at the Bluff offers a refined, private coastal retreat experience with expansive ocean views and contemporary architectural design.",
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "page": "7",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": "Designed for comfort, privacy and immersion in nature, the property gives groups space to reset and reconnect. Open plan living areas, generous outdoor entertaining spaces and uninterrupted coastal outlooks create a sense of openness and perspective.",
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "page": "7",
+        "captured": "24-09-2026",
+        "note": "Guide p.7, trimmed: \"provides a calm and elevated environment for groups seeking space\" became \"gives groups space\" (banned word, CD review 02 item 3)."
+      }
+    },
+    {
+      "text": "Moments from the shoreline and surrounded by the natural beauty of the Fleurieu, Naiko at the Bluff offers the ideal setting for focused conversation, restoration and shared wellness retreat experiences.",
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "page": "7",
+        "captured": "24-09-2026"
+      }
+    }
+  ],
+  "features": [
+    {
+      "name": "Living spaces",
+      "text": "Groups have exclusive use of the house. Open plan living leads out to the pool, the sauna and a fire, with the ocean beyond.",
+      "media": "venue-naiko-encounter-bay-living",
+      "source": {
+        "type": "venue_facts",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "page": "11",
+        "captured": "24-09-2026",
+        "section": "5-Star Luxury Venue",
+        "note": "Venue facts, rewritten as plain lines from the venue's published details (orchestrator decision, CD review 02 item 3). The venue's own wording stays in build/03-content-harvest.md."
+      }
+    },
+    {
+      "name": "The pool",
+      "text": "The pool sits below the deck and looks out to the ocean.",
+      "media": "venue-naiko-encounter-bay-pool",
+      "source": {
+        "type": "venue_facts",
+        "url": "https://naikoatthebluff.com.au/",
+        "captured": "24-09-2026",
+        "note": "Venue facts, rewritten as plain lines from the venue's published details (orchestrator decision, CD review 02 item 3). The venue's own wording stays in build/03-content-harvest.md."
+      }
+    },
+    {
+      "name": "The recovery lounge",
+      "text": "Luxury recovery environment including sauna, plunge pool, recovery lounge & relaxation zones",
+      "media": "venue-naiko-encounter-bay-recovery",
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "page": "16",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "name": "The coastal walk",
+      "text": "A beautiful coastal walk at the bottom of the Naiko property",
+      "media": "venue-naiko-encounter-bay-walk",
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "page": "7",
+        "captured": "24-09-2026",
+        "section": "Photo caption"
+      }
+    },
+    {
+      "name": "The villa",
+      "text": "The Villa covers 305 square metres, including a double carport and storerooms, and sleeps up to 10 guests across two wings. Each wing has a master bedroom with an ensuite.",
+      "media": "venue-naiko-encounter-bay-villa",
+      "source": {
+        "type": "venue_facts",
+        "url": "https://naikoatthebluff.com.au/",
+        "captured": "24-09-2026",
+        "note": "Venue facts, rewritten as plain lines from the venue's published details (orchestrator decision, CD review 02 item 3). The venue's own wording stays in build/03-content-harvest.md."
+      }
+    }
+  ],
+  "nearby": [
+    {
+      "name": "The coastal walk",
+      "kind": "trail",
+      "text": "A beautiful coastal walk at the bottom of the Naiko property",
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "page": "7",
+        "captured": "24-09-2026",
+        "section": "Photo caption"
+      }
+    },
+    {
+      "name": "The Bluff and Encounter Bay",
+      "kind": "coast",
+      "text": "The villa sits on a working sheep farm, with views of The Bluff and Encounter Bay.",
+      "source": {
+        "type": "venue_facts",
+        "url": "https://naikoatthebluff.com.au/",
+        "captured": "24-09-2026",
+        "note": "Venue facts, rewritten as plain lines from the venue's published details (orchestrator decision, CD review 02 item 3). The venue's own wording stays in build/03-content-harvest.md."
+      }
+    }
+  ],
+  "on_site": [
+    {
+      "label": "Rooms",
+      "text": "four bedrooms across two wings, two master bedrooms with ensuites, bunk room (venue)"
+    },
+    {
+      "label": "Pool",
+      "text": "pool below the deck (venue); plunge pool (guide p.11, p.16)"
+    },
+    {
+      "label": "Sauna",
+      "text": "sauna (guide p.11, p.16 only, not mentioned on the venue home page)"
+    },
+    {
+      "label": "Plunge",
+      "text": "plunge pool (guide)"
+    },
+    {
+      "label": "Deck",
+      "text": "expansive front deck (venue)"
+    },
+    {
+      "label": "Fire",
+      "text": "fire (guide p.11)"
+    },
+    {
+      "label": "Walking trails",
+      "text": "coastal walk at the bottom of the property (guide p.7 caption)"
+    }
+  ],
+  "card_media": "venue-naiko-encounter-bay-card",
+  "map_media": "venue-naiko-encounter-bay-map",
+  "gallery": [
+    "venue-naiko-encounter-bay-living",
+    "venue-naiko-encounter-bay-pool",
+    "venue-naiko-encounter-bay-recovery",
+    "venue-naiko-encounter-bay-walk",
+    "venue-naiko-encounter-bay-villa"
+  ],
+  "price_from": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/accommodation-partners",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "7",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "11",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "venue_site",
+      "url": "https://naikoatthebluff.com.au/",
+      "captured": "24-09-2026"
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. The guide says sauna and plunge pool, the venue home page only says pool. Belle to confirm whether the sauna is the venue's or brought in (plan/11 item 19). Published name for this venue is decision 43."
+}

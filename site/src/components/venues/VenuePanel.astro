@@ -1,0 +1,126 @@
+---
+/*
+  VenuePanel: the side panel that slides in from the right when a venue card is chosen (Basq House's
+  room panel, visual study D6). The venue's gallery, a short line in La maréa's words, the essentials
+  and "See the full venue". A native modal <dialog>: focus is held inside while open, Escape and the
+  44px close control dismiss it, focus returns to the card. 900ms soft slide, a fade under reduced motion.
+
+  Rendered by VenueIndex, one per venue. Open it from any element with data-venue-open="<dialog id>".
+  <VenuePanel venue={venue} id="panel-naiko-deep-creek" />
+*/
+import SteppedGallery from './SteppedGallery.astro';
+import ArrowLink from '../base/ArrowLink.astro';
+import { regionLabel, sleepsLabel } from '../../lib/text';
+import type { Venue } from '../../lib/content';
+
+interface Props { venue: Venue; id: string }
+const { venue, id } = Astro.props;
+const d = venue.data;
+const onSite = d.on_site.map((o) => o.label).filter((l) => l !== 'Rooms');
+const place = d.location_label.split(',')[0];
+const rest = d.location_label.slice(place.length);
+---
+<dialog class="vpanel" id={id} aria-labelledby={`${id}-title`} data-venue-panel>
+  <div class="vp-inner">
+    <header class="vp-head">
+      <p class="vp-kicker">Places to Pause</p>
+      <button type="button" class="vp-close" data-venue-close aria-label={`Close ${d.name}`}>
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M1 1l16 16M17 1L1 17" /></svg>
+      </button>
+    </header>
+
+    <div class="vp-body">
+      <div class="vp-gallery">
+        <SteppedGallery items={d.features} variant="compact" aria={`${d.name}, within the venue`} id={`${id}-gallery`} />
+      </div>
+
+      <div class="vp-info">
+        <p class="vp-region">{regionLabel(d.region)}</p>
+        <h2 class="vp-title" id={`${id}-title`}>{d.name}</h2>
+        <p class="vp-where"><span class="place">{place}</span>{rest}</p>
+        {d.intro && <p class="vp-intro">{d.intro.text}</p>}
+
+        <dl class="vp-facts">
+          <div><dt>Sleeps</dt><dd>{d.sleeps.display ?? 'To confirm'}{d.sleeps.conflict && <span class="vp-flag" data-flag>{d.sleeps.conflict}</span>}</dd></div>
+          {d.day_capacity && <div><dt>Day retreats</dt><dd>{d.day_capacity.min} to {d.day_capacity.max} guests</dd></div>}
+          {d.drive_from_adelaide && <div><dt>From Adelaide</dt><dd>{d.drive_from_adelaide.text}</dd></div>}
+          <div><dt>Partner</dt><dd>{d.partner_label}</dd></div>
+          {onSite.length > 0 && <div><dt>On site</dt><dd>{onSite.join(', ')}</dd></div>}
+        </dl>
+
+        {!d.partner_approved && <p class="vp-flag vp-flag--block" data-flag>Partner approval pending. Shown in the prototype only (open decision 8).</p>}
+
+        <ArrowLink href={`/places/${venue.id}`} label="See the full venue" class="vp-more" />
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .vpanel {
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(100%, max(80vw, 40rem));
+    max-width: 72rem;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--sand-30);
+    color: var(--text);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .vpanel::backdrop { background: rgb(67 61 27 / 0.32); }
+  .vpanel[open] { animation: vp-in var(--dur-slower) var(--ease-soft); }
+  .vpanel[open]::backdrop { animation: vp-fade var(--dur-slower) var(--ease-soft); }
+  .vpanel[data-closing] { animation: vp-out 500ms var(--ease-standard) forwards; }
+  .vpanel[data-closing]::backdrop { animation: vp-fade 500ms var(--ease-standard) reverse forwards; }
+  @keyframes vp-in { from { transform: translateX(100%); } to { transform: none; } }
+  @keyframes vp-out { from { transform: none; } to { transform: translateX(100%); } }
+  @keyframes vp-fade { from { opacity: 0; } to { opacity: 1; } }
+
+  .vp-inner { padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1.25rem, 4vw, 4rem) clamp(2.5rem, 5vw, 4rem); }
+  .vp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: clamp(1.5rem, 3vw, 2.75rem); }
+  .vp-kicker { margin: 0; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .vp-close {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--sage-40);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--sage-80);
+    transition: border-color var(--dur-fast) var(--ease-soft), background-color var(--dur-fast) var(--ease-soft);
+  }
+  .vp-close path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; }
+  @media (hover: hover) { .vp-close:hover { border-color: var(--sage-80); background: var(--salt-25); } }
+  .vp-close:active { background: var(--salt-25); }
+
+  .vp-body { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: clamp(1.75rem, 4vw, 4rem); align-items: start; }
+  .vp-region { margin: 0 0 1rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .vp-title { margin: 0 0 0.6rem; font-size: clamp(2rem, 1.6rem + 1.2vw, 2.5rem); line-height: 1.1; }
+  .vp-where { margin: 0 0 1.5rem; font-size: var(--fs-small); color: var(--muted); }
+  .vp-where .place { font-family: var(--font-serif); font-style: italic; font-weight: 500; font-size: 1.1em; color: var(--heading); }
+  .vp-intro { font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.45; color: var(--sage-100); margin: 0 0 1.75rem; }
+
+  .vp-facts { margin: 0 0 1.75rem; border-top: 1px solid var(--rule); }
+  .vp-facts > div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--rule); }
+  .vp-facts dt { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.08em; color: var(--muted); padding-top: 0.15em; }
+  .vp-facts dd { margin: 0; font-size: var(--fs-small); line-height: 1.5; color: var(--sage-100); }
+
+  .vp-flag { display: block; margin-top: 0.4rem; padding-left: 0.6rem; border-left: 1px solid var(--sage-40); font-family: var(--font-ui); font-size: 0.72rem; line-height: 1.45; letter-spacing: 0.03em; color: var(--muted); }
+  .vp-flag--block { margin: 0 0 1.25rem; }
+  :global(html[data-media-notes='off']) .vp-flag { display: none; }
+
+  @media (max-width: 799px) {
+    .vpanel { width: 100%; }
+    .vp-body { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .vpanel[open] { animation: vp-fade 200ms linear; }
+    .vpanel[data-closing] { animation: vp-fade 200ms linear reverse forwards; }
+  }
+</style>

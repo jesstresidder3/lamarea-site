@@ -1,0 +1,182 @@
+---
+/*
+  Systems styleguide (dev only, noindex, not linked). Every component the foundation systems builder
+  owns, rendered with the real seeded content from src/content/. Nothing on this page is new copy:
+  headings are Belle's words or the component's name.
+*/
+import Base from '../../layouts/Base.astro';
+import PaneSlider from '../../components/experiences/PaneSlider.astro';
+import Slider from '../../components/slider/Slider.astro';
+import FlexShowcase from '../../components/pillars/FlexShowcase.astro';
+import Intentions from '../../components/pillars/Intentions.astro';
+import VenueIndex from '../../components/venues/VenueIndex.astro';
+import SteppedGallery from '../../components/venues/SteppedGallery.astro';
+import FleurieuMap from '../../components/map/FleurieuMap.astro';
+import Testimonials from '../../components/testimonials/Testimonials.astro';
+import TeamCarousel from '../../components/team/TeamCarousel.astro';
+import JournalCards from '../../components/journal/JournalCards.astro';
+import MealMoments from '../../components/food/MealMoments.astro';
+import SignatureTabs from '../../components/food/SignatureTabs.astro';
+import Media from '../../components/media/Media.astro';
+import {
+  getExperiences, getPillars, getIntentions, getVenues, getTestimonials, teamTabs, pillarsById,
+  getJournal, getMealMoments, signatureItems,
+} from '../../lib/content';
+import { placeHtml } from '../../lib/text';
+import { getCollection } from 'astro:content';
+
+const names = ['venues', 'experiences', 'pillars', 'intentions', 'people', 'testimonials', 'journal', 'formats', 'faqs', 'menus'] as const;
+const census = await Promise.all(
+  names.map(async (n) => {
+    const all = (await getCollection(n)) as { data: { status: string } }[];
+    const by = (st: string) => all.filter((e) => e.data.status === st).length;
+    return { n, total: all.length, published: by('published'), draft: by('draft'), hidden: by('hidden') };
+  }),
+);
+
+const guided = await getExperiences('guided');
+const selfLed = await getExperiences('self_led');
+const pillars = await getPillars();
+const words = await getIntentions();
+const venues = await getVenues();
+const deepCreek = venues.find((v) => v.id === 'naiko-deep-creek')!;
+const reviews = await getTestimonials();
+const fullDay = await getTestimonials({ format: 'full_day' });
+const tabs = await teamTabs();
+const pillarMap = await pillarsById();
+const posts = await getJournal();
+const meals = await getMealMoments({ publicOnly: true });
+const signature = await signatureItems();
+
+const index = [
+  ['pane', 'PaneSlider'], ['slider', 'Slider'], ['pillars', 'FlexShowcase'], ['words', 'Intentions'],
+  ['venues', 'VenueIndex and VenuePanel'], ['gallery', 'SteppedGallery'], ['map', 'FleurieuMap'],
+  ['reviews', 'Testimonials'], ['team', 'TeamCarousel'], ['journal', 'JournalCards'], ['table', 'MealMoments'], ['signature', 'SignatureTabs'],
+];
+---
+<Base title="Systems styleguide" description="Foundation systems components with the seeded content." noindex>
+  <header class="wrap sg-top">
+    <p class="sg-label">Styleguide, systems</p>
+    <h1 class="sg-h1">Content systems</h1>
+    <p class="sg-intro">Every system component with the real harvested content. Placeholders name the photograph or film that belongs in each frame. Drafted lines carry a dotted underline and review flags sit in the notes layer.</p>
+    <ol class="sg-index">{index.map(([id, name]) => <li><a href={`#sg-${id}`}>{name}</a></li>)}</ol>
+    <div class="sg-census-wrap"><table class="sg-census">
+      <caption>Collections in src/content (status as seeded)</caption>
+      <thead><tr><th scope="col">Collection</th><th scope="col">Records</th><th scope="col">Published</th><th scope="col">Draft</th><th scope="col">Hidden</th></tr></thead>
+      <tbody>{census.map((c) => <tr><th scope="row">{c.n}</th><td>{c.total}</td><td>{c.published}</td><td>{c.draft}</td><td>{c.hidden}</td></tr>)}</tbody>
+    </table></div>
+  </header>
+
+  <div id="sg-pane">
+    <p class="wrap sg-label">PaneSlider, guided experiences (posters only, as on home)</p>
+    <PaneSlider id="experiences" items={guided} eyebrow="Experiences" heading="Your retreat, your rhythm, your routine"
+      intro="Luxury South Australian wellness experiences, curated to form La maréa."
+      note="(Note we can curate a personalised retreat to suit your group)" linkBase="/experiences/" posters
+      link={{ href: '/experiences', label: 'See every experience' }} />
+    <p class="wrap sg-label">PaneSlider, self-led activities</p>
+    <PaneSlider id="afternoon" items={selfLed} eyebrow="Self-led" heading="The unhurried afternoon"
+      intro="There is space to rest, journal, explore the coastline, or simply unwind." itemLabel="activity" tone="warm" />
+  </div>
+
+  <section class="section" id="sg-slider">
+    <p class="wrap sg-label">Slider, the general track (here with the six self-led activities)</p>
+    <Slider label="Self-led activities" itemLabel="activity" counter perView={{ phone: 1.2, tablet: 2.4, desktop: 3.4 }}>
+      {selfLed.map((e) => (
+        <article class="sg-slide">
+          <Media media={e.data.media} aspect="4 / 5" />
+          <h3 class="sg-slide__name">{e.data.name}</h3>
+          {e.data.short ? <p class="sg-slide__line">{e.data.short.text}</p> : <p class="placeholder-line">A one line description from Belle</p>}
+        </article>
+      ))}
+    </Slider>
+  </section>
+
+  <div id="sg-pillars">
+    <p class="wrap sg-label">FlexShowcase, the ten pillars (anchorable: /philosophy#nutrition)</p>
+    <FlexShowcase pillars={pillars} eyebrow="Our philosophy" heading="Ten pillars behind every retreat"
+      statement="Our philosophy is Mediterranean inspired, science backed and based on the Fleurieu." draft={{ heading: true, statement: true }} />
+  </div>
+
+  <section class="wrap section" id="sg-words">
+    <p class="sg-label">Intentions, Belle's eight words (used once, on /philosophy)</p>
+    <Intentions words={words} heading="Restore. Reconnect. Realign." />
+  </section>
+
+  <section class="wrap section band-flush" id="sg-venues">
+    <p class="sg-label">VenueIndex, with the side panel on click</p>
+    <h2 class="sg-h2">Places to Pause</h2>
+    <VenueIndex venues={venues} />
+  </section>
+
+  <section class="wrap section" id="sg-gallery">
+    <p class="sg-label">SteppedGallery, within the venue</p>
+    <SteppedGallery label="Places to Pause" sublabel={deepCreek.data.name} items={deepCreek.data.features} />
+  </section>
+
+  <section class="section" id="sg-map">
+    <p class="wrap sg-label">FleurieuMap, image-led, one McLaren Vale marker for the vineyard venues</p>
+    <FleurieuMap venues={venues} />
+  </section>
+
+  <section class="section band-salt" id="sg-reviews">
+    <p class="wrap sg-label">Testimonials, verbatim, descriptor and format only</p>
+    <Testimonials items={reviews} />
+    <p class="wrap sg-label sg-label--gap">Testimonials, full day reviews only (the Day page), none exist yet</p>
+    <Testimonials items={fullDay} format="full_day" gallery={false} />
+  </section>
+
+  <section class="wrap section" id="sg-team">
+    <p class="sg-label">TeamCarousel, two tabs</p>
+    <TeamCarousel tabs={tabs} pillars={pillarMap} />
+  </section>
+
+  <section class="section" id="sg-journal">
+    <div class="wrap">
+      <p class="sg-label">JournalCards, grid with filters</p>
+      <h2 class="sg-h2">Wellness journal</h2>
+      <JournalCards posts={posts} variant="grid" />
+    </div>
+    <p class="wrap sg-label sg-label--gap">JournalCards, slider</p>
+    <JournalCards posts={posts} variant="slider" />
+  </section>
+
+  <section class="wrap section" id="sg-table">
+    <p class="sg-label">MealMoments, the day at the table</p>
+    <h2 class="sg-h2" set:html={placeHtml('The flavours of the *Fleurieu*')} />
+    <MealMoments moments={meals} />
+  </section>
+
+  <section class="wrap section" id="sg-signature">
+    <p class="sg-label">SignatureTabs</p>
+    <h2 class="sg-h2 sg-h2--centre">Signature culinary experiences</h2>
+    <SignatureTabs items={signature} />
+  </section>
+</Base>
+
+<style>
+  .sg-top { padding-top: clamp(3rem, 6vw, 5rem); padding-bottom: 2rem; }
+  .sg-h1 { font-size: var(--fs-h1); margin: 0 0 1rem; }
+  .sg-h2 { font-size: var(--fs-h2); margin: 0 0 clamp(1.75rem, 3vw, 2.75rem); }
+  .sg-h2--centre { text-align: center; }
+  .sg-intro { font-size: var(--fs-small); color: var(--muted); max-width: 40rem; }
+  .sg-index { display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; margin: 1.5rem 0 0; padding: 0; list-style: none; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.06em; }
+  .sg-index a { display: inline-block; padding-block: 0.6rem; color: var(--heading); }
+  .sg-census-wrap { max-width: 100%; overflow-x: auto; margin-top: 2rem; }
+  .sg-census { border-collapse: collapse; font-family: var(--font-ui); font-size: 0.8125rem; color: var(--sage-100); }
+  .sg-census caption { text-align: left; padding-bottom: 0.6rem; font-size: 0.72rem; letter-spacing: var(--track-label); color: var(--muted); }
+  .sg-census th, .sg-census td { padding: 0.35rem clamp(0.6rem, 2vw, 1.5rem) 0.35rem 0; border-bottom: 1px solid var(--rule); text-align: left; font-weight: 400; font-variant-numeric: tabular-nums; }
+  .sg-census thead th { color: var(--muted); font-size: 0.72rem; letter-spacing: 0.08em; }
+  .sg-label {
+    display: block;
+    margin-block: 2.5rem 0.5rem;
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    letter-spacing: var(--track-label);
+    color: var(--muted);
+    max-width: none;
+  }
+  .sg-label--gap { margin-top: 5rem; }
+  .sg-slide { margin: 0; }
+  .sg-slide__name { margin: 1rem 0 0.35rem; font-family: var(--font-serif); font-size: var(--fs-card); color: var(--heading); }
+  .sg-slide__line { font-size: var(--fs-small); color: var(--sage-100); }
+</style>

@@ -1,0 +1,96 @@
+{
+  "name": "Chef-led pasta making masterclass",
+  "name_as_transcribed": "chef-led pasta making masterclass",
+  "name_as_published": "Mediterranean Pasta-Making Masterclass (Malissa Fedele bio); pasta-making masterclass (Instagram)",
+  "kind": "guided",
+  "order": 4,
+  "art_direction": "portrait",
+  "media": "experience-pasta-making",
+  "media_type": "image",
+  "short": {
+    "text": "Hands-on, interactive sessions where guests learn to make authentic Italian pasta from scratch.",
+    "source": {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/malissa-fedele",
+      "captured": "24-09-2026",
+      "section": "Services & Offerings",
+      "note": "Trimmed \"with Malissa\" from the end while who leads the class for La maréa is unconfirmed (CD review 02 item 11)."
+    }
+  },
+  "pillar": null,
+  "pillars": [],
+  "pillar_basis": "No published pillar text names this experience, so no link is recorded",
+  "duration": "2 hours",
+  "duration_basis": "Malissa Fedele bio, lamarea.com.au/malissa-fedele. Who runs it for La maréa is unconfirmed (plan/11 Q3)",
+  "duration_as_published": "2 hours (Malissa Fedele bio)",
+  "practitioners": [
+    "malissa-fedele",
+    "luca-guiotto"
+  ],
+  "business": null,
+  "business_basis": null,
+  "business_conflict": "Malissa Fedele and Luca Guiotto of Aromi Dining both list pasta classes on the live site. Neither is confirmed for La maréa (plan/11 Q3)",
+  "practitioners_as_published": [
+    "Malissa Fedele (live bio)",
+    "Luca Guiotto, Aromi Dining (live bio mentions private pasta-making classes)"
+  ],
+  "descriptions": [
+    {
+      "text": [
+        "Mediterranean Pasta-Making Masterclass (2 hours)",
+        "Hands-on, interactive sessions where guests learn to make authentic Italian pasta from scratch with Malissa.",
+        "Includes: Fresh egg pasta, Traditional Mediterranean sauces, Cooking demonstration + guided practice, Tasting + shared meal",
+        "Ideal for group bonding and creating a memorable retreat experience"
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/malissa-fedele",
+        "captured": "24-09-2026",
+        "section": "Services & Offerings"
+      }
+    },
+    {
+      "text": [
+        "Luca curates a variety of private dining experiences, including individually plated or shared 3-, 4-, and 5-course lunches and dinners, as well as exclusive private pasta-making classes."
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/luca-guiotto",
+        "captured": "24-09-2026",
+        "section": "Services & Offerings"
+      }
+    },
+    {
+      "text": [
+        "Mediterranean Cooking Class"
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "captured": "24-09-2026",
+        "section": "Bespoke wellness additions"
+      }
+    },
+    {
+      "text": [
+        "The morning brought together yoga, a wholesome seasonal breakfast, breathwork, contrast therapy, massage and evidence-based wellbeing education, before finishing for an interactive pasta-making masterclass and nourishing long-table lunch"
+      ],
+      "source": {
+        "type": "instagram_feed_widget",
+        "url": "https://www.lamarea.com.au/",
+        "note": "Instagram post about Ray White Projects SA shown in the home page Instagram feed",
+        "captured": "24-09-2026"
+      }
+    }
+  ],
+  "seed_id": null,
+  "source": [
+    {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+    }
+  ],
+  "status": "draft",
+  "review": "Neither bio confirms who runs it for La maréa (plan/11 Q3). Two Google reviews mention a pasta-making class at a corporate retreat."
+}

@@ -1,0 +1,165 @@
+---
+/*
+  The day in brief, for the two path pages (plan/11 4.2 section 4 and 4.3 section 5, build spec 12).
+  The one real example day, "An example day at Beresford Estate, 12 guests", told in Belle's four
+  beats in one row, each beat arriving from the right (SlideIn, The Tailor's "coming out from the
+  right hand side"), with a link to the full day page and "Plan your day".
+
+  Every line is Belle's published schedule (data/day.ts), chosen per path: `steps` names which
+  schedule steps show under each beat, so the private page and the corporate page read differently
+  without a word being invented. Times are sourced. A step can be a number (every line and item) or
+  { order, lines, items } to show only some of its lines, for example the afternoon without the
+  corporate "for team bonding" line on the private page.
+
+  <DayInBrief heading="Your group’s day on the *Fleurieu*" steps={{ arrive: [2], move: [3], nourish: [8], restore: [{ order: 9, lines: [0] }] }} params={{ audience: 'private' }} />
+
+  Phones: a swipeable row of the four beats (scroll-snap, 1.15 in view). Reduced motion: no slide.
+*/
+import Media from '../../media/Media.astro';
+import Eyebrow from '../../base/Eyebrow.astro';
+import ArrowLink from '../../base/ArrowLink.astro';
+import SlideIn from '../../base/SlideIn.astro';
+import { day, steps as allSteps, type BeatId } from '../../../data/day';
+import { cta } from '../../../data/settings';
+import { emphasis, withParams, numeral } from '../../base/text';
+
+type Pick = number | { order: number; lines?: number[]; items?: boolean };
+interface Props {
+  heading: string;
+  eyebrow?: string;
+  steps: Record<BeatId, Pick[]>;
+  params?: Record<string, string>;
+  draft?: boolean;
+  id?: string;
+}
+const { heading, eyebrow = 'The 8 hour day', steps, params = {}, draft = true, id = 'day-in-brief' } = Astro.props;
+
+const beats = day.beats.map((b) => ({
+  ...b,
+  shown: (steps[b.id] ?? []).flatMap((p) => {
+    const pick = typeof p === 'number' ? { order: p } : p;
+    const s = allSteps.find((x) => x.order === pick.order);
+    if (!s) return [];
+    return [{
+      time: s.time,
+      lines: pick.lines ? s.display.filter((_, j) => pick.lines!.includes(j)) : s.display,
+      items: pick.items === false ? undefined : s.items,
+    }];
+  }),
+}));
+const planHref = withParams(cta.planFullDay.href, params);
+---
+<section class="dib" id={id} aria-labelledby={`${id}-heading`}>
+  <div class="wrap dib__head">
+    <div>
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h2 class="dib__heading" id={`${id}-heading`} data-draft={draft ? '' : undefined} set:html={emphasis(heading)} />
+    </div>
+    <div class="dib__meta">
+      <p class="dib__example">{day.example}</p>
+      <p class="dib__note">{day.note}</p>
+    </div>
+  </div>
+
+  <ol class="dib__row" role="list">
+    {beats.map((b, i) => (
+      <li class="dib__item">
+        <SlideIn index={i} distance="22%" class="dib__slide">
+          <article class="dib__beat" aria-labelledby={`${id}-${b.id}`}>
+            <p class="dib__time"><span class="dib__num">{numeral(i + 1)}</span>{b.shown[0]?.time ?? b.railTime}</p>
+            <div class="dib__media"><Media media={b.media} aspect="fill" /></div>
+            <h3 class="dib__name" id={`${id}-${b.id}`}>{b.name}</h3>
+            {b.shown.map((s) => (
+              <div class="dib__step">
+                {s.lines.map((line, j) => <p class:list={['dib__line', j > 0 && 'dib__line--sub']}>{line}</p>)}
+                {s.items && (
+                  <ul class="dib__items" role="list">
+                    {s.items.map((it) => <li>{it}</li>)}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </article>
+        </SlideIn>
+      </li>
+    ))}
+  </ol>
+
+  <div class="wrap dib__actions">
+    <ArrowLink href={cta.seeFullDay.href} label={cta.seeFullDay.label} />
+    <ArrowLink href={planHref} label={cta.planFullDay.label} />
+  </div>
+</section>
+
+<style>
+  .dib { padding-block: var(--section-y); background: var(--salt-25); overflow-x: clip; }
+  .dib__head { display: grid; gap: 1.25rem var(--space-l); align-items: end; margin-bottom: clamp(2rem, 4vw, 3.25rem); }
+  .dib__heading { margin: 0; max-width: 13em; }
+  .dib__meta { max-width: 26rem; }
+  .dib__example {
+    margin: 0 0 0.35rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--sage-80);
+  }
+  .dib__note { margin: 0; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.4; color: var(--sage-100); }
+
+  /* Phones and small tablets: a swipeable row. */
+  .dib__row {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(15rem, 84%);
+    gap: 1rem;
+    margin: 0;
+    padding: 0 var(--gutter) 0.75rem;
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .dib__row::-webkit-scrollbar { display: none; }
+  .dib__item { scroll-snap-align: start; min-width: 0; }
+  .dib :global(.dib__slide) { height: 100%; }
+
+  .dib__beat { display: flex; flex-direction: column; height: 100%; }
+  .dib__time {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin: 0 0 0.9rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--sage-20);
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--sage-80);
+  }
+  .dib__num { font-family: var(--font-serif); font-size: 1rem; letter-spacing: 0; color: var(--sage-80); }
+  .dib__media { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--sand-40); }
+  .dib__name { margin: 1.1rem 0 0.6rem; font-size: max(1.75rem, var(--fs-h3)); }
+  .dib__step + .dib__step { margin-top: 0.6rem; }
+  .dib__line { margin: 0; font-size: var(--fs-small); line-height: 1.55; color: var(--sage-100); }
+  .dib__line--sub { color: var(--sage-80); }
+  .dib__items { margin: 0.45rem 0 0; padding: 0 0 0 0.9rem; border-left: 1px solid var(--sage-20); list-style: none; }
+  .dib__items li { font-size: var(--fs-small); line-height: 1.55; color: var(--sage-80); }
+
+  .dib__actions { display: flex; flex-wrap: wrap; gap: 0.75rem 2.5rem; margin-top: clamp(2rem, 4vw, 3rem); }
+
+  @media (min-width: 900px) {
+    .dib__head { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+    .dib__row {
+      grid-auto-flow: row;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-auto-columns: auto;
+      gap: clamp(1rem, 2.2vw, 2.25rem);
+      overflow: visible;
+      max-width: var(--wrap-max);
+      margin-inline: auto;
+      padding: 0 var(--gutter);
+    }
+    .dib__media { aspect-ratio: 3 / 4; }
+  }
+</style>

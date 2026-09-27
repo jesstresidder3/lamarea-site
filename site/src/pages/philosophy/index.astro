@@ -1,0 +1,228 @@
+---
+/*
+  Philosophy, /philosophy. Owner: page builder B.
+  "this philosophy is really important... it’s one of our differences" (BD-31). The pillars bigger and
+  more luxurious (BD-29), popping up as the page opens (BD-37), Mediterranean inspired, science backed
+  and of the Fleurieu (BD-38), the science minimal and one click away (BD-45).
+
+  1 hero (MediaBand, the pillar compilation) with the ten icons appearing beneath it
+  2 the name story, verbatim, once
+  3 Mediterranean inspired, science backed, rooted in the Fleurieu, in Belle’s published words
+  4 the ten pillars, full size (FlexShowcase)
+  5 Belle’s eight words once, under "Restore. Reconnect. Realign.", Empower included, never "pillars"
+  6 the science: the live intro, the Sleep and recovery page, the evidence per pillar
+  7 Plan your day
+*/
+import Base from '../../layouts/Base.astro';
+import MediaBand from '../../components/base/MediaBand.astro';
+import SectionHead from '../../components/base/SectionHead.astro';
+import NumberedMoments from '../../components/base/NumberedMoments.astro';
+import Accordion from '../../components/base/Accordion.astro';
+import ArrowLink from '../../components/base/ArrowLink.astro';
+import CtaBand from '../../components/base/CtaBand.astro';
+import Reveal from '../../components/base/Reveal.astro';
+import Icon from '../../components/base/Icon.astro';
+import FlexShowcase from '../../components/pillars/FlexShowcase.astro';
+import Intentions from '../../components/pillars/Intentions.astro';
+import Media from '../../components/media/Media.astro';
+import PillarIcons from '../../components/pages/b/PillarIcons.astro';
+import Flag from '../../components/pages/b/Flag.astro';
+import { getPillars, getIntentions, pillarHref } from '../../lib/content';
+import { evidenceHtml } from '../../components/pages/b/copy';
+
+const pillars = await getPillars();
+const words = await getIntentions();
+const sleep = pillars.find((p) => p.data.page);
+
+/* The evidence per pillar, as published in the live philosophy page’s science panels. */
+const evidence = pillars.map((p) => ({
+  title: p.data.long_name ?? p.data.name,
+  body: evidenceHtml(p.data.evidence, p.data.page ? { href: pillarHref(p), label: `The evidence and references for ${p.data.name.toLowerCase()}` } : undefined),
+  id: `science-${p.id}`,
+}));
+---
+<Base
+  title="Our philosophy, Fleurieu Peninsula retreats"
+  description="La maréa’s ten pillars of lifestyle wellness: Mediterranean inspired, science backed and rooted in the Fleurieu Peninsula, with the evidence behind them."
+  headerTone="over-media"
+>
+  <!-- 1. Hero and the ten icons -->
+  <div class="ph-hero">
+    <MediaBand
+      media="philosophy-hero"
+      height="band"
+      hero
+      parallax={false}
+      text="over"
+      heading="Our philosophy"
+      level={1}
+      body="At La maréa, we believe in holistic, multi-dimensional wellness."
+    />
+  </div>
+  <section class="ph-icons" aria-label="The ten pillars">
+    <div class="wrap">
+      <PillarIcons pillars={pillars} />
+    </div>
+  </section>
+
+  <!-- 2. The name -->
+  <section class="section ph-name" aria-labelledby="ph-name">
+    <div class="wrap ph-name__grid">
+      <div class="ph-name__media"><Media media="philosophy-tide" aspect="4 / 5" /></div>
+      <div class="ph-name__text">
+        <p class="label" id="ph-name">The name</p>
+        <Reveal>
+          <p class="ph-name__story">Inspired by the Mediterranean, La Maréa stems from the Spanish phrase ‘la marea,’ meaning ‘the tide,’ and reflects life’s natural rhythm: the ebbs and flows, the balance between stillness and movement, and the transformations that occur over time.</p>
+          <p class="ph-name__invite">Here, we invite you to release what no longer serves you and embrace new habits that nourish body, mind, and soul.</p>
+        </Reveal>
+        <Flag>Verbatim from Belle’s wording ideas. It spells the brand “La Maréa” where the canonical spelling is “La maréa”. Kept as written until Belle confirms (creative brief F5).</Flag>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. The three claims -->
+  <section class="section band-salt ph-claims" aria-labelledby="ph-claims">
+    <div class="wrap">
+      <SectionHead heading="Mediterranean inspired, science backed, rooted in the *Fleurieu*" id="ph-claims" />
+      <NumberedMoments
+        variant="grid"
+        items={[
+          { title: 'Mediterranean inspired', text: 'Inspired by the elements of a Mediterranean lifestyle; plant based nourishment, connection, community & longevity.' },
+          { title: 'Science backed', text: 'Our bespoke lifestyle retreats are grounded in science and inspired by years of research and hands-on practice working in evidence-based wellness and high performance sport.' },
+          { title: 'Rooted in the Fleurieu', text: 'For Belle, the founder of La maréa, the Fleurieu Peninsula coastline wasn’t just a backdrop, it was home.', draft: false },
+        ]}
+      />
+    </div>
+  </section>
+
+  <!-- 4. The ten pillars, full size -->
+  <FlexShowcase
+    pillars={pillars}
+    eyebrow="The ten pillars"
+    heading="10 key pillars that guide every retreat"
+    statement="By combining luxurious, heartfelt hospitality with holistic, science-backed wellness practices, we create transformative experiences that nourish mind, body, and soul."
+    id="pillars"
+  />
+
+  <!-- 5. Belle’s eight words, once -->
+  <section class="section band-warm ph-words" aria-labelledby="ph-words">
+    <div class="wrap ph-words__grid">
+      <div class="ph-words__head">
+        <h2 class="ph-words__line" id="ph-words">Restore. Reconnect. Realign.</h2>
+      </div>
+      <Intentions words={words} />
+    </div>
+    <div class="wrap">
+      <Flag>Belle’s eight words and definitions, verbatim from her wording ideas. Questions for Belle: “journey” in Empower, “centeredness” (US spelling) and the double full stop in Ground, and what she wrote the eight for (creative brief F5, CD review C3).</Flag>
+    </div>
+  </section>
+
+  <!-- 6. The science -->
+  <section class="section ph-science" aria-labelledby="ph-science">
+    <div class="wrap ph-science__grid">
+      <div class="ph-science__intro">
+        <SectionHead heading="Built upon science" id="ph-science" draft={{ heading: true }} />
+        <p>We’ve curated 10 key pillars that guide every retreat, drawing from longevity research, the Blue Zones, and the Mediterranean way of life.</p>
+        <p>Our retreats educate and empower, supporting your physical, psychological, and social wellbeing, while helping you embrace a healthy, sustainable lifestyle, one that truly lasts.</p>
+        {sleep && (
+          <a class="ph-feature" href={pillarHref(sleep)}>
+            <Icon name={sleep.data.icon.replace(/\.svg$/, '')} size="3.25rem" class="ph-feature__icon" />
+            <span class="ph-feature__text">
+              <span class="ph-feature__k">The evidence, in full</span>
+              <span class="ph-feature__name">{sleep.data.name}</span>
+              <span class="ph-feature__meta">Claims, citations and {sleep.data.references.reduce((n, g) => n + g.entries.length, 0)} references</span>
+            </span>
+            <svg class="ph-feature__arrow" width="28" height="10" viewBox="0 0 28 10" aria-hidden="true" focusable="false"><line x1="0.5" y1="5" x2="27.25" y2="5" /><polyline points="22.25,0.5 27.25,5 22.25,9.5" /></svg>
+          </a>
+        )}
+      </div>
+      <div class="ph-science__list">
+        <p class="label">The evidence behind each pillar</p>
+        <Accordion items={evidence} titleTag="h3" />
+        <Flag>As published in the live philosophy page’s science panels, author and year only. Full references exist only for sleep (Belle’s journal article); the others are to come from Belle (plan/11 item 47). Three citations name a publisher rather than a paper (PMC, 2023; OUP Academic, 2023; MDPI, 2022). The nine pillars without a page open here rather than on a page of their own (build spec 12).</Flag>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Plan your day -->
+  <CtaBand
+    line="Curate a day for your group"
+    params={{ source: 'philosophy' }}
+    note="(Note we can curate a personalised retreat to suit your group)"
+    tone="salt"
+    draft={{ line: true }}
+  />
+</Base>
+
+<style>
+  /* 1. On phones the band-height hero is too short to hold its words and the placeholder note. */
+  @media (max-width: 699px) { .ph-hero :global(.band__frame) { min-height: 30rem; } }
+  .ph-icons { padding: clamp(2rem, 4vw, 3rem) 0 clamp(1rem, 2vw, 1.5rem); border-bottom: 1px solid var(--rule); }
+
+  /* 2 */
+  .ph-name__grid { display: grid; gap: var(--space-l); align-items: center; }
+  .ph-name__media { width: min(100%, 26rem); }
+  .ph-name__story {
+    margin: 0;
+    max-width: 30em;
+    font-family: var(--font-serif);
+    font-size: clamp(1.45rem, 1.1rem + 1.2vw, 2.1rem);
+    line-height: 1.35;
+    color: var(--sage-100);
+    text-wrap: pretty;
+  }
+  .ph-name__invite { margin: 1.5rem 0 0; max-width: 32rem; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.5; color: var(--sage-80); }
+  @media (min-width: 900px) {
+    .ph-name__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(3rem, 8vw, 8rem); }
+    .ph-name__media { width: 100%; }
+  }
+
+  /* 3 */
+  .ph-claims :global(.moment__title) { font-size: clamp(1.5rem, 1.3rem + 0.6vw, 1.9rem); }
+  .ph-claims :global(.moment__text) { font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.5; color: var(--sage-100); }
+
+  /* 5 */
+  .ph-words__grid { display: grid; gap: var(--space-l); }
+  .ph-words__line { margin: 0; font-size: var(--fs-h2); max-width: 8em; }
+  @media (min-width: 900px) {
+    .ph-words__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr); gap: clamp(2rem, 6vw, 6rem); }
+    .ph-words__head { position: sticky; top: calc(var(--header-compact) + 2rem); align-self: start; }
+  }
+
+  /* 6 */
+  .ph-science__grid { display: grid; gap: var(--space-xl); }
+  @media (min-width: 900px) { .ph-science__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: clamp(3rem, 7vw, 7rem); } }
+  .ph-science__intro > p { font-size: var(--fs-body); }
+  .ph-feature {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 2.25rem;
+    padding: 1.4rem 1.5rem;
+    border: 1px solid var(--rule-strong);
+    color: inherit;
+    text-decoration: none;
+    max-width: 30rem;
+    transition: border-color var(--dur-fast) var(--ease-soft), background-color var(--dur-fast) var(--ease-soft);
+  }
+  .ph-feature :global(.ph-feature__icon) { color: var(--sage-60); }
+  .ph-feature__text { display: grid; gap: 0.2rem; min-width: 0; }
+  .ph-feature__k { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .ph-feature__name { font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.2; color: var(--heading); }
+  .ph-feature__meta { font-size: 0.8125rem; color: var(--sage-80); }
+  .ph-feature__arrow { overflow: visible; color: var(--heading); }
+  .ph-feature__arrow :is(line, polyline) { fill: none; stroke: currentColor; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; transition: transform var(--dur-fast) var(--ease-soft); }
+  @media (hover: hover) {
+    .ph-feature:hover { border-color: var(--sage-80); background: var(--salt-25); }
+    .ph-feature:hover .ph-feature__arrow polyline { transform: translateX(5px); }
+  }
+  .ph-feature:focus-visible { outline-offset: 4px; }
+  .ph-science :global(.ev-head) { margin: 0.25rem 0 0.4rem; font-family: var(--font-serif); font-size: 1.1rem; color: var(--heading); }
+  .ph-science :global(.ev-list) { margin: 0 0 1rem; padding: 0; list-style: none; }
+  .ph-science :global(.ev-list li) { padding: 0.4rem 0; border-top: 1px solid var(--sage-20); font-size: var(--fs-small); line-height: 1.55; }
+  .ph-science :global(.ev-more a) { font-family: var(--font-ui); font-size: var(--fs-nav); letter-spacing: 0.06em; color: var(--heading); }
+  @media (prefers-reduced-motion: reduce) {
+    .ph-feature, .ph-feature__arrow :is(line, polyline) { transition: none; }
+  }
+</style>

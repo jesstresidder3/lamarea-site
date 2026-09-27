@@ -1,0 +1,31 @@
+---
+/*
+  A note for Jess and Belle that shows only while the media notes layer is on (Base mediaNotes='on',
+  the prototype default). Never public copy: it names what still needs Belle's check.
+  <NoteFlag items={['Belle to confirm ...']} />
+*/
+interface Props { items: string[]; class?: string }
+const { items, class: className } = Astro.props;
+---
+{items.length > 0 && (
+  <ul class:list={['c-flag', className]} data-flag>
+    {items.map((t) => <li>{t}</li>)}
+  </ul>
+)}
+
+<style>
+  .c-flag {
+    margin: 1.25rem 0 0;
+    padding: 0 0 0 0.7rem;
+    list-style: none;
+    border-left: 1px solid var(--sage-40);
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    line-height: 1.5;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+    max-width: 34rem;
+  }
+  .c-flag li + li { margin-top: 0.35rem; }
+  :global(html[data-media-notes='off']) .c-flag { display: none; }
+</style>

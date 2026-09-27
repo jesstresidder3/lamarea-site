@@ -1,0 +1,30 @@
+{
+  "quote": "What an amazing retreat. A beautiful night, well organised. The Yoga by Jaime was just what we needed. Education and food by Belle was great. We will definitely book in again. 🫶❤️",
+  "reviewer_as_published": "Maria Turnbull",
+  "reviewer_note": "Kept for records only. The site shows the descriptor, never the name, until Belle has permission.",
+  "descriptor": "Guest",
+  "descriptor_basis": "Derived by the build only from the review text: \"A beautiful night\" and \"What an amazing retreat\"",
+  "group_type": "unstated",
+  "format": "unknown",
+  "format_label": null,
+  "format_basis": "The review does not say which format it was",
+  "venue": null,
+  "source_type": "google",
+  "source": {
+    "type": "google_reviews_widget",
+    "url": "https://www.lamarea.com.au/",
+    "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+    "captured": "24-09-2026"
+  },
+  "rating": 5,
+  "date": "28-05-2026",
+  "retreat_type_as_stated": null,
+  "experiences_mentioned": [
+    "yoga"
+  ],
+  "image": "testimonial-retreat-3",
+  "featured_on": [],
+  "duplicate_of": null,
+  "status": "published",
+  "review": "Names Jaimi as \"Jaime\". Verbatim as published."
+}

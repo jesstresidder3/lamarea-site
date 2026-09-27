@@ -1,0 +1,73 @@
+---
+/*
+  One line and one link into the funnel, with prefill parameters (register A1 E4).
+  Path pages and the Day page end on this (build spec section 12).
+
+  <CtaBand line="An 8 hour day, shaped around your *group*" params={{ format: 'full-day', source: 'day-page' }} />
+
+  Props
+  - line: the heading (asterisks mark a place name only). Italiana at h2 size.
+  - eyebrow, note (a small line under the link, for example Belle's personalisation note)
+  - link: { label, href } (default "Plan your day" to /enquire). Every funnel link reads "Plan your day".
+  - params: prefill parameters added to the link (audience, format, venue, experience, source)
+  - secondary: { label, href } a quieter second link
+  - tone: 'sand' (default), 'salt' or 'warm'; align: 'centre' (default) or 'left'
+  - draft: { line?, note? }
+*/
+import ArrowLink from './ArrowLink.astro';
+import Eyebrow from './Eyebrow.astro';
+import { emphasis, withParams } from './text';
+import { cta } from '../../data/settings';
+
+interface Props {
+  line: string;
+  eyebrow?: string;
+  note?: string;
+  link?: { label: string; href: string };
+  params?: Record<string, string | number | undefined>;
+  secondary?: { label: string; href: string };
+  tone?: 'sand' | 'salt' | 'warm';
+  align?: 'centre' | 'left';
+  level?: 2 | 3;
+  draft?: { line?: boolean; note?: boolean };
+  class?: string;
+}
+const {
+  line,
+  eyebrow,
+  note,
+  link = cta.plan,
+  params,
+  secondary,
+  tone = 'sand',
+  align = 'centre',
+  level = 2,
+  draft = {},
+  class: className,
+} = Astro.props;
+const H = `h${level}` as 'h2' | 'h3';
+---
+<section class:list={['cta-band', `cta-band--${tone}`, `cta-band--${align}`, className]}>
+  <div class="wrap cta-band__inner">
+    {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+    <H class="cta-band__line" data-draft={draft.line ? '' : undefined} set:html={emphasis(line)} />
+    <div class="cta-band__actions">
+      <ArrowLink href={withParams(link.href, params)} label={link.label} size="large" />
+      {secondary && <ArrowLink href={secondary.href} label={secondary.label} />}
+    </div>
+    {note && <p class="cta-band__note" data-draft={draft.note ? '' : undefined}>{note}</p>}
+  </div>
+</section>
+
+<style>
+  .cta-band { padding-block: var(--section-y); }
+  .cta-band--salt { background: var(--salt-25); }
+  .cta-band--warm { background: var(--sand-40); }
+  .cta-band__inner { display: grid; gap: 0; }
+  .cta-band--centre .cta-band__inner { justify-items: center; text-align: center; }
+  .cta-band--centre .cta-band__inner :global(.eyebrow) { justify-content: center; }
+  .cta-band__line { margin: 0; max-width: 18em; }
+  .cta-band__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 2.5rem; margin-top: clamp(1.75rem, 1.4rem + 1.2vw, 2.75rem); }
+  .cta-band--centre .cta-band__actions { justify-content: center; }
+  .cta-band__note { margin: 1.5rem 0 0; font-size: var(--fs-small); color: var(--sage-80); max-width: 32rem; }
+</style>

@@ -1,0 +1,130 @@
+---
+/*
+  /team (plan/11 4.15 with build spec 12, page builder C). Belle: "who are our key wellness
+  practitioners, who are our lead sort of food and hospitality team... this big beautiful imagery of
+  the person and a bit about their qualifications and bio" (BD-67), in SHA's advisory board manner
+  (BD-81), in two groups (BD-82), not The Tailor's one-person slider (BD-64).
+
+  Order: the team at work, the family run line, the hosts (Belle and Zoe), the practitioners in two
+  tabs, the local businesses behind them, "Partner with us" as one line, Plan your day.
+
+  voice-verbatim-source: Encounter Bay guide p.19 and p.20 (the family run line, the facilitation
+  line, "Your Retreat Hosts"), the live difference 03, lamarea.com.au/partners (the partnership line,
+  cut after its first clause), and every bio and qualification in src/content/people. The roster is
+  decision 12.
+*/
+import Base from '../../layouts/Base.astro';
+import Band from '../../components/pages/c/Band.astro';
+import SectionHead from '../../components/base/SectionHead.astro';
+import ArrowLink from '../../components/base/ArrowLink.astro';
+import CtaBand from '../../components/base/CtaBand.astro';
+import Reveal from '../../components/base/Reveal.astro';
+import TeamCarousel from '../../components/team/TeamCarousel.astro';
+import Statement from '../../components/pages/c/Statement.astro';
+import HostsPair from '../../components/pages/c/HostsPair.astro';
+import NoteFlag from '../../components/pages/c/NoteFlag.astro';
+import { practitionerBusinesses } from '../../components/pages/c/local-businesses';
+import { getPeople, pillarsById } from '../../lib/content';
+import { differences } from '../../data/settings';
+
+const hosts = await getPeople('hosts');
+const tabs = [
+  { id: 'wellness', label: 'Wellness practitioners', people: await getPeople('wellness') },
+  { id: 'food', label: 'Food and hospitality', people: await getPeople('food_hospitality') },
+].filter((t) => t.people.length);
+const pillars = await pillarsById();
+const { wellness, table } = practitionerBusinesses(await getPeople());
+const businesses = [...wellness, ...table];
+const d3 = differences.find((d) => d.id === 'difference-03');
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'The La maréa team',
+  itemListElement: [...hosts, ...tabs.flatMap((t) => t.people)].map((p, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: { '@type': 'Person', name: p.data.name, jobTitle: p.data.role_long ?? p.data.role, url: `https://www.lamarea.com.au/team/${p.id}` },
+  })),
+};
+---
+<Base
+  title="Our team, hosts and practitioners"
+  description="Meet La maréa's retreat hosts and the qualified wellness practitioners, chef and nutritionist who lead each day on the Fleurieu Peninsula."
+  headerTone="over-media"
+  jsonLd={jsonLd}
+>
+  <Band media="team-hero" height="tall" hero text="over" level={1} eyebrow="Hosts, practitioners and partners" heading="Our team" />
+
+  <section class="section team-intro">
+    <div class="wrap">
+      <Statement
+        label="A family run business"
+        text="La maréa is a family run business with a small team who prioritise calm, genuine hospitality."
+        after="Full facilitation of your day occurs by a range of qualified wellness practitioners on site."
+      />
+    </div>
+  </section>
+
+  <section class="section section--flush-top" aria-labelledby="hosts-heading">
+    <div class="wrap">
+      <Reveal><SectionHead id="hosts-heading" eyebrow="With you across the day" heading="Your retreat hosts" draft={{ eyebrow: true }} /></Reveal>
+      <HostsPair hosts={hosts} />
+      <NoteFlag items={['Hosts differ between sources: the live Our story names Belle, Zoe and Sarah; the guide p.20 names Belle, Zoe and Jaimi (decision 12).']} />
+    </div>
+  </section>
+
+  <section class="section band-salt" aria-labelledby="practitioners-heading">
+    <div class="wrap">
+      <Reveal>
+        <SectionHead id="practitioners-heading" eyebrow="Practitioners and partners" heading={d3?.display ?? 'Our practitioners'} class="team-d3" />
+      </Reveal>
+      <TeamCarousel tabs={tabs} pillars={pillars} id="team-carousel" />
+      {businesses.length > 0 && (
+        <p class="team-biz">
+          <span class="team-biz__k">The local businesses behind them</span>
+          <span class="team-biz__list">
+            {businesses.map((b, i) => (
+              <>
+                <a class="text-link" href={b.person?.href}>{b.name}</a>{i < businesses.length - 2 ? ', ' : i === businesses.length - 2 ? ' and ' : ''}
+              </>
+            ))}
+          </span>
+        </p>
+      )}
+    </div>
+  </section>
+
+  <section class="section section--tight team-partner" aria-label="Partner with us">
+    <div class="wrap team-partner__row">
+      <p class="team-partner__line">In 2026 we are looking to explore partnerships with other local experts and practitioners to create unique experiences for our guests.</p>
+      <ArrowLink href="mailto:belle@lamarea.com.au?subject=Partner%20with%20La%20mar%C3%A9a" label="Partner with us" />
+    </div>
+  </section>
+
+  <CtaBand line="Spend the day with our team" params={{ source: 'team' }} tone="salt" draft={{ line: true }} />
+</Base>
+
+<style>
+  .team-intro { padding-bottom: calc(var(--section-y) * 0.8); }
+  :global(.team-d3) .section-head__heading { max-width: 22em; }
+  .team-biz {
+    display: grid;
+    gap: 0.6rem;
+    max-width: 46rem;
+    margin: clamp(3rem, 5vw, 4.5rem) 0 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--font-serif);
+    font-size: clamp(1.1rem, 1rem + 0.35vw, 1.3rem);
+    line-height: 1.5;
+    color: var(--sage-100);
+  }
+  .team-biz__k { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .team-partner { border-bottom: 1px solid var(--rule); }
+  .team-partner__row { display: grid; gap: 1rem 3rem; align-items: center; }
+  .team-partner__line { margin: 0; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.45; color: var(--sage-100); max-width: 36rem; }
+  @media (min-width: 900px) {
+    .team-partner__row { grid-template-columns: minmax(0, 1fr) auto; }
+  }
+</style>

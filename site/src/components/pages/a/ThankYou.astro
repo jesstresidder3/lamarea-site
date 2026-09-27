@@ -1,0 +1,102 @@
+---
+/*
+  Enquiry complete, /enquire/thank-you (plan/11 Part 5 "What the visitor sees on completion", build
+  spec 12). "Thank you, <first name>." Their answers summarised. "Book a discovery call" to Belle's
+  calendar as the main action (the one place a filled button opens the calendar). The response time
+  is a marked placeholder until Belle sets it. The group guide for their path is the second action.
+
+  The answers come from sessionStorage ('lm-enquiry', written by the funnel). Without them (a direct
+  visit, a private window) the page still thanks the visitor and offers the call.
+  Behaviour: ./thank-you.ts.
+*/
+import Media from '../../media/Media.astro';
+import Eyebrow from '../../base/Eyebrow.astro';
+import ArrowLink from '../../base/ArrowLink.astro';
+import { cta, contact } from '../../../data/settings';
+import { getExperiences, getVenues } from '../../../lib/content';
+import { REST, STORE_KEY } from './funnel-options';
+
+const labels = Object.fromEntries([...(await getExperiences('guided')).map((e) => [e.id, e.data.name]), [REST.value, REST.label]]);
+const venues = Object.fromEntries((await getVenues()).map((v) => [v.id, v.data.name]));
+const belle = contact.emails.find((e) => e.label === 'Belle');
+---
+<section class="ty" data-thanks data-store={STORE_KEY} aria-labelledby="ty-heading">
+  <script type="application/json" data-ty-labels set:html={JSON.stringify({ experiences: labels, venues })} />
+  <div class="wrap ty__grid">
+    <div class="ty__main">
+      <Eyebrow>Enquiry received</Eyebrow>
+      <h1 class="ty__heading" id="ty-heading" data-ty-heading>Thank you.</h1>
+      <p class="ty__lead" data-draft>The next step is a short discovery call with Belle to shape your day.</p>
+
+      <div class="ty__answers" data-ty-answers hidden>
+        <p class="ty__label">Here is what you told us</p>
+        <dl class="ty__list" data-ty-list></dl>
+      </div>
+
+      <div class="ty__action">
+        <a class="btn-filled ty__call" href={cta.discovery.href} target="_blank" rel="noopener">
+          {cta.discovery.label}<span class="visually-hidden"> (opens Belle’s calendar in a new tab)</span>
+        </a>
+        <p class="ty__response" data-notes-only><span class="placeholder-line">Belle’s reply time after an enquiry, in her words</span></p>
+      </div>
+
+      <div class="ty__more">
+        <p class="ty__label">While you wait</p>
+        <p class="ty__guide" data-ty-guide="private"><ArrowLink href="/guides/private-group-guide" label="Private group guide" /></p>
+        <p class="ty__guide" data-ty-guide="corporate"><ArrowLink href="/guides/corporate-group-guide" label="Corporate group guide" /></p>
+        <p class="ty__guide-note" data-draft>The guide is being finished and arrives by email when it is ready.</p>
+      </div>
+
+      <p class="ty__stub" data-ty-stub data-notes-only hidden>
+        <span class="placeholder-line">Prototype: this enquiry is held in this browser until the live form is connected</span>
+      </p>
+    </div>
+
+    <aside class="ty__aside" aria-label="Belle Redden">
+      <div class="ty__portrait"><Media media="enquire-thanks" aspect="fill" /></div>
+      <p class="ty__who">Belle Redden, founder of La maréa</p>
+      <ul class="ty__contact" role="list">
+        {belle && <li><a class="text-link" href={`mailto:${belle.address}`}>{belle.address}</a></li>}
+        <li><a class="text-link" href={`tel:${contact.phone.tel}`}>{contact.phone.display}</a></li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<script>
+  import './thank-you';
+</script>
+
+<style>
+  .ty { padding-block: clamp(2.5rem, 7vw, 6rem) var(--section-y); background: var(--sand-30); min-height: calc(100svh - var(--header-h)); }
+  .ty__grid { display: grid; gap: var(--space-xl) var(--space-l); align-items: start; }
+  .ty__main { max-width: 40rem; }
+  .ty__heading { margin: 0; font-size: var(--fs-h1); line-height: 1.1; }
+  .ty__lead { margin: 1.25rem 0 0; font-family: var(--font-serif); font-size: clamp(1.3rem, 1.15rem + 0.6vw, 1.65rem); line-height: 1.35; color: var(--sage-80); max-width: 24em; }
+  .ty__answers { margin-top: clamp(2rem, 4vw, 3rem); }
+  .ty__answers[hidden] { display: none; }
+  .ty__label { margin: 0 0 0.9rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); }
+  .ty__list { margin: 0; border-top: 1px solid var(--sage-20); }
+  .ty__list :global(div) { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: 1rem; padding-block: 0.75rem; border-bottom: 1px solid var(--sage-20); }
+  .ty__list :global(dt) { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); padding-top: 0.15rem; }
+  .ty__list :global(dd) { margin: 0; font-size: var(--fs-small); line-height: 1.55; color: var(--sage-100); }
+  .ty__action { margin-top: clamp(2rem, 4vw, 3rem); }
+  .ty__call { min-height: 3.25rem; padding-inline: 1.75rem; font-size: 0.875rem; }
+  .ty__response { margin: 1.25rem 0 0; }
+  .ty__more { margin-top: clamp(2.5rem, 5vw, 3.5rem); padding-top: 1.25rem; border-top: 1px solid var(--sage-20); }
+  .ty__guide { margin: 0; }
+  .ty__guide-note { margin: 0.25rem 0 0; font-size: var(--fs-small); color: var(--sage-80); }
+  .ty__stub { margin-top: 2rem; }
+  .ty__stub[hidden] { display: none; }
+
+  .ty__aside { max-width: 24rem; }
+  .ty__portrait { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--sand-40); }
+  .ty__who { margin: 1rem 0 0.4rem; font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.25; color: var(--sage-80); }
+  .ty__contact { margin: 0; padding: 0; list-style: none; font-size: var(--fs-small); }
+  .ty__contact a { display: inline-flex; align-items: center; min-height: 2.75rem; }
+
+  @media (min-width: 960px) {
+    .ty__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(3rem, 7vw, 8rem); }
+    .ty__aside { justify-self: end; width: 100%; }
+  }
+</style>

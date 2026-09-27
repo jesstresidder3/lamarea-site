@@ -1,0 +1,33 @@
+{
+  "quote": "Recently attended a corporate retreat with Belle and the La Marea team, and from start to finish, it was absolutely wonderful!\n\nEverything was so thoughtfully planned and organised, with every little detail taken care of. I absolutely loved my massage, and the pasta-making class was such a fun experience.\n\nI couldn’t recommend the La Marea team highly enough for anyone looking to organise a corporate retreat or getaway.",
+  "reviewer_as_published": "Chelsea Casey",
+  "reviewer_note": "Kept for records only. The site shows the descriptor, never the name, until Belle has permission.",
+  "descriptor": "Corporate team",
+  "descriptor_basis": "Derived by the build only from the review text: \"Recently attended a corporate retreat\"",
+  "group_type": "corporate",
+  "format": "unknown",
+  "format_label": null,
+  "format_basis": "The review does not say which format it was",
+  "venue": null,
+  "source_type": "google",
+  "source": {
+    "type": "google_reviews_widget",
+    "url": "https://www.lamarea.com.au/",
+    "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+    "captured": "24-09-2026"
+  },
+  "rating": 5,
+  "date": "13-08-2026",
+  "retreat_type_as_stated": "corporate retreat (named in the review)",
+  "experiences_mentioned": [
+    "massage",
+    "pasta-making"
+  ],
+  "image": "testimonial-corporate-2",
+  "featured_on": [
+    "corporate"
+  ],
+  "duplicate_of": null,
+  "status": "published",
+  "review": null
+}

@@ -1,0 +1,122 @@
+---
+/*
+  /guides/private-group-guide and /guides/corporate-group-guide (page builder D, plan/11 4.24).
+  The live home page carries "Download Private Group Guide" and "Download Corporate Group Guide"
+  buttons that link nowhere, and neither PDF exists yet (harvest section 21, plan/11 item 25).
+  So these pages say the guide is coming and take an email to send it when it is ready, rather
+  than promising a download. What the guide holds is three drafted lines, marked as placeholders,
+  drawn from what Belle's Encounter Bay retreat guide already covers (a note from Belle, the day,
+  inclusions, the venue, next steps). The capture sends list 'guide:<slug>' (downloads.magnet_slug).
+  noindex while the PDFs do not exist; switch it off when a guide is attached. Works cold from
+  ManyChat and Instagram: breadcrumbs, the matching path page and Plan your day.
+*/
+import Base from '../../layouts/Base.astro';
+import PageIntro from '../../components/pages/d/PageIntro.astro';
+import ListCapture from '../../components/pages/d/ListCapture.astro';
+import ReviewNote from '../../components/pages/d/ReviewNote.astro';
+import CtaBand from '../../components/base/CtaBand.astro';
+
+export function getStaticPaths() {
+  const guides = [
+    {
+      slug: 'private-group-guide',
+      name: 'Private group guide',
+      audience: 'private',
+      title: 'Private group guide, Fleurieu retreats',
+      description: 'The La maréa private group guide to 8 hour retreats on the Fleurieu Peninsula is being finished. Leave your email to receive it when it is ready.',
+      cover: 'guide-private-cover',
+      path: { label: 'Private groups', href: '/private-groups' },
+      lines: [
+        'An example 8 hour day on the Fleurieu, from pick up in Adelaide to the drive home',
+        'What the day includes, from morning movement to the shared Mediterranean lunch',
+        'Places to Pause on the coast and in the vineyards, and how to plan your group’s day',
+      ],
+      cta: 'Plan a day for your group',
+    },
+    {
+      slug: 'corporate-group-guide',
+      name: 'Corporate group guide',
+      audience: 'corporate',
+      title: 'Corporate group guide, Fleurieu retreats',
+      description: 'The La maréa corporate group guide to 8 hour team retreats on the Fleurieu Peninsula is being finished. Leave your email to receive it when it is ready.',
+      cover: 'guide-corporate-cover',
+      path: { label: 'Corporate teams', href: '/corporate' },
+      lines: [
+        'An example 8 hour day for a team, hour by hour',
+        'The workshop on the foundations of high performance wellbeing, and what else the day includes',
+        'Places to Pause for teams, and how to plan the day with Belle',
+      ],
+      cta: 'Plan a day for your team',
+    },
+  ];
+  return guides.map((guide) => ({ params: { slug: guide.slug }, props: { guide } }));
+}
+
+const { guide } = Astro.props;
+---
+<Base title={guide.title} description={guide.description} noindex>
+  <PageIntro
+    variant="cover"
+    crumbs={[{ label: guide.path.label, href: guide.path.href }, { label: guide.name }]}
+    eyebrow="Coming soon"
+    heading={guide.name}
+    lead="The guide is being finished. Leave your email and we will send it to you as soon as it is ready."
+    leadDraft
+    media={guide.cover}
+  />
+
+  <section class="section section--flush-top wrap">
+    <div class="guide">
+      <div class="guide__inside">
+        <h2 class="guide__title">What it will cover</h2>
+        <ol class="guide__lines" role="list">
+          {guide.lines.map((line, i) => (
+            <li><span class="guide__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><p data-draft>{line}</p></li>
+          ))}
+        </ol>
+        <p class="placeholder-line">Contents to confirm with Belle once the guide is written (plan/11 item 25).</p>
+      </div>
+      <div class="guide__form">
+        <h2 class="guide__form-title">Send me the guide</h2>
+        <ListCapture
+          list="newsletter"
+          listValue={`guide:${guide.slug}`}
+          firstName
+          layout="stacked"
+          submitLabel="Email me when it is ready"
+          successMessage="Thank you. We will email the guide to you as soon as it is ready."
+          notice="We use your email to send you this guide, and send La maréa news only if you tick the box."
+        />
+        <ReviewNote>No PDF is linked or promised. When Belle supplies the guide, Dom’s endpoint delivers it on the page and by email, and this page drops its noindex.</ReviewNote>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    line={guide.cta}
+    params={{ audience: guide.audience, source: guide.slug }}
+    secondary={guide.path}
+    tone="warm"
+    draft={{ line: true }}
+  />
+</Base>
+
+<style>
+  .guide { display: grid; gap: var(--space-xl); padding-top: clamp(1.5rem, 3vw, 3rem); border-top: 1px solid var(--sage-20); }
+  .guide__title, .guide__form-title { margin: 0 0 1.5rem; font-size: var(--fs-h2); }
+  .guide__lines { margin: 0 0 1.25rem; padding: 0; list-style: none; }
+  .guide__lines li {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr);
+    align-items: baseline;
+    padding-block: 1.1rem;
+    border-top: 1px solid var(--sage-20);
+  }
+  .guide__lines li:last-child { border-bottom: 1px solid var(--sage-20); }
+  .guide__lines p { margin: 0; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.45; color: var(--sage-100); }
+  .guide__num { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.08em; color: var(--sage-80); }
+  .guide__form { padding: clamp(1.5rem, 1rem + 2.5vw, 3rem); background: var(--salt-25); outline: 1px solid var(--sage-20); outline-offset: -1px; align-self: start; }
+  @media (min-width: 900px) {
+    .guide { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(2.5rem, 5vw, 6.5rem); }
+  }
+</style>

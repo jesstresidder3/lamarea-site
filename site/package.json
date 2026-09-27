@@ -1,0 +1,20 @@
+{
+  "name": "lamarea-website",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check:scroll": "node scripts/check-overflow.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource/cormorant-garamond": "^5.3.0",
+    "@fontsource/italiana": "^5.3.0",
+    "@fontsource/jost": "^5.3.0",
+    "astro": "^5.18.2",
+    "gsap": "^3.15.0"
+  }
+}

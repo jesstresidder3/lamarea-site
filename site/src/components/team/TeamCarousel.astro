@@ -1,0 +1,272 @@
+---
+/*
+  TeamCarousel (C1, visual study D9). SHA's scientific advisory board, which Belle chose for her
+  people ("You click an arrow and sort of scroll across as a photo of everyone, and then the name,
+  their certifications, and then information about them", BD-81), in two groups (BD-82): wellness
+  practitioners, and food and hospitality. Not The Tailor's one-person slider (BD-64).
+
+  The current person stands large (4:5) with the people either side small (3:4); name, role, the
+  local business behind them, a short credential line, then a bio of about 70 words with the rest
+  (qualifications and services, verbatim) in one row that opens beneath a small chevron. Hairline
+  arrows and a pill indicator. Phones: one person at a time, swipe, the rest of the bio open.
+
+  <TeamCarousel tabs={await teamTabs()} />
+  Props: tabs ([{ id, label, people }], from teamTabs()), pillars (Map from pillarsById(), for the
+  specialty icons, optional), linkBase ('/team/' links "More about" to each person's page; omit to hide)
+*/
+import Media from '../media/Media.astro';
+import Icon from '../base/Icon.astro';
+import ArrowLink from '../base/ArrowLink.astro';
+import SliderArrows from '../slider/SliderArrows.astro';
+import { splitLead, uid } from '../../lib/text';
+import type { Person, Pillar } from '../../lib/content';
+
+interface Tab { id: string; label: string; people: Person[] }
+interface Props { tabs: Tab[]; pillars?: Map<string, Pillar>; linkBase?: string; id?: string; class?: string }
+const { tabs, pillars, linkBase = '/team/', id, class: className } = Astro.props;
+const base = id ?? uid('team');
+const first = (n: string) => n.split(' ')[0];
+const iconName = (file: string) => file.replace(/\.svg$/, '');
+---
+<div class:list={['team', className]} id={id} data-team>
+  {tabs.length > 1 && (
+    <div class="tm-tabs" role="tablist" aria-label="Our people">
+      {tabs.map((t, i) => (
+        <button type="button" role="tab" class="tm-tab" id={`${base}-tab-${t.id}`} aria-controls={`${base}-panel-${t.id}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1} data-team-tab>
+          {t.label}
+        </button>
+      ))}
+    </div>
+  )}
+
+  {tabs.map((t, ti) => (
+    <div class="tm-panel" role={tabs.length > 1 ? 'tabpanel' : undefined} id={`${base}-panel-${t.id}`} aria-labelledby={tabs.length > 1 ? `${base}-tab-${t.id}` : undefined} hidden={ti !== 0} data-team-panel>
+      <div class="tc" aria-roledescription="carousel" aria-label={t.label} data-tc>
+        <div class="tc-stage">
+          <div class="tc-portraits" data-tc-portraits>
+            {t.people.map((p, i) => (
+              <div class="tc-portrait" data-tc-portrait data-pos={i === 0 ? 'current' : i === 1 ? 'next' : 'off'} aria-hidden={i === 0 ? undefined : 'true'}>
+                <Media media={p.data.portrait} aspect="fill" />
+              </div>
+            ))}
+          </div>
+
+          <div class="tc-details" aria-live="polite">
+            {t.people.map((p, i) => {
+              const d = p.data;
+              const split = splitLead(d.bio, 70);
+              // A lead that ends on "including:" belongs with the list it introduces, inside the extra row
+              while (split.lead.length > 1 && split.lead[split.lead.length - 1].text.trim().endsWith(':')) split.more.unshift(split.lead.pop()!);
+              const { lead, more } = split;
+              const hasMore = more.length > 0 || d.qualifications.length > 0 || d.services.length > 0;
+              const items = more.filter((b) => b.kind === 'item');
+              return (
+                <article class="tc-person" role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${t.people.length}: ${d.name}`} data-tc-person data-on={i === 0 ? '' : undefined}>
+                  <p class="tc-role">{d.role}</p>
+                  <h3 class="tc-name">{d.name}</h3>
+                  {d.business && <p class="tc-business">{d.business}</p>}
+                  {d.credentials.length > 0 && <p class="tc-creds">{d.credentials.join(', ')}</p>}
+                  {pillars && d.pillars.length > 0 && (
+                    <ul class="tc-pillars" aria-label="Pillars in their work">
+                      {d.pillars.map((pid) => {
+                        const pl = pillars.get(pid);
+                        return pl ? <li><Icon name={iconName(pl.data.icon)} size="1.5rem" /><span class="visually-hidden">{pl.data.name}</span></li> : null;
+                      })}
+                    </ul>
+                  )}
+                  <div class="tc-bio">
+                    {lead.map((b) => <p>{b.text}</p>)}
+                  </div>
+                  {hasMore && (
+                    <details class="tc-more" data-tc-more>
+                      <summary>
+                        <span>More about {first(d.name)}</span>
+                        <svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><polyline points="0.5,0.5 5,5 9.5,0.5" /></svg>
+                      </summary>
+                      <div class="tc-more__body">
+                        {more.filter((b) => b.kind === 'para').map((b) => <p>{b.text}</p>)}
+                        {items.length > 0 && <ul>{items.map((b) => <li>{b.text}</li>)}</ul>}
+                        {more.some((b) => b.text.trim().endsWith(':')) && d.services.length > 0 && items.length === 0 && (
+                          <ul>{d.services.map((x) => <li>{x}</li>)}</ul>
+                        )}
+                        {d.qualifications.length > 0 && (
+                          <>
+                            <p class="tc-sub">Qualifications</p>
+                            <ul>{d.qualifications.map((q) => <li>{q}</li>)}</ul>
+                          </>
+                        )}
+                        {d.services.length > 0 && !(more.some((b) => b.text.trim().endsWith(':')) && items.length === 0) && (
+                          <>
+                            <p class="tc-sub">Services</p>
+                            <ul>{d.services.map((s) => <li>{s}</li>)}</ul>
+                          </>
+                        )}
+                      </div>
+                    </details>
+                  )}
+                  {linkBase && <ArrowLink href={`${linkBase}${p.id}`} label={`Meet ${first(d.name)}`} class="tc-link" />}
+                </article>
+              );
+            })}
+          </div>
+        </div>
+
+        <div class="tc-nav">
+          <ol class="tc-pills" aria-hidden="true">
+            {t.people.map((_, i) => <li data-tc-pill data-on={i === 0 ? '' : undefined}></li>)}
+          </ol>
+          <SliderArrows label="person" size="small" />
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .team { width: 100%; }
+  .tm-tabs { display: flex; flex-wrap: wrap; gap: 0.25rem clamp(1.25rem, 3vw, 2.5rem); margin-bottom: clamp(2rem, 4vw, 3.5rem); border-bottom: 1px solid var(--rule); } /* wraps at 320 rather than cutting a tab (QA m3) */
+  .tm-tab {
+    position: relative;
+    flex: none;
+    min-height: 2.75rem;
+    padding: 0 0 0.6rem;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font-family: var(--font-serif);
+    font-size: clamp(1.2rem, 1.1rem + 0.4vw, 1.45rem);
+    transition: color var(--dur-fast) var(--ease-soft);
+  }
+  .tm-tab::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--sage-80); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-step) var(--ease-soft); }
+  .tm-tab[aria-selected='true'] { color: var(--heading); }
+  .tm-tab[aria-selected='true']::after { transform: none; }
+  @media (hover: hover) { .tm-tab:hover { color: var(--heading); } }
+
+  .tc-stage { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+
+  /* Portraits: previous and next small, the current one large, sitting on one baseline. */
+  .tc-portraits { display: flex; align-items: flex-end; gap: clamp(0.75rem, 1.5vw, 1.25rem); min-height: 0; overflow: hidden; }
+  .tc-portrait {
+    position: relative;
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    width: clamp(5rem, 9vw, 9rem);
+    aspect-ratio: 3 / 4;
+    opacity: 0.55;
+    transition: width var(--dur-step) var(--ease-soft), opacity var(--dur-step) var(--ease-soft);
+  }
+  .tc-portrait[data-pos='current'] { flex-shrink: 0; width: clamp(15rem, 25vw, 23.5rem); aspect-ratio: 4 / 5; opacity: 1; }
+  .tc-portrait[data-pos='off'] { display: none; }
+
+  .tc-details { min-width: 0; }
+  /* Only the current person is laid out, so a long bio never leaves a gap under a short one. It fades in. */
+  .tc-person { display: none; }
+  .tc-person[data-on] { display: block; animation: tc-in var(--dur-step) var(--ease-soft) both; }
+  @keyframes tc-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .tc-role { margin: 0 0 0.9rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .tc-name { margin: 0 0 0.6rem; font-size: clamp(1.9rem, 1.6rem + 0.8vw, 2.25rem); line-height: 1.1; }
+  .tc-business { margin: 0 0 0.35rem; font-family: var(--font-serif); font-size: 1.15rem; color: var(--heading); }
+  .tc-creds { margin: 0 0 1rem; font-size: 0.8125rem; line-height: 1.5; color: var(--muted); max-width: 28rem; }
+  .tc-pillars { display: flex; gap: 0.75rem; margin: 0 0 1.25rem; padding: 0; list-style: none; color: var(--sage-60); }
+  .tc-bio p { font-size: var(--fs-small); line-height: 1.65; color: var(--sage-100); max-width: 30rem; }
+  .tc-bio p + p { margin-top: 0.75em; }
+
+  .tc-more { margin-top: 1rem; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); max-width: 30rem; }
+  .tc-more summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 2.75rem;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: 0.08em;
+    color: var(--heading);
+  }
+  .tc-more summary::-webkit-details-marker { display: none; }
+  .tc-more summary svg { overflow: visible; transition: transform var(--dur-step) var(--ease-soft); }
+  .tc-more summary polyline { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .tc-more[open] summary svg { transform: rotate(180deg); }
+  .tc-more__body { padding: 0.25rem 0 1.25rem; font-size: 0.8125rem; line-height: 1.6; color: var(--sage-100); }
+  .tc-more__body p { max-width: none; margin: 0 0 0.75em; }
+  .tc-more__body ul { margin: 0 0 1em; padding-left: 1rem; }
+  .tc-more__body li { margin-bottom: 0.3em; }
+  .tc-sub { margin-top: 0.9rem !important; font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: var(--track-label); color: var(--muted); }
+  .tc-person :global(.tc-link) { margin-top: 0.75rem; }
+
+  .tc-nav { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; margin-top: clamp(1.5rem, 3vw, 2.5rem); }
+  .tc-pills { display: flex; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
+  .tc-pills li { width: 6px; height: 6px; border-radius: 3px; background: var(--sage-20); transition: width var(--dur-step) var(--ease-soft), background-color var(--dur-step) var(--ease-soft); }
+  .tc-pills li[data-on] { width: 1.5rem; background: var(--sage-80); }
+
+  @media (max-width: 799px) {
+    .tc-stage { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+    .tc-portraits { touch-action: pan-y; }
+    .tc-portrait[data-pos='prev'], .tc-portrait[data-pos='next'] { display: none; }
+    .tc-portrait[data-pos='current'] { width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tc-person[data-on] { animation: none; }
+    .tc-portrait, .tc-pills li, .tm-tab::after, .tc-more summary svg { transition: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-team]').forEach((root) => {
+    // Tabs (automatic activation, arrow keys move between them)
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-team-tab]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-team-panel]'));
+    const select = (k: number, focus = false) => {
+      tabs.forEach((t, j) => { t.setAttribute('aria-selected', String(j === k)); t.tabIndex = j === k ? 0 : -1; });
+      panels.forEach((p, j) => (p.hidden = j !== k));
+      if (focus) tabs[k].focus();
+    };
+    tabs.forEach((t, j) => {
+      t.addEventListener('click', () => select(j));
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') { e.preventDefault(); select((j + 1) % tabs.length, true); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); select((j - 1 + tabs.length) % tabs.length, true); }
+      });
+    });
+
+    // One carousel per tab
+    const phone = window.matchMedia('(max-width: 799px)');
+    root.querySelectorAll<HTMLElement>('[data-tc]').forEach((tc) => {
+      const portraits = Array.from(tc.querySelectorAll<HTMLElement>('[data-tc-portrait]'));
+      const people = Array.from(tc.querySelectorAll<HTMLElement>('[data-tc-person]'));
+      const pills = Array.from(tc.querySelectorAll<HTMLElement>('[data-tc-pill]'));
+      const prevs = tc.querySelectorAll<HTMLButtonElement>('[data-prev]');
+      const nexts = tc.querySelectorAll<HTMLButtonElement>('[data-next]');
+      const n = people.length;
+      let i = 0;
+      const show = (k: number) => {
+        i = Math.max(0, Math.min(n - 1, k));
+        portraits.forEach((p, j) => {
+          p.dataset.pos = j === i ? 'current' : j === i - 1 ? 'prev' : j === i + 1 ? 'next' : 'off';
+          p.setAttribute('aria-hidden', String(j !== i));
+        });
+        people.forEach((p, j) => { p.toggleAttribute('data-on', j === i); p.inert = j !== i; });
+        pills.forEach((p, j) => p.toggleAttribute('data-on', j === i));
+        prevs.forEach((b) => b.setAttribute('aria-disabled', String(i === 0)));
+        nexts.forEach((b) => b.setAttribute('aria-disabled', String(i === n - 1)));
+        // Phones read the whole bio: the extra row rests open there
+        if (phone.matches) tc.querySelectorAll<HTMLDetailsElement>('[data-tc-more]').forEach((d) => (d.open = true));
+      };
+      prevs.forEach((b) => b.addEventListener('click', () => show(i - 1)));
+      nexts.forEach((b) => b.addEventListener('click', () => show(i + 1)));
+      // Swipe the portrait on touch
+      const strip = tc.querySelector<HTMLElement>('[data-tc-portraits]');
+      let x0 = 0;
+      strip?.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') x0 = e.clientX; });
+      strip?.addEventListener('pointerup', (e) => {
+        if (e.pointerType === 'mouse' || !x0) return;
+        const dx = e.clientX - x0; x0 = 0;
+        if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1));
+      });
+      show(0);
+    });
+  });
+</script>

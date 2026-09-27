@@ -1,0 +1,293 @@
+---
+/*
+  Menu overlay (build spec section 3, visual study B6, spec 10.6).
+  Full-screen sand overlay at every width. A sage-80 column on the left with the reversed logo, the
+  circle submark and contact; the two paths and the 8 hour day in Italiana; grouped secondary links; one
+  photograph that crossfades as each primary link is hovered or focused; a 44px close control drawn
+  with a thin cross. Opens with a soft fade and a 16px settle, locks scroll without layout shift,
+  traps focus, closes on Escape. Behaviour: src/scripts/menu.ts. Used by layouts/Base.astro only.
+*/
+import Logo from './Logo.astro';
+import Media from '../media/Media.astro';
+import { menuPrimary, menuGroups, cta, contact, social } from '../../data/settings';
+
+interface Props { current?: string }
+const { current = '/' } = Astro.props;
+const isCurrent = (href: string) => current === href || (href !== '/' && current.startsWith(href + '/'));
+const figures = ['menu-default', ...menuPrimary.map((l) => l.media).filter(Boolean)] as string[];
+---
+<div class="menu" id="site-menu" role="dialog" aria-modal="true" aria-label="Site menu" data-menu data-state="closed" inert>
+  <div class="menu__panel">
+    <div class="menu__top">
+      <a class="menu__home" href="/" aria-label="La maréa, home"><Logo variant="primary" height="1.5rem" label="La maréa" /></a>
+      <button class="menu__close" type="button" data-menu-close aria-label="Close menu">
+        <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M2 2l12 12M14 2L2 14" /></svg>
+      </button>
+    </div>
+
+    <nav class="menu__nav" aria-label="Menu">
+      <ol class="menu__primary" role="list">
+        {menuPrimary.map((l, i) => (
+          <li>
+            <a class="menu__primary-link" href={l.href} data-menu-media={l.media} aria-current={isCurrent(l.href) ? 'page' : undefined}>
+              <span class="menu__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <span class="menu__primary-text">
+                <span class="menu__primary-label">{l.label}</span>
+                {l.hint && <span class="menu__hint" data-draft={l.draft ? '' : undefined}>{l.hint}</span>}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+
+      <div class="menu__groups">
+        {menuGroups.map((g) => (
+          <div class="menu__group">
+            <p class="menu__group-title">{g.title}</p>
+            <ul role="list">
+              {g.links.map((l) => (
+                <li><a class="menu__link" href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <a class="btn-filled menu__cta" href={cta.plan.href}>{cta.plan.label}</a>
+    </nav>
+
+    <aside class="menu__side" aria-label="Contact">
+      <a class="menu__side-logo" href="/" tabindex="-1" aria-hidden="true"><Logo variant="primary" height="1.9rem" /></a>
+      <Logo variant="circle" height="6.5rem" class="menu__submark" />
+      <div class="menu__contact">
+        <p class="menu__group-title">Contact</p>
+        <ul role="list">
+          {contact.emails.map((e) => <li><a href={`mailto:${e.address}`}>{e.address}</a></li>)}
+          <li><a href={social.instagram.url} target="_blank" rel="noopener">Instagram {social.instagram.handle}<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <div class="menu__media" aria-hidden="true">
+      {figures.map((slot, i) => (
+        <div class:list={['menu__figure', i === 0 && 'is-active']} data-menu-figure={slot}>
+          <Media media={slot} aspect="fill" />
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  import '../../scripts/menu';
+</script>
+
+<style>
+  .menu {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-menu);
+    background: var(--sand-30);
+    color: var(--sage-100);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--dur) var(--ease-soft), visibility 0s linear var(--dur);
+  }
+  .menu[data-state='open'] {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity var(--dur) var(--ease-soft), visibility 0s;
+  }
+  .menu__panel {
+    height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'top' 'nav' 'side';
+    transform: translateY(16px);
+    transition: transform var(--dur) var(--ease-soft);
+  }
+  .menu[data-state='open'] .menu__panel { transform: none; }
+
+  /* Top bar on phones and tablets: the sage logo and the close control. */
+  .menu__top {
+    grid-area: top;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-h);
+    padding-inline: clamp(1.25rem, 2.6vw, 2.5rem);
+    color: var(--sage-80);
+  }
+  .menu__home { display: inline-flex; align-items: center; min-height: 2.75rem; color: inherit; }
+  .menu__close {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid var(--sage-40);
+    border-radius: 50%;
+    background: var(--salt-25);
+    color: var(--sage-80);
+    transition: border-color var(--dur-fast) var(--ease-soft), transform var(--dur-fast) var(--ease-soft);
+  }
+  .menu__close svg { width: 14px; height: 14px; }
+  .menu__close path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; }
+  @media (hover: hover) {
+    .menu__close:hover { border-color: var(--sage-80); transform: rotate(90deg); }
+  }
+  .menu__close:active { border-color: var(--sage-80); }
+
+  /* Navigation column */
+  .menu__nav {
+    grid-area: nav;
+    padding: clamp(1rem, 4vw, 2.5rem) var(--gutter) var(--space-xl);
+    display: grid;
+    align-content: start;
+    gap: var(--space-l);
+  }
+  .menu__primary { margin: 0; padding: 0; list-style: none; display: grid; gap: clamp(0.75rem, 1.6vh, 1.4rem); }
+  .menu__primary-link {
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    align-items: baseline;
+    min-height: 2.75rem;
+    color: var(--sage-80);
+    text-decoration: none;
+  }
+  .menu__num { font-variant-numeric: lining-nums;
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    color: var(--sage-60);
+  }
+  .menu__primary-text { display: grid; gap: 0.35rem; }
+  .menu__primary-label {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 1.35rem + 1.1vw, 2.125rem);
+    line-height: 1.12;
+    transition: transform var(--dur-fast) var(--ease-soft), color var(--dur-fast) var(--ease-soft);
+  }
+  .menu__hint {
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: 0.08em;
+    color: var(--sage-80);
+  }
+  .menu__primary-link[aria-current='page'] .menu__primary-label { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; text-decoration-color: var(--sage-40); }
+  @media (hover: hover) {
+    .menu__primary-link:hover .menu__primary-label { transform: translateX(6px); color: var(--sage-100); }
+  }
+  .menu__primary-link:focus-visible .menu__primary-label { transform: translateX(6px); }
+
+  .menu__groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+    gap: var(--space-m) var(--space-m);
+    padding-top: var(--space-m);
+    border-top: 1px solid var(--sage-20);
+  }
+  .menu__group ul, .menu__contact ul { margin: 0; padding: 0; list-style: none; }
+  .menu__group-title {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--sage-80);
+  }
+  .menu__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-small);
+    color: var(--sage-100);
+    text-decoration: none;
+    background: linear-gradient(currentColor, currentColor) 0 calc(100% - 0.7rem) / 0% 1px no-repeat;
+    transition: background-size var(--dur-fast) var(--ease-soft);
+  }
+  .menu__link[aria-current='page'] { background-size: 100% 1px; }
+  @media (hover: hover) {
+    .menu__link:hover { background-size: 100% 1px; }
+  }
+  .menu__link:active { background-size: 100% 1px; }
+  .menu__cta { justify-self: start; }
+
+  /* Sage column: reversed logo, circle submark and contact. On phones it closes the overlay. */
+  .menu__side {
+    grid-area: side;
+    display: grid;
+    align-content: start;
+    gap: var(--space-l);
+    padding: var(--space-l) var(--gutter) calc(var(--space-l) + env(safe-area-inset-bottom));
+    background: var(--sage-80);
+    color: var(--sand-30);
+    --focus: var(--focus-on-dark);
+  }
+  .menu__side-logo { display: none; color: var(--salt-25); }
+  .menu__side :global(.menu__submark) { color: var(--sand-40); }
+  .menu__contact .menu__group-title { color: var(--sand-60); }
+  .menu__contact a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-small);
+    letter-spacing: 0.02em;
+    color: var(--salt-25);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  @media (hover: hover) {
+    .menu__contact a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.25em; }
+  }
+
+  .menu__media { display: none; }
+
+  /* Desktop: sage column left, navigation centre, photograph right. */
+  @media (min-width: 1024px) {
+    .menu__panel {
+      grid-template-columns: clamp(15rem, 21vw, 20rem) minmax(0, 1.1fr) minmax(0, 1fr);
+      grid-template-rows: minmax(100%, auto);
+      grid-template-areas: 'side nav media';
+    }
+    .menu__panel { position: relative; }
+    .menu__top {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 2;
+      height: var(--header-h);
+    }
+    .menu__home { display: none; }
+    .menu__side {
+      align-content: space-between;
+      padding: calc(var(--header-h) * 0.5) clamp(1.75rem, 2.6vw, 2.75rem) clamp(2rem, 4vh, 3rem);
+    }
+    .menu__side-logo { display: inline-flex; min-height: var(--header-h); align-items: center; margin-top: calc(var(--header-h) * -0.5); }
+    .menu__nav {
+      align-content: center;
+      padding: calc(var(--header-h) + 1rem) clamp(2rem, 4.5vw, 5rem) clamp(2rem, 5vh, 3.5rem);
+      gap: clamp(1.75rem, 4.5vh, 3rem);
+    }
+    .menu__groups { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .menu__media { display: block; position: relative; grid-area: media; min-height: 100svh; }
+    .menu__figure {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity var(--dur-slower) var(--ease-soft);
+    }
+    .menu__figure.is-active { opacity: 1; }
+  }
+  @media (min-width: 1024px) and (max-height: 700px) {
+    .menu__nav { align-content: start; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu, .menu[data-state='open'] { transition: none; }
+    .menu__panel { transform: none; transition: none; }
+    .menu__figure, .menu__primary-label, .menu__close, .menu__link { transition: none; }
+  }
+</style>

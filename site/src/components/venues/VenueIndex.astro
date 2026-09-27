@@ -1,0 +1,237 @@
+---
+/*
+  VenueIndex (C4): Places to Pause as cards, led by Basq House's rooms index ("just a big beautiful
+  imagery", BD-23) with Belle's own split, on the coast and in the vineyards (BD-117). Capacity reads
+  first because a group buyer asks whether they fit. Each image sits in the arch-topped frame from
+  style guide page 7 (--arch; set it to 0 to square everything). Choosing a card slides its panel in
+  from the right; without script the card is a plain link to the venue page. No image drift on hover.
+
+  <VenueIndex venues={await getVenues()} />
+
+  Props
+  - venues: getVenues() entries (hidden and unapproved venues are already filtered by the helper)
+  - filters: false hides the All, On the coast, In the vineyards row
+  - panels: false links straight to the venue pages
+  - label: accessible name for the list
+*/
+import Media from '../media/Media.astro';
+import VenuePanel from './VenuePanel.astro';
+import { regionLabel, sleepsLabel, uid } from '../../lib/text';
+import type { Venue } from '../../lib/content';
+
+interface Props { venues: Venue[]; filters?: boolean; panels?: boolean; label?: string; id?: string; class?: string }
+const { venues, filters = true, panels = true, label = 'Places to Pause', id, class: className } = Astro.props;
+const base = id ?? uid('venues');
+const regions = (['coast', 'vineyard'] as const).filter((r) => venues.some((v) => v.data.region === r));
+const panelId = (v: Venue) => `${base}-panel-${v.id}`;
+---
+<div class:list={['venue-index', className]} id={id} data-venue-index>
+  {filters && regions.length > 1 && (
+    <div class="vi-filters" role="group" aria-label="Show venues">
+      <button type="button" class="vi-filter" aria-pressed="true" data-filter="all">All</button>
+      {regions.map((r) => <button type="button" class="vi-filter" aria-pressed="false" data-filter={r}>{regionLabel(r)}</button>)}
+    </div>
+  )}
+
+  <ul class="vi-grid" aria-label={label}>
+    {venues.map((v) => {
+      const d = v.data;
+      return (
+        <li class="vcard" data-region={d.region}>
+          <a class="vcard__link" href={`/places/${v.id}`} data-venue-open={panels ? panelId(v) : undefined} aria-haspopup={panels ? 'dialog' : undefined}>
+            <span class="vcard__frame"><Media media={d.card_media} aspect="fill" /></span>
+            <span class="vcard__meta">
+              <span class="vcard__sleeps">{sleepsLabel(d.sleeps.display)}</span>
+              <span class="vcard__region">{regionLabel(d.region)}</span>
+            </span>
+            <span class="vcard__name">{d.name}</span>
+            <span class="vcard__where">{d.location_label}</span>
+            <span class="vcard__foot">
+              <span class="vcard__partner">{d.partner_label}</span>
+              <span class="vcard__cta">
+                <span class="vcard__cta-label">Discover</span>
+                <svg width="28" height="10" viewBox="0 0 28 10" aria-hidden="true" focusable="false"><line x1="0.5" y1="5" x2="27.25" y2="5" /><polyline points="22.25,0.5 27.25,5 22.25,9.5" /></svg>
+              </span>
+            </span>
+          </a>
+          {(!d.partner_approved || d.sleeps.conflict) && (
+            <p class="vcard__flag" data-flag>
+              {!d.partner_approved && 'Partner approval pending. '}
+              {d.sleeps.conflict}
+            </p>
+          )}
+        </li>
+      );
+    })}
+  </ul>
+
+  {panels && venues.map((v) => <VenuePanel venue={v} id={panelId(v)} />)}
+</div>
+
+<style>
+  .venue-index { width: 100%; }
+  .vi-filters {
+    display: flex;
+    flex-wrap: wrap; /* wraps on the narrowest phones rather than cutting a label (QA m3) */
+    gap: 0.25rem 1.6rem;
+    margin: 0 0 clamp(1.75rem, 3vw, 2.75rem);
+    padding-bottom: 2px;
+  }
+  .vi-filter {
+    flex: none;
+    min-height: 2.75rem;
+    padding: 0 0.1rem;
+    border: 0;
+    background: transparent;
+    color: var(--sage-80);
+    font-family: var(--font-ui);
+    font-size: var(--fs-nav);
+    letter-spacing: 0.06em;
+    text-decoration: underline 1px transparent;
+    text-underline-offset: 0.5em;
+    transition: color var(--dur-fast) var(--ease-soft), text-decoration-color var(--dur-fast) var(--ease-soft);
+  }
+  /* Plain text tabs, the active one underlined (Aman and COMO, CD review 02 item 14). */
+  .vi-filter[aria-pressed='true'] { color: var(--sage-100); text-decoration-color: currentColor; }
+  @media (hover: hover) { .vi-filter[aria-pressed='false']:hover { text-decoration-color: var(--sage-40); } }
+
+  .vi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: clamp(2.5rem, 4vw, 3.5rem) clamp(1.5rem, 3.4vw, 3rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .vcard { min-width: 0; }
+  .vcard[hidden] { display: none; }
+  .vcard__link { display: flex; flex-direction: column; color: inherit; text-decoration: none; }
+  .vcard__link:focus-visible { outline: none; }
+  .vcard__link:focus-visible .vcard__frame { outline: 1.5px solid var(--focus); outline-offset: 4px; }
+
+  /* The arch: one frame shape for the Mediterranean (build spec 12). */
+  .vcard__frame {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--arch, 0);
+    overflow: hidden;
+    isolation: isolate;
+    /* sand-30, the page colour, so nothing dark shows at the arch corners (CD review 02 item 8) */
+    background: var(--sand-30);
+  }
+  .vcard__frame :global(.ph)::after { border-radius: var(--arch, 0); }
+  /* Keeps the grain's multiply blend inside the placeholder, so Chromium does not paint the arch
+     corners black while the tide drifts (final sign-off, CD review 02 item 8). */
+  .vcard__frame :global(.ph) { isolation: isolate; }
+
+  .vcard__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.25rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--muted);
+  }
+  .vcard__sleeps { color: var(--sage-100); }
+  .vcard__name {
+    margin-top: 0.7rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 1.35rem + 0.7vw, 1.95rem);
+    line-height: 1.15;
+    color: var(--heading);
+  }
+  .vcard__where { margin-top: 0.3rem; font-size: var(--fs-small); color: var(--muted); }
+  .vcard__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--rule);
+  }
+  .vcard__partner { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.06em; color: var(--muted); }
+  .vcard__cta { display: inline-flex; align-items: center; gap: 0.75rem; min-height: 2.75rem; color: var(--heading); font-family: var(--font-ui); font-size: var(--fs-nav); letter-spacing: 0.08em; }
+  .vcard__cta-label {
+    padding-block: 0.25em;
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0% 1px no-repeat, linear-gradient(color-mix(in srgb, currentColor 28%, transparent), color-mix(in srgb, currentColor 28%, transparent)) 0 100% / 100% 1px no-repeat;
+    transition: background-size var(--dur-fast) var(--ease-soft);
+  }
+  .vcard__cta svg { overflow: visible; }
+  .vcard__cta :is(line, polyline) { fill: none; stroke: currentColor; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; transition: transform var(--dur-fast) var(--ease-soft); }
+  @media (hover: hover) {
+    .vcard__link:hover .vcard__cta-label { background-size: 100% 1px, 100% 1px; }
+    .vcard__link:hover .vcard__cta polyline { transform: translateX(6px); }
+    .vcard__link:hover .vcard__cta line { transform: scaleX(1.2); }
+  }
+  .vcard__link:focus-visible .vcard__cta-label, .vcard__link:active .vcard__cta-label { background-size: 100% 1px, 100% 1px; }
+
+  .vcard__flag { margin: 0.75rem 0 0; padding-left: 0.6rem; border-left: 1px solid var(--sage-40); font-family: var(--font-ui); font-size: 0.72rem; line-height: 1.45; letter-spacing: 0.03em; color: var(--muted); }
+  :global(html[data-media-notes='off']) .vcard__flag { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vcard__cta-label, .vcard__cta :is(line, polyline), .vi-filter { transition: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-venue-index]').forEach((root) => {
+    // Filters: single-select toggle buttons with aria-pressed.
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('.vi-filter'));
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('.vcard'));
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        const f = b.dataset.filter;
+        cards.forEach((c) => (c.hidden = f !== 'all' && c.dataset.region !== f));
+      }),
+    );
+
+    // Side panels: a modal dialog per venue, sliding in from the right.
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let opener: HTMLElement | null = null;
+    const lock = (on: boolean) => {
+      const html = document.documentElement;
+      if (on) {
+        html.style.setProperty('--sbw', `${window.innerWidth - html.clientWidth}px`);
+        html.classList.add('panel-open');
+      } else {
+        html.classList.remove('panel-open');
+      }
+    };
+    const close = (dlg: HTMLDialogElement) => {
+      if (!dlg.open || dlg.hasAttribute('data-closing')) return;
+      const done = () => {
+        dlg.removeAttribute('data-closing');
+        dlg.close();
+        lock(false);
+        opener?.focus();
+      };
+      dlg.setAttribute('data-closing', '');
+      window.setTimeout(done, reduce.matches ? 200 : 500);
+    };
+    root.querySelectorAll<HTMLAnchorElement>('[data-venue-open]').forEach((a) => {
+      const dlg = document.getElementById(a.dataset.venueOpen!) as HTMLDialogElement | null;
+      if (!dlg) return;
+      a.addEventListener('click', (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+        e.preventDefault();
+        opener = a;
+        lock(true);
+        dlg.showModal();
+        dlg.querySelector<HTMLElement>('[data-venue-close]')?.focus();
+      });
+      dlg.addEventListener('cancel', (e) => { e.preventDefault(); close(dlg); });
+      dlg.querySelector('[data-venue-close]')?.addEventListener('click', () => close(dlg));
+      dlg.addEventListener('click', (e) => { if (e.target === dlg) close(dlg); });
+    });
+  });
+</script>
+
+<style is:global>
+  html.panel-open { overflow: hidden; }
+  html.panel-open body { padding-right: var(--sbw, 0px); }
+</style>

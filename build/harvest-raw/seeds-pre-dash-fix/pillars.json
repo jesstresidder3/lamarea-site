@@ -1,0 +1,621 @@
+[
+  {
+    "id": "nutrition",
+    "set": "ten_philosophy_pillars",
+    "order": 1,
+    "name": "Nutrition",
+    "science_section_name": "Nutrition",
+    "description": "Seasonal, local and predominantly organic plant-based nourishment, guided by a paddock to plate philosophy and the Mediterranean dietary pattern",
+    "science_points": [
+      "The Mediterranean Diet:",
+      "Reduces cardiovascular disease, CVD events, and all-cause mortality. (Martinez-Lacoba et al., 2018; Pant et al., 2023)",
+      "Lowers risk of age-related cognitive disorders including dementia and AD. (Fekete et al., 2021)",
+      "Improves mood and reduces depression risk via anti-inflammatory and gut-microbiome pathways. (Lai et al., 2023)",
+      "Enhances gut health by increasing microbial diversity and SCFA production. (Estruch et al., 2022)",
+      "Plant-based diets",
+      "Reduce risk of major chronic diseases. (Wang et al., 2023)",
+      "Organic diets",
+      "Lower pesticide exposure and may improve select metabolic/reproductive markers. (Jiang et al., 2024)"
+    ],
+    "citations_in_text": [
+      "Estruch et al., 2022",
+      "Fekete et al., 2021",
+      "Jiang et al., 2024",
+      "Lai et al., 2023",
+      "Martinez-Lacoba et al., 2018",
+      "Pant et al., 2023",
+      "Wang et al., 2023"
+    ],
+    "full_references": null,
+    "icon": "assets-brand/icons/nutrition.svg",
+    "video": null,
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "The Science accordion, item \"Nutrition\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar."
+  },
+  {
+    "id": "movement",
+    "set": "ten_philosophy_pillars",
+    "order": 2,
+    "name": "Movement",
+    "science_section_name": "Movement",
+    "description": "Yoga, pilates, swimming, hiking in nature & resistance training",
+    "science_points": [
+      "Resistance & Strenth Training",
+      "Reduces all-cause mortality and risk of CVD, cancer, and type 2 diabetes.",
+      "Preserves muscle mass, metabolic rate, and functional independence. (Shailendra et al., 2022)",
+      "Swimming & Aerobic Exercise",
+      "Improves cardiorespiratory fitness, body composition, and cardiometabolic markers.",
+      "Swimming is low-impact and highly effective. (Lahart & Metsios, 2018)",
+      "Pilates",
+      "Improves chronic low-back pain, functional ability, and quality of life.",
+      "Enhances core strength, mobility, and movement control. (Yu et al., 2023)",
+      "Yoga",
+      "Reduces depression, anxiety, stress, and blood-pressure markers.",
+      "Improves balance, mobility, breathing efficiency, and mind–body awareness. (White et al., 2024)",
+      "Nature-Based Physical Activity (Hiking, Open-Water Swimming)",
+      "Combines exercise benefits with restorative effects of nature.",
+      "Improves mood, reduces stress, and increases adherence when enjoyable and social. (White et al., 2024)"
+    ],
+    "citations_in_text": [
+      "Lahart & Metsios, 2018",
+      "Shailendra et al., 2022",
+      "White et al., 2024",
+      "Yu et al., 2023"
+    ],
+    "full_references": null,
+    "icon": "assets-brand/icons/movement.svg",
+    "video": null,
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "The Science accordion, item \"Movement\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar."
+  },
+  {
+    "id": "sleep-and-recovery",
+    "set": "ten_philosophy_pillars",
+    "order": 3,
+    "name": "Sleep & Recovery",
+    "science_section_name": "Sleep & Recovery",
+    "description": "Sleep optimisation, relaxation and use of recovery modalities such as a sauna, contrast therapy & massage",
+    "science_points": [
+      "Short, long, or irregular sleep increases cardiometabolic risk and mortality.",
+      "Sleep quality and regularity predict cognition, immunity, hormonal balance, and recovery.",
+      "Optimising sleep duration and timing is foundational for health and performance. (Cappuccio et al., 2010)",
+      "Sauna & Heat Therapy",
+      "Regular infrared/Finnish sauna bathing benefits cardiovascular and rheumatological health, and exercise recovery. (Hussain & Cohen, 2018)",
+      "Lowers cardiovascular events and mortality; improves vascular function, blood pressure, and stress. (Laukkanen et al., 2018; Hussain & Cohen, 2018)",
+      "Improves self-reported well-being and sleep. (Laukkanen et al., 2024)",
+      "Supports recovery and relaxation via autonomic mechanisms. (Ferreira et al., 2022)",
+      "Cold-Water Immersion & Contrast Therapy",
+      "Reduces muscle soreness (DOMS), perceived fatigue, and improves subjective recovery (first 24–72h post-exercise). (Xiao et al., 2023; Machado et al., 2016)",
+      "Contrast therapy reduces post-exercise fatigue and soreness, enhancing perceived recovery. (Machado et al., 2016; Higgins et al., 2017)",
+      "May reduce post-exercise inflammation and markers of muscle damage; timing, temperature, and duration matter. (Bleakley et al., 2012; Machado et al., 2016)",
+      "Can improve mood, reduce stress, and enhance well-being; benefits similar for women. (Knechtle et al., 2020; Higgins et al., 2017)",
+      "Massage & Relaxation Therapies",
+      "Reduces muscle pain, joint discomfort, and DOMS. (Weerapong et al., 2005; Moyer et al., 2004)",
+      "Lowers anxiety, perceived stress, and depressive symptoms. (Fritz et al., 2014; Hou et al., 2017)",
+      "Improves recovery, sleep quality, and relaxation. (Field, 2016; Pugh et al., 2017)"
+    ],
+    "citations_in_text": [
+      "Bleakley et al., 2012",
+      "Cappuccio et al., 2010",
+      "Ferreira et al., 2022",
+      "Field, 2016",
+      "Fritz et al., 2014",
+      "Higgins et al., 2017",
+      "Hou et al., 2017",
+      "Hussain & Cohen, 2018",
+      "Knechtle et al., 2020",
+      "Laukkanen et al., 2018",
+      "Laukkanen et al., 2024",
+      "Machado et al., 2016",
+      "Moyer et al., 2004",
+      "Pugh et al., 2017",
+      "Weerapong et al., 2005",
+      "Xiao et al., 2023"
+    ],
+    "full_references": null,
+    "icon": "assets-brand/icons/sleep-recovery.svg",
+    "video": null,
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "The Science accordion, item \"Sleep & Recovery\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar."
+  },
+  {
+    "id": "psychological-wellbeing",
+    "set": "ten_philosophy_pillars",
+    "order": 4,
+    "name": "Psychological, Emotional & Spiritual Wellbeing",
+    "science_section_name": "Psychological Wellbeing",
+    "description": "Mindfulness, meditation and breathwork practices that help manage stress, deepen purpose and foster a grounded sense of self.",
+    "science_points": [
+      "Meditation, Breathwork & Mindfulness",
+      "Reduces anxiety, depression, and chronic pain. (Goyal et al., 2014; Khoury et al., 2015)",
+      "Enhances emotional regulation, resilience, and subjective well-being. (Creswell, 2017; Goldberg et al., 2018)",
+      "Improves physiological markers: lowers heart rate, blood pressure, and inflammation. (Pascoe et al., 2017; Black & Slavich, 2016)",
+      "Meaning, purpose, and spirituality support mental health, resilience, and lower chronic disease risk. (Hill & Turiano, 2014; Kim et al., 2019)",
+      "Breathwork acutely reduces stress, sympathetic activity, and improves autonomic balance. (Zaccaro et al., 2018; Jerath et al., 2015)"
+    ],
+    "citations_in_text": [
+      "Black & Slavich, 2016",
+      "Creswell, 2017",
+      "Goldberg et al., 2018",
+      "Goyal et al., 2014",
+      "Hill & Turiano, 2014",
+      "Jerath et al., 2015",
+      "Khoury et al., 2015",
+      "Kim et al., 2019",
+      "Pascoe et al., 2017",
+      "Zaccaro et al., 2018"
+    ],
+    "full_references": null,
+    "icon": "assets-brand/icons/psychological-wellbeing.svg",
+    "video": null,
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "The Science accordion, item \"Psychological Wellbeing\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar. The pillar grid name and the science accordion name differ, as published."
+  },
+  {
+    "id": "nature-immersion",
+    "set": "ten_philosophy_pillars",
+    "order": 5,
+    "name": "Nature Immersion",
+    "science_section_name": "Nature Immersion",
+    "description": "Nurturing by nature through forest bathing, hiking, swimming and listening to the sounds of the sea",
+    "science_points": [
+      "Forest bathing and nature immersion reduce anxiety, depression, stress, and improve physiological stress markers (cortisol, HRV). (Hansen et al., 2017; Oh et al., 2017; Antonelli et al., 2019)",
+      "Support mood and subjective well-being. (Shin et al., 2017; Antonelli et al., 2019)",
+      "Blue space exposure (coasts, oceans, rivers) improves mood, reduces stress, and enhances well-being. (White et al., 2021; Britton et al., 2020; Finlay et al., 2015)",
+      "Benefits strongest when immersive, multisensory, and socially or mindfully engaged. (Hunter et al., 2019; White et al., 2021)"
+    ],
+    "citations_in_text": [
+      "Antonelli et al., 2019",
+      "Britton et al., 2020",
+      "Finlay et al., 2015",
+      "Hansen et al., 2017",
+      "Hunter et al., 2019",
+      "Oh et al., 2017",
+      "Shin et al., 2017",
+      "White et al., 2021"
+    ],
+    "full_references": null,
+    "icon": "assets-brand/icons/nature-immersion.svg",
+    "video": null,
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "The Science accordion, item \"Nature Immersion\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar."
+  },
+  {
+    "id": "connection",
+    "set": "ten_philosophy_pillars",
+    "order": 6,
+    "name": "Connection",
+    "science_section_name": "Connection",
+    "description": "Fostering social connection with others, connection to local community, to self, to country, land & nature",
+    "science_points": [
+      "Strong social ties lower premature mortality; isolation increases risk of CVD, dementia, depression. (Holt-Lunstad et al., 2010; Pantell et al., 2013)",
+      "Community and culturally anchored connection, including land and ceremony, supports mental health, resilience, and wellbeing. (AIHW, 2020; Kirmayer et al., 2014)",
+      "Connection to country and native foods enhances wellbeing, nutrition, and mental health; improves antioxidant intake, dietary diversity, and gut microbiome. (Brown et al., 2021; Lee et al., 2019; Gu et al., 2020)",
+      "Social and cultural connection buffers stress, fosters purpose, and enhances engagement. (Holt-Lunstad et al., 2010; Kirmayer et al., 2014)"
+    ],
+    "citations_in_text": [
+      "AIHW, 2020",
+      "Brown et al., 2021",
+      "Gu et al., 2020",
+      "Holt-Lunstad et al., 2010",
+      "Kirmayer et al., 2014",
+      "Lee et al., 2019",
+      "Pantell et al., 2013"
+    ],
+    "full_references": null,
+    "icon": "assets-brand/icons/connection.svg",
+    "video": null,
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "The Science accordion, item \"Connection\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar."
+  },
+  {
+    "id": "personalisation",
+    "set": "ten_philosophy_pillars",
+    "order": 7,
+    "name": "Personalisation",
+    "science_section_name": "Personalisation",
+    "description": "Bespoke experiences curated for all stages and seasons of life, designed to meet you wherever you are on your wellness journey",
+    "science_points": [
+      "Tailored interventions (nutrition, exercise, recovery) improve adherence, engagement, diet quality, and cardiometabolic outcomes versus generic advice. (Celis-Morales et al., 2017; Zeevi et al., 2015; Ordovas et al., 2018)",
+      "Personalisation enhances effectiveness by accounting for individual variability in physiology, lifestyle, preferences, and goals. (Zeevi et al., 2015; Celis-Morales et al., 2017; Roberts et al., 2019)",
+      "Tailored wellness interventions increase engagement, satisfaction, and likelihood of sustained behaviour change. (Ordovas et al., 2018; OUP Academic, 2023; MDPI, 2022)",
+      "Personalised exercise and recovery strategies improve cardiovascular, metabolic, and musculoskeletal outcomes. (Buchheit & Laursen, 2013; Montero & Lundby, 2017; Roberts et al., 2019)"
+    ],
+    "citations_in_text": [
+      "Buchheit & Laursen, 2013",
+      "Celis-Morales et al., 2017",
+      "MDPI, 2022",
+      "Montero & Lundby, 2017",
+      "OUP Academic, 2023",
+      "Ordovas et al., 2018",
+      "Roberts et al., 2019",
+      "Zeevi et al., 2015"
+    ],
+    "full_references": null,
+    "icon": "assets-brand/icons/personalisation.svg",
+    "video": null,
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "The Science accordion, item \"Personalisation\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar."
+  },
+  {
+    "id": "balance",
+    "set": "ten_philosophy_pillars",
+    "order": 8,
+    "name": "Balance",
+    "science_section_name": "Balance",
+    "description": "The harmony between movement and rest, between nourishing whole foods and ‘soul foods,’ supporting sustainable habits and happiness",
+    "science_points": [
+      "Realistic programs balancing structure, flexibility, and enjoyment improve adherence and outcomes. (Michie et al., 2011; GOV.UK, 2021)",
+      "Balanced nutrition (minimally processed, culturally meaningful foods) supports long-term adherence and metabolic health. (Reicks et al., 2014; Sacks et al., 2009; GOV.UK, 2021)",
+      "Movement-rest balance is essential for recovery, mental health, and sustainable performance. (Garber et al., 2011; Saunders et al., 2017)",
+      "Combining structure with enjoyment enhances engagement, satisfaction, and long-term health. (Michie et al., 2011; GOV.UK, 2021)"
+    ],
+    "citations_in_text": [
+      "GOV.UK, 2021",
+      "Garber et al., 2011",
+      "Michie et al., 2011",
+      "Reicks et al., 2014",
+      "Sacks et al., 2009",
+      "Saunders et al., 2017"
+    ],
+    "full_references": null,
+    "icon": "assets-brand/icons/balance.svg",
+    "video": null,
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "The Science accordion, item \"Balance\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar."
+  },
+  {
+    "id": "wellness-education",
+    "set": "ten_philosophy_pillars",
+    "order": 9,
+    "name": "Evidence-Based Lifestyle Wellness Education",
+    "science_section_name": "Wellness Education",
+    "description": "Science-based lifestyle wellness education delivered by local experts, empowering sustainable, purposeful health journeys.",
+    "science_points": [
+      "Structured lifestyle education (diet, activity, sleep, stress) using behaviour-change techniques improves cardiometabolic risk. (Knowler et al., 2002; Lindström et al., 2013; Uusitupa et al., 2019)",
+      "Programs produce sustained benefits: reduced diabetes incidence, improved weight management, and lasting behaviour change. (Diabetes Prevention Program Research Group, 2009; Lindström et al., 2013; Ali et al., 2012)",
+      "Personalisation and follow-up increase adherence and effectiveness. (Ali et al., 2012; Greaves et al., 2011; Uusitupa et al., 2019)"
+    ],
+    "citations_in_text": [
+      "Ali et al., 2012",
+      "Diabetes Prevention Program Research Group, 2009",
+      "Greaves et al., 2011",
+      "Knowler et al., 2002",
+      "Lindström et al., 2013",
+      "Uusitupa et al., 2019"
+    ],
+    "full_references": null,
+    "icon": "assets-brand/icons/evidence-based-education.svg",
+    "video": null,
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "The Science accordion, item \"Wellness Education\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar. The pillar grid name and the science accordion name differ, as published."
+  },
+  {
+    "id": "luxury-and-heartfelt-hospitality",
+    "set": "ten_philosophy_pillars",
+    "order": 10,
+    "name": "Luxury & Heartfelt Hospitality",
+    "science_section_name": "Luxury & Heartfelt Hospitality",
+    "description": "Where refined elegance meets genuine warmth, offering accommodation that makes you feel both indulged and at home",
+    "science_points": [
+      "Supportive, person-centred hospitality improves psychological comfort, stress reduction, satisfaction, recovery, sleep, pain perception, and adherence. (Dwamena et al., 2012; Beach et al., 2006; PMC, 2023)",
+      "Person-centred care models prioritising empathy, respect, and responsiveness improve engagement and outcomes. (Kitson et al., 2013; McCormack et al., 2010; Edvardsson et al., 2010)",
+      "Warm, culturally respectful hospitality enhances trust, safety, and uptake of interventions. (Beach et al., 2006; O’Donnell et al., 2021; PMC, 2023)",
+      "Attention to comfort, personalised service, and cultural sensitivity complements wellness pillars by fostering engagement and readiness for positive behaviour change. (McCormack et al., 2010; Dwamena et al., 2012)"
+    ],
+    "citations_in_text": [
+      "Beach et al., 2006",
+      "Dwamena et al., 2012",
+      "Edvardsson et al., 2010",
+      "Kitson et al., 2013",
+      "McCormack et al., 2010",
+      "O’Donnell et al., 2021",
+      "PMC, 2023"
+    ],
+    "full_references": null,
+    "icon": "assets-brand/icons/luxury.svg",
+    "video": null,
+    "source": [
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "Pillar grid (the ten are repeated three times in the page markup, identical text)"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "The Science accordion, item \"Luxury & Heartfelt Hospitality\""
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Science points carry author-year citations only. Full reference entries are not published anywhere on the live site for this pillar."
+  },
+  {
+    "id": "release",
+    "set": "eight_wording_ideas",
+    "order": 1,
+    "name": "Release",
+    "description": "Let go of stress, tension, and old habits; create space for renewal.",
+    "science_section_name": null,
+    "science_points": null,
+    "citations_in_text": null,
+    "full_references": null,
+    "icon": null,
+    "video": null,
+    "source": {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Wording ideas"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Belle's own word and definition, verbatim from the transcript. Which set leads is decision 1."
+  },
+  {
+    "id": "reconnect",
+    "set": "eight_wording_ideas",
+    "order": 2,
+    "name": "Reconnect",
+    "description": "Reconnect to self, others, and nature; cultivate purpose, presence and belonging.",
+    "science_section_name": null,
+    "science_points": null,
+    "citations_in_text": null,
+    "full_references": null,
+    "icon": null,
+    "video": null,
+    "source": {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Wording ideas"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Belle's own word and definition, verbatim from the transcript. Which set leads is decision 1."
+  },
+  {
+    "id": "restore",
+    "set": "eight_wording_ideas",
+    "order": 3,
+    "name": "Restore",
+    "description": "Reset body and mind through sleep, recovery, and nervous system recalibration.",
+    "science_section_name": null,
+    "science_points": null,
+    "citations_in_text": null,
+    "full_references": null,
+    "icon": null,
+    "video": null,
+    "source": {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Wording ideas"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Belle's own word and definition, verbatim from the transcript. Which set leads is decision 1."
+  },
+  {
+    "id": "realign",
+    "set": "eight_wording_ideas",
+    "order": 4,
+    "name": "Realign",
+    "description": "Bring habits, routines, and lifestyle into effortless balance.",
+    "science_section_name": null,
+    "science_points": null,
+    "citations_in_text": null,
+    "full_references": null,
+    "icon": null,
+    "video": null,
+    "source": {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Wording ideas"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Belle's own word and definition, verbatim from the transcript. Which set leads is decision 1."
+  },
+  {
+    "id": "educate",
+    "set": "eight_wording_ideas",
+    "order": 5,
+    "name": "Educate",
+    "description": "Learn evidence-based wellness practices to support long-term vitality.",
+    "science_section_name": null,
+    "science_points": null,
+    "citations_in_text": null,
+    "full_references": null,
+    "icon": null,
+    "video": null,
+    "source": {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Wording ideas"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Belle's own word and definition, verbatim from the transcript. Which set leads is decision 1."
+  },
+  {
+    "id": "empower",
+    "set": "eight_wording_ideas",
+    "order": 6,
+    "name": "Empower",
+    "description": "Leave equipped and confident to sustain your wellness journey.",
+    "science_section_name": null,
+    "science_points": null,
+    "citations_in_text": null,
+    "full_references": null,
+    "icon": null,
+    "video": null,
+    "source": {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Wording ideas"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Belle's own word and definition, verbatim from the transcript. Which set leads is decision 1."
+  },
+  {
+    "id": "ground",
+    "set": "eight_wording_ideas",
+    "order": 7,
+    "name": "Ground",
+    "description": "Find stability, calm, and inner centeredness; connect deeply with the earth and ocean..",
+    "science_section_name": null,
+    "science_points": null,
+    "citations_in_text": null,
+    "full_references": null,
+    "icon": null,
+    "video": null,
+    "source": {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Wording ideas"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Belle's own word and definition, verbatim from the transcript (the double full stop after \"ocean\" is hers). Which set leads is decision 1."
+  },
+  {
+    "id": "nourish",
+    "set": "eight_wording_ideas",
+    "order": 8,
+    "name": "Nourish",
+    "description": "Holistic nourishment for body, mind, and soul through seasonal, plant-based Mediterranean cuisine.",
+    "science_section_name": null,
+    "science_points": null,
+    "citations_in_text": null,
+    "full_references": null,
+    "icon": null,
+    "video": null,
+    "source": {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Wording ideas"
+    },
+    "status": "in hand but needs Belle's check",
+    "notes": "Belle's own word and definition, verbatim from the transcript. Which set leads is decision 1."
+  }
+]

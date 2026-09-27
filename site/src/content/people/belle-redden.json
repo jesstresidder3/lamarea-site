@@ -1,0 +1,77 @@
+{
+  "name": "Belle Redden",
+  "team": "hosts",
+  "order": 1,
+  "group_as_published": "Founder and lead host",
+  "role": "Founder and lead host",
+  "role_long": "Performance Nutritionist | Exercise Scientist | Lifestyle Wellness Retreat Host",
+  "business": "La maréa and AB Performance Nutrition",
+  "business_url": null,
+  "credentials": [
+    "B.Ex.S., B.Nut.Food Sci.",
+    "Accredited Sports Nutritionist and Exercise Scientist"
+  ],
+  "credentials_basis": "Picked by the build from the qualifications as published, verbatim.",
+  "qualifications": [
+    "B.Ex.S., B.Nut.Food Sci.",
+    "Her degrees in Exercise & Sports Science and Nutrition & Food Sciences forged a path that led to work in high-performance sport and nutrition. Coaching athletes and active individuals, she developed expertise in lifestyle wellness education and collaborating in multi-disciplinary teams, teaching others how to build sustainable habits that optimise health and performance in everyday life.",
+    "Accredited Sports Nutritionist and Exercise Scientist"
+  ],
+  "services": [
+    "Nutrition education and curation of overall experience design",
+    "Lifestyle wellness & nutrition education sessions"
+  ],
+  "bio": [
+    {
+      "kind": "para",
+      "text": "Founder of La maréa. Belle is an Accredited Sports Nutritionist and Exercise Scientist with experience across evidence based lifestyle wellness, nutrition & high-performance. Belle is your lead retreat host and provides nutrition education and curation of overall experience design."
+    },
+    {
+      "kind": "para",
+      "text": "La maréa & AB Performance Nutrition. Nutritionist & Exercise Scientist, delivering lifestyle wellness & nutrition education sessions. Lead on-site retreat host & coordinator."
+    },
+    {
+      "kind": "para",
+      "text": "Annabelle Redden is a Performance Nutritionist, Exercise Scientist, Lifestyle Wellness Retreat Host, and founder of La maréa and AB Performance Nutrition. Her work brings together evidence-based nutrition, movement and lifestyle wellbeing to support health, recovery and performance."
+    }
+  ],
+  "portrait": "team-belle-redden",
+  "pillars": [
+    "nutrition",
+    "wellness-education"
+  ],
+  "pillars_basis": "Mapped by the build from the services each person publishes. Belle to confirm.",
+  "live_url": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/our-story",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "20",
+      "captured": "24-09-2026",
+      "section": "Your Retreat Hosts"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "21",
+      "captured": "24-09-2026",
+      "section": "Key Practitioners and Partners"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/post/the-importance-of-sleep-for-wellbeing-recovery-performance-how-to-create-a-pre-bed-routine-that",
+      "captured": "24-09-2026",
+      "section": "About the Author"
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Roster is decision 12. Published as \"Belle Redden\" (guide, FAQ), \"Annabelle Redden\" (journal) and, in an image alt text on /our-story, \"annabelle buttery founder of la maréa luxury retreats\". The founder story itself lives in the Our story section of the harvest. Qualification wording differs between sources (degrees on /our-story, \"Accredited Sports Nutritionist\" in the guide). Belle to confirm the exact wording and whether \"Accredited\" is current.",
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

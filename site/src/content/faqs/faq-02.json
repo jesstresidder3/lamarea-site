@@ -1,0 +1,20 @@
+{
+  "question": "Do I need to be experienced with yoga, meditation, or fitness? Am I fit enough to attend a retreat?",
+  "answer": [
+    "You do not need any experience in these activities, our retreats are bespoke and will be personalised to you and your level of fitness. If you want to participate fully in all aspects of the retreat i.e the hiking, then we do recommend a moderate level of fitness.",
+    "However, the hikes can always be shortened, and activities swapped out for time spent relaxing at the private beach, on the deck or in the bath.",
+    "It is not compulsory to partake in anything so if you wish to opt out on any activity you don't feel comfortable with you are very welcome to do so!"
+  ],
+  "order": 2,
+  "topic": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/faqs",
+      "captured": "24-09-2026",
+      "section": "FAQ accordion"
+    }
+  ],
+  "status": "draft",
+  "review": null
+}

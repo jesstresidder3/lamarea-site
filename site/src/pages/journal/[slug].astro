@@ -1,0 +1,218 @@
+---
+/*
+  /journal/<slug>, one page per post (plan/11 4.19, page builder C).
+  Hero with the title over the photograph (J3, O14), then the category, date, read time and author
+  linked to their team page, then the body: a research post as an article with its references in
+  small type beneath, a recipe set as a recipe (serves and times, ingredients, method) with Recipe
+  schema. Related stories with arrows, then Plan your day. Words are Belle's posts as migrated in
+  src/content/journal, unchanged; only heading levels step down under the page's H1.
+*/
+import Base from '../../layouts/Base.astro';
+import Band from '../../components/pages/c/Band.astro';
+import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
+import CtaBand from '../../components/base/CtaBand.astro';
+import SectionHead from '../../components/base/SectionHead.astro';
+import Media from '../../components/media/Media.astro';
+import JournalCards from '../../components/journal/JournalCards.astro';
+import RecipeBlock from '../../components/pages/c/RecipeBlock.astro';
+import References from '../../components/pages/c/References.astro';
+import { renderMarkdown, headingsOf } from '../../components/pages/c/lib/markdown';
+import { parseRecipe, recipeJsonLd } from '../../components/pages/c/lib/recipe';
+import { authorOf, minutesOf } from '../../components/pages/c/lib/journal';
+import { getJournal, peopleById, type Post } from '../../lib/content';
+import { formatDate, plain } from '../../lib/text';
+import { site } from '../../data/settings';
+
+export async function getStaticPaths() {
+  const posts = await getJournal();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+interface Props { post: Post }
+const { post } = Astro.props;
+const d = post.data;
+const people = await peopleById();
+const author = authorOf(post, people);
+const authorPerson = d.author ? people.get(d.author) : undefined;
+const minutes = minutesOf(post);
+const body = post.body ?? '';
+const url = new URL(`/journal/${post.id}`, site.url).href;
+
+// A recipe post renders as a recipe when it reads as one; anything else is an article.
+const recipe = d.category === 'Recipes' ? parseRecipe(body) : null;
+
+// The sleep post credits a photograph mid-article ("Image Credit: Naiko Retreat, Deep Creek").
+// The photograph goes back in at that point as a figure with its credit.
+const INLINE: Record<string, string> = { 'the-importance-of-sleep': 'journal-sleep-bath' };
+const creditMatch = body.match(/^\*Image Credit:\s*(.+?)\*\s*$/m);
+let parts: string[] = [body];
+let credit: string | null = null;
+if (!recipe && creditMatch) {
+  credit = creditMatch[1].trim();
+  parts = [body.slice(0, creditMatch.index), body.slice((creditMatch.index ?? 0) + creditMatch[0].length)];
+}
+const ids = new Set<string>();
+const html = parts.map((p) => renderMarkdown(p, { demote: 1, ids }));
+// A long article gets its contents in the side column; a short one does not need them
+const contents = recipe ? [] : html.flatMap(headingsOf).filter((h) => h.level === 3 || h.level === 2);
+const showContents = contents.length >= 4;
+const introHtml = recipe ? renderMarkdown(recipe.intro.join('\n\n'), { demote: 1 }) : '';
+
+// Related: the same category first, then the newest of the rest
+const others = (await getJournal()).filter((p) => p.id !== post.id);
+const related = [...others.filter((p) => p.data.category === d.category), ...others.filter((p) => p.data.category !== d.category)].slice(0, 6);
+
+const CTA: Record<string, string> = {
+  Recipes: 'Share a Mediterranean table on the *Fleurieu*',
+  'Sleep and recovery': 'Rest and recovery, built into a day on the *Fleurieu*',
+};
+const shortTitle = plain(d.title).split(':')[0];
+// Title tags stay under 60 characters with the site name: a long title keeps its first clause
+const title = shortTitle.length <= 48 ? shortTitle : shortTitle.slice(0, shortTitle.lastIndexOf(',', 48) > 20 ? shortTitle.lastIndexOf(',', 48) : shortTitle.lastIndexOf(' ', 48));
+
+const jsonLd = recipe
+  ? recipeJsonLd({
+      name: plain(d.title),
+      description: d.excerpt,
+      url,
+      datePublished: d.date.toISOString().slice(0, 10),
+      author: author.href ? { name: author.name, url: new URL(author.href, site.url).href } : null,
+      recipe,
+      category: 'Main course',
+    })
+  : {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: plain(d.title),
+      description: d.excerpt,
+      url,
+      datePublished: d.date.toISOString().slice(0, 10),
+      ...(d.date_modified ? { dateModified: d.date_modified.toISOString().slice(0, 10) } : {}),
+      author: author.href
+        ? { '@type': 'Person', name: author.name, jobTitle: author.role, url: new URL(author.href, site.url).href }
+        : { '@type': 'Organization', name: 'La maréa' },
+      publisher: { '@type': 'Organization', name: 'La maréa', url: site.url },
+      articleSection: d.category,
+      wordCount: body.split(/\s+/).length,
+      ...(d.references.length ? { citation: d.references.flatMap((g) => g.entries) } : {}),
+    };
+---
+<Base title={title} description={d.excerpt.length <= 155 ? d.excerpt : `${d.excerpt.slice(0, d.excerpt.lastIndexOf(' ', 150))}…`} headerTone="over-media" ogType="article" jsonLd={jsonLd}>
+  <Band media={d.hero} height="tall" hero text="over" level={1} eyebrow={d.category} heading={plain(d.title)} class="post-hero" />
+
+  <article class="post">
+    <div class="wrap post__grid">
+      <aside class="post__aside" aria-label="About this story">
+        <Breadcrumbs items={[{ label: 'Journal', href: '/journal' }, { label: shortTitle }]} class="post__crumbs" />
+        <dl class="post__meta">
+          <div><dt>Published</dt><dd><time datetime={d.date.toISOString().slice(0, 10)}>{formatDate(d.date)}</time></dd></div>
+          <div><dt>Reading time</dt><dd>{minutes} minute{minutes === 1 ? '' : 's'}</dd></div>
+          <div>
+            <dt>Written by</dt>
+            <dd>
+              {author.href ? <a class="text-link" href={author.href}>{author.name}</a> : author.name}
+              {d.byline && <span class="post__role">{d.byline.role}</span>}
+              {d.byline && <span class="post__role">{d.byline.credentials}</span>}
+              {!d.byline && authorPerson && <span class="post__role">{authorPerson.data.role_long ?? authorPerson.data.role}</span>}
+            </dd>
+          </div>
+        </dl>
+        {showContents && (
+          <nav class="post__toc" aria-label="In this story">
+            <p class="post__toc-title">In this story</p>
+            <ol role="list">
+              {contents.map((h) => <li class:list={[h.level === 2 && 'post__toc-major']}><a href={`#${h.id}`}>{h.text.replace(/\.$/, '')}</a></li>)}
+            </ol>
+          </nav>
+        )}
+      </aside>
+
+      <div class="post__main">
+        {recipe ? (
+          <>
+            <div class="prose prose--intro" set:html={introHtml} />
+            <RecipeBlock recipe={recipe} />
+          </>
+        ) : (
+          <>
+            <div class="prose" set:html={html[0]} />
+            {html.length > 1 && credit && (
+              <>
+                <figure class="post__figure">
+                  <div><Media media={INLINE[post.id] ?? d.hero} aspect="3 / 2" /></div>
+                  <figcaption>Image credit: {credit}</figcaption>
+                </figure>
+                <div class="prose" set:html={html[1]} />
+              </>
+            )}
+          </>
+        )}
+
+        {d.references.length > 0 && <References groups={d.references} />}
+      </div>
+    </div>
+  </article>
+
+  {related.length > 0 && (
+    <section class="section band-salt" aria-labelledby="related-heading">
+      <div class="wrap">
+        <SectionHead id="related-heading" eyebrow="Keep reading" heading="More from the journal" />
+      </div>
+      <JournalCards posts={related} variant="slider" label="More from the journal" id="related-stories" />
+    </section>
+  )}
+
+  <CtaBand line={CTA[d.category] ?? 'Plan a day on the *Fleurieu*'} params={{ source: `journal-${post.id}` }} tone="sand" draft={{ line: true }} />
+</Base>
+
+<style>
+  :global(.post-hero .band__heading) { font-size: clamp(2rem, 1.3rem + 2.2vw, 3.25rem); max-width: 21em; }
+
+  .post { padding: clamp(1.5rem, 3vw, 2.5rem) 0 var(--section-y); }
+  .post__grid { display: grid; gap: var(--space-l) clamp(2rem, 6vw, 7rem); align-items: start; }
+  .post :global(.post__crumbs) { margin-bottom: 1.25rem; }
+  .post__meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 1rem 1.5rem; margin: 0; padding-top: 1.1rem; border-top: 1px solid var(--rule); }
+  .post__meta dt { margin-bottom: 0.35rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .post__meta dd { margin: 0; font-size: var(--fs-small); line-height: 1.5; color: var(--sage-100); }
+  .post__role { display: block; margin-top: 0.3rem; font-size: 0.78rem; color: var(--sage-80); }
+
+  .post__toc { margin-top: 1.75rem; padding-top: 1.1rem; border-top: 1px solid var(--rule); }
+  .post__toc-title { margin: 0 0 0.6rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .post__toc ol { margin: 0; padding: 0; list-style: none; }
+  .post__toc a {
+    display: block;
+    padding: 0.4rem 0;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--sage-80);
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-soft);
+  }
+  .post__toc-major a { font-family: var(--font-serif); font-size: 1rem; color: var(--heading); padding-top: 0.6rem; }
+  @media (hover: hover) { .post__toc a:hover { color: var(--sage-100); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.25em; } }
+  .post__toc a:focus-visible { color: var(--sage-100); }
+  @media (max-width: 999px) { .post__toc { display: none; } }
+
+  @media (min-width: 1000px) {
+    .post__grid { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
+    .post__aside { position: sticky; top: calc(var(--header-compact) + 1.5rem); max-height: calc(100svh - var(--header-compact) - 3rem); overflow-y: auto; scrollbar-width: thin; padding-right: 0.5rem; }
+    .post__meta { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) { .post__toc a { transition: none; } }
+
+  /* The body: Belle's words at reading width, headings stepped down under the title */
+  .prose { max-width: 40rem; color: var(--sage-100); }
+  .prose :global(p) { max-width: none; margin: 0 0 1.15em; }
+  .prose--intro :global(p:first-child), .prose:first-child :global(> p:first-child) { font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.5; }
+  .prose :global(h2) { margin: 2.2em 0 0.7em; font-size: max(1.75rem, var(--fs-h3)); line-height: 1.2; }
+  .prose :global(h3) { margin: 2em 0 0.6em; font-family: var(--font-serif); font-size: clamp(1.4rem, 1.25rem + 0.5vw, 1.7rem); line-height: 1.25; letter-spacing: 0.005em; color: var(--heading); }
+  .prose :global(h4) { margin: 1.6em 0 0.5em; font-family: var(--font-serif); font-size: 1.25rem; line-height: 1.3; color: var(--heading); }
+  .prose :global(ul), .prose :global(ol) { margin: 0 0 1.2em; padding-left: 1.2rem; }
+  .prose :global(li) { margin-bottom: 0.4em; }
+  .prose :global(li::marker) { color: var(--sage-60); }
+  .prose :global(a) { color: var(--heading); text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); }
+  .prose :global(strong) { color: var(--sage-100); }
+
+  .post__figure { margin: 2.5rem 0; max-width: 46rem; }
+  .post__figure figcaption { margin-top: 0.8rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.06em; color: var(--muted); }
+</style>

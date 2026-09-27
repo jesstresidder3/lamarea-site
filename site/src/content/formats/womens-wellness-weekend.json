@@ -1,0 +1,41 @@
+{
+  "name": "Women's Wellness Weekend",
+  "kind": "format",
+  "order": 9,
+  "tagline": "For women seeking space to restore, reconnect and return to rhythm.",
+  "body": [
+    "Our Women’s Wellness Weekend is designed for those ready to step away from constant output and immerse themselves in a guided, restorative wellness experience. This is not a retreat built around performance or perfection, but around nourishment, movement, nature, education and meaningful connection.",
+    "Across the weekend, the environment and structure work together. Ocean air, expansive landscape, Mediterranean-inspired meals and evidence-based wellness sessions begin to soften the pace of daily life. Sleep deepens. Conversation opens. Devices are set aside. The nervous system begins to settle.",
+    "Grounded in La maréa’s ten wellness pillars, including nutrition, movement, recovery, psychological wellbeing, connection and nature immersion, the experience is both restorative and practical. Women leave not only feeling recalibrated, but equipped with sustainable tools they can integrate into everyday life.",
+    "You return home feeling clearer, calmer and more connected to your wellbeing.",
+    "Join the waitlist to receive upcoming dates and early access to bookings."
+  ],
+  "duration": null,
+  "group_size_text": null,
+  "items": [],
+  "inclusions_heading": "What a weekend with us looks like...",
+  "inclusions": [
+    "3 Course Mediteranean-Inspired Lunch with Private Chef",
+    "Meditation & Relaxation",
+    "Nature Immersion & Coastal Hiking",
+    "Contrast Therapy (Sauna & Ice Bath)",
+    "Remedial Massage & A Good Nights Sleep",
+    "Evidence-Based Lifestyle Wellness Education",
+    "Connection With Other Like-Minded Individuals"
+  ],
+  "closing_line": "We invite you to experience the restorative power of this extraordinary coastal retreat, a weekend to calm your nervous system, nourish your mind, body, and soul, and return home feeling reconnected, inspired, and deeply renewed.",
+  "footnote": null,
+  "price_from": null,
+  "price_published_on_live_site": null,
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luxury-retreats",
+      "captured": "24-09-2026",
+      "section": "Women's Wellness Weekend"
+    }
+  ],
+  "status": "draft",
+  "review": "Waitlist button links to Jotform 253041258182856.",
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

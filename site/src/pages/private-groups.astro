@@ -1,0 +1,85 @@
+---
+/*
+  Private groups (page builder A), plan/11 4.2 with build spec 12. Same layout as /corporate in
+  different language (components/pages/a/PathPage.astro).
+
+  Belle's words, verbatim:
+  - "Birthdays, milestone celebrations, sister weekends, family resets or simply time with people who
+    matter." lamarea.com.au/luxury-retreats, Private Group Retreats
+  - "Intimate, privately curated retreats for friends, families and aligned groups seeking meaningful
+    time away together. Each experience is tailored to your group and hosted across our luxury coastal
+    and vineyard partner properties." lamarea.com.au home, Private Group Retreats
+  - "Guided by our personalisation pillar, each retreat location is carefully matched to the group and
+    the retreat intention." lamarea.com.au/accommodation-partners
+  - FAQ answers: lamarea.com.au/faqs (faqs collection)
+  Drafted, marked: the H1, section headings, the guide line and the closing line.
+  Group size: no single number publishes (the live page says 6 to 10, the guide 10 to 14); sizes vary
+  by venue (decision 14).
+*/
+import Base from '../layouts/Base.astro';
+import PathPage from '../components/pages/a/PathPage.astro';
+import { getVenues, getFaqs, getTestimonials } from '../lib/content';
+import { faqJsonLd } from '../components/base/schema';
+import { site } from '../data/settings';
+
+const venues = await getVenues();
+const faqs = (await getFaqs()).filter((f) => ['faq-02', 'faq-03', 'faq-06', 'faq-09', 'faq-05'].includes(f.id));
+const order = ['faq-06', 'faq-02', 'faq-03', 'faq-09', 'faq-05'];
+faqs.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+
+// Reviews from groups of friends and women's retreats, never the corporate mornings.
+const reviews = (await getTestimonials()).filter(
+  (t) => t.data.group_type !== 'corporate' && (t.data.featured_on.includes('private') || ['sunset_retreat', 'womens_retreat'].includes(t.data.format)),
+);
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Private group wellness retreats',
+    serviceType: '8 hour wellness retreat for private groups',
+    provider: { '@type': 'Organization', name: site.name, url: site.url },
+    areaServed: { '@type': 'Place', name: 'Fleurieu Peninsula, South Australia' },
+    audience: { '@type': 'Audience', audienceType: 'Private groups of friends and family' },
+  },
+  faqJsonLd(faqs.map((f) => ({ question: f.data.question, answer: f.data.answer.join(' ') }))),
+];
+---
+<Base
+  title="Private group retreats, Fleurieu Peninsula"
+  description="Private group wellness retreats on the Fleurieu Peninsula, South Australia: an 8 hour day of movement, treatments and a Mediterranean table."
+  headerTone="over-media"
+  jsonLd={jsonLd}
+>
+  <PathPage
+    audience="private"
+    hero={{
+      slot: 'private-hero',
+      eyebrow: 'Private groups and retreats',
+      heading: 'Private group wellness retreats on the *Fleurieu Peninsula*',
+      body: 'Birthdays, milestone celebrations, sister weekends, family resets or simply time with people who matter.',
+    }}
+    who={{
+      statement: 'Intimate, privately curated retreats for friends, families and aligned groups seeking meaningful time away together.',
+      paragraphs: ['Each experience is tailored to your group and hosted across our luxury coastal and vineyard partner properties.'],
+    }}
+    dayBrief={{
+      heading: 'Your group’s day on the *Fleurieu*',
+      steps: { arrive: [2], move: [3, 5], nourish: [8], restore: [{ order: 9, lines: [0] }] },
+    }}
+    venues={{
+      heading: 'Places to Pause for your group',
+      intro: 'Guided by our personalisation pillar, each retreat location is carefully matched to the group and the retreat intention.',
+      items: venues,
+      filters: true,
+    }}
+    questions={{ heading: 'Questions private groups ask', faqs }}
+    guide={{ title: 'The private group guide', list: 'guide:private-group-guide' }}
+    proof={{
+      heading: 'In our guests’ words',
+      items: reviews,
+      placeholder: 'A review from a private group day, to be selected by Belle once a group has written one',
+    }}
+    closing={{ line: 'A day shaped around your group' }}
+  />
+</Base>

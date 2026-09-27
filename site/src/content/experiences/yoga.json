@@ -1,0 +1,121 @@
+{
+  "name": "Yoga",
+  "name_as_transcribed": "yoga",
+  "name_as_published": "Energising Group Vinyasa Yoga Flow or Mat Pilates",
+  "kind": "guided",
+  "order": 6,
+  "art_direction": "full_bleed",
+  "media": "experience-yoga",
+  "media_type": "video",
+  "short": {
+    "text": "Group guided energising yoga or mat pilates session",
+    "source": {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "15",
+      "captured": "24-09-2026"
+    }
+  },
+  "pillar": "movement",
+  "pillars": [
+    "movement"
+  ],
+  "pillar_basis": "Movement pillar text names yoga",
+  "duration": null,
+  "duration_basis": null,
+  "duration_as_published": "8:15 AM to 9:00 AM in the Beresford example",
+  "practitioners": [
+    "jaimi-baker",
+    "natalie-jane",
+    "kristian-ryan"
+  ],
+  "business": {
+    "name": "PEAQ Performance",
+    "person": "jaimi-baker",
+    "url": "https://www.peaq.com.au/"
+  },
+  "business_basis": "Guide p.21: \"PEAQ Performance. Yoga instructor, Recovery and Breathwork facilitator, delivering yoga, breathwork, contrast therapy and meditation sessions.\"",
+  "business_conflict": null,
+  "practitioners_as_published": [
+    "Jaimi Baker, PEAQ Performance",
+    "Natalie Jane",
+    "Kristian Ryan (private group yoga classes, 30 or 60 minutes)"
+  ],
+  "descriptions": [
+    {
+      "text": [
+        "Group guided energising yoga or mat pilates session"
+      ],
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": "15",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "Energising Group Vinyasa Yoga Flow or Mat Pilates"
+      ],
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": "23",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "Energising Group Vinyasa Yoga Flow or Mat Pilates Session"
+      ],
+      "source": {
+        "type": "live_site_image",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+        "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+        "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "Vinyasa, a dynamic breath-led flow that builds heat and strength.",
+        "Yin, a slow, meditative practice with long holds that target deep connective tissues.",
+        "Roll & Release, a mobility-focused practice using props to ease tension and enhance movement.",
+        "Chair Yoga, a supportive, accessible option ideal for beginners, seniors, or those with limited mobility."
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/jaimi-baker",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": [
+        "Yoga",
+        "Reduces depression, anxiety, stress, and blood-pressure markers.",
+        "Improves balance, mobility, breathing efficiency, and mind-body awareness. (White et al., 2024)"
+      ],
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "The Science, Movement"
+      }
+    }
+  ],
+  "seed_id": null,
+  "source": [
+    {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Reference sites, Bathhouse Group note: \"10 immersive spaces section\""
+    }
+  ],
+  "status": "draft",
+  "review": "Yoga and pilates are one either-or session in both sources (plan/11 item 31, one tile or two).",
+  "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
+}

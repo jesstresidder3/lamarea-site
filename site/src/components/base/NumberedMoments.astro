@@ -1,0 +1,143 @@
+---
+/*
+  Numbered items, 01 to 05: a short title or a single line, one sentence of feeling, an optional link.
+  Used for Belle's five differences, and for inclusions and Collective benefits.
+
+  <NumberedMoments items={differences.map((d) => ({ text: d.display, href: d.href, linkLabel: '...' }))} slide />
+
+  Props
+  - items: { number?, title?, text, href?, linkLabel?, media?, icons?, iconsHref?, iconsLabel?, draft? }[]
+      title   optional short title (Cormorant); without it `text` is set as the line itself
+      media   a media slot id for a small 4:5 image beside the row (list variant, 760px and up)
+      icons   Belle's icon names shown in a quiet row under the text (for example the ten pillar
+              icons under difference 2), linking to iconsHref with iconsLabel as its name
+  - variant: 'list' (hairline rows, default) or 'grid' (two or three columns)
+  - slide: each row enters from the right with SlideIn (list variant)
+  - start: first number (default 1)
+  - titleLevel: 3 (default) or 4
+*/
+import SlideIn from './SlideIn.astro';
+import ArrowLink from './ArrowLink.astro';
+import Icon from './Icon.astro';
+import Media from '../media/Media.astro';
+import { numeral } from './text';
+
+interface Item {
+  number?: string;
+  title?: string;
+  text: string;
+  href?: string;
+  linkLabel?: string;
+  media?: string;
+  icons?: string[];
+  iconsHref?: string;
+  iconsLabel?: string;
+  draft?: boolean;
+}
+interface Props {
+  items: Item[];
+  variant?: 'list' | 'grid';
+  slide?: boolean;
+  start?: number;
+  titleLevel?: 3 | 4;
+  class?: string;
+}
+const { items, variant = 'list', slide = false, start = 1, titleLevel = 3, class: className } = Astro.props;
+const T = `h${titleLevel}` as 'h3' | 'h4';
+const Wrap = slide && variant === 'list' ? SlideIn : 'div';
+---
+<ol class:list={['moments', `moments--${variant}`, className]} role="list">
+  {items.map((item, i) => (
+    <li class:list={['moment', item.media && 'moment--media']}>
+      <Wrap class="moment__wrap" {...(slide && variant === 'list' ? { distance: '18%' } : {})}>
+        <div class="moment__row">
+          <span class="moment__num" aria-hidden="true">{item.number ?? numeral(start + i)}</span>
+          <div class="moment__main">
+            {item.title && <T class="moment__title" data-draft={item.draft ? '' : undefined}>{item.title}</T>}
+            <p class:list={['moment__text', !item.title && 'moment__text--line']} data-draft={item.draft ? '' : undefined}>{item.text}</p>
+            {item.icons && item.icons.length > 0 && (
+              <a class="moment__icons" href={item.iconsHref ?? '/philosophy'} aria-label={item.iconsLabel ?? 'Our ten pillars, on the philosophy page'}>
+                {item.icons.map((name) => <Icon name={name} size="2rem" />)}
+              </a>
+            )}
+            {item.href && item.linkLabel && <ArrowLink href={item.href} label={item.linkLabel} class="moment__link" />}
+          </div>
+          {item.media && variant === 'list' && (
+            <div class="moment__media"><Media media={item.media} aspect="4 / 5" showNote={false} /></div>
+          )}
+        </div>
+      </Wrap>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .moments { margin: 0; padding: 0; list-style: none; }
+  .moment { margin: 0; }
+
+  /* List: hairline rows, numeral, one line, a link. */
+  .moments--list .moment { border-top: 1px solid var(--sage-20); }
+  .moments--list .moment:last-child { border-bottom: 1px solid var(--sage-20); }
+  .moments--list .moment__row {
+    display: grid;
+    grid-template-columns: clamp(3rem, 2.4rem + 3vw, 6rem) minmax(0, 1fr);
+    gap: 0 clamp(1rem, 3vw, 3rem);
+    padding-block: clamp(1.5rem, 1.2rem + 1.4vw, 2.5rem);
+    align-items: baseline;
+  }
+  .moment__num {
+    font-family: var(--font-serif); /* Cormorant: in Italiana "01" reads as "O1" (CD review 02 item 15) */
+    font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.75rem);
+    line-height: 1;
+    color: var(--sage-60);
+    font-variant-numeric: lining-nums;
+  }
+  .moment__main { min-width: 0; }
+  .moment__title { margin: 0 0 0.5rem; font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.25; }
+  .moment__text { margin: 0; max-width: 36rem; }
+  .moment__text--line {
+    font-family: var(--font-serif);
+    font-size: clamp(1.3rem, 1.15rem + 0.6vw, 1.75rem);
+    line-height: 1.3;
+    color: var(--sage-80);
+    max-width: 30em;
+    text-wrap: pretty;
+  }
+  .moments :global(.moment__link) { margin-top: 0.75rem; }
+
+  .moment__icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.1rem;
+    margin-top: 1.1rem;
+    padding: 0.4rem 0;
+    color: var(--sage-60);
+    text-decoration: none;
+    width: fit-content;
+    transition: color var(--dur-fast) var(--ease-soft);
+  }
+  @media (hover: hover) {
+    .moment__icons:hover { color: var(--sage-100); }
+  }
+  .moment__icons:active { color: var(--sage-100); }
+  @media (prefers-reduced-motion: reduce) {
+    .moment__icons { transition: none; }
+  }
+
+  .moment__media { display: none; }
+  @media (min-width: 760px) {
+    .moments--list .moment--media .moment__row { grid-template-columns: clamp(3rem, 2.4rem + 3vw, 6rem) minmax(0, 1fr) clamp(6rem, 9vw, 9rem); align-items: center; }
+    .moment__media { display: block; }
+    .moments--list .moment--media .moment__num { align-self: start; padding-top: 0.25rem; }
+  }
+
+  /* Grid: two or three columns of numbered cards, numeral above. */
+  .moments--grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+    gap: var(--space-l) var(--space-l);
+  }
+  .moments--grid .moment { border-top: 1px solid var(--sage-20); padding-top: 1.25rem; }
+  .moments--grid .moment__row { display: grid; gap: 1rem; }
+  .moments--grid .moment__num { font-size: 1.75rem; }
+</style>

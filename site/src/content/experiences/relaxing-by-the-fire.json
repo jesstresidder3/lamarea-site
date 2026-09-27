@@ -1,0 +1,68 @@
+{
+  "name": "Relaxing by the fire",
+  "name_as_transcribed": "relaxing by the fire",
+  "name_as_published": "Relaxing by the fire",
+  "kind": "self_led",
+  "order": 6,
+  "art_direction": "full_bleed",
+  "media": "experience-relaxing-by-the-fire",
+  "media_type": "image",
+  "short": null,
+  "pillar": null,
+  "pillars": [],
+  "pillar_basis": null,
+  "duration": null,
+  "duration_basis": null,
+  "duration_as_published": null,
+  "practitioners": [],
+  "business": null,
+  "business_basis": null,
+  "business_conflict": null,
+  "practitioners_as_published": [],
+  "descriptions": [
+    {
+      "text": [
+        "Relaxing by the fire"
+      ],
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": "15",
+        "captured": "24-09-2026",
+        "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+      }
+    },
+    {
+      "text": [
+        "Relaxing By The Fire"
+      ],
+      "source": {
+        "type": "live_site_image",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+        "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+        "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+        "captured": "24-09-2026"
+      }
+    }
+  ],
+  "seed_id": null,
+  "source": [
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "15",
+      "captured": "24-09-2026",
+      "section": "OPTIONAL SELF LED ACTIVITIES DURING UNSTRUCTURED RESTORATION TIME"
+    },
+    {
+      "type": "transcript",
+      "path": "_context/la-marea-website-brain-dump-transcript-14-09-2026.txt",
+      "section": "Other random: \"doing a slider of the retreat self led activities\""
+    }
+  ],
+  "status": "draft",
+  "review": "No sourced one-line description for the tile, the component shows a marked placeholder."
+}

@@ -1,0 +1,133 @@
+---
+/*
+  PageIntro (page builder D). The opening of a supporting page that starts on sand: breadcrumbs,
+  eyebrow, the page's one H1, a short lead and any actions sit in the smaller share, and photography
+  takes the larger share, so the page opens on imagery rather than text alone (plan/12 fix 27).
+  The split is art-directed (5 : 7), never 50/50, and the text settles on the image's lower edge.
+
+  <PageIntro eyebrow="Coming 2027" heading="The La maréa app" lead="..." leadDraft media="app-hero" />
+  <PageIntro variant="cluster" media={['a', 'b', 'c']} mediaFirst ... />
+  <PageIntro variant="cover" media="guide-private-cover" crumbs={[...]} ... />
+
+  Props
+  - eyebrow, heading (asterisks mark a place name), lead, headingDraft, leadDraft
+  - media: one slot id, or three for 'cluster'
+  - variant: 'single' (default), 'cluster' (three photographs, the gallery), 'cover' (a document
+    cover laid on a salt bed, the guides)
+  - crumbs: Breadcrumbs items for pages people reach cold from Instagram or ManyChat
+  - mediaFirst: on phones, show the photography above the words
+  - size: 'default' or 'compact' (a shorter frame for utility pages, so the content starts in the
+    first screen)
+  - default slot: actions under the lead
+*/
+import Media from '../../media/Media.astro';
+import Eyebrow from '../../base/Eyebrow.astro';
+import Breadcrumbs from '../../base/Breadcrumbs.astro';
+import { emphasis } from '../../base/text';
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  lead?: string;
+  headingDraft?: boolean;
+  leadDraft?: boolean;
+  media: string | string[];
+  variant?: 'single' | 'cluster' | 'cover';
+  crumbs?: { label: string; href?: string }[];
+  mediaFirst?: boolean;
+  size?: 'default' | 'compact';
+}
+const { eyebrow, heading, lead, headingDraft = false, leadDraft = false, media, variant = 'single', crumbs, mediaFirst = false, size = 'default' } = Astro.props;
+const slots = Array.isArray(media) ? media : [media];
+const hasActions = Astro.slots.has('default');
+---
+<section class:list={['intro', `intro--${variant}`, `intro--${size}`, mediaFirst && 'intro--media-first']}>
+  <div class="wrap intro__grid">
+    <div class="intro__text">
+      {crumbs && <Breadcrumbs items={crumbs} class="intro__crumbs" />}
+      {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+      <h1 class="intro__title" data-draft={headingDraft ? '' : undefined} set:html={emphasis(heading)} />
+      {lead && <p class="intro__lead" data-draft={leadDraft ? '' : undefined}>{lead}</p>}
+      {hasActions && <div class="intro__actions"><slot /></div>}
+    </div>
+
+    <div class="intro__media">
+      {variant === 'single' && (
+        <div class="intro__frame"><Media media={slots[0]} aspect="fill" priority /></div>
+      )}
+      {variant === 'cluster' && (
+        <div class="intro__cluster">
+          {slots.slice(0, 3).map((s, i) => (
+            <div class:list={['intro__piece', `intro__piece--${i + 1}`]}><Media media={s} aspect="fill" priority={i === 0} notePosition={i === 0 ? 'bottom-left' : 'top-left'} /></div>
+          ))}
+        </div>
+      )}
+      {variant === 'cover' && (
+        <div class="intro__bed">
+          <div class="intro__cover"><Media media={slots[0]} aspect="3 / 4" priority /></div>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .intro { padding-block: clamp(1.5rem, 1rem + 2vw, 3rem) clamp(3.5rem, 2rem + 5vw, 7rem); }
+  .intro__grid { display: grid; gap: clamp(2rem, 1.5rem + 2vw, 3rem); }
+  .intro--media-first .intro__media { order: -1; }
+  .intro :global(.intro__crumbs) { margin: -0.5rem 0 1rem; }
+
+  .intro__title { margin: 0; font-size: var(--fs-h1); max-width: 12em; }
+  .intro__lead {
+    margin: 1.5rem 0 0;
+    max-width: 30rem;
+    font-family: var(--font-serif);
+    font-size: var(--fs-lead);
+    line-height: 1.5;
+    color: var(--sage-100);
+  }
+  .intro__actions { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin-top: 1.75rem; }
+
+  /* One photograph: 4:5 on phones, a calm frame that fits the first screen on desktop. */
+  .intro__frame { position: relative; aspect-ratio: 4 / 5; max-height: 72svh; width: 100%; overflow: hidden; background: var(--sand-40); }
+  .intro--compact .intro__frame { aspect-ratio: 3 / 2; }
+
+  /* Three photographs, the gallery: one tall frame and two smaller ones set off it. */
+  .intro__cluster { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.75rem; }
+  .intro__piece { position: relative; overflow: hidden; background: var(--sand-40); }
+  .intro__piece--1 { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
+  .intro__piece--2, .intro__piece--3 { aspect-ratio: 1 / 1; }
+
+  /* A document cover laid on a salt bed, the guides. */
+  .intro__bed {
+    display: grid;
+    place-items: center;
+    padding: clamp(2rem, 8vw, 4rem) clamp(1.5rem, 6vw, 3rem);
+    background: var(--salt-25);
+    outline: 1px solid var(--sage-20);
+    outline-offset: -1px;
+  }
+  .intro__cover { width: min(17rem, 72%); box-shadow: 0 28px 48px -30px rgb(67 61 27 / 0.45); }
+
+  @media (min-width: 900px) {
+    .intro__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2.5rem, 5vw, 6.5rem); align-items: end; }
+    .intro--media-first .intro__media { order: 0; }
+    .intro__text { padding-bottom: clamp(0.5rem, 2vw, 2rem); }
+    .intro__frame { aspect-ratio: auto; max-height: none; height: clamp(24rem, calc(100svh - var(--header-h) - 7rem), 42rem); }
+    .intro--compact .intro__frame { height: clamp(18rem, 44svh, 27rem); }
+
+    .intro__cluster {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      grid-template-rows: minmax(0, 5fr) minmax(0, 4fr);
+      gap: clamp(0.75rem, 1.2vw, 1.25rem);
+      height: clamp(26rem, calc(100svh - var(--header-h) - 6rem), 44rem);
+    }
+    .intro__piece--1 { grid-column: 1; grid-row: 1 / 3; aspect-ratio: auto; }
+    .intro__piece--2 { grid-column: 2; grid-row: 1; aspect-ratio: auto; margin-top: 18%; }
+    .intro__piece--3 { grid-column: 2; grid-row: 2; aspect-ratio: auto; margin-right: 22%; }
+
+    .intro__bed { height: clamp(26rem, calc(100svh - var(--header-h) - 7rem), 42rem); padding: 3rem; }
+    .intro__cover { width: auto; height: 78%; aspect-ratio: 3 / 4; }
+    .intro__cover :global(.media) { height: 100%; width: auto; }
+  }
+</style>

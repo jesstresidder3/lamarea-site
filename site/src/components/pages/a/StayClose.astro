@@ -1,0 +1,84 @@
+---
+/*
+  Home moment 11 (build spec 12): the wellness journal slider, one line each for the Rising Tides
+  Collective and the app with links. The footer below carries the one email field on home; the app's
+  "hear first" list lives on /app (foundational subscriptions, BD-46, BD-48), so home asks for an
+  email once (CD review 02 item 16).
+
+  Sources
+  - Collective line, verbatim: lamarea.com.au/luxury-retreats, "A private space for those who've
+    already experienced La maréa, through one of our retreats or experiences, and looking to stay
+    close between them."
+  - "Coming 2027" and "foundational subscriptions": Belle's transcript. The app line is drafted
+    (creative brief section G) and marked. No login, no member access date (pre-build review D7).
+*/
+import JournalCards from '../../journal/JournalCards.astro';
+import ArrowLink from '../../base/ArrowLink.astro';
+import Reveal from '../../base/Reveal.astro';
+import { getJournal } from '../../../lib/content';
+
+const posts = await getJournal({ limit: 6 });
+---
+<section class="stay" aria-labelledby="stay-heading">
+  <div class="wrap stay__head">
+    <Reveal>
+      <h2 class="stay__heading" id="stay-heading">From the wellness journal</h2>
+    </Reveal>
+    <ArrowLink href="/journal" label="Read the journal" class="stay__all" />
+  </div>
+
+  {posts.length > 0 ? (
+    <JournalCards posts={posts} variant="slider" label="Recent stories from the wellness journal" />
+  ) : (
+    <div class="wrap"><p class="placeholder-line">Journal posts appear here as Belle publishes them</p></div>
+  )}
+
+  <div class="wrap">
+    <div class="stay__strip">
+      <div class="stay__item">
+        <h3 class="stay__title">Rising Tides Collective</h3>
+        <p class="stay__line">A private space for those who’ve already experienced La maréa, through one of our retreats or experiences, and looking to stay close between them.</p>
+        <ArrowLink href="/rising-tides-collective" label="The Collective" class="stay__link" />
+      </div>
+      <div class="stay__item">
+        <h3 class="stay__title">The La maréa app, coming 2027</h3>
+        <p class="stay__line" data-draft>The La maréa app arrives in 2027, with foundational subscriptions.</p>
+        <ArrowLink href="/app" label="Hear about the app first" class="stay__link" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stay { padding-block: var(--section-y); background: var(--sand-30); }
+  .stay__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-bottom: clamp(2rem, 3.5vw, 3rem);
+  }
+  .stay__heading { margin: 0; }
+  .stay :global(.stay__all) { margin-bottom: 0.4rem; }
+
+  .stay__strip {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3rem);
+    margin-top: clamp(3.5rem, 7vw, 6rem);
+    padding-top: clamp(2rem, 3.5vw, 3rem);
+    border-top: 1px solid var(--sage-20);
+  }
+  .stay__title {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-serif);
+    font-size: var(--fs-card);
+    line-height: 1.25;
+  }
+  .stay__line { margin: 0; font-size: var(--fs-small); line-height: 1.6; max-width: 24rem; }
+  .stay :global(.stay__link) { margin-top: 1rem; }
+
+  @media (min-width: 900px) {
+    .stay__strip { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 4vw, 4.5rem); }
+  }
+</style>

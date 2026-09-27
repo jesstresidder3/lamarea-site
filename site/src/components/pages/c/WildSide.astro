@@ -1,0 +1,34 @@
+---
+/*
+  The wild side (plan/11 4.11 section 5, BD-123): dolphins, seals, kangaroos, the ocean and the walks,
+  in small frames only, because the footage is Belle's iPhone footage (grade C, never full-bleed).
+  A Slider of 4:5 frames, arrows and a progress rule, no autoplay; each frame's video plays only while
+  it is on screen. Captions name what is in the frame, and the place only where a source says it.
+  Belle writes the captions (flagged in the notes layer).
+*/
+import Slider from '../../slider/Slider.astro';
+import Media from '../../media/Media.astro';
+
+interface Frame { media: string; subject: string; where?: string }
+interface Props { frames: Frame[]; label?: string }
+const { frames, label = 'The wild side of the Fleurieu' } = Astro.props;
+---
+<Slider label={label} itemLabel="frame" perView={{ phone: 1.45, tablet: 2.6, desktop: 4.2, wide: 4.6 }} gap="clamp(1rem, 1.6vw, 1.5rem)" counter class="wild">
+  {frames.map((f) => (
+    <figure class="wild__frame">
+      <div class="wild__media"><Media media={f.media} aspect="4 / 5" /></div>
+      <figcaption class="wild__cap">
+        <span class="wild__subject">{f.subject}</span>
+        {f.where && <span class="wild__where" data-draft>{f.where}</span>}
+      </figcaption>
+    </figure>
+  ))}
+</Slider>
+
+<style>
+  .wild__frame { margin: 0; }
+  .wild__media { overflow: hidden; }
+  .wild__cap { display: grid; gap: 0.25rem; margin-top: 0.9rem; }
+  .wild__subject { font-family: var(--font-serif); font-size: 1.2rem; line-height: 1.25; color: var(--heading); }
+  .wild__where { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.06em; color: var(--muted); }
+</style>

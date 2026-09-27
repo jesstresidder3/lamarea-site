@@ -1,0 +1,203 @@
+---
+/*
+  The two audience paths, private groups and corporate, share one layout in different language
+  (plan/11 4.2 and 4.3 with build spec 12: no customise prompts here, the page ends on a CtaBand).
+
+  1 Hero (MediaBand, H1 naming the offer and the place, Belle's audience line)
+  2 Who it is for (Belle's statement and paragraph, group sizes vary by venue)
+  3 The day in brief (the example day, per-path lines from Belle's schedule)
+  4 Places to Pause (VenueIndex)
+  5 Questions (Accordion from the FAQs collection) with the group guide capture, marked "guide coming"
+  6 Proof beside the ask (Testimonials filtered to the path, "See past retreats")
+  7 CtaBand "Plan your day", prefilled with the audience
+
+  The page passes every word. Belle's verbatim lines carry no marker; drafted lines set draft flags.
+*/
+import MediaBand from '../../base/MediaBand.astro';
+import Eyebrow from '../../base/Eyebrow.astro';
+import ArrowLink from '../../base/ArrowLink.astro';
+import SectionHead from '../../base/SectionHead.astro';
+import Reveal from '../../base/Reveal.astro';
+import Accordion from '../../base/Accordion.astro';
+import LeadCapture from '../../base/LeadCapture.astro';
+import CtaBand from '../../base/CtaBand.astro';
+import VenueIndex from '../../venues/VenueIndex.astro';
+import Testimonials from '../../testimonials/Testimonials.astro';
+import DayInBrief from './DayInBrief.astro';
+import { day, type BeatId } from '../../../data/day';
+import type { Venue, Faq, Testimonial } from '../../../lib/content';
+
+interface Props {
+  audience: 'private' | 'corporate';
+  hero: { slot: string; eyebrow: string; heading: string; body: string };
+  who: { statement: string; paragraphs: string[] };
+  dayBrief: { heading: string; steps: Record<BeatId, number[]> };
+  venues: { heading: string; intro: string; items: Venue[]; filters: boolean };
+  questions: { heading: string; faqs: Faq[] };
+  guide: { title: string; list: string };
+  proof: { heading: string; items: Testimonial[]; placeholder?: string };
+  closing: { line: string };
+}
+const { audience, hero, who, dayBrief, venues, questions, guide, proof, closing } = Astro.props;
+const source = audience === 'private' ? 'private-groups' : 'corporate';
+---
+<MediaBand
+  media={hero.slot}
+  height="tall"
+  hero
+  text="over"
+  eyebrow={hero.eyebrow}
+  heading={hero.heading}
+  level={1}
+  body={hero.body}
+  draft={{ heading: true }}
+/>
+
+<section class="who" aria-labelledby="who-heading">
+  <div class="wrap who__grid">
+    <Reveal class="who__label">
+      <Eyebrow>Who it is for</Eyebrow>
+    </Reveal>
+    <Reveal class="who__main" delay={100}>
+      <h2 class="who__statement" id="who-heading">{who.statement}</h2>
+      <div class="who__body">
+        {who.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+      <ul class="who__facts" role="list">
+        <li>We cover your transport from Adelaide.</li>
+        <li><span data-draft>Group sizes vary by venue.</span> <ArrowLink href="/places" label="See Places to Pause" /></li>
+      </ul>
+    </Reveal>
+  </div>
+</section>
+
+<DayInBrief heading={dayBrief.heading} steps={dayBrief.steps} params={{ audience, source }} />
+
+<section class="venues-p" aria-labelledby="venues-heading">
+  <div class="wrap">
+    <Reveal>
+      <SectionHead id="venues-heading" eyebrow="Places to Pause" heading={venues.heading} intro={venues.intro} draft={{ heading: true }}>
+        <ArrowLink slot="aside" href="/places" label="All Places to Pause" />
+      </SectionHead>
+    </Reveal>
+    <VenueIndex venues={venues.items} filters={venues.filters} label={venues.heading} />
+  </div>
+</section>
+
+<section class="qs" aria-labelledby="questions-heading">
+  <div class="wrap qs__grid">
+    <div class="qs__side">
+      <SectionHead id="questions-heading" eyebrow="Questions" heading={questions.heading} size="small" draft={{ heading: true }} />
+      <div class="qs__guide">
+        <p class="qs__chip">Guide coming</p>
+        <LeadCapture
+          list={guide.list as 'newsletter'}
+          heading={guide.title}
+          intro="The guide is being finished now. Leave your email and we will send it the day it is ready."
+          introDraft
+          submitLabel="Send me the guide"
+          successMessage="Thank you. We will send the guide as soon as it is ready."
+          layout="stacked"
+        />
+        <p class="qs__notice" data-draft>We use your email to send you this guide, and send La maréa news only if you tick the box. <a class="text-link" href="/privacy-policy">Privacy policy</a></p>
+      </div>
+    </div>
+    <div class="qs__list">
+      <Accordion items={questions.faqs.map((f) => ({ title: f.data.question, paragraphs: f.data.answer }))} titleTag="h3" />
+      <ArrowLink href="/faqs" label="All questions" class="qs__all" />
+    </div>
+  </div>
+</section>
+
+<section class="proof-p" aria-labelledby="proof-p-heading">
+  <div class="wrap">
+    <Reveal>
+      <SectionHead id="proof-p-heading" heading={proof.heading} draft={{ heading: true }} />
+    </Reveal>
+  </div>
+  <Testimonials items={proof.items} filters={false} label={proof.heading} id={`${source}-reviews`} />
+  {proof.placeholder && (
+    <div class="wrap" data-notes-only><p class="placeholder-line proof-p__gap">{proof.placeholder}</p></div>
+  )}
+</section>
+
+<CtaBand
+  line={closing.line}
+  params={{ audience, source }}
+  note={day.note}
+  tone="warm"
+  draft={{ line: true }}
+/>
+
+<style>
+  .who { padding-block: var(--section-y); background: var(--sand-30); }
+  .who__grid { display: grid; gap: 1rem var(--space-l); }
+  .who__statement {
+    margin: 0;
+    max-width: 22em;
+    font-family: var(--font-serif);
+    font-size: clamp(1.55rem, 1.25rem + 1.2vw, 2.3rem);
+    line-height: 1.28;
+    letter-spacing: 0.003em;
+    color: var(--sage-80);
+    text-wrap: balance;
+  }
+  .who__body { margin-top: clamp(1.5rem, 3vw, 2.25rem); max-width: 34rem; }
+  .who__body p { margin: 0 0 1em; }
+  .who__facts {
+    margin: clamp(1.75rem, 3vw, 2.5rem) 0 0;
+    padding: 0;
+    list-style: none;
+    max-width: 34rem;
+    border-top: 1px solid var(--sage-20);
+    font-family: var(--font-ui);
+    font-size: var(--fs-small);
+    letter-spacing: 0.03em;
+    color: var(--sage-80);
+  }
+  .who__facts li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 1.5rem;
+    min-height: 3rem;
+    padding-block: 0.35rem;
+    border-bottom: 1px solid var(--sage-20);
+  }
+  @media (min-width: 900px) {
+    .who__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+    .who :global(.who__label) { padding-top: 0.6rem; }
+  }
+
+  .venues-p { padding-block: var(--section-y); background: var(--sand-30); }
+
+  .qs { padding-block: var(--section-y); background: var(--sand-40); }
+  .qs__grid { display: grid; gap: var(--space-xl) var(--space-l); align-items: start; }
+  .qs__guide {
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    padding: clamp(1.25rem, 2.5vw, 1.75rem);
+    background: var(--salt-25);
+    outline: 1px solid var(--sage-20);
+    outline-offset: -1px;
+    max-width: 26rem;
+  }
+  .qs__chip {
+    display: inline-block;
+    margin: 0 0 0.9rem;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--sage-40);
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--sage-80);
+  }
+  .qs__guide :global(.capture__heading) { font-size: var(--fs-card); }
+  .qs__notice { margin: 0.5rem 0 0; font-size: var(--fs-label); line-height: 1.55; letter-spacing: 0.02em; color: var(--sage-80); }
+  .qs :global(.qs__all) { margin-top: 1.75rem; }
+  @media (min-width: 900px) {
+    .qs__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr); }
+  }
+
+  .proof-p { padding-block: var(--section-y); background: var(--salt-25); }
+  .proof-p__gap { margin-top: 1.75rem; }
+</style>

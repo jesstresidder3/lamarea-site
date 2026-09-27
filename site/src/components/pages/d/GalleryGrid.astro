@@ -1,0 +1,179 @@
+---
+/*
+  GalleryGrid (page builder D). Past retreats grouped by retreat, filterable by retreat or by where
+  it was held (toggle buttons with aria-pressed, one active at a time, "All" resets). Every tile is
+  the shared ExpandTile (one per cell), so each photograph opens in place to its caption and never
+  leaves the page (register I9, O7). Cells sit on an art-directed 12 column grid at 760px and up
+  (7 and 5, then three 4s), one column on phones. Groups with nothing to show step aside, and a lone
+  result widens so it never sits stranded in a corner.
+  Data: ./gallery.ts.
+*/
+import ExpandTile from '../../base/ExpandTile.astro';
+import ReviewNote from './ReviewNote.astro';
+import { facets, galleryGroups } from './gallery';
+
+const total = galleryGroups.reduce((n, g) => n + g.tiles.length, 0);
+---
+<div class="gallery" data-gallery data-total={total}>
+  <div class="wrap gallery__bar">
+    <div class="gf" role="group" aria-label="Filter past retreats">
+      <div class="gf__set">
+        <span class="gf__label" id="gf-retreat">Retreat</span>
+        <div class="gf__buttons" role="group" aria-labelledby="gf-retreat">
+          <button type="button" class="gf__btn" aria-pressed="true" data-facet="all">All</button>
+          {facets.retreat.map((f) => <button type="button" class="gf__btn" aria-pressed="false" data-facet="retreat" data-value={f.value}>{f.label}</button>)}
+        </div>
+      </div>
+      <div class="gf__set">
+        <span class="gf__label" id="gf-venue">Where</span>
+        <div class="gf__buttons" role="group" aria-labelledby="gf-venue">
+          {facets.venue.map((f) => <button type="button" class="gf__btn" aria-pressed="false" data-facet="venue" data-value={f.value}>{f.label}</button>)}
+        </div>
+      </div>
+    </div>
+    <p class="visually-hidden" aria-live="polite" data-gallery-status></p>
+    <ReviewNote>Every photograph with guests in frame needs their written consent before it publishes (register W, decision 29). Terms clause 12.1 treats attendance as permission unless a guest opts out; Belle’s adviser to settle which standard the gallery follows.</ReviewNote>
+  </div>
+
+  {galleryGroups.map((g) => (
+    <section class="wrap gg" id={g.id} aria-labelledby={`${g.id}-title`} data-gallery-group>
+      <header class="gg__head">
+        <div class="gg__name">
+          <h2 class="gg__title" id={`${g.id}-title`}>{g.title}</h2>
+          <p class="gg__meta">{g.meta.map((m, i) => <span>{i > 0 && <span class="gg__dot" aria-hidden="true" />}{m}</span>)}</p>
+        </div>
+        <div class="gg__about">
+          {g.intro && (
+            <figure class="gg__intro">
+              <blockquote><p>{g.intro.text}</p></blockquote>
+              <figcaption>{g.intro.source}</figcaption>
+            </figure>
+          )}
+          {g.note && <ReviewNote>{g.note}</ReviewNote>}
+        </div>
+      </header>
+      <ul class="gg__grid" role="list">
+        {g.tiles.map((t) => (
+          <li class="gg__cell" style={`--span:${t.span}`} data-retreat={t.retreat} data-venue={t.venue ?? ''}>
+            <ExpandTile items={[{ title: t.title, eyebrow: t.eyebrow, media: t.media, body: t.body, draft: t.draft }]} height={t.height} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <p class="wrap gallery__empty" data-gallery-empty hidden>No past retreats match this filter yet.</p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((root) => {
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('.gf__btn'));
+    const groups = Array.from(root.querySelectorAll<HTMLElement>('[data-gallery-group]'));
+    const status = root.querySelector<HTMLElement>('[data-gallery-status]');
+    const empty = root.querySelector<HTMLElement>('[data-gallery-empty]');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const apply = (facet: string, value: string | undefined) => {
+      let shown = 0;
+      groups.forEach((group) => {
+        const cells = Array.from(group.querySelectorAll<HTMLElement>('.gg__cell'));
+        let visible = 0;
+        cells.forEach((cell) => {
+          const match = facet === 'all' || cell.dataset[facet] === value;
+          cell.hidden = !match;
+          if (match) visible++;
+        });
+        const wasHidden = group.hidden;
+        group.hidden = visible === 0;
+        group.querySelector('.gg__grid')?.classList.toggle('gg__grid--single', visible === 1 && cells.length > 1);
+        if (!group.hidden && wasHidden && !reduce) {
+          group.classList.remove('is-entering');
+          void group.offsetWidth;
+          group.classList.add('is-entering');
+        }
+        shown += visible;
+      });
+      if (empty) empty.hidden = shown > 0;
+      if (status) status.textContent = shown === 1 ? 'Showing 1 photograph' : `Showing ${shown} photographs`;
+    };
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const isAll = btn.dataset.facet === 'all';
+        const turningOff = !isAll && btn.getAttribute('aria-pressed') === 'true';
+        buttons.forEach((b) => b.setAttribute('aria-pressed', 'false'));
+        if (isAll || turningOff) {
+          buttons.find((b) => b.dataset.facet === 'all')?.setAttribute('aria-pressed', 'true');
+          apply('all', undefined);
+        } else {
+          btn.setAttribute('aria-pressed', 'true');
+          apply(btn.dataset.facet!, btn.dataset.value);
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .gallery { padding-bottom: var(--section-y); }
+
+  /* Filters: two quiet rows of text toggles, sentence case, an underline for the active one. */
+  .gallery__bar { padding-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+  .gf { display: grid; gap: 0.25rem 3rem; padding-block: 0.75rem; border-block: 1px solid var(--sage-20); }
+  .gf__set { display: flex; flex-wrap: wrap; align-items: center; gap: 0 1.25rem; min-width: 0; }
+  .gf__label { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); min-width: 4.5rem; }
+  .gf__buttons { display: flex; flex-wrap: wrap; gap: 0 1.25rem; min-width: 0; }
+  .gf__btn {
+    min-height: 2.75rem;
+    padding: 0;
+    border: 0;
+    background: linear-gradient(currentColor, currentColor) 0 calc(100% - 0.65rem) / 0% 1px no-repeat;
+    color: var(--sage-80);
+    font-family: var(--font-ui);
+    font-size: var(--fs-nav);
+    letter-spacing: 0.08em;
+    transition: background-size var(--dur-fast) var(--ease-soft), color var(--dur-fast) var(--ease-soft);
+  }
+  .gf__btn[aria-pressed='true'] { color: var(--sage-100); background-size: 100% 1px; }
+  @media (hover: hover) {
+    .gf__btn:hover { color: var(--sage-100); }
+  }
+  @media (min-width: 900px) {
+    .gf { grid-template-columns: auto auto; justify-content: start; }
+  }
+
+  /* A retreat: its name and date, Belle's words about it, then the photographs. */
+  .gg { padding-top: clamp(2.5rem, 2rem + 2.5vw, 4.5rem); scroll-margin-top: calc(var(--header-compact) + 1rem); }
+  .gg[hidden] { display: none; }
+  .gg.is-entering { animation: gg-in 600ms var(--ease-soft) both; }
+  @keyframes gg-in { from { opacity: 0; translate: 0 12px; } }
+  .gg__head { display: grid; gap: 1.25rem; margin-bottom: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem); }
+  .gg__title { margin: 0; font-size: var(--fs-h2); }
+  .gg__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0 0.6rem; margin: 0.6rem 0 0; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); }
+  .gg__meta > span { display: inline-flex; align-items: center; gap: 0.6rem; }
+  .gg__dot { width: 3px; height: 3px; border-radius: 50%; background: var(--sage-40); }
+  .gg__intro { margin: 0; }
+  .gg__intro blockquote { margin: 0; }
+  .gg__intro p { margin: 0; max-width: 30em; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.5; color: var(--sage-100); }
+  .gg__intro figcaption { margin-top: 0.6rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.06em; color: var(--sage-80); }
+  .gg__about :global(.review-note) { margin-top: 1rem; }
+  @media (min-width: 900px) {
+    .gg__head { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 6rem); align-items: end; }
+  }
+
+  .gg__grid { display: grid; gap: clamp(1.75rem, 1.5rem + 1vw, 2.5rem) clamp(1rem, 2vw, 2rem); margin: 0; padding: 0; list-style: none; }
+  .gg__cell { min-width: 0; }
+  .gg__cell[hidden] { display: none; }
+  @media (min-width: 760px) {
+    .gg__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-flow: dense; }
+    .gg__cell { grid-column: span var(--span, 4); }
+    .gg__grid--single .gg__cell { grid-column: span 7; }
+  }
+
+  .gallery__empty { padding-top: var(--space-l); font-family: var(--font-serif); font-size: var(--fs-lead); color: var(--sage-80); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gf__btn { transition: none; }
+    .gg.is-entering { animation: none; }
+  }
+</style>

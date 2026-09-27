@@ -1,0 +1,322 @@
+---
+/*
+  One page per experience, /experiences/<slug>, guided and self-led (every record that is not
+  hidden). Owner: page builder B. Built to read correctly when reached cold from an Instagram link
+  (P8), and to stay lean where Belle’s sources are thin: a section only renders when it has sourced
+  content, so a thin page is shorter, never a wall of placeholders.
+
+  1 hero: the frame, the name, what kind of experience it is
+  2 What is <experience>: a sourced answer, or a marked placeholder
+  3 who leads it: the people the sources name (never a contested attribution; that sits in a note)
+  4 in the day, and why it matters: its moment in Belle’s example day, and its pillar via pillarHref
+  5 questions, where a live FAQ answer fits
+  6 more experiences
+  7 Plan your day, prefilled with experience=<slug>
+*/
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
+import AnswerBlock from '../../components/base/AnswerBlock.astro';
+import SectionHead from '../../components/base/SectionHead.astro';
+import Accordion from '../../components/base/Accordion.astro';
+import ArrowLink from '../../components/base/ArrowLink.astro';
+import CtaBand from '../../components/base/CtaBand.astro';
+import Icon from '../../components/base/Icon.astro';
+import Reveal from '../../components/base/Reveal.astro';
+import Media from '../../components/media/Media.astro';
+import PersonCard from '../../components/pages/b/PersonCard.astro';
+import Flag from '../../components/pages/b/Flag.astro';
+import { getExperiences, getFaqs, pillarsById, peopleById, pillarHref, type Experience } from '../../lib/content';
+import { steps } from '../../data/day';
+import { site } from '../../data/settings';
+import { faqJsonLd } from '../../components/base/schema';
+import { experienceCopy, answerHtml } from '../../components/pages/b/copy';
+
+export async function getStaticPaths() {
+  const all = await getExperiences();
+  return all.map((e) => ({ params: { slug: e.id }, props: { experience: e } }));
+}
+
+interface Props { experience: Experience }
+const { experience } = Astro.props;
+const d = experience.data;
+const slug = experience.id;
+const copy = experienceCopy[slug] ?? { answer: null };
+const guided = d.kind === 'guided';
+
+const [pillarMap, people, faqs, siblings] = await Promise.all([pillarsById(), peopleById(), getFaqs(), getExperiences(d.kind)]);
+
+/* 2. The answer: Belle's sourced words, full stops added where a list line ends without one. */
+const stop = (t: string) => (/[.!?)]$/.test(t.trim()) ? t.trim() : `${t.trim()}.`);
+let answer: string[] = [];
+if (copy.answer?.from === 'short' && d.short) answer = [d.short.text];
+if (copy.answer?.from === 'description' && copy.answer.index !== undefined) {
+  const desc = d.descriptions[copy.answer.index];
+  if (desc) answer = copy.answer.lines ? copy.answer.lines.map((i) => desc.text[i]).filter(Boolean) : desc.text;
+}
+answer = answer.map(stop);
+/* The heading: a question for guided experiences (answer engines lift these), a plain line for the afternoon. */
+const lowerFirst = (t: string) => t.charAt(0).toLowerCase() + t.slice(1);
+const question = copy.question ?? (guided ? `What is ${lowerFirst(d.name)}?` : `${d.name}, in the afternoon`);
+
+/* 3. Who leads it. Where the sources disagree, nobody is named here; the note carries it. */
+const leads = d.business_conflict ? [] : d.practitioners.map((id) => people.get(id)).filter(Boolean);
+
+/* 4. The moment in Belle's example day, as her schedule publishes it, and the pillar. */
+const step = copy.step ? steps.find((s) => s.order === copy.step) : undefined;
+const pillarIds = copy.pillars ?? d.pillars;
+const pillars = pillarIds.map((id) => pillarMap.get(id)).filter(Boolean);
+const science = d.descriptions.find((x) => x.source.section?.startsWith('The Science'));
+const scienceHead = science && science.text.length > 1 && !/[.(]/.test(science.text[0]) ? science.text[0] : null;
+const scienceClaims = science ? (scienceHead ? science.text.slice(1) : science.text) : [];
+
+/* 5. Questions, from the live FAQ, verbatim. */
+const questions = (copy.faqs ?? []).map((id) => faqs.find((f) => f.id === id)).filter(Boolean);
+
+/* 6. Up to four others of the same kind. */
+const others = siblings.filter((e) => e.id !== slug).slice(0, 4);
+
+const kindLabel = guided ? 'Guided experience' : 'Self-led, in the unhurried afternoon';
+const facts: { k: string; v: string; href?: string }[] = [];
+if (step) facts.push({ k: 'In the day', v: step.range });
+/* A duration shows only where Belle’s schedule gives it for this station (the morning rotation). */
+if (guided && copy.step === 6 && d.duration && d.duration_basis?.startsWith('Beresford')) facts.push({ k: 'Duration', v: d.duration });
+if (d.business && !d.business_conflict) facts.push({ k: 'With', v: d.business.name });
+if (pillars[0]) facts.push({ k: 'Pillar', v: pillars[0]!.data.name, href: pillarHref(pillars[0]!) });
+
+const title = `${d.name} on the Fleurieu Peninsula`.length <= 48 ? `${d.name} on the Fleurieu Peninsula` : d.name;
+let description = `${d.name}, ${guided ? 'a guided experience' : 'a self-led activity'} on La maréa’s 8 hour wellness retreat on the Fleurieu Peninsula, South Australia.`;
+if (description.length > 155) description = `${d.name}, on La maréa’s 8 hour wellness retreat on the Fleurieu Peninsula.`;
+
+const jsonLd: Record<string, unknown>[] = [
+  {
+    '@context': 'https://schema.org',
+    // Service, not Product: nothing is priced publicly, and Product needs a priced Offer (QA m11).
+    '@type': 'Service',
+    name: d.name,
+    description: answer.join(' ') || d.short?.text || `${d.name}, part of La maréa’s 8 hour wellness retreat on the Fleurieu Peninsula.`,
+    serviceType: guided ? 'Wellness experience' : 'Self-led retreat activity',
+    url: `${site.url}/experiences/${slug}/`,
+    provider: { '@type': 'Organization', name: site.name, url: `${site.url}/` },
+    areaServed: { '@type': 'Place', name: 'Fleurieu Peninsula, South Australia' },
+  },
+];
+if (questions.length) jsonLd.push(faqJsonLd(questions.map((f) => ({ question: f!.data.question, answer: f!.data.answer.join(' ') }))));
+---
+<Base title={title} description={description} jsonLd={jsonLd} class="page-xd">
+  <!-- 1. Hero -->
+  <section class="xd-hero" aria-labelledby="xd-title">
+    <div class="wrap xd-hero__grid">
+      <div class="xd-hero__media">
+        <Media media={d.media} aspect="4 / 5" priority notePosition="top-left" />
+      </div>
+      <div class="xd-hero__text">
+        <Breadcrumbs items={[{ label: 'Experiences', href: '/experiences' }, { label: d.name }]} />
+        <p class="xd-kind">{kindLabel}</p>
+        <h1 class="xd-title" id="xd-title">{d.name}</h1>
+      </div>
+      {facts.length > 0 && (
+        <dl class="xd-facts">
+          {facts.map((f) => (
+            <div class="xd-fact">
+              <dt>{f.k}</dt>
+              <dd>{f.href ? <a href={f.href}>{f.v}</a> : f.v}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </div>
+  </section>
+
+  <!-- 2. What is it (with no answer from Belle yet, the section shows with the notes layer on only) -->
+  <section class="section xd-answer" data-notes-only={answer.length > 0 ? undefined : ''}>
+    <div class="wrap">
+      <Reveal>
+        <AnswerBlock question={question} draft={{ question: true }}>
+          {answer.length > 0 ? answer.map((t) => <p>{t}</p>) : <p class="placeholder-line">{copy.placeholder ?? 'A 40 to 60 word answer in Belle’s words'}</p>}
+          {(copy.flags ?? []).map((f) => <Flag>{f}</Flag>)}
+          {d.business_conflict && !(copy.flags ?? []).length && <Flag>{d.business_conflict}</Flag>}
+        </AnswerBlock>
+      </Reveal>
+    </div>
+  </section>
+
+  <!-- 3. Who leads it -->
+  {leads.length > 0 && (
+    <section class="section band-salt xd-who" aria-labelledby="xd-who">
+      <div class="wrap xd-who__grid">
+        <div class="xd-who__head">
+          <SectionHead eyebrow="Who leads it" heading={leads.length > 1 ? 'Qualified local practitioners' : `Led by ${leads[0]!.data.name.split(' ')[0]}`} id="xd-who" size="small" draft={{ heading: true }} />
+          <ArrowLink href="/team" label="Meet the team" />
+        </div>
+        {leads.length === 1 ? (
+          <PersonCard person={leads[0]!} size="feature" />
+        ) : (
+          <div class="xd-people">{leads.map((p) => <PersonCard person={p!} />)}</div>
+        )}
+      </div>
+    </section>
+  )}
+
+  <!-- 4. In the day, and why it matters -->
+  {(step || pillars.length > 0 || scienceClaims.length > 0) && (
+    <section class="section band-warm xd-context">
+      <div class="wrap xd-context__grid">
+        {step && (
+          <div class="xd-day">
+            <p class="xd-label">In Belle’s example day at Beresford Estate</p>
+            <p class="xd-day__time">{step.range}</p>
+            {copy.moment && <p class="xd-day__moment" data-draft>{copy.moment}</p>}
+            <div class="xd-day__lines">
+              {step.display.map((t) => <p>{t}</p>)}
+              {step.items && <ul role="list">{step.items.map((t) => <li>{t}</li>)}</ul>}
+            </div>
+            <ArrowLink href="/experiences/full-day-retreat" label="See the 8 hour day" />
+          </div>
+        )}
+        {(pillars.length > 0 || scienceClaims.length > 0) && (
+          <div class="xd-why">
+            <p class="xd-label">Why it matters</p>
+            {pillars.map((p) => (
+              <div class="xd-pillar">
+                <Icon name={p!.data.icon.replace(/\.svg$/, '')} size="3rem" class="xd-pillar__icon" />
+                <div>
+                  <h2 class="xd-pillar__name">{p!.data.long_name ?? p!.data.name}</h2>
+                  <p class="xd-pillar__line">{p!.data.line}</p>
+                  <ArrowLink href={pillarHref(p!)} label="Discover more" />
+                </div>
+              </div>
+            ))}
+            {scienceClaims.length > 0 && (
+              <div class="xd-science">
+                {scienceHead && <p class="xd-science__head">{scienceHead}</p>}
+                <ul role="list">{scienceClaims.map((c) => <li>{c}</li>)}</ul>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </section>
+  )}
+
+  <!-- 5. Questions -->
+  {questions.length > 0 && (
+    <section class="section xd-questions" aria-labelledby="xd-q">
+      <div class="wrap xd-questions__grid">
+        <SectionHead heading="Questions" id="xd-q" size="small" />
+        <Accordion items={questions.map((f) => ({ title: f!.data.question, body: answerHtml(f!.data.answer) }))} titleTag="h3" />
+      </div>
+    </section>
+  )}
+
+  <!-- 6. More -->
+  {others.length > 0 && (
+    <section class="section band-salt xd-more" aria-labelledby="xd-more">
+      <div class="wrap">
+        <SectionHead heading={guided ? 'More experiences' : 'More from the afternoon'} id="xd-more" size="small">
+          <ArrowLink slot="aside" href="/experiences" label="All experiences" />
+        </SectionHead>
+        <ul class="xd-more__list" role="list">
+          {others.map((e) => (
+            <li>
+              <a class="xd-tile" href={`/experiences/${e.id}`}>
+                <span class="xd-tile__media"><Media media={e.data.media} aspect="fill" showNote={false} /></span>
+                <span class="xd-tile__name">{e.data.name}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <!-- 7. Plan your day -->
+  <CtaBand
+    line={guided ? 'Curate a day for your group' : 'An unhurried afternoon on the *Fleurieu*'}
+    params={{ experience: slug, source: 'experience-page' }}
+    note="(Note we can curate a personalised retreat to suit your group)"
+    draft={{ line: true }}
+  />
+</Base>
+
+<style>
+  /* 1. Phones: name, then the frame, then the facts. Wide: the frame left, name and facts right. */
+  .xd-hero { padding-top: clamp(1rem, 2.5vw, 2rem); }
+  .xd-hero__grid { display: grid; gap: 1.75rem; }
+  .xd-hero__media { width: 100%; }
+  .xd-hero__text :global(.crumbs) { margin-bottom: clamp(1.5rem, 4vw, 3rem); }
+  .xd-kind { margin: 0 0 1rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .xd-title { margin: 0; font-size: var(--fs-h1); max-width: 12em; }
+  .xd-facts { display: grid; margin: 0; border-top: 1px solid var(--rule); }
+  .xd-fact { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--rule); }
+  .xd-fact dt { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.08em; color: var(--muted); padding-top: 0.2rem; }
+  .xd-fact dd { margin: 0; font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.35; color: var(--heading); }
+  .xd-fact a { color: inherit; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 0.2em; }
+  @media (max-width: 899px) {
+    .xd-hero__text { order: 1; }
+    .xd-hero__media { order: 2; }
+    .xd-facts { order: 3; }
+  }
+  @media (min-width: 900px) {
+    .xd-hero__grid {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      grid-template-rows: 1fr auto;
+      column-gap: clamp(3rem, 7vw, 7rem);
+      row-gap: clamp(2rem, 4vw, 3rem);
+    }
+    .xd-hero__media { grid-row: 1 / span 2; grid-column: 1; }
+    .xd-hero__text { grid-column: 2; align-self: end; }
+    .xd-facts { grid-column: 2; align-self: end; margin-bottom: 0.5rem; }
+    .xd-hero__media :global(.media) { aspect-ratio: 4 / 5; max-height: calc(100svh - var(--header-h) - 4rem); }
+  }
+
+  /* 3 */
+  .xd-who__grid { display: grid; gap: var(--space-l); }
+  .xd-who__head :global(.section-head) { margin-bottom: 1rem; }
+  .xd-people { display: grid; gap: 2.5rem 1.5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (min-width: 900px) {
+    .xd-who__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(2rem, 6vw, 7.5rem); }
+    .xd-people { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; }
+  }
+
+  /* 4 */
+  .xd-context__grid { display: grid; gap: var(--space-xl); }
+  @media (min-width: 900px) { .xd-context__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(3rem, 8vw, 8rem); } }
+  .xd-label { margin: 0 0 1.25rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .xd-day__time { margin: 0; font-family: var(--font-display); font-size: var(--fs-h2); line-height: 1.1; color: var(--heading); }
+  .xd-day__moment { margin: 0.75rem 0 0; font-family: var(--font-serif); font-size: var(--fs-lead); color: var(--sage-100); }
+  .xd-day__lines { margin: 1.5rem 0 1rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-size: var(--fs-small); line-height: 1.6; }
+  .xd-day__lines p { margin: 0 0 0.35rem; }
+  .xd-day__lines ul { margin: 0.5rem 0 0; padding: 0 0 0 0.9rem; list-style: none; border-left: 1px solid var(--sage-20); color: var(--sage-80); }
+  .xd-pillar { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.25rem; align-items: start; }
+  .xd-pillar + .xd-pillar { margin-top: 2rem; }
+  .xd-pillar :global(.xd-pillar__icon) { color: var(--sage-60); margin-top: 0.2rem; }
+  .xd-pillar__name { margin: 0 0 0.5rem; font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.2; }
+  .xd-pillar__line { margin: 0; font-size: var(--fs-small); line-height: 1.6; color: var(--sage-100); }
+  .xd-science { margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); }
+  .xd-science__head { margin: 0 0 0.6rem; font-family: var(--font-serif); font-size: 1.15rem; color: var(--heading); }
+  .xd-science ul { margin: 0; padding: 0; list-style: none; }
+  .xd-science li { font-size: 0.8125rem; line-height: 1.6; color: var(--sage-80); }
+  .xd-science li + li { margin-top: 0.5rem; }
+
+  /* 5 */
+  .xd-questions__grid { display: grid; gap: var(--space-m); }
+  @media (min-width: 900px) { .xd-questions__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(2rem, 6vw, 7.5rem); } }
+
+  /* 6 */
+  .xd-more__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem 1.25rem; margin: 0; padding: 0; list-style: none; }
+  @media (min-width: 900px) { .xd-more__list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; } }
+  .xd-tile { display: block; color: inherit; text-decoration: none; }
+  .xd-tile__media { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; }
+  .xd-tile__media :global(.media) { transition: transform 900ms var(--ease-soft); }
+  .xd-tile__name { display: block; margin-top: 0.9rem; font-family: var(--font-serif); font-size: 1.25rem; line-height: 1.25; color: var(--heading); }
+  @media (hover: hover) {
+    .xd-tile:hover .xd-tile__media :global(.media) { transform: scale(1.035); }
+    .xd-tile:hover .xd-tile__name { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); }
+  }
+  .xd-tile:focus-visible { outline: none; }
+  .xd-tile:focus-visible .xd-tile__media { outline: 1.5px solid var(--focus); outline-offset: 4px; }
+  @media (prefers-reduced-motion: reduce) {
+    .xd-tile__media :global(.media) { transition: none; }
+    .xd-tile:hover .xd-tile__media :global(.media) { transform: none; }
+  }
+</style>

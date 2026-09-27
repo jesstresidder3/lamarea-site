@@ -1,0 +1,176 @@
+---
+/*
+  Tiles that open in place to reveal detail and never navigate away (register O7 L4, the SHA
+  "design of our diets" pop-up feel). Used for Belle's signature culinary experiences, the formats
+  menu and the gallery.
+
+  At 760px and up the tiles sit in a row: the opened tile widens (flex 1 to 1.5), its photograph
+  settles a touch closer, and the detail fades in on a salt panel inside a 12px inset frame. Below
+  760px the tiles stack and the detail opens beneath the photograph. One tile opens at a time; the
+  same control, Escape or opening another closes it.
+
+  <ExpandTile items={[
+    { title: 'Three course Mediterranean dining', eyebrow: 'Signature culinary experience', media: 'sg-dining', body: '...', link: { label: 'The Table', href: '/food' } },
+    { title: 'Pasta making masterclass', media: 'sg-pasta', body: '...' },
+  ]} />
+
+  Props
+  - items: { title, eyebrow?, media (slot id), summary? (one line always visible), body (HTML string
+    or plain text), link?: { label, href }, draft? }[]
+  - height: tile height at desktop (default 'clamp(26rem, 58vh, 38rem)')
+  - open: index open on load (default none)
+*/
+import Media from '../media/Media.astro';
+import ArrowLink from './ArrowLink.astro';
+
+interface Item {
+  title: string;
+  eyebrow?: string;
+  media: string;
+  summary?: string;
+  body: string;
+  link?: { label: string; href: string };
+  draft?: boolean;
+}
+interface Props {
+  items: Item[];
+  height?: string;
+  open?: number;
+  class?: string;
+}
+const { items, height = 'clamp(26rem, 58vh, 38rem)', open, class: className } = Astro.props;
+const uid = Math.random().toString(36).slice(2, 7);
+---
+<div class:list={['tiles', className]} data-expand-tiles style={`--tile-h:${height}`}>
+  {items.map((item, i) => {
+    const id = `tile-${uid}-${i}`;
+    const isOpen = open === i;
+    return (
+      <article class:list={['tile', isOpen && 'is-open']} data-tile>
+        <div class="tile__visual">
+          <Media media={item.media} aspect="fill" />
+        </div>
+        <div class="tile__caption">
+          {item.eyebrow && <p class="tile__eyebrow">{item.eyebrow}</p>}
+          <h3 class="tile__title" id={`${id}-title`} data-draft={item.draft ? '' : undefined}>{item.title}</h3>
+          {item.summary && <p class="tile__summary">{item.summary}</p>}
+        </div>
+        <button class="tile__toggle" type="button" aria-expanded={isOpen ? 'true' : 'false'} aria-controls={`${id}-detail`} aria-labelledby={`${id}-title ${id}-hint`}>
+          <span class="tile__hint" id={`${id}-hint`}>
+            <span class="tile__hint-open">Read more</span>
+            <span class="tile__hint-close">Close</span>
+          </span>
+          <svg class="tile__chevron" viewBox="0 0 14 8" width="14" height="8" aria-hidden="true" focusable="false"><path d="M1 1l6 6 6-6" /></svg>
+        </button>
+        <div class="tile__detail" id={`${id}-detail`} role="region" aria-labelledby={`${id}-title`}>
+          <div class="tile__detail-inner">
+            <div class="tile__body" data-draft={item.draft ? '' : undefined} set:html={/<\w/.test(item.body) ? item.body : `<p>${item.body}</p>`} />
+            {item.link && <ArrowLink href={item.link.href} label={item.link.label} class="tile__link" />}
+          </div>
+        </div>
+      </article>
+    );
+  })}
+</div>
+
+<script>
+  import '../../scripts/expand-tile';
+</script>
+
+<style>
+  .tiles { display: grid; gap: var(--space-l); }
+  .tile { position: relative; display: grid; grid-template-rows: auto auto auto 0fr; transition: grid-template-rows var(--dur-step) var(--ease-soft); }
+  .tile.is-open { grid-template-rows: auto auto auto 1fr; }
+  .tile__visual { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--sand-40); }
+  .tile__visual :global(.media) { transition: transform var(--dur-slow) var(--ease-soft); }
+  .tile__caption { padding-top: 1.1rem; }
+  .tile__eyebrow { margin: 0 0 0.5rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .tile__title { margin: 0; font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.25; letter-spacing: 0.005em; }
+  .tile__summary { margin: 0.5rem 0 0; font-size: var(--fs-small); }
+
+  /* The toggle: a quiet line with a chevron. Its hit area also covers the photograph (below). */
+  .tile__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    justify-self: start;
+    min-height: 2.75rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--sage-80);
+    font-family: var(--font-ui);
+    font-size: var(--fs-nav);
+    letter-spacing: 0.08em;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tile__toggle::before { content: ''; position: absolute; inset: 0 0 auto 0; aspect-ratio: 4 / 5; }
+  .tile__hint-close { display: none; }
+  .tile.is-open .tile__hint-open { display: none; }
+  .tile.is-open .tile__hint-close { display: inline; }
+  .tile__chevron { width: 12px; height: 7px; transition: transform var(--dur-step) var(--ease-soft); }
+  .tile__chevron path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+  .tile.is-open .tile__chevron { transform: rotate(180deg); }
+
+  .tile__detail { overflow: hidden; min-height: 0; }
+  .tile__detail-inner { padding: 0.5rem 0 0.5rem; }
+  .tile__body { max-width: 34rem; }
+  .tile__body :global(p) { margin: 0 0 0.9em; }
+  .tile__body :global(p:last-child) { margin-bottom: 0; }
+  .tiles :global(.tile__link) { margin-top: 1rem; }
+  .tile:not(.is-open) .tile__detail { visibility: hidden; }
+
+  @media (hover: hover) {
+    .tile:hover .tile__visual :global(.media) { transform: scale(1.03); }
+    .tile__toggle:hover { color: var(--sage-100); }
+  }
+
+  /* Row at 760px and up: the opened tile widens and its detail rises on a framed salt panel. */
+  @media (min-width: 760px) {
+    .tiles { display: flex; gap: clamp(1rem, 2vw, 2rem); align-items: stretch; }
+    .tile {
+      flex: 1 1 0;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      transition: flex-grow var(--dur-slow) var(--ease-soft) var(--delay-como);
+    }
+    .tile.is-open { flex-grow: 1.5; }
+    .tile__visual { aspect-ratio: auto; height: var(--tile-h); }
+    .tile__toggle::before { aspect-ratio: auto; height: var(--tile-h); }
+    .tile.is-open .tile__visual :global(.media) { transform: scale(1.03); }
+    .tile__detail {
+      position: absolute;
+      inset: auto 12px auto 12px;
+      top: 12px;
+      height: calc(var(--tile-h) - 24px);
+      display: flex;
+      align-items: flex-end;
+      padding: 0;
+      pointer-events: none;
+      overflow: visible;
+    }
+    .tile__detail-inner {
+      width: 100%;
+      max-height: 100%;
+      overflow-y: auto;
+      padding: clamp(1.25rem, 2vw, 2rem);
+      background: var(--salt-25);
+      outline: 1px solid var(--sage-20);
+      outline-offset: -1px;
+      opacity: 0;
+      translate: 0 12px;
+      transition: opacity var(--dur-fast) var(--ease-soft), translate var(--dur-fast) var(--ease-soft);
+    }
+    .tile.is-open .tile__detail { pointer-events: auto; }
+    .tile.is-open .tile__detail-inner {
+      opacity: 1;
+      translate: 0 0;
+      transition: opacity 500ms var(--ease-soft) 300ms, translate 500ms var(--ease-soft) 300ms;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tile, .tile__visual :global(.media), .tile__chevron, .tile__detail-inner { transition: none !important; }
+  }
+</style>

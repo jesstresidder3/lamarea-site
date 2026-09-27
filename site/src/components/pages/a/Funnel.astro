@@ -1,0 +1,673 @@
+---
+/*
+  The stepped enquiry funnel, /enquire (plan/11 Part 5, plan/10 section 6, build spec 7 and 12).
+
+  Step 0 reads audience, format, venue, experience, step, source and utm_* from the URL.
+  1 Who is the day for? (skipped and shown as confirmed when the URL already says)
+  2 The occasion (private) or what the day should do for the team (corporate, organisation optional)
+  3 Roughly how many guests?   4 What draws you? (multi-select with small images)
+  5 Coast or vineyard?   6 When, and which kind of day?   7 Your details, consent, collection notice
+  One question per screen, progress, a back link, answers kept in sessionStorage ('lm-enquiry'),
+  soft cross-fades, and focus moved to each question for keyboard and screen reader users.
+  ?step=1|2|5 (the customise prompts) opens at that step; the rest are still asked before the details.
+
+  On submit the answers POST as JSON to /api/enquiry (functions/api/enquiry.js, a documented stub for
+  Dom). The static prototype has no backend, so a missing endpoint falls back to the thank-you page
+  with the answers held in this browser. Without JavaScript every question shows as one form that
+  posts to the same endpoint.
+
+  Behaviour: ./funnel.ts. Copy: every question and answer label is drafted for Belle (data-draft).
+*/
+import Media from '../../media/Media.astro';
+import Icon from '../../base/Icon.astro';
+import ArrowLink from '../../base/ArrowLink.astro';
+import QuestionCircles from '../../base/QuestionCircles.astro';
+import { getExperiences, getVenues, getTestimonials } from '../../../lib/content';
+import { cta, contact } from '../../../data/settings';
+import { AUDIENCE, OCCASION, OUTCOME, GUESTS, SETTING, FORMAT, REST, nextMonths, STORE_KEY, type Option } from './funnel-options';
+
+const guided = await getExperiences('guided');
+const experiences: Option[] = [...guided.map((e) => ({ value: e.id, label: e.data.name, media: e.data.media })), REST];
+const venues = (await getVenues()).map((v) => ({ slug: v.id, name: v.data.name, region: v.data.region }));
+const months = nextMonths();
+
+// One review line per path for the details step, verbatim sentences from the reviews themselves.
+const reviews = await getTestimonials();
+// `from` starts the excerpt part way into a sentence (shown with a leading ellipsis), so a typo earlier
+// in the review ("particiapted") is not set in large type. The words shown are unchanged.
+const sentence = (id: string, needle: string, from?: string) => {
+  const t = reviews.find((r) => r.id === id);
+  if (!t?.data.quote) return null;
+  const s = t.data.quote.split(/(?<=[.!?])\s+/).find((x) => x.includes(needle))?.trim();
+  if (!s) return null;
+  const cut = from ? s.indexOf(from) : 0;
+  return { quote: cut > 0 ? `…${s.slice(cut)}` : s, by: t.data.descriptor };
+};
+const proof = {
+  corporate: sentence('google-justin-kurenda', 'relaxed, recovered', 'we left feeling'),
+  private: sentence('google-donna-giannetta', 'completely cared for'),
+};
+
+const belle = contact.emails.find((e) => e.label === 'Belle');
+const steps = 7;
+---
+<section class="funnel" data-funnel data-store={STORE_KEY} aria-labelledby="funnel-title">
+  <script type="application/json" data-funnel-venues set:html={JSON.stringify(venues)} />
+  <div class="wrap funnel__grid">
+    <div class="funnel__main">
+      <header class="funnel__top">
+        <h1 class="funnel__title" id="funnel-title">Plan your day</h1>
+        <p class="funnel__intro" data-draft>A few questions, one at a time, then a call with Belle to shape your day.</p>
+        <div class="funnel__progress" aria-hidden="true"><span class="funnel__fill" data-fill></span></div>
+        <p class="funnel__count" data-count aria-live="polite">Question 1 of {steps}</p>
+      </header>
+
+      <form class="funnel__form" action="/api/enquiry" method="post" novalidate data-funnel-form>
+        <p class="funnel__confirmed" data-confirmed hidden>
+          <span>Planning for <span data-confirmed-label></span>.</span>
+          <button type="button" class="funnel__change" data-change-audience>Change</button>
+        </p>
+
+        <!-- 1 -->
+        <section class="step" data-step="1" aria-labelledby="q1">
+          <h2 class="step__q" id="q1" tabindex="-1" data-draft>Who is the day for?</h2>
+          <fieldset class="opts opts--two">
+            <legend class="visually-hidden">Who is the day for?</legend>
+            {AUDIENCE.map((o) => (
+              <label class="opt">
+                <input type="radio" name="audience" value={o.value} required />
+                <span class="opt__box"><span class="opt__label" data-draft>{o.label}</span><span class="opt__hint" data-draft>{o.hint}</span></span>
+              </label>
+            ))}
+          </fieldset>
+          <p class="step__error" data-error aria-live="polite"></p>
+        </section>
+
+        <!-- 2 -->
+        <section class="step" data-step="2" aria-labelledby="q2">
+          <div class="step__variant" data-variant="private">
+            <p class="step__nojs">If it is a private group</p>
+            <h2 class="step__q" id="q2" tabindex="-1" data-draft data-q-private>What’s the occasion?</h2>
+            <fieldset class="opts">
+              <legend class="visually-hidden">What’s the occasion?</legend>
+              {OCCASION.map((o) => (
+                <label class="opt">
+                  <input type="radio" name="occasion" value={o.value} />
+                  <span class="opt__box"><span class="opt__label" data-draft>{o.label}</span></span>
+                </label>
+              ))}
+            </fieldset>
+            <label class="field field--other" data-other-for="occasion">
+              <span class="field__label">Tell us a little more <span class="field__optional">(optional)</span></span>
+              <input type="text" name="occasion_other" maxlength="200" autocomplete="off" />
+            </label>
+          </div>
+          <div class="step__variant" data-variant="corporate">
+            <p class="step__nojs">If it is for your team</p>
+            <h2 class="step__q" id="q2-team" tabindex="-1" data-draft data-q-corporate>What would you like the day to do for your team?</h2>
+            <fieldset class="opts">
+              <legend class="visually-hidden">What would you like the day to do for your team?</legend>
+              {OUTCOME.map((o) => (
+                <label class="opt">
+                  <input type="radio" name="team_outcome" value={o.value} />
+                  <span class="opt__box"><span class="opt__label" data-draft>{o.label}</span></span>
+                </label>
+              ))}
+            </fieldset>
+            <label class="field field--other" data-other-for="team_outcome">
+              <span class="field__label">Tell us a little more <span class="field__optional">(optional)</span></span>
+              <input type="text" name="team_outcome_other" maxlength="200" autocomplete="off" />
+            </label>
+            <label class="field">
+              <span class="field__label">Organisation <span class="field__optional">(optional)</span></span>
+              <input type="text" name="org" maxlength="120" autocomplete="organization" data-org-first />
+            </label>
+          </div>
+          <p class="step__error" data-error aria-live="polite"></p>
+        </section>
+
+        <!-- 3 -->
+        <section class="step" data-step="3" aria-labelledby="q3">
+          <h2 class="step__q" id="q3" tabindex="-1" data-draft>Roughly how many guests?</h2>
+          <p class="step__help" data-draft>Group sizes vary by venue, so a rough number is all we need.</p>
+          <fieldset class="opts opts--pairs">
+            <legend class="visually-hidden">Roughly how many guests?</legend>
+            {GUESTS.map((o) => (
+              <label class="opt opt--compact">
+                <input type="radio" name="group_size_band" value={o.value} />
+                <span class="opt__box"><span class="opt__label" data-draft>{o.label}</span></span>
+              </label>
+            ))}
+          </fieldset>
+          <p class="step__error" data-error aria-live="polite"></p>
+        </section>
+
+        <!-- 4 -->
+        <section class="step" data-step="4" aria-labelledby="q4">
+          <h2 class="step__q" id="q4" tabindex="-1" data-draft>What draws you to a La maréa day?</h2>
+          <p class="step__help" data-draft>Choose as many as you like, or none. We shape the day with you on the call.</p>
+          <fieldset class="opts opts--grid">
+            <legend class="visually-hidden">What draws you to a La maréa day? Choose any.</legend>
+            {experiences.map((o) => (
+              <label class="opt opt--image">
+                <input type="checkbox" name="experiences" value={o.value} />
+                <span class="opt__box">
+                  <span class="opt__thumb">{o.media && <Media media={o.media} aspect="fill" showNote={false} />}</span>
+                  <span class="opt__label">{o.label}</span>
+                  <span class="opt__tick" aria-hidden="true"></span>
+                </span>
+              </label>
+            ))}
+          </fieldset>
+        </section>
+
+        <!-- 5 -->
+        <section class="step" data-step="5" aria-labelledby="q5">
+          <h2 class="step__q" id="q5" tabindex="-1" data-draft>By the coast or in the vineyards?</h2>
+          <p class="step__help" data-venue-note hidden>You were looking at <span data-venue-name></span>.</p>
+          <fieldset class="opts opts--setting">
+            <legend class="visually-hidden">By the coast or in the vineyards?</legend>
+            {SETTING.map((o) => (
+              <label class:list={['opt', o.media ? 'opt--place' : 'opt--plain']}>
+                <input type="radio" name="setting" value={o.value} />
+                <span class="opt__box">
+                  {o.media && <span class="opt__thumb"><Media media={o.media} aspect="fill" showNote={false} /></span>}
+                  <span class="opt__label" data-draft>{o.label}</span>
+                  {o.hint && <span class="opt__hint">{o.hint}</span>}
+                </span>
+              </label>
+            ))}
+          </fieldset>
+          <input type="hidden" name="venue_slug" value="" data-venue-slug />
+          <p class="step__error" data-error aria-live="polite"></p>
+        </section>
+
+        <!-- 6 -->
+        <section class="step" data-step="6" aria-labelledby="q6">
+          <h2 class="step__q" id="q6" tabindex="-1" data-draft>When are you thinking?</h2>
+          <fieldset class="opts opts--months" data-months>
+            <legend class="step__sub" data-draft>Month</legend>
+            {months.map((o) => (
+              <label class="opt opt--chip">
+                <input type="radio" name="preferred_month" value={o.value} />
+                <span class="opt__box"><span class="opt__label">{o.label}</span></span>
+              </label>
+            ))}
+            <label class="opt opt--chip" data-month-flexible>
+              <input type="radio" name="preferred_month" value="flexible" />
+              <span class="opt__box"><span class="opt__label" data-draft>We are flexible</span></span>
+            </label>
+          </fieldset>
+          <fieldset class="opts opts--row opts--format">
+            <legend class="step__sub" data-draft>Which kind of day?</legend>
+            {FORMAT.map((o) => (
+              <label class="opt opt--compact">
+                <input type="radio" name="format_slug" value={o.value} />
+                <span class="opt__box"><span class="opt__label" data-draft>{o.label}</span></span>
+              </label>
+            ))}
+          </fieldset>
+          <p class="step__error" data-error aria-live="polite"></p>
+        </section>
+
+        <!-- 7 -->
+        <section class="step" data-step="7" aria-labelledby="q7">
+          <h2 class="step__q" id="q7" tabindex="-1" data-draft>Where should Belle reply?</h2>
+          <div class="fields">
+            <label class="field">
+              <span class="field__label">Name</span>
+              <input type="text" name="name" autocomplete="name" maxlength="120" required />
+            </label>
+            <label class="field">
+              <span class="field__label">Email</span>
+              <input type="email" name="email" autocomplete="email" inputmode="email" maxlength="200" required />
+            </label>
+            <label class="field">
+              <span class="field__label">Phone <span class="field__optional">(optional)</span></span>
+              <input type="tel" name="phone" autocomplete="tel" inputmode="tel" maxlength="40" />
+            </label>
+            <label class="field" data-org-late>
+              <span class="field__label">Organisation <span class="field__optional">(optional)</span></span>
+              <input type="text" name="org_details" autocomplete="organization" maxlength="120" />
+            </label>
+            <label class="field field--wide">
+              <span class="field__label">Anything else <span class="field__optional">(optional)</span></span>
+              <textarea name="message" rows="4" maxlength="2000" aria-describedby="message-help"></textarea>
+              <span class="field__help" id="message-help" data-draft>Please leave out any health or medical details. We ask for those separately, and only once your day is booked.</span>
+            </label>
+          </div>
+
+          <label class="consent">
+            <input type="checkbox" name="marketing_consent" value="yes" />
+            <span class="consent__check" aria-hidden="true"></span>
+            <span class="consent__text" data-consent-text data-draft>Also email me La maréa news and retreat releases. Unsubscribe at any time.</span>
+          </label>
+
+          <p class="notice" data-draft>
+            We collect these details to reply to your enquiry and plan your day with you. They are stored securely, used only by La maréa, and never sold. Read our <a class="text-link" href="/privacy-policy">privacy policy</a> for how we keep and delete them.
+          </p>
+
+          <div class="trap" aria-hidden="true">
+            <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+          </div>
+          <!-- Cloudflare Turnstile (Dom): the invisible widget renders here and adds cf-turnstile-response. -->
+          <div class="turnstile" data-turnstile></div>
+          <p class="step__error" data-error aria-live="polite"></p>
+        </section>
+
+        <div class="funnel__actions">
+          <span class="funnel__back" data-back-wrap hidden>
+            <ArrowLink as="button" label="Back" direction="left" arrow="before" data-back />
+          </span>
+          <button type="submit" class="btn-filled funnel__next" data-next>Continue</button>
+          <button type="submit" class="btn-filled funnel__send" data-send>Send my enquiry</button>
+        </div>
+      </form>
+    </div>
+
+    <aside class="funnel__aside" aria-label="About planning your day">
+      <div class="aside-block" data-aside="start">
+        <Icon name="personalisation" size="2.5rem" class="aside__icon" label="Personalisation, one of La maréa’s ten pillars" />
+        <p class="aside__title" data-draft>A day shaped around your group</p>
+        <p class="aside__line" data-draft>Three questions to begin. We curate the rest with you.</p>
+        <QuestionCircles showIntro={false} params={{ source: 'enquire' }} class="aside__prompts" />
+      </div>
+
+      <div class="aside-block" data-aside="summary" hidden>
+        <p class="aside__title">Your day so far</p>
+        <dl class="summary" data-summary></dl>
+      </div>
+
+      <div class="aside-block" data-aside="details">
+        {proof.private && (
+          <figure class="aside__proof" data-proof="private">
+            <blockquote><p>“{proof.private.quote}”</p></blockquote>
+            <figcaption>{proof.private.by}, Google review</figcaption>
+          </figure>
+        )}
+        {proof.corporate && (
+          <figure class="aside__proof" data-proof="corporate">
+            <blockquote><p>“{proof.corporate.quote}”</p></blockquote>
+            <figcaption>{proof.corporate.by}, Google review</figcaption>
+          </figure>
+        )}
+        <div class="aside__contact">
+          <p class="aside__title">Or write to Belle</p>
+          <ul role="list">
+            {belle && <li><a class="text-link" href={`mailto:${belle.address}`}>{belle.address}</a></li>}
+            <li><a class="text-link" href={`tel:${contact.phone.tel}`}>{contact.phone.display}</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="aside__call">
+        Rather talk first?
+        <a class="text-link" href={cta.discovery.href} target="_blank" rel="noopener">Book a discovery call with Belle<span class="visually-hidden"> (opens Belle’s calendar in a new tab)</span></a>
+      </p>
+    </aside>
+  </div>
+</section>
+
+<!--
+  First paint: mark the opening step, the step 2 variant, the confirmed line and the aside before the
+  deferred funnel.ts runs, so nothing moves when it takes over (QA M2). Same start rule as funnel.ts.
+-->
+<script is:inline define:vars={{ storeKey: STORE_KEY }}>
+  (function () {
+    var root = document.querySelector('[data-funnel]');
+    if (!root) return;
+    var s = {};
+    try { s = JSON.parse(sessionStorage.getItem(storeKey) || '{}') || {}; } catch (e) { s = {}; }
+    if (s.submitted) s = {};
+    var a = s.answers || {};
+    var p = new URLSearchParams(location.search);
+    var fromUrl = p.get('audience');
+    var audience = fromUrl === 'private' || fromUrl === 'corporate' ? fromUrl : a.audience;
+    var urlAudience = fromUrl === 'private' || fromUrl === 'corporate' || Boolean(s.meta && s.meta.audience_from_url);
+    var asked = Number(p.get('step'));
+    var start;
+    if ([1, 2, 5].indexOf(asked) > -1) start = asked === 2 && !audience ? 1 : asked;
+    else if (s.current && s.current >= 1 && s.current <= 7) start = s.current;
+    else start = audience && urlAudience ? 2 : 1;
+    root.dataset.at = String(start);
+    var step = root.querySelector('.step[data-step="' + start + '"]');
+    if (step) step.classList.add('is-current');
+    root.querySelectorAll('.step[data-step="2"] [data-variant]').forEach(function (v) {
+      v.hidden = audience ? v.dataset.variant !== audience : v.dataset.variant === 'corporate';
+    });
+    var step2 = root.querySelector('.step[data-step="2"]');
+    if (step2) step2.setAttribute('aria-labelledby', audience === 'corporate' ? 'q2-team' : 'q2');
+    var confirmed = root.querySelector('[data-confirmed]');
+    if (confirmed && audience && start !== 1 && start !== 7) {
+      confirmed.hidden = false;
+      var label = confirmed.querySelector('[data-confirmed-label]');
+      if (label) label.textContent = audience === 'corporate' ? 'your team or organisation' : 'a private group';
+    }
+    root.querySelectorAll('[data-aside]').forEach(function (b) {
+      var k = b.dataset.aside;
+      b.hidden = !((k === 'start' && start === 1) || (k === 'summary' && start > 1 && start < 7) || (k === 'details' && start === 7));
+    });
+  })();
+</script>
+
+<script>
+  import './funnel';
+</script>
+
+<style>
+  .funnel { padding-block: clamp(2rem, 5vw, 4.5rem) var(--section-y); background: var(--sand-30); min-height: calc(100svh - var(--header-h)); }
+  .funnel__grid { display: grid; gap: var(--space-xl) var(--space-l); align-items: start; }
+  .funnel__main { min-width: 0; max-width: 46rem; }
+
+  .funnel__title {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    line-height: var(--lh-label);
+    color: var(--sage-80);
+  }
+  .funnel__intro { margin: 0.6rem 0 0; font-size: var(--fs-small); color: var(--sage-80); max-width: 30rem; }
+  .funnel__progress { position: relative; height: 1px; margin-top: clamp(1.5rem, 3vw, 2.25rem); background: var(--sage-20); overflow: hidden; }
+  .funnel__fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 100%;
+    background: var(--sage-80);
+    transform-origin: left center;
+    transform: scaleX(calc(1 / 7));
+    transition: transform var(--dur-step) var(--ease-soft);
+  }
+  :global(html:not(.js)) :is(.funnel__progress, .funnel__count) { display: none; }
+  .funnel__count { margin: 0.7rem 0 0; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.08em; color: var(--sage-80); }
+
+  .funnel__form { margin-top: clamp(2rem, 4.5vw, 3.25rem); }
+  .funnel__confirmed {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 1rem;
+    margin: 0 0 1.5rem;
+    font-size: var(--fs-small);
+    color: var(--sage-80);
+  }
+  .funnel__confirmed[hidden] { display: none; }
+  .funnel__change {
+    min-height: 2.75rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: var(--font-ui);
+    font-size: var(--fs-small);
+    color: var(--heading);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, currentColor 38%, transparent);
+    text-underline-offset: 0.25em;
+  }
+
+  /* Steps: all visible without JS, one at a time with it. */
+  .step { border: 0; }
+  .step + .step { margin-top: var(--space-xl); }
+  :global(html.js) .step { display: none; }
+  :global(html.js) .step.is-current { display: block; }
+  :global(html.js) .step + .step { margin-top: 0; }
+  :global(html.js) .step__nojs { display: none; }
+  /* Until the inline script has picked the opening step, keep the actions and aside out of sight, so a
+     paint before it runs cannot count as a layout shift (QA M2, still 0.48 intermittently at 390). */
+  :global(html.js) .funnel:not([data-at]) :is(.funnel__actions, .funnel__aside) { visibility: hidden; }
+  :global(html.js) .step__variant[hidden] { display: none; }
+  .step__nojs { margin: 0 0 0.5rem; font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); }
+  .step__variant + .step__variant { margin-top: var(--space-l); }
+  :global(html.js) .step__variant + .step__variant { margin-top: 0; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.js) .step.is-current { animation: step-in 520ms var(--ease-soft) both; }
+    :global(html.js) .step.is-leaving { display: block; animation: step-out 220ms var(--ease-standard) both; }
+  }
+  @keyframes step-in { from { opacity: 0; translate: 0 10px; } to { opacity: 1; translate: 0 0; } }
+  @keyframes step-out { from { opacity: 1; } to { opacity: 0; } }
+
+  .step__q {
+    margin: 0 0 clamp(1.5rem, 3vw, 2.25rem);
+    font-size: var(--fs-h2);
+    line-height: 1.14;
+    max-width: 16em;
+    outline: none;
+  }
+  .step__q:focus-visible { outline: 1.5px solid var(--focus); outline-offset: 6px; }
+  .step__help { margin: calc(-1 * clamp(0.75rem, 1.5vw, 1.25rem)) 0 1.5rem; font-size: var(--fs-small); color: var(--sage-80); max-width: 32rem; }
+  .step__sub {
+    margin: 0 0 0.9rem;
+    padding: 0;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--sage-80);
+  }
+  .step__error { min-height: 1.4em; margin: 0.9rem 0 0; font-size: var(--fs-small); color: var(--sage-100); }
+  .step__error:not(:empty)::before { content: ''; display: inline-block; width: 0.9rem; height: 1px; margin: 0 0.6rem 0.25em 0; background: currentColor; vertical-align: middle; }
+
+  /* Options: quiet cards, a hairline at rest, sage when chosen. The input covers the card. */
+  .opts { display: grid; gap: 0.75rem; margin: 0; padding: 0; border: 0; min-width: 0; }
+  .opts--two { grid-template-columns: minmax(0, 1fr); }
+  .opts--row { grid-template-columns: repeat(auto-fill, minmax(min(100%, 11.5rem), 1fr)); }
+  .opts--pairs { grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 480px) { .opts--pairs { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .opts--grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.25rem), 1fr)); gap: 0.75rem; }
+  .opts--setting { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .opts--months { grid-template-columns: repeat(auto-fill, minmax(min(100%, 9.5rem), 1fr)); gap: 0.5rem; margin-bottom: var(--space-m); }
+  .opts--months .step__sub, .opts--format .step__sub { grid-column: 1 / -1; }
+  .opts--format { margin-top: 0.5rem; }
+
+  .opt { position: relative; display: block; min-width: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .opt input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .opt__box {
+    position: relative;
+    display: grid;
+    gap: 0.3rem;
+    height: 100%;
+    min-height: 3.5rem;
+    padding: 1rem 1.25rem 1.05rem 3rem;
+    border: 1px solid var(--sage-20);
+    background: color-mix(in srgb, var(--salt-25) 55%, transparent);
+    transition: border-color var(--dur-fast) var(--ease-soft), background-color var(--dur-fast) var(--ease-soft);
+  }
+  /* The mark: a small ring that fills for a radio, a square with a tick for a checkbox. */
+  .opt__box::before {
+    content: '';
+    position: absolute;
+    left: 1.2rem;
+    top: 1.35rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    border: 1px solid var(--sage-40);
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 0.2rem var(--salt-25);
+    background: transparent;
+    transition: background-color var(--dur-fast) var(--ease-soft), border-color var(--dur-fast) var(--ease-soft);
+  }
+  .opt__label { font-family: var(--font-serif); font-size: clamp(1.15rem, 1.08rem + 0.3vw, 1.35rem); line-height: 1.25; color: var(--sage-80); }
+  .opt__hint { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.04em; color: var(--sage-80); }
+  @media (hover: hover) {
+    .opt:hover .opt__box { border-color: var(--sage-40); background: var(--salt-25); }
+  }
+  .opt input:checked + .opt__box { border-color: var(--sage-80); background: var(--salt-25); }
+  .opt input:checked + .opt__box::before { border-color: var(--sage-80); background: var(--sage-80); }
+  .opt input:focus-visible + .opt__box { outline: 1.5px solid var(--focus); outline-offset: 3px; }
+
+  .opt--compact .opt__box { min-height: 3.25rem; padding-block: 0.85rem; align-content: center; }
+  .opt--compact .opt__box::before { top: 50%; translate: 0 -50%; }
+  .opt--chip .opt__box { min-height: 2.75rem; padding: 0.55rem 0.9rem 0.6rem 2.35rem; align-content: center; }
+  .opt--chip .opt__box::before { left: 0.9rem; top: 50%; translate: 0 -50%; width: 0.7rem; height: 0.7rem; }
+  .opt--chip .opt__label { font-family: var(--font-ui); font-size: var(--fs-small); letter-spacing: 0.02em; }
+
+  /* Image options (step 4): the whole tile is the target (the input covers it) and the selection is
+     marked on the photograph, a tick in its top corner and a sage frame (CD review 02 item 17). */
+  .opt--image .opt__box { padding: 0; gap: 0; border-color: transparent; background: transparent; }
+  .opt--image .opt__box::before { display: none; }
+  .opt__thumb { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; background: var(--sand-40); outline: 1px solid var(--sage-20); outline-offset: -1px; }
+  .opt--image .opt__label { display: block; padding: 0.6rem 0 0.1rem; font-size: 1.05rem; }
+  .opt__tick {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    z-index: 1;
+    width: 1.1rem;
+    height: 1.1rem;
+    border: 1px solid var(--sage-40);
+    background: var(--salt-25);
+    transition: background-color var(--dur-fast) var(--ease-soft), border-color var(--dur-fast) var(--ease-soft);
+  }
+  .opt__tick::after {
+    content: '';
+    position: absolute;
+    left: 0.36rem;
+    top: 0.14rem;
+    width: 0.28rem;
+    height: 0.52rem;
+    border: solid var(--sand-30);
+    border-width: 0 1px 1px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+  }
+  .opt--image input:checked + .opt__box { background: transparent; }
+  .opt--image input:checked + .opt__box .opt__thumb { outline: 2px solid var(--sage-80); outline-offset: -2px; }
+  .opt--image input:checked + .opt__box .opt__label { color: var(--sage-100); }
+  .opt--image input:checked + .opt__box .opt__tick { background: var(--sage-80); border-color: var(--sage-80); }
+  .opt--image input:checked + .opt__box .opt__tick::after { opacity: 1; }
+  @media (hover: hover) {
+    .opt--image:hover .opt__box { background: transparent; }
+    .opt--image:hover .opt__thumb { outline-color: var(--sage-40); }
+  }
+
+  /* Coast or vineyard: two photographs, then a quieter third choice. */
+  .opt--place .opt__box { padding: 0 0 1rem; border: 0; background: transparent; gap: 0.25rem; }
+  .opt--place .opt__box::before { top: auto; bottom: 1.35rem; left: auto; right: 0.25rem; }
+  .opt--place .opt__thumb { aspect-ratio: 4 / 3; margin-bottom: 0.75rem; }
+  .opt--place input:checked + .opt__box { background: transparent; }
+  .opt--place input:checked + .opt__box .opt__thumb { outline: 1.5px solid var(--sage-80); outline-offset: -1.5px; }
+  .opt--plain { grid-column: 1 / -1; }
+  @media (hover: hover) {
+    .opt--place:hover .opt__box { background: transparent; }
+  }
+
+  /* Fields */
+  .field { display: grid; gap: 0.35rem; min-width: 0; }
+  .field__label { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); }
+  .field__optional { letter-spacing: 0.04em; opacity: 0.85; }
+  .field input, .field textarea {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.55rem 0;
+    border: 0;
+    border-bottom: 1px solid var(--sage-40);
+    border-radius: 0;
+    background: transparent;
+    color: var(--sage-100);
+    font-family: var(--font-ui);
+    font-size: 1rem;
+    transition: border-color var(--dur-fast) var(--ease-soft);
+  }
+  .field textarea { resize: vertical; min-height: 6.5rem; line-height: 1.55; }
+  .field input:focus, .field textarea:focus { outline: none; border-bottom-color: var(--sage-100); }
+  .field input:focus-visible, .field textarea:focus-visible { outline: 1.5px solid var(--focus); outline-offset: 3px; }
+  .field [aria-invalid='true'] { border-bottom-style: dashed; border-bottom-color: var(--sage-100); }
+  .field__help { font-size: var(--fs-label); line-height: 1.5; letter-spacing: 0.02em; color: var(--sage-80); }
+  .field--other { margin-top: 1.25rem; max-width: 28rem; }
+  :global(html.js) .field--other:not(.is-on) { display: none; }
+  .step__variant .field:not(.field--other) { margin-top: 1.25rem; max-width: 28rem; }
+  .fields { display: grid; gap: 1.25rem 1.75rem; }
+  @media (min-width: 640px) {
+    .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .field--wide { grid-column: 1 / -1; }
+  }
+  :global(html.js) [data-org-late]:not(.is-on) { display: none; }
+
+  .consent {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.25rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+    margin-top: 1.75rem;
+    padding-block: 0.4rem;
+    font-size: var(--fs-small);
+    line-height: 1.5;
+    cursor: pointer;
+  }
+  .consent input { position: absolute; left: 0; top: 0.5rem; width: 1.25rem; height: 1.25rem; margin: 0; opacity: 0; cursor: pointer; }
+  .consent__check { position: relative; width: 1rem; height: 1rem; margin-top: 0.2rem; border: 1px solid var(--sage-40); }
+  .consent__check::after {
+    content: '';
+    position: absolute;
+    left: 0.3rem;
+    top: 0.1rem;
+    width: 0.28rem;
+    height: 0.52rem;
+    border: solid var(--sage-80);
+    border-width: 0 1px 1px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+  }
+  .consent input:checked + .consent__check { border-color: var(--sage-80); }
+  .consent input:checked + .consent__check::after { opacity: 1; }
+  .consent input:focus-visible + .consent__check { outline: 1.5px solid var(--focus); outline-offset: 3px; }
+  .notice { margin: 1.25rem 0 0; font-size: var(--fs-label); line-height: 1.6; letter-spacing: 0.02em; color: var(--sage-80); max-width: 36rem; }
+  .trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+  .funnel__actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; margin-top: clamp(1.75rem, 3.5vw, 2.5rem); padding-top: 1.5rem; border-top: 1px solid var(--sage-20); }
+  .funnel__back[hidden] { display: none; }
+  .funnel__next, .funnel__send { min-width: 10.5rem; min-height: 3rem; margin-left: auto; }
+  :global(html:not(.js)) .funnel__next { display: none; }
+  :global(html.js) .funnel__send { display: none; }
+  :global(html.js) .funnel[data-at='7'] .funnel__next { display: none; }
+  :global(html.js) .funnel[data-at='7'] .funnel__send { display: inline-flex; }
+  .funnel__send[disabled] { opacity: 0.6; cursor: progress; }
+
+  /* Aside */
+  .funnel__aside { min-width: 0; color: var(--sage-100); }
+  .aside-block[hidden] { display: none; }
+  :global(html:not(.js)) .aside-block[data-aside='summary'] { display: none; }
+  .aside-block + .aside-block { margin-top: var(--space-l); }
+  :global(html.js) .aside-block + .aside-block { margin-top: 0; }
+  .funnel__aside :global(.aside__icon) { display: block; color: var(--sage-60); margin-bottom: 1.1rem; }
+  .aside__title { margin: 0 0 0.5rem; font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.25; color: var(--sage-80); }
+  .aside__line { margin: 0 0 1.5rem; font-size: var(--fs-small); color: var(--sage-80); }
+  .funnel__aside :global(.aside__prompts .prompt) { min-height: clamp(14rem, 19vw, 17rem); padding: 4rem 0.9rem 1.2rem; }
+  .funnel__aside :global(.aside__prompts .prompt__q) { font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem); }
+  .aside__call { margin: clamp(1.75rem, 3vw, 2.5rem) 0 0; padding-top: 1.1rem; border-top: 1px solid var(--sage-20); font-size: var(--fs-small); color: var(--sage-80); }
+
+  .summary { display: grid; gap: 0; margin: 1rem 0 0; border-top: 1px solid var(--sage-20); }
+  .summary :global(div) { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: 0.75rem; padding-block: 0.7rem; border-bottom: 1px solid var(--sage-20); }
+  .summary :global(dt) { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); padding-top: 0.1rem; }
+  .summary :global(dd) { margin: 0; font-size: var(--fs-small); line-height: 1.5; }
+
+  .aside__proof { margin: 0 0 var(--space-m); padding: 0; }
+  :global(html.js) .aside__proof:not(.is-on) { display: none; }
+  .aside__proof blockquote { margin: 0; }
+  .aside__proof p { margin: 0; font-family: var(--font-serif); font-style: normal; font-size: clamp(1.3rem, 1.15rem + 0.6vw, 1.65rem); line-height: 1.35; color: var(--sage-80); max-width: 22em; }
+  .aside__proof figcaption { margin-top: 0.8rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.06em; color: var(--sage-80); }
+  .aside__contact ul { margin: 0.4rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.25rem; font-size: var(--fs-small); }
+  .aside__contact a { display: inline-flex; align-items: center; min-height: 2.75rem; }
+
+  @media (min-width: 1000px) {
+    .funnel__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(3rem, 6vw, 7rem); }
+    .funnel__aside { position: sticky; top: calc(var(--header-h) + 2rem); padding-top: calc(clamp(2rem, 4.5vw, 3.25rem) + 5.5rem); }
+    .opts--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (min-width: 640px) and (max-width: 999px) {
+    .opts--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .funnel__fill, .opt__box, .opt__box::before, .opt__tick, .field input, .field textarea { transition: none; }
+  }
+</style>

@@ -1,0 +1,73 @@
+{
+  "name": "Luca Guiotto",
+  "team": "food_hospitality",
+  "order": 1,
+  "group_as_published": "Food & Hospitality Partners",
+  "role": "Award-Winning Contemporary Italian Chef",
+  "role_long": "Internationally Renowned and Award-Winning Chef",
+  "business": "Aromi Dining",
+  "business_url": "https://www.aromidining.com",
+  "credentials": [
+    "10 years in Michelin-starred restaurants in Italy (Cinzia & Valerio, Casin del Gamba)",
+    "SMH Good Food Guide, 1 Hat, 2017"
+  ],
+  "credentials_basis": "Picked by the build from the qualifications as published, verbatim.",
+  "qualifications": [
+    "Veneto-born chef, internationally renowned and award-winning head chef",
+    "10 years in Michelin-starred restaurants in Italy (Cinzia & Valerio, Casin del Gamba)",
+    "Experience in luxury 5-star hotels in Switzerland, including Badrutt Palace, St. Moritz",
+    "Awards: Ospitalità Italiana Overseas Excellence, 2016; TAA Top 3 Lifestyle Hotel in Asia & Pacific, 2016; SMH Good Food Guide, 1 Hat, 2017; TAA Chef of the Year Finalist, 2019"
+  ],
+  "services": [
+    "Luca creates menus that showcase Italian-inspired flavours while aligning perfectly with your vision. Whether you’re craving classic dishes, exploring modern interpretations, or accommodating dietary requirements, each dish is thoughtfully curated to suit your needs.",
+    "Using the finest local and seasonal South Australian ingredients, Luca ensures every course tells a story through bold flavours, elegant presentation, and meticulous attention to detail.",
+    "Luca curates a variety of private dining experiences, including individually plated or shared 3-, 4-, and 5-course lunches and dinners, as well as exclusive private pasta-making classes."
+  ],
+  "bio": [
+    {
+      "kind": "para",
+      "text": "\"ITALIAN FLAVOURS WITH A CONTEMPORARY TWIST, brought TO LIFE THROUGH PERSONALITY, INSTINCT and finesse.\""
+    },
+    {
+      "kind": "para",
+      "text": "Luca brings Italian flavours with a contemporary twist to the table, infused with personality, instinct, and finesse. At the heart of his culinary philosophy is the belief that every dining experience should be as unique as the individuals enjoying it. He designs tailored menus to reflect your tastes, preferences, and the occasion you’re celebrating."
+    }
+  ],
+  "portrait": "team-luca-guiotto",
+  "pillars": [
+    "nutrition",
+    "luxury-and-heartfelt-hospitality"
+  ],
+  "pillars_basis": "Mapped by the build from the services each person publishes. Belle to confirm.",
+  "live_url": "https://www.lamarea.com.au/luca-guiotto",
+  "source": [
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/luca-guiotto",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "live_site",
+      "url": "https://www.lamarea.com.au/partners",
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "13",
+      "captured": "24-09-2026",
+      "section": "Signature culinary experience"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": "21",
+      "captured": "24-09-2026",
+      "section": "Key Practitioners and Partners"
+    }
+  ],
+  "status": "draft",
+  "review": "Needs Belle's check. Roster is decision 12. Guide p.21: \"Aromi Dining. Contemporary Italian award winning chef and founder of Aromi Dining, delivering private dining and chef led experiences.\" The home page testimonial calls him \"Lucas\". The quote line is published in mixed capitals and is kept verbatim."
+}

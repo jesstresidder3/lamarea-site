@@ -1,0 +1,28 @@
+{
+  "quote": null,
+  "reviewer_as_published": "Sara Natasha",
+  "reviewer_note": "Kept for records only. The site shows the descriptor, never the name, until Belle has permission.",
+  "descriptor": "Guest",
+  "descriptor_basis": "Derived by the build only from the review text: Rating only, no written review",
+  "group_type": "unstated",
+  "format": "unknown",
+  "format_label": null,
+  "format_basis": "The review does not say which format it was",
+  "venue": null,
+  "source_type": "google",
+  "source": {
+    "type": "google_reviews_widget",
+    "url": "https://www.lamarea.com.au/",
+    "note": "Embedded Wix app \"mkp-google-reviews\" on every page, review data read from the widget",
+    "captured": "24-09-2026"
+  },
+  "rating": 5,
+  "date": "27-08-2026",
+  "retreat_type_as_stated": null,
+  "experiences_mentioned": [],
+  "image": null,
+  "featured_on": [],
+  "duplicate_of": null,
+  "status": "hidden",
+  "review": "Five-star rating with no written review."
+}

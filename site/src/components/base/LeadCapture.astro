@@ -1,0 +1,200 @@
+---
+/*
+  Email capture with a separate, unticked marketing consent, a honeypot and a calm inline success
+  state (register P5 P6 P7). Posts to a stub until Dom's endpoint exists.
+
+  <LeadCapture list="newsletter" />
+  <LeadCapture list="app" heading="Coming 2027" intro="..." submitLabel="Keep me posted" />
+
+  Props
+  - list: 'newsletter' | 'app' | 'collective' | 'waitlist' (stored with the submission)
+  - heading, intro: optional text above the form (intro drafted copy can be marked with draft)
+  - firstName: show an optional first name field (default false)
+  - submitLabel (default 'Join'), successMessage
+  - consentLabel: the marketing consent line (default drafted, see below)
+  - endpoint: default '/api/subscribe'
+  - tone: 'default' (sand) or 'dark' (sage bands)
+  - layout: 'inline' (field and button on one row where it fits) or 'stacked'
+
+  Stub behaviour (src/scripts/lead-capture.ts): validates, then stores the payload in sessionStorage
+  under 'lm-lead-capture' and shows the success state without a network call. When Dom's Cloudflare
+  Pages Function is live, set data-live on the form (or pass live) and it POSTs JSON to `endpoint`.
+
+  Payload for Dom:
+  {
+    list: 'newsletter' | 'app' | 'collective' | 'waitlist',
+    email: string,
+    first_name: string | null,
+    marketing_consent: boolean,          // the separate unticked box
+    consent_text: string,                // the exact consent wording shown
+    source_path: string,                 // location.pathname
+    referrer: string | null,
+    submitted_at: string                 // ISO 8601
+  }
+  The honeypot field is named "company"; any value means drop the submission silently.
+*/
+interface Props {
+  list?: 'newsletter' | 'app' | 'collective' | 'waitlist';
+  heading?: string;
+  intro?: string;
+  introDraft?: boolean;
+  firstName?: boolean;
+  submitLabel?: string;
+  successMessage?: string;
+  consentLabel?: string;
+  endpoint?: string;
+  tone?: 'default' | 'dark';
+  layout?: 'inline' | 'stacked';
+  live?: boolean;
+  id?: string;
+  class?: string;
+}
+
+const {
+  list = 'newsletter',
+  heading,
+  intro,
+  introDraft = false,
+  firstName = false,
+  submitLabel = 'Join',
+  successMessage = 'Thank you. You are on the list, and we will be in touch.',
+  consentLabel = 'Also email me La maréa news and retreat releases. Unsubscribe at any time.',
+  endpoint = '/api/subscribe',
+  tone = 'default',
+  layout = 'inline',
+  live = false,
+  id = `lead-${list}-${Math.random().toString(36).slice(2, 7)}`,
+  class: className,
+} = Astro.props;
+---
+<div class:list={['capture', `capture--${tone}`, `capture--${layout}`, className]} data-lead-capture>
+  {heading && <p class="capture__heading">{heading}</p>}
+  {intro && <p class="capture__intro" data-draft={introDraft ? '' : undefined}>{intro}</p>}
+  <form class="capture__form" action={endpoint} method="post" novalidate data-list={list} data-live={live ? '' : undefined} aria-describedby={`${id}-status`}>
+    <div class="capture__row">
+      {firstName && (
+        <label class="capture__field">
+          <span class="capture__label">First name <span class="capture__optional">(optional)</span></span>
+          <input type="text" name="first_name" autocomplete="given-name" />
+        </label>
+      )}
+      <label class="capture__field capture__field--email">
+        <span class="capture__label">Email</span>
+        <input type="email" name="email" autocomplete="email" inputmode="email" required aria-describedby={`${id}-error`} />
+      </label>
+      <button class="btn-filled capture__submit" type="submit">{submitLabel}</button>
+    </div>
+    <p class="capture__error" id={`${id}-error`} aria-live="polite"></p>
+    <label class="capture__consent">
+      <input type="checkbox" name="marketing_consent" value="yes" />
+      <span class="capture__check" aria-hidden="true"></span>
+      <span class="capture__consent-text" data-draft>{consentLabel}</span>
+    </label>
+    <div class="capture__trap" aria-hidden="true">
+      <label>Company <input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
+    </div>
+  </form>
+  <p class="capture__success" id={`${id}-status`} role="status" tabindex="-1" hidden>{successMessage}</p>
+</div>
+
+<script>
+  import '../../scripts/lead-capture';
+</script>
+
+<style>
+  .capture { --lead-ink: var(--sage-100); --lead-line: var(--sage-40); color: var(--lead-ink); max-width: 34rem; }
+  .capture--dark { --lead-ink: var(--sand-30); --lead-line: color-mix(in srgb, var(--sand-30) 55%, transparent); --focus: var(--focus-on-dark); }
+  .capture__heading { font-family: var(--font-serif); font-size: var(--fs-h4); line-height: 1.25; color: var(--heading); margin: 0 0 0.5rem; }
+  .capture--dark .capture__heading { color: var(--sand-30); }
+  .capture__intro { margin: 0 0 1.25rem; font-size: var(--fs-small); }
+
+  .capture__row { display: grid; gap: 0.75rem; align-items: end; }
+  .capture--inline .capture__row { grid-template-columns: minmax(0, 1fr) auto; }
+  .capture--inline .capture__row:has(input[name='first_name']) { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr) auto; }
+  @media (max-width: 519px) {
+    .capture--inline .capture__row,
+    .capture--inline .capture__row:has(input[name='first_name']) { grid-template-columns: minmax(0, 1fr); }
+    .capture__submit { justify-self: start; }
+  }
+
+  .capture__field { display: grid; gap: 0.35rem; min-width: 0; }
+  .capture__label { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); }
+  .capture__optional { opacity: 0.75; letter-spacing: 0.04em; }
+  .capture__field input {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.5rem 0;
+    border: 0;
+    border-bottom: 1px solid var(--lead-line);
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    font-family: var(--font-ui);
+    font-size: 1rem;
+    transition: border-color var(--dur-fast) var(--ease-soft);
+  }
+  .capture__field input:focus { outline: none; border-bottom-color: currentColor; }
+  .capture__field input:focus-visible { outline: 1.5px solid var(--focus); outline-offset: 3px; }
+  .capture__field input[aria-invalid='true'] { border-bottom-color: currentColor; border-bottom-style: dashed; }
+  .capture--dark .capture__submit { background: var(--sand-30); border-color: var(--sand-30); color: var(--sage-80); }
+
+  .capture__error { min-height: 1.2em; margin: 0.4rem 0 0; font-size: var(--fs-label); letter-spacing: 0.02em; }
+
+  .capture__consent {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.25rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+    margin-top: 0.4rem;
+    padding-block: 0.6rem;
+    font-size: var(--fs-label);
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+  }
+  .capture__consent input { position: absolute; opacity: 0; width: 1.25rem; height: 1.25rem; margin: 0; top: 0.65rem; left: 0; cursor: pointer; }
+  .capture__check {
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.15rem;
+    border: 1px solid var(--lead-line);
+    background: transparent;
+    display: grid;
+    place-items: center;
+    transition: border-color var(--dur-fast) var(--ease-soft), background-color var(--dur-fast) var(--ease-soft);
+  }
+  .capture__check::after {
+    content: '';
+    width: 0.3rem;
+    height: 0.55rem;
+    margin-top: -0.1rem;
+    border: solid currentColor;
+    border-width: 0 1px 1px 0;
+    transform: rotate(45deg) scale(0.6);
+    opacity: 0;
+    transition: opacity var(--dur-fast) var(--ease-soft), transform var(--dur-fast) var(--ease-soft);
+  }
+  .capture__consent input:checked + .capture__check { border-color: currentColor; }
+  .capture__consent input:checked + .capture__check::after { opacity: 1; transform: rotate(45deg) scale(1); }
+  .capture__consent input:focus-visible + .capture__check { outline: 1.5px solid var(--focus); outline-offset: 3px; }
+
+  .capture__trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+  .capture__success {
+    margin: 0;
+    padding: 1rem 0;
+    border-top: 1px solid var(--lead-line);
+    font-family: var(--font-display);
+    font-size: var(--fs-lead);
+    line-height: 1.45;
+    outline: none;
+    animation: capture-in var(--dur-slow) var(--ease-soft) both;
+  }
+  @keyframes capture-in { from { opacity: 0; transform: translateY(8px); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .capture__success { animation: none; }
+    .capture__check, .capture__check::after, .capture__field input { transition: none; }
+  }
+</style>

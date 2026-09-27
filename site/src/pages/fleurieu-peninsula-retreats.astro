@@ -1,0 +1,162 @@
+---
+/*
+  /fleurieu-peninsula-retreats, the Fleurieu for someone who has never been (plan/11 4.11 with build
+  spec 12, page builder C). Belle: "show them sort of the breathtaking reasons to come come there as a
+  wellness destination" (BD-122), and "if they've never been to South Australia" (BD-60).
+
+  Order: the coast from above (DJI_0604, the clip the home hero does not use), where the Fleurieu is,
+  the map, the wild side, Belle's own Fleurieu, the local businesses behind the day, Plan your day.
+
+  voice-verbatim-source: lamarea.com.au/our-story (the McLaren Vale, Moana Beach and Myponga Beach
+  lines, dashes set as commas), the Encounter Bay guide p.5 ("The Fleurieu Peninsula has always been
+  home for me."), the home page partners line, and the blue space caption from the home page
+  Instagram feed. Facts: McLaren Vale about 50 minutes and Deep Creek about 90 minutes from Adelaide
+  (venue sites, build spec 12), 90 to 120 minutes the airport transfer (live FAQ 12).
+*/
+import Base from '../layouts/Base.astro';
+import Band from '../components/pages/c/Band.astro';
+import AnswerBlock from '../components/base/AnswerBlock.astro';
+import SectionHead from '../components/base/SectionHead.astro';
+import Eyebrow from '../components/base/Eyebrow.astro';
+import ArrowLink from '../components/base/ArrowLink.astro';
+import CtaBand from '../components/base/CtaBand.astro';
+import Reveal from '../components/base/Reveal.astro';
+import SlideIn from '../components/base/SlideIn.astro';
+import Media from '../components/media/Media.astro';
+import FleurieuMap from '../components/map/FleurieuMap.astro';
+import WildSide from '../components/pages/c/WildSide.astro';
+import LocalBusinesses from '../components/pages/c/LocalBusinesses.astro';
+import NoteFlag from '../components/pages/c/NoteFlag.astro';
+import { faqJsonLd } from '../components/base/schema';
+import { emphasis } from '../components/base/text';
+import { getVenues } from '../lib/content';
+import { site } from '../data/settings';
+
+const venues = await getVenues();
+
+const where = {
+  question: 'Where is the *Fleurieu Peninsula*?',
+  answer:
+    'The Fleurieu Peninsula runs south of Adelaide in South Australia, from the vineyards of McLaren Vale down to the coast at Deep Creek, Victor Harbor and Encounter Bay. McLaren Vale is about 50 minutes from Adelaide and Deep Creek about 90 minutes. From Adelaide Airport, the transfer typically takes 90 to 120 minutes, depending on traffic and time of day.',
+};
+
+const frames = [
+  { media: 'fleurieu-wild-dolphins', subject: 'Dolphins', where: 'Near the rocks below Naiko, Deep Creek' },
+  { media: 'fleurieu-wild-seals', subject: 'Seals' },
+  { media: 'fleurieu-wild-kangaroos', subject: 'Kangaroos' },
+  { media: 'fleurieu-wild-ocean', subject: 'The ocean' },
+  { media: 'fleurieu-wild-hiking', subject: 'Coastal walks', where: 'The Heysen Trail, Deep Creek' },
+  { media: 'fleurieu-whales', subject: 'Whales', where: 'May to October, off Deep Creek' },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'TouristDestination',
+    name: 'Fleurieu Peninsula',
+    description: where.answer,
+    url: new URL('/fleurieu-peninsula-retreats', site.url).href,
+    containedInPlace: { '@type': 'State', name: 'South Australia' },
+    geo: { '@type': 'GeoCoordinates', latitude: -35.45, longitude: 138.45 },
+    touristType: ['Private groups', 'Corporate teams'],
+  },
+  faqJsonLd([{ question: where.question.replace(/\*/g, ''), answer: where.answer }]),
+];
+---
+<Base
+  title="Wellness retreats on the Fleurieu Peninsula"
+  description="The Fleurieu Peninsula, south of Adelaide: its coast, vineyards and wildlife, the drive from the city, and the local businesses behind a La maréa retreat."
+  headerTone="over-media"
+  jsonLd={jsonLd}
+>
+  <Band media="fleurieu-hero" height="screen" hero text="over" level={1} eyebrow="South Australia" heading="Wellness retreats on the *Fleurieu Peninsula*" />
+
+  <section class="section fl-where">
+    <div class="wrap">
+      <Reveal>
+        <AnswerBlock question={where.question} answer={where.answer} eyebrow="For a first visit" draft={{ answer: true }} />
+      </Reveal>
+    </div>
+  </section>
+
+  <section class="section section--flush-top fl-map" aria-labelledby="fl-map-heading">
+    <div class="wrap">
+      <Reveal>
+        <SectionHead id="fl-map-heading" eyebrow="Coast and vineyard" heading="Where the retreats happen" draft={{ heading: true }} />
+      </Reveal>
+    </div>
+    <FleurieuMap venues={venues} id="fleurieu-map" class="fmap--wide" />
+  </section>
+
+  <section class="section band-salt fl-wild" aria-labelledby="fl-wild-heading">
+    <div class="wrap">
+      <Reveal>
+        <SectionHead
+          id="fl-wild-heading"
+          eyebrow="Nature immersion"
+          heading="The wild side of the *Fleurieu*"
+          intro="Blue space refers to natural water environments, like oceans, beaches, rivers and lakes, with research linking time spent around them with mental wellbeing, stress reduction and restoration."
+          draft={{ heading: true }}
+        />
+      </Reveal>
+    </div>
+    <WildSide frames={frames} />
+    <div class="wrap">
+      <NoteFlag items={['Captions to come from Belle. The dolphin, seal and kangaroo footage is her iPhone footage, not yet located (S5). Places are named only where the Naiko site says so.']} />
+    </div>
+  </section>
+
+  <section class="section fl-belle" aria-labelledby="fl-belle-heading">
+    <div class="wrap fl-belle__grid">
+      <div class="fl-belle__media">
+        <SlideIn from="left" distance="12%" class="fl-belle__portrait"><div><Media media="fleurieu-belle" aspect="4 / 5" /></div></SlideIn>
+        <SlideIn distance="16%" index={1} class="fl-belle__vines"><div><Media media="fleurieu-vines" aspect="3 / 2" /></div></SlideIn>
+      </div>
+      <Reveal class="fl-belle__text">
+        <Eyebrow>Belle's Fleurieu</Eyebrow>
+        <h2 class="fl-belle__heading" id="fl-belle-heading" set:html={emphasis('The *Fleurieu Peninsula* has always been home for me.')} />
+        <p>She grew up in McLaren Vale on thirteen acres of land, spending most of her childhood outdoors, training for swimming and surf lifesaving at Moana Beach.</p>
+        <p>Her love for the Fleurieu Peninsula was nurtured from a young age, with her summers filled with long days at Myponga Beach, family, water activities, sunshine, and afternoons enjoying freshly caught squid.</p>
+        <ArrowLink href="/our-story" label="Read our story" class="fl-belle__link" />
+      </Reveal>
+    </div>
+  </section>
+
+  <section class="section band-warm fl-local" aria-labelledby="fl-local-heading">
+    <div class="wrap fl-local__grid">
+      <Reveal class="fl-local__head">
+        <Eyebrow>Local businesses</Eyebrow>
+        <h2 id="fl-local-heading" data-draft>The South Australian businesses behind the day</h2>
+        <p class="fl-local__intro">We partner closely with local South Australian producers, food artisans, and wellness experts, celebrating community while delivering authentic, deeply meaningful experiences for our guests.</p>
+        <NoteFlag items={['Which of these are Fleurieu based is not published, so the page does not say. Belle to confirm the list and add producers (H6).']} />
+      </Reveal>
+      <LocalBusinesses variant="full" />
+    </div>
+  </section>
+
+  <CtaBand line="Bring your group to the *Fleurieu*" params={{ source: 'fleurieu' }} tone="salt" draft={{ line: true }} secondary={{ label: 'See the Places to Pause', href: '/places' }} />
+</Base>
+
+<style>
+  .fl-where { padding-bottom: calc(var(--section-y) * 0.85); }
+  .fl-map { padding-bottom: var(--section-y); }
+  .fl-wild :global(.c-flag) { margin-top: 1.75rem; }
+
+  .fl-belle__grid { display: grid; gap: var(--space-xl) clamp(2rem, 6vw, 7.5rem); align-items: center; }
+  .fl-belle__media { position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: end; }
+  .fl-belle__media :global(.fl-belle__portrait) { grid-column: 1 / span 8; grid-row: 1; }
+  .fl-belle__media :global(.fl-belle__vines) { grid-column: 6 / span 7; grid-row: 1; margin-bottom: -12%; border: clamp(6px, 0.8vw, 10px) solid var(--sand-30); }
+  .fl-belle__heading { margin: 0 0 1.5rem; max-width: 13em; }
+  .fl-belle :global(.fl-belle__text) p { color: var(--sage-100); }
+  .fl-belle :global(.fl-belle__link) { margin-top: 1rem; }
+  @media (min-width: 900px) {
+    .fl-belle__grid { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
+  }
+
+  .fl-local__grid { display: grid; gap: var(--space-l) clamp(2rem, 6vw, 7.5rem); align-items: start; }
+  .fl-local__head h2 { margin: 0 0 1.5rem; max-width: 12em; }
+  .fl-local__intro { color: var(--sage-100); }
+  @media (min-width: 900px) {
+    .fl-local__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+  }
+</style>

@@ -1,0 +1,404 @@
+{
+  "id": "the-table",
+  "food_philosophy": {
+    "guide_p12_intro": "At La maréa, food is a central part of the experience. It is designed to be nourishing, Mediterranean-inspired, and practical, with a touch of chef-led luxury. You will learn and taste meals that feel enjoyable and realistic to continue at home.",
+    "what_to_expect": [
+      "Fresh, local, and seasonal whole-food meals, thoughtfully prepared using local organic fruit and vegetables.",
+      "A Mediterranean inspired menu with a strong emphasis on plant based whole foods, plus locally sourced seafood",
+      "Meals designed in alignment with Belle’s evidence based approach to nutrition and lifestyle wellness",
+      "Shared dining that encourages connection and unhurried conversation"
+    ],
+    "nutrition_pillar": "Seasonal, local and predominantly organic plant-based nourishment, guided by a paddock to plate philosophy and the Mediterranean dietary pattern",
+    "faq_answer": [
+      "The meals we provide are plant-forward and Mediterranean-inspired. We aim to use local, seasonal and organic produce in our meals where possible."
+    ],
+    "journal_intro": [
+      "Food and nutrition are integral to our philosophy.",
+      "Our lifestyle wellness retreats are deeply inspired by the Mediterranean way of living - where nourishment is simple, seasonal, and shared. The recipes you’ll find here follow the same philosophy: plant-based, vibrant, wholesome dishes that celebrate real ingredients and the joy of eating well.",
+      "The Mediterranean dietary pattern is widely recognised as one of the healthiest in the world. It’s built on an abundance of fresh vegetables and fruits, whole grains, legumes, nuts, quality olive oil, herbs, and seafood - along with a naturally relaxed approach to mealtimes. It’s as much about how you eat as what you eat: slowly, socially, and with gratitude.",
+      "These recipes are crafted to nourish your body, mind and taste buds! May they bring a touch of La Maréa into your kitchen - wherever you may be."
+    ],
+    "menu_closing_line": "Inspired by the elements of a Mediterranean lifestyle; plant based nourishment, connection, community & longevity.",
+    "source": [
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 12,
+        "captured": "24-09-2026",
+        "section": "Meals and Beverages"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/philosophy",
+        "captured": "24-09-2026",
+        "section": "Nutrition pillar"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/faqs",
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/blog",
+        "captured": "24-09-2026",
+        "section": "Intro"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 14,
+        "captured": "24-09-2026"
+      }
+    ]
+  },
+  "meal_inclusions": {
+    "items": [
+      "Nourishing wholefood seasonal organic breakfast",
+      "Shared private chef curated Mediterranean-inspired lunch",
+      "Refreshments & wholefood snacks provided over the day"
+    ],
+    "source": {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": 12,
+      "captured": "24-09-2026",
+      "section": "RETREAT MEAL INCLUSIONS"
+    }
+  },
+  "breakfast": {
+    "sample_elements": "Examples may include Greek yoghurt, seeded granola, seasonal organic fruit, local seafood, and organic fresh vegetables. Menu items vary depending on seasonality and produce availability.",
+    "schedule_line": "Nourishing wholefood seasonal breakfast & beverages, group connection time",
+    "source": [
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 12,
+        "captured": "24-09-2026",
+        "section": "SAMPLE MEAL ELEMENTS"
+      },
+      {
+        "type": "live_site_image",
+        "url": "https://www.lamarea.com.au/luxury-retreats",
+        "image": "https://static.wixstatic.com/media/6ffd4a_17ef8fbebcce4d19b21507bd826ca383~mv2.png",
+        "image_alt": "_FULL DAY RETREAT BERESFORD 2026.png",
+        "note": "Text is inside an image on the live retreats page, transcribed by hand from the full-size PNG",
+        "captured": "24-09-2026"
+      }
+    ],
+    "dishes": null
+  },
+  "beverages": {
+    "items": "Coffee, herbal tea, mineral water, tonics and cold-pressed juices",
+    "wine_note": "(note wine can be discussed as an option to be paired with Lunch)",
+    "source": [
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 13,
+        "captured": "24-09-2026",
+        "section": "BEVERAGES INCLUDED"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 23,
+        "captured": "24-09-2026"
+      }
+    ]
+  },
+  "dietary": {
+    "text": "We aim to source produce locally wherever possible and require dietary requirements at least two weeks prior to the retreat via the pre arrival questionnaire. If anyone in your group has severe allergies, complex dietary needs, or medical requirements that impact food intake, please contact us as early as possible so we can confirm suitability.",
+    "source": {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": 13,
+      "captured": "24-09-2026",
+      "section": "DIETARY REQUIREMENTS"
+    }
+  },
+  "lunch": {
+    "title_as_published": "Example Menu",
+    "chef": "Luca Guiotto of Aromi Dining",
+    "description": "Private shared 3 course mediterranean-inspired lunch with Award-Winning Chef, Luca Guiotto of Aromi Dining. Enjoy a fresh, seasonal, plant-forward lunch showcasing the finest local South Australian ingredients, where every course tells a story through bold flavours and elegant presentation.",
+    "courses": [
+      {
+        "course": "Entrée",
+        "dishes": [
+          "Poached beetroot carpaccio style, local goats cheese, kohlrabi, white balsamic dressing, macadamia, mint",
+          "House-made hummus, organic vegetables crudité, “Peninsula Providore” marinated olives and Greek pita bread"
+        ]
+      },
+      {
+        "course": "Mid-course",
+        "dishes": [
+          "Baked eggplant parmigiana, “La Vera” fresh mozzarella, rich house-made tomato sugo, basil pesto"
+        ]
+      },
+      {
+        "course": "Main course & sides",
+        "dishes": [
+          "Locally caught yellow eyed mullet, fennel velouté, kalamata, burnt oranges, salmoriglio dressing",
+          "Double cooked organic potatoes, parmigiano, chives",
+          "Miso baked pumpkin, pepitas, freshly picked herbs",
+          "Sauteed greens, preserved lemons, toasted almonds"
+        ]
+      }
+    ],
+    "dish_count": 7,
+    "named_producers": [
+      "Peninsula Providore",
+      "La Vera"
+    ],
+    "source": [
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 13,
+        "captured": "24-09-2026"
+      },
+      {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 14,
+        "captured": "24-09-2026",
+        "section": "Example Menu"
+      }
+    ],
+    "status": "in hand but needs Belle's check",
+    "notes": "Seven dishes across three courses as published. plan/11 item 54 counted nine; the text layer holds seven. Whether the example menu is published is decision 8."
+  },
+  "dinner": null,
+  "dessert": null,
+  "dinner_dessert_note": "No dinner or dessert menu exists in any source (plan/11 Q8).",
+  "producers_and_partners": [
+    {
+      "name": "Peninsula Providore",
+      "context": "Marinated olives in the example menu; olive oil brand recommendation in the Mediterranean Gnocchi recipe; \"providore logo\" on /partners",
+      "url": null,
+      "source": [
+        {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 14,
+          "captured": "24-09-2026"
+        },
+        {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/post/mediterranean-gnocchi",
+          "captured": "24-09-2026"
+        },
+        {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/partners",
+          "captured": "24-09-2026"
+        }
+      ]
+    },
+    {
+      "name": "La Vera",
+      "context": "Fresh mozzarella in the example menu",
+      "url": null,
+      "source": {
+        "type": "document",
+        "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+        "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+        "page": 14,
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "name": "Aromi Dining",
+      "context": "Luca Guiotto's business; \"aromi logo\" on /partners",
+      "url": "https://www.aromidining.com",
+      "source": [
+        {
+          "type": "document",
+          "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+          "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+          "page": 13,
+          "captured": "24-09-2026"
+        },
+        {
+          "type": "live_site",
+          "url": "https://www.lamarea.com.au/partners",
+          "captured": "24-09-2026"
+        }
+      ]
+    },
+    {
+      "name": "Feather and Peck",
+      "context": "Logo on /partners, Food, Beverage & Supplement Partners",
+      "url": "https://www.featherandpeck.com.au/",
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/partners",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "name": "Fleurieu Milk Company",
+      "context": "Logo on /partners",
+      "url": "https://www.fleurieumilkco.com.au/",
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/partners",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "name": "Beach Organics",
+      "context": "Logo on /partners",
+      "url": "https://www.beachorganics.com.au/",
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/partners",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "name": "Lemon and Sage",
+      "context": "Logo on /partners",
+      "url": "https://lemonandsage.com.au/",
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/partners",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "name": "Harvest the Fleurieu",
+      "context": "Logo on /partners",
+      "url": "https://www.harvestthefleurieu.com.au/",
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/partners",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "name": "Happy Way",
+      "context": "Logo on /partners",
+      "url": "http://www.happyway.com.au",
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/partners",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "name": "Bowlsome",
+      "context": "Logo on /partners",
+      "url": "https://www.bowlsome.com.au/",
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/partners",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "name": "ORTC",
+      "context": "Logo on /partners (alt text \"ORTC logo\"), what ORTC stands for is not published",
+      "url": "http://www.ortc.com.au",
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/partners",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "name": "Latosca",
+      "context": "Gnocchi brand recommendation in the Mediterranean Gnocchi recipe",
+      "url": null,
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/post/mediterranean-gnocchi",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "name": "Garden Fresh",
+      "context": "Herbs and spices brand recommendation in the Mediterranean Gnocchi recipe",
+      "url": null,
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/post/mediterranean-gnocchi",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "name": "Canningvale",
+      "context": "Silk eye mask included in La maréa luxury gift bags, per the sleep journal post",
+      "url": null,
+      "source": {
+        "type": "live_site",
+        "url": "https://www.lamarea.com.au/post/the-importance-of-sleep-for-wellbeing-recovery-performance-how-to-create-a-pre-bed-routine-that",
+        "captured": "24-09-2026"
+      }
+    }
+  ],
+  "producers_note": "Which of these are Fleurieu based is not stated anywhere La maréa publishes (plan/11 item 55). The partners page says \"many of which are based on the Fleurieu Peninsula!\" without naming which.",
+  "guest_reported_items": [
+    {
+      "text": "delicious protein balls, herbal teas, relaxing tonics",
+      "context": "Sunset session, Google review by Donna Giannetta",
+      "source": {
+        "type": "google_reviews_widget",
+        "url": "https://www.lamarea.com.au/",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": "a gorgeous Mediterranean bowl of chickpeas and quinoa for dinner",
+      "context": "Sunset session, Google review by Donna Giannetta",
+      "source": {
+        "type": "google_reviews_widget",
+        "url": "https://www.lamarea.com.au/",
+        "captured": "24-09-2026"
+      }
+    },
+    {
+      "text": "the sweet treat ball and the delicious health drink on arrival",
+      "context": "Sunset Retreat, Google review by Alysha Mines",
+      "source": {
+        "type": "google_reviews_widget",
+        "url": "https://www.lamarea.com.au/",
+        "captured": "24-09-2026"
+      }
+    }
+  ],
+  "guest_reported_note": "Guest descriptions, not menus. Useful only as colour once Belle confirms.",
+  "source": [
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": 12,
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": 13,
+      "captured": "24-09-2026"
+    },
+    {
+      "type": "document",
+      "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
+      "drive_file_id": "1TjuiJJkcDsksmHCkUO71rRSCST_9CSjB",
+      "page": 14,
+      "captured": "24-09-2026"
+    }
+  ]
+}
