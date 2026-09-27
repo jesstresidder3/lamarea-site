@@ -23,6 +23,16 @@ if (header) {
     const hero = document.querySelector<HTMLElement>('[data-hero]') ?? document.querySelector<HTMLElement>('main > :first-child');
     const h = header.offsetHeight;
     heroBottom = hero ? Math.max(0, hero.getBoundingClientRect().bottom + window.scrollY - h) : Math.round(window.innerHeight * 0.6);
+    // When the page title sits over the hero, turn solid as the title reaches the header, so the
+    // title never slides under transparent links (design review 27-09-2026).
+    if (hero) {
+      const title = (hero.closest('section, header, .band') ?? hero).querySelector<HTMLElement>('h1') ?? document.querySelector<HTMLElement>('main h1');
+      if (title) {
+        const t = title.getBoundingClientRect();
+        const hb = hero.getBoundingClientRect();
+        if (t.top < hb.bottom && t.bottom > hb.top) heroBottom = Math.min(heroBottom, Math.max(0, t.top + window.scrollY - h - 8));
+      }
+    }
   };
 
   const update = () => {

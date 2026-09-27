@@ -2,8 +2,8 @@
 /*
   JournalCards (T8, visual study D11). Belle: "a big, um, or an image with... some simple wording...
   and then people, if they are interested, they can click on it" (BD-70), and COMO's journal arrows at
-  a smaller size than COMO's (BD-34). 4:5 cards, the title over the photograph on a soft gradient in
-  the serif, the date and then the category in the label style beneath it. The photograph eases in
+  a smaller size than COMO's (BD-34). 4:5 photographs with the title beneath on sand in the serif, the
+  date and then the category in the label style under it. The photograph eases in
   by 4 per cent on hover or focus.
 
   Two variants
@@ -109,30 +109,27 @@ const showFilters = variant === 'grid' && filters && categories.length > 1;
   }
   .jcard-wrap[hidden] { display: none; }
 
+  /* Title beneath the photograph on sand, Aman's journal pattern. Over Belle's bright frames (white
+     linen, sun on skin) a salt title on a gradient did not hold, and this keeps the photograph clean
+     (design review 27-09-2026). The photograph still eases in on hover or focus. */
   .jcard {
     position: relative;
     display: block;
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-    color: var(--salt-25);
+    color: var(--sage-100);
     text-decoration: none;
-    background: var(--sand-40);
-    isolation: isolate;
   }
-  .jcard__media { position: absolute; inset: 0; display: block; }
+  .jcard__media { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; background: var(--sand-40); isolation: isolate; }
   .jcard__media :global(.media) { transition: transform 700ms var(--ease-soft); }
   @media (hover: hover) { .jcard:hover .jcard__media :global(.media) { transform: scale(1.04); } }
-  .jcard:focus-visible { outline: 1.5px solid var(--focus); outline-offset: 4px; }
+  .jcard:focus-visible { outline: none; }
+  .jcard:focus-visible .jcard__media { outline: 1.5px solid var(--focus); outline-offset: 4px; }
   .jcard:focus-visible .jcard__media :global(.media) { transform: scale(1.04); }
-  /* A soft gradient under the words only, never a dark wash over the photograph (0.22, as the hero) */
-  .jcard__shade { position: absolute; inset: 45% 0 0; background: linear-gradient(to top, rgb(35 32 14 / 0.22), rgb(35 32 14 / 0)); pointer-events: none; z-index: 1; }
-  .jcard__text { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: grid; gap: 0.55rem; padding: 1.25rem 1.25rem 1.35rem; }
-  .jcard__title { font-family: var(--font-serif); font-size: clamp(1.3rem, 1.15rem + 0.45vw, 1.55rem); line-height: 1.2; text-wrap: balance; }
-  .jcard__date, .jcard__cat { font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: 0.1em; }
+  .jcard__shade { display: none; }
+  .jcard__text { display: grid; gap: 0.5rem; padding: 1.1rem 0.25rem 0 0; }
+  .jcard__title { font-family: var(--font-serif); font-size: clamp(1.3rem, 1.15rem + 0.45vw, 1.55rem); line-height: 1.2; text-wrap: balance; color: var(--heading); }
+  .jcard__date, .jcard__cat { font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: 0.1em; color: var(--sage-80); }
   .jcard__cat { margin-top: -0.3rem; }
-  /* While the slot still shows its light placeholder, the words take sage ink and the gradient goes (QA M3). */
-  .jcard:has(.media--placeholder) { color: var(--sage-100); }
-  .jcard:has(.media--placeholder) .jcard__shade { display: none; }
+  @media (hover: hover) { .jcard:hover .jcard__title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; text-decoration-color: var(--sage-40); } }
   /* Placeholder notes sit at the top of the frame so the title stays legible */
   .jcard :global(.ph-note) { margin-top: 1rem; }
 

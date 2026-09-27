@@ -112,7 +112,7 @@ const trackId = `${base}-track`;
                   <Media media={d.media} aspect="fill" notePosition={d.art_direction === 'portrait' ? 'top-right' : 'bottom-left'} />
                 </div>
                 {d.art_direction === 'inset' && (
-                  <h3 class="tile__name tile__name--inset"><Name class="tile__title" href={href}>{d.name}</Name></h3>
+                  <h3 class="tile__name tile__name--inset"><span class="tile__num" aria-hidden="true">{pad2(i + 1)}</span><Name class="tile__title" href={href}>{d.name}</Name></h3>
                 )}
                 {d.art_direction === 'portrait' && <span class="tile__edge-num" aria-hidden="true">{pad2(i + 1)}</span>}
               </div>

@@ -15,6 +15,7 @@
 import JournalCards from '../../journal/JournalCards.astro';
 import ArrowLink from '../../base/ArrowLink.astro';
 import Reveal from '../../base/Reveal.astro';
+import Media from '../../media/Media.astro';
 import { getJournal } from '../../../lib/content';
 
 const posts = await getJournal({ limit: 6 });
@@ -40,10 +41,14 @@ const posts = await getJournal({ limit: 6 });
         <p class="stay__line">A private space for those who’ve already experienced La maréa, through one of our retreats or experiences, and looking to stay close between them.</p>
         <ArrowLink href="/rising-tides-collective" label="The Collective" class="stay__link" />
       </div>
-      <div class="stay__item">
-        <h3 class="stay__title">The La maréa app, coming 2027</h3>
-        <p class="stay__line" data-draft>The La maréa app arrives in 2027, with foundational subscriptions.</p>
-        <ArrowLink href="/app" label="Hear about the app first" class="stay__link" />
+      <div class="stay__item stay__app">
+        <div class="stay__app-media"><Media media="app-hero" aspect="4 / 5" showNote={false} /></div>
+        <div class="stay__app-text">
+          <span class="stay__app-year" aria-hidden="true">2027</span>
+          <h3 class="stay__title">The La maréa app, coming 2027</h3>
+          <p class="stay__line" data-draft>The La maréa app arrives in 2027, with foundational subscriptions.</p>
+          <ArrowLink href="/app" label="Hear about the app first" class="stay__link" />
+        </div>
       </div>
     </div>
   </div>
@@ -78,7 +83,31 @@ const posts = await getJournal({ limit: 6 });
   .stay__line { margin: 0; font-size: var(--fs-small); line-height: 1.6; max-width: 24rem; }
   .stay :global(.stay__link) { margin-top: 1rem; }
 
+  /* The app teaser (design review 27-09-2026, Belle alignment fix 11): a sand panel with a frame for
+     the app image and a large 2027, so the launch reads as something to look forward to (T32).
+     Until the app image exists the frame shows the quiet lm panel. */
+  .stay__app {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    align-items: center;
+    padding: clamp(1rem, 2.5vw, 1.75rem);
+    background: var(--sand-60);
+  }
+  .stay__app-year {
+    display: block;
+    margin-bottom: 0.9rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 1.8rem + 2.6vw, 4.25rem);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--sage-60); /* 4.2:1 at display size, passes as large text */
+  }
+  @media (max-width: 519px) {
+    .stay__app { grid-template-columns: 1fr; }
+    .stay__app-media { max-width: 14rem; }
+  }
   @media (min-width: 900px) {
-    .stay__strip { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 4vw, 4.5rem); }
+    .stay__strip { grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: clamp(2rem, 5vw, 6rem); align-items: center; }
   }
 </style>

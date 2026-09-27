@@ -25,7 +25,12 @@ import { cta } from '../../data/settings';
       inset: auto 0 0 0;
       z-index: calc(var(--z-header) - 1);
       padding-bottom: env(safe-area-inset-bottom);
-      background: var(--sage-80);
+      /* Light sand with a sage hairline, never a dark band across the phone (Belle: "light, bright ...
+         rather than dark tones"; design review 27-09-2026). Sage 100 on sand 60 is 8.6:1. */
+      background: color-mix(in srgb, var(--sand-60) 96%, transparent);
+      border-top: 1px solid var(--sage-40);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
       transform: translateY(100%);
       visibility: hidden;
       transition: transform var(--dur) var(--ease-soft), visibility 0s linear var(--dur);
@@ -47,13 +52,14 @@ import { cta } from '../../data/settings';
     justify-content: center;
     gap: 0.9rem;
     height: var(--sticky-cta-h);
-    color: var(--sand-30);
+    color: var(--sage-100);
     font-family: var(--font-ui);
     font-size: var(--fs-nav);
     letter-spacing: 0.08em;
     text-decoration: none;
-    --focus: var(--focus-on-dark);
   }
+  .sticky-cta__link svg { transition: transform var(--dur-fast) var(--ease-soft); }
+  .sticky-cta__link:active svg { transform: translateX(3px); }
   .sticky-cta__link:focus-visible { outline-offset: -6px; }
   .sticky-cta__link path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
 

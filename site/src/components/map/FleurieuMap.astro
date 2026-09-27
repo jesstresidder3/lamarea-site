@@ -18,6 +18,7 @@
   40 per cent of the section instead of a third)
 */
 import Media from '../media/Media.astro';
+import { media as getMedia } from '../../data/media';
 import ArrowLink from '../base/ArrowLink.astro';
 import SliderArrows from '../slider/SliderArrows.astro';
 import { map, inset, insetBox, project, crop, cropViewBox, toPercent } from '../../lib/map';
@@ -45,6 +46,11 @@ if (vineyards.length) {
 // North to south reads naturally: McLaren Vale, then the coast.
 groups.sort((a, b) => a.y - b.y);
 
+// Open on the first place whose photograph is in, so the section never opens on an empty frame
+// while a venue still waits on Belle's photos (design review 27-09-2026). Order stays north to south.
+const firstWithPhoto = groups.findIndex((g) => Boolean(getMedia(g.venues[0].data.map_media).src));
+const start = firstWithPhoto < 0 ? 0 : firstWithPhoto;
+
 const markerPlaces = new Set(groups.map((g) => g.place));
 const seas = new Set(['Gulf St Vincent', 'Southern Ocean']);
 const skip = new Set(['Victor Harbor', 'Encounter Bay', 'Deep Creek', 'McLaren Vale']);
@@ -56,7 +62,7 @@ const labels = Object.entries(map.labels)
 const [bx, by, bx2, by2] = inset.fleurieu_box;
 const rings = [34, 20, 9];
 ---
-<section class:list={['fmap', className]} id={id} aria-label={label} data-fmap>
+<section class:list={['fmap', className]} id={id} aria-label={label} data-fmap data-fm-start={start}>
   <div class="fm-grid">
     <div class="fm-left">
       <div class="fm-map" style={`aspect-ratio:${crop.w} / ${crop.h}`}>
@@ -85,7 +91,7 @@ const rings = [34, 20, 9];
               class:list={['fm-marker', `fm-marker--${g.side}`]}
               style={`left:${pos.left}%;top:${pos.top}%`}
               data-fm-marker={i}
-              aria-pressed={i === 0 ? 'true' : 'false'}
+              aria-pressed={i === start ? 'true' : 'false'}
               aria-label={`${g.place}: ${names}`}
             >
               <span class="fm-dot" aria-hidden="true"></span>
@@ -102,13 +108,13 @@ const rings = [34, 20, 9];
 
       <div class="fm-pills" role="group" aria-label="Choose a place">
         {groups.map((g, i) => (
-          <button type="button" class="fm-pill" data-fm-pill={i} aria-pressed={i === 0 ? 'true' : 'false'}>{g.place}</button>
+          <button type="button" class="fm-pill" data-fm-pill={i} aria-pressed={i === start ? 'true' : 'false'}>{g.place}</button>
         ))}
       </div>
 
       <div class="fm-panes" aria-live="polite">
         {groups.map((g, i) => (
-          <div class="fm-pane" data-fm-pane={i} data-on={i === 0 ? '' : undefined}>
+          <div class="fm-pane" data-fm-pane={i} data-on={i === start ? '' : undefined}>
             <p class="fm-region">{regionLabel(g.region)}, <span class="place">{g.place}</span></p>
             {g.venues.map((v) => (
               <div class="fm-venue">
@@ -126,14 +132,14 @@ const rings = [34, 20, 9];
       </div>
 
       <div class="fm-nav">
-        <p class="fm-count"><span data-fm-current>01</span><span class="fm-sep" aria-hidden="true">/</span><span class="visually-hidden"> of </span><span>{pad2(groups.length)}</span></p>
+        <p class="fm-count"><span data-fm-current>{pad2(start + 1)}</span><span class="fm-sep" aria-hidden="true">/</span><span class="visually-hidden"> of </span><span>{pad2(groups.length)}</span></p>
         <SliderArrows label="place" size="small" />
       </div>
     </div>
 
     <div class="fm-photo">
       {groups.map((g, i) => (
-        <div class="fm-shot" data-fm-shot={i} data-on={i === 0 ? '' : undefined} aria-hidden={i === 0 ? undefined : 'true'}>
+        <div class="fm-shot" data-fm-shot={i} data-on={i === start ? '' : undefined} aria-hidden={i === start ? undefined : 'true'}>
           <Media media={g.venues[0].data.map_media} aspect="fill" />
         </div>
       ))}
@@ -321,6 +327,6 @@ const rings = [34, 20, 9];
     pills.forEach((p, j) => p.addEventListener('click', () => show(j)));
     prevs.forEach((b) => b.addEventListener('click', () => show(i - 1)));
     nexts.forEach((b) => b.addEventListener('click', () => show(i + 1)));
-    show(0);
+    show(Number(root.dataset.fmStart) || 0);
   });
 </script>

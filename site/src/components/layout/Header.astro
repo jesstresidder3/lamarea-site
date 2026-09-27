@@ -76,7 +76,7 @@ const minimal = current.startsWith('/enquire');
     height: var(--hdr-h);
     padding-right: var(--sbw, 0px);
     color: var(--hdr-ink);
-    background-color: color-mix(in srgb, var(--sand-30) 97%, transparent);
+    background-color: var(--sand-30); /* solid: large headings ghosted through the 97% strip (design review 27-09-2026) */
     border-bottom: 1px solid var(--sage-20);
     transition:
       height var(--dur) var(--ease-soft),
@@ -107,6 +107,13 @@ const minimal = current.startsWith('/enquire');
     border-bottom-color: transparent;
   }
   .site-header[data-state='over']::before { opacity: 1; }
+  /* Salt links over bright sky, linen and surf: a soft glow keeps them legible without a darker bar. */
+  .site-header[data-state='over'] :is(.hdr__link, .menu-toggle__label) { text-shadow: 0 0 0.9rem rgb(35 32 14 / 0.4), 0 1px 2px rgb(35 32 14 / 0.2); }
+  .site-header[data-state='over'] .menu-toggle__lines span { box-shadow: 0 0 6px rgb(35 32 14 / 0.3); }
+  .site-header[data-state='over'] .hdr__logo { filter: drop-shadow(0 0 0.6rem rgb(35 32 14 / 0.3)); }
+  :global(html:has([data-hero] .media--placeholder)) .site-header[data-state='over'] .hdr__logo { filter: none; }
+  :global(html:has([data-hero] .media--placeholder)) .site-header[data-state='over'] :is(.hdr__link, .menu-toggle__label) { text-shadow: none; }
+  :global(html:has([data-hero] .media--placeholder)) .site-header[data-state='over'] .menu-toggle__lines span { box-shadow: none; }
   /* While the page's hero still shows its light placeholder, the header keeps sage ink over it and
      drops the top gradient (QA M3). Belle's footage brings back the salt state above. */
   :global(html:has([data-hero] .media--placeholder)) .site-header[data-state='over'] { --hdr-ink: var(--sage-100); --focus: var(--sage-80); }

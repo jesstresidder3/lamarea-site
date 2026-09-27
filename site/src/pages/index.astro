@@ -13,7 +13,6 @@ import ZoomMosaic from '../components/hero/ZoomMosaic.astro';
 import PinnedDay from '../components/day/PinnedDay.astro';
 import PaneSlider from '../components/experiences/PaneSlider.astro';
 import FleurieuMap from '../components/map/FleurieuMap.astro';
-import NumberedMoments from '../components/base/NumberedMoments.astro';
 import SectionHead from '../components/base/SectionHead.astro';
 import ArrowLink from '../components/base/ArrowLink.astro';
 import Reveal from '../components/base/Reveal.astro';
@@ -22,6 +21,7 @@ import Testimonials from '../components/testimonials/Testimonials.astro';
 import Invitation from '../components/pages/a/Invitation.astro';
 import TableMoment from '../components/pages/a/TableMoment.astro';
 import StayClose from '../components/pages/a/StayClose.astro';
+import Differences from '../components/pages/a/Differences.astro';
 import { getExperiences, getVenues, getTestimonials } from '../lib/content';
 import { differences, site } from '../data/settings';
 
@@ -113,13 +113,10 @@ const jsonLd = {
     <FleurieuMap venues={venues} id="home-map" />
   </section>
 
-  <!-- 8 Our difference: Belle's five, verbatim, each with its proof -->
+  <!-- 8 Our difference: Belle's five, verbatim, each with its proof and a photograph that moves in -->
   <section class="diff-m" aria-labelledby="difference-heading">
     <div class="wrap">
-      <Reveal>
-        <SectionHead id="difference-heading" heading="Our difference" />
-      </Reveal>
-      <NumberedMoments items={moments} slide />
+      <Differences items={moments} id="difference-heading" />
     </div>
   </section>
 

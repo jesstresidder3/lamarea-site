@@ -1,0 +1,222 @@
+---
+/*
+  Home moment 8, "Our difference" (design review 27-09-2026, Belle alignment fix 5).
+  Belle asked for her five differences "in a much more beautiful way" (T31), with the COMO feel of
+  one thing moving to the next. Her five lines stay verbatim (settings.ts `display`).
+
+  Desktop (960px and up): the heading and a large photograph hold still on the left while the five
+  lines pass on the right. The line in the middle of the screen is the active one, and its photograph
+  cross-fades in with a slow settle (no bounce). Hover or focus also chooses a line.
+  Phones and tablets: a swipeable row of cards, photograph above each line, the next card peeking.
+
+  The left photo stack is decorative (aria-hidden) and only shows on desktop. The cards carry the
+  images with their alt text below 960px. Reduced motion: no fade or settle, the photograph simply
+  changes. Without JavaScript the first photograph shows and every line is full strength.
+
+  Props
+  - items: { text, href?, linkLabel?, media, icons?, iconsHref?, iconsLabel? }[]
+  - heading, id (the heading id for aria-labelledby)
+*/
+import Media from '../../media/Media.astro';
+import ArrowLink from '../../base/ArrowLink.astro';
+import Icon from '../../base/Icon.astro';
+import { numeral } from '../../base/text';
+
+interface Item {
+  text: string;
+  href?: string;
+  linkLabel?: string;
+  media: string;
+  icons?: string[];
+  iconsHref?: string;
+  iconsLabel?: string;
+}
+interface Props { items: Item[]; heading?: string; id?: string }
+const { items, heading = 'Our difference', id = 'difference-heading' } = Astro.props;
+---
+<div class="dif" data-dif>
+  <div class="dif__stage">
+    <h2 class="dif__heading" id={id}>{heading}</h2>
+    <div class="dif__stack" aria-hidden="true">
+      {items.map((item, i) => (
+        <div class="dif__frame" data-dif-frame={i} data-on={i === 0 ? '' : undefined}>
+          <Media media={item.media} aspect="fill" showNote={false} />
+        </div>
+      ))}
+    </div>
+    <p class="dif__count" aria-hidden="true"><span data-dif-current>01</span><span class="dif__sep">/</span>{numeral(items.length)}</p>
+  </div>
+
+  <ol class="dif__list" role="list">
+    {items.map((item, i) => (
+      <li class="dif__item" data-dif-item={i} data-on={i === 0 ? '' : undefined}>
+        <div class="dif__card-media"><Media media={item.media} aspect="4 / 5" showNote={false} /></div>
+        <div class="dif__body">
+          <span class="dif__num" aria-hidden="true">{numeral(i + 1)}</span>
+          <p class="dif__text">{item.text}</p>
+          {item.icons && item.icons.length > 0 && (
+            <a class="dif__icons" href={item.iconsHref ?? '/philosophy'} aria-label={item.iconsLabel ?? 'Our ten pillars, on the philosophy page'}>
+              {item.icons.map((name) => <Icon name={name} size="1.75rem" />)}
+            </a>
+          )}
+          {item.href && item.linkLabel && <ArrowLink href={item.href} label={item.linkLabel} class="dif__link" />}
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<style>
+  .dif__heading { margin: 0 0 clamp(1.75rem, 1.2rem + 2vw, 3rem); max-width: 12em; }
+
+  /* Phones and tablets: a swipeable row of cards that bleeds to the screen edge. */
+  .dif__stack, .dif__count { display: none; }
+  .dif__list {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(78vw, 21rem);
+    gap: clamp(1rem, 3vw, 1.75rem);
+    margin: 0 calc(-1 * var(--gutter));
+    padding: 0 var(--gutter) 0.5rem;
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .dif__list::-webkit-scrollbar { display: none; }
+  .dif__item { scroll-snap-align: start; min-width: 0; }
+  .dif__card-media { margin-bottom: 1.25rem; }
+  .dif__num {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+    color: var(--sage-80);
+    font-variant-numeric: lining-nums;
+  }
+  .dif__text {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.3rem, 1.15rem + 0.55vw, 1.7rem);
+    line-height: 1.32;
+    color: var(--sage-80);
+    text-wrap: pretty;
+  }
+  .dif__icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.9rem;
+    margin-top: 1.1rem;
+    padding: 0.4rem 0;
+    width: fit-content;
+    color: var(--sage-60);
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-soft);
+  }
+  @media (hover: hover) { .dif__icons:hover { color: var(--sage-100); } }
+  .dif :global(.dif__link) { margin-top: 1rem; }
+
+  /* Desktop: the heading and one large photograph hold still while the five lines pass. */
+  @media (min-width: 960px) {
+    .dif {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      gap: clamp(3rem, 7vw, 8rem);
+      align-items: start;
+    }
+    .dif__stage {
+      position: sticky;
+      top: calc(var(--header-compact) + clamp(1.5rem, 5vh, 3.5rem));
+    }
+    .dif__stack {
+      display: block;
+      position: relative;
+      aspect-ratio: 4 / 5;
+      max-height: calc(100svh - var(--header-compact) - 12rem);
+      overflow: hidden;
+      background: var(--sand-40);
+    }
+    .dif__frame {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: scale(1.045);
+      transition: opacity var(--dur-slower) var(--ease-soft), transform 1600ms var(--ease-soft);
+    }
+    .dif__frame[data-on] { opacity: 1; transform: none; }
+    .dif__count {
+      display: flex;
+      gap: 0.35rem;
+      margin: 1rem 0 0;
+      font-family: var(--font-ui);
+      font-size: var(--fs-label);
+      letter-spacing: 0.1em;
+      color: var(--sage-80);
+    }
+    .dif__sep { color: var(--sage-40); }
+
+    .dif__list {
+      display: block;
+      margin: 0;
+      padding: clamp(4rem, 14vh, 9rem) 0 clamp(3rem, 12vh, 8rem);
+      overflow: visible;
+    }
+    .dif__card-media { display: none; }
+    .dif__item {
+      display: flex;
+      align-items: center;
+      min-height: clamp(15rem, 38vh, 22rem);
+      border-top: 1px solid var(--sage-20);
+    }
+    .dif__item:last-child { border-bottom: 1px solid var(--sage-20); }
+    .dif__body {
+      display: grid;
+      grid-template-columns: 4.5rem minmax(0, 1fr);
+      padding-block: clamp(1.75rem, 3vh, 2.5rem);
+    }
+    .dif__num { grid-row: 1 / span 3; margin: 0.35rem 0 0; }
+    .dif__text, .dif__icons, .dif :global(.dif__link) { grid-column: 2; }
+    .dif__text { font-size: clamp(1.45rem, 1.1rem + 0.7vw, 1.9rem); max-width: 22em; }
+
+    /* The line in view is full sage; the others rest a step lighter (sage 60, 4.2:1 at this size). */
+    :global(html.js) .dif__item .dif__text,
+    :global(html.js) .dif__item .dif__num { color: var(--sage-60); transition: color var(--dur-slow) var(--ease-soft); }
+    :global(html.js) .dif__item[data-on] .dif__text { color: var(--sage-100); }
+    :global(html.js) .dif__item[data-on] .dif__num { color: var(--sage-80); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dif__frame, .dif__icons, :global(html.js) .dif__item .dif__text, :global(html.js) .dif__item .dif__num { transition: none; }
+    .dif__frame { transform: none; }
+  }
+</style>
+
+<script>
+  // Desktop: the line crossing the middle of the screen (or the one hovered or focused) chooses the photo.
+  document.querySelectorAll<HTMLElement>('[data-dif]').forEach((root) => {
+    const items = Array.from(root.querySelectorAll<HTMLElement>('[data-dif-item]'));
+    const frames = Array.from(root.querySelectorAll<HTMLElement>('[data-dif-frame]'));
+    const cur = root.querySelector<HTMLElement>('[data-dif-current]');
+    const desktop = window.matchMedia('(min-width: 960px)');
+    let active = 0;
+    const show = (k: number) => {
+      if (k === active) return;
+      active = k;
+      items.forEach((el, j) => el.toggleAttribute('data-on', j === k));
+      frames.forEach((el, j) => el.toggleAttribute('data-on', j === k));
+      if (cur) cur.textContent = String(k + 1).padStart(2, '0');
+    };
+    const io = new IntersectionObserver((entries) => {
+      if (!desktop.matches) return;
+      for (const e of entries) if (e.isIntersecting) show(items.indexOf(e.target as HTMLElement));
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    items.forEach((el, j) => {
+      io.observe(el);
+      el.addEventListener('pointerenter', () => { if (desktop.matches) show(j); });
+      el.addEventListener('focusin', () => show(j));
+    });
+  });
+</script>

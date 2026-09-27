@@ -1,7 +1,7 @@
 ---
 /*
   Menu overlay (build spec section 3, visual study B6, spec 10.6).
-  Full-screen sand overlay at every width. A sage-80 column on the left with the reversed logo, the
+  Full-screen sand overlay at every width. A sand-100 column on the left with the sage logo, the
   circle submark and contact; the two paths and the 8 hour day in HV Muse; grouped secondary links; one
   photograph that crossfades as each primary link is hovered or focused; a 44px close control drawn
   with a thin cross. Opens with a soft fade and a 16px settle, locks scroll without layout shift,
@@ -214,20 +214,21 @@ const figures = ['menu-default', ...menuPrimary.map((l) => l.media).filter(Boole
   .menu__link:active { background-size: 100% 1px; }
   .menu__cta { justify-self: start; }
 
-  /* Sage column: reversed logo, circle submark and contact. On phones it closes the overlay. */
+  /* Sand column: logo, circle submark and contact. On phones it closes the overlay. It was sage 80, the
+     one dark block left on the site, so it now takes Belle's sand (Pantone 468) with sage ink, the
+     guide's "dark sage logo on sand" treatment (design review 27-09-2026). Sage 100 on sand 100 is 7.6:1. */
   .menu__side {
     grid-area: side;
     display: grid;
     align-content: start;
     gap: var(--space-l);
     padding: var(--space-l) var(--gutter) calc(var(--space-l) + env(safe-area-inset-bottom));
-    background: var(--sage-80);
-    color: var(--sand-30);
-    --focus: var(--focus-on-dark);
+    background: var(--sand-100);
+    color: var(--sage-100);
   }
-  .menu__side-logo { display: none; color: var(--sand-30); } /* the guide's reversed logo colour, #F7F3E4 */
-  .menu__side :global(.menu__submark) { color: var(--sand-40); }
-  .menu__contact .menu__group-title { color: var(--sand-60); }
+  .menu__side-logo { display: none; color: var(--sage-80); }
+  .menu__side :global(.menu__submark) { color: var(--sage-60); }
+  .menu__contact .menu__group-title { color: var(--sage-80); }
   .menu__contact a {
     display: inline-flex;
     align-items: center;
@@ -235,7 +236,7 @@ const figures = ['menu-default', ...menuPrimary.map((l) => l.media).filter(Boole
     font-family: var(--font-ui);
     font-size: var(--fs-small);
     letter-spacing: 0.02em;
-    color: var(--salt-25);
+    color: var(--sage-100);
     text-decoration: none;
     overflow-wrap: anywhere;
   }

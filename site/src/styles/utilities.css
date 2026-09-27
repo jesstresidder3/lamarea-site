@@ -80,6 +80,9 @@
 
 
 /* Actions ---------------------------------------------------------------- */
+/* The one filled element. Belle's sand (Pantone 468CP) with sage ink and a sage 40 hairline, so it reads
+   as a button without putting a dark block on the page ("light, bright ... rather than dark tones").
+   Sage 100 on sand 100 is 7.6:1. Hover deepens to sage 80 with sand ink (design review 27-09-2026). */
 .btn-filled {
   display: inline-flex;
   align-items: center;
@@ -87,10 +90,10 @@
   gap: 0.6rem;
   min-height: 2.75rem;
   padding: 0 1.25rem;
-  border: 1px solid var(--sage-80);
+  border: 1px solid var(--sage-40);
   border-radius: 0;
-  background: var(--sage-80);
-  color: var(--sand-30);
+  background: var(--sand-100);
+  color: var(--sage-100);
   font-family: var(--font-ui);
   font-weight: 400;
   font-size: var(--fs-nav);
@@ -101,9 +104,12 @@
   transition: background-color var(--dur-fast) var(--ease-soft), border-color var(--dur-fast) var(--ease-soft), color var(--dur-fast) var(--ease-soft);
 }
 @media (hover: hover) {
-  .btn-filled:hover { background: var(--sage-100); border-color: var(--sage-100); }
+  .btn-filled:hover { background: var(--sage-80); border-color: var(--sage-80); color: var(--sand-30); }
 }
-.btn-filled:active { background: var(--sage-100); border-color: var(--sage-100); }
+.btn-filled:active { background: var(--sage-80); border-color: var(--sage-80); color: var(--sand-30); }
+@media (prefers-reduced-motion: reduce) {
+  .btn-filled { transition: none; }
+}
 
 .text-link {
   color: var(--heading);
@@ -151,3 +157,28 @@ html:not([data-media-notes='on']) :is(.placeholder-line, .to-come, [data-notes-o
   letter-spacing: var(--track-label);
   opacity: 0.75;
 }
+
+/* Empty media slots with the notes layer off (design review 27-09-2026). 64 slots still wait on Belle's
+   photos. Beside her real photographs the tidal lines and inner frame read as a broken image, so a
+   visitor sees a quiet sand field with the lm submark instead: a considered brand panel, never an
+   invented image. The notes layer keeps the full placeholder for Jess and Belle. Sections where an
+   empty frame would still look unfinished collapse it in their own styles. */
+html:not([data-media-notes='on']) .media--placeholder { background: var(--sand-40); }
+html:not([data-media-notes='on']) .media--placeholder .ph {
+  background:
+    radial-gradient(90% 70% at 50% 42%, color-mix(in srgb, var(--salt-25) 70%, transparent) 0%, transparent 70%),
+    linear-gradient(170deg, var(--sand-40), var(--sand-60));
+}
+html:not([data-media-notes='on']) .media--placeholder .ph-tide { display: none; }
+html:not([data-media-notes='on']) .media--placeholder .ph::after {
+  inset: 50% auto auto 50%;
+  width: clamp(2.25rem, 16%, 4.75rem);
+  aspect-ratio: 122 / 88;
+  border: 0;
+  transform: translate(-50%, -50%);
+  background: var(--sage-40);
+  opacity: 0.55;
+  -webkit-mask: url('../assets/brand/submark-lm.svg') center / contain no-repeat;
+  mask: url('../assets/brand/submark-lm.svg') center / contain no-repeat;
+}
+html:not([data-media-notes='on']) .media--placeholder .ph-grain { opacity: 0.14; }

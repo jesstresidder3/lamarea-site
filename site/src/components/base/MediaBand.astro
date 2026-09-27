@@ -139,6 +139,11 @@ const hasText = text !== 'none' && (heading || body || eyebrow);
   .band__frame:has(.band__media .media--placeholder) .band__over :is(.band__heading, .band__body) { color: var(--sage-100); }
   .band__frame:has(.band__media .media--placeholder) .band__over :global(.eyebrow--light) { color: var(--sage-100); }
   .band__frame:has(.band__media .media--placeholder) .band__over :global(.arrow-link--tone-light) { --al-colour: var(--sage-100); --focus: var(--sage-80); }
+  /* Empty slots for visitors (notes off, design review 27-09-2026): a band that is only a photograph
+     steps aside until the photograph exists, and a band carrying words keeps a calmer height, so a
+     venue still waiting on Belle's photos never opens on a full screen of empty sand. */
+  :global(html:not([data-media-notes='on'])) .band:not(.band--text-over) .band__frame:has(.band__media .media--placeholder) { display: none; }
+  :global(html:not([data-media-notes='on'])) .band--text-over .band__frame:has(.band__media .media--placeholder) { height: clamp(24rem, 64svh, 40rem); min-height: 0; }
   .band--centre .band__over-inner { text-align: center; display: grid; justify-items: center; }
   .band__over .band__heading { color: var(--salt-25); max-width: 16em; margin: 0; }
   .band__over .band__body { color: var(--salt-25); margin-top: 1rem; }

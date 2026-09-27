@@ -62,11 +62,13 @@
   --fs-body: 1rem;                                            /* 16px */
   --fs-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);         /* 17 to 20px */
   --fs-h4: clamp(1.3rem, 1.18rem + 0.45vw, 1.6rem);           /* 21 to 26px */
-  --fs-h3: clamp(1.6rem, 1.4rem + 0.8vw, 2.1rem);             /* 26 to 34px */
-  --fs-h2: clamp(1.875rem, 0.625rem + 2.4vw, 2.75rem);         /* 30 to 44px, the Tailor and Aman range */
-  --fs-h1: clamp(2.3rem, 1.75rem + 2.3vw, 3.6rem);            /* 37 to 58px */
-  --fs-display: clamp(2.25rem, 4vw, 3.5rem);                  /* 36 to 56px, hero line only (pre-build review item 2) */
-  --fs-place: clamp(2.5rem, 4vw, 3.75rem);                    /* 40 to 60px, large italic place or pillar names */
+  /* Display sizes a step down for HV Muse (design review 27-09-2026). HV Muse is wide, and Belle asked
+     for "nice, small, luxury fonts" like Aman's, so headings stay quiet and the photographs lead. */
+  --fs-h3: clamp(1.6rem, 1.45rem + 0.55vw, 1.9rem);           /* 26 to 30px */
+  --fs-h2: clamp(1.75rem, 0.95rem + 1.85vw, 2.4rem);           /* 28 to 38px */
+  --fs-h1: clamp(2.1rem, 1.6rem + 1.75vw, 3rem);              /* 34 to 48px */
+  --fs-display: clamp(2rem, 1.3rem + 2.5vw, 3rem);             /* 32 to 48px, hero line only */
+  --fs-place: clamp(2.25rem, 1.5rem + 2.4vw, 3.25rem);         /* 36 to 52px, large italic place or pillar names */
   --fs-card: clamp(1.375rem, 1.2rem + 0.4vw, 1.625rem);       /* 22 to 26px card titles */
 
   --lh-tight: 1.08;

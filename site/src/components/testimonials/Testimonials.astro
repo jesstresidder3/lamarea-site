@@ -156,6 +156,22 @@ const paras = (q: string) => q.split(/\n{2,}/).map((p) => p.trim()).filter(Boole
   .tcard__img--tall { aspect-ratio: 4 / 5; }
   .tcard__img--empty { background: repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--sage-20) 45%, transparent) 14px 15px), var(--sand-40); }
 
+  /* A review whose photograph is still to come shows a quiet sand tile with a large open quote mark
+     instead of the lm panel, so the row reads as designed (design review 27-09-2026). */
+  :global(html:not([data-media-notes='on'])) .tcard__img :global(.media--placeholder .ph::after) {
+    content: '\201C';
+    width: auto;
+    aspect-ratio: auto;
+    background: none;
+    -webkit-mask: none;
+    mask: none;
+    opacity: 1;
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 3rem + 3vw, 6rem);
+    line-height: 1;
+    color: var(--sage-40);
+    transform: translate(-50%, -38%);
+  }
   .tcard__quote { margin: 1.35rem 0 0; }
   .tcard__short, .tcard__full p {
     margin: 0;

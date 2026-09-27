@@ -286,6 +286,10 @@ const jsonLd = [
     .day-schedule__grid { grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr); gap: clamp(3rem, 8vw, 8rem); align-items: start; }
     .day-schedule__reel { width: 100%; margin: 0; position: sticky; top: calc(var(--header-compact) + 2.5rem); padding-top: 0.5rem; }
   }
+  /* Until Belle's reel arrives, visitors see the schedule on its own rather than an empty 9:16 frame
+     (design review 27-09-2026). The notes layer keeps the frame for Jess and Belle. */
+  :global(html:not([data-media-notes='on'])) .day-schedule__reel:has(.media--placeholder) { display: none; }
+  :global(html:not([data-media-notes='on'])) .day-schedule__grid:has(.day-schedule__reel .media--placeholder) { grid-template-columns: minmax(0, 46rem); }
 
   /* 3, how guests leave */
   .day-leave__fig { margin: 0 auto; display: grid; gap: 1rem; justify-items: center; text-align: center; }

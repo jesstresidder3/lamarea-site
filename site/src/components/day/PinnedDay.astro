@@ -203,7 +203,7 @@ const planHref = withParams(cta.plan.href, params);
     color: var(--sage-80);
   }
   .pd__beat-num { color: var(--sage-80); }
-  .pd__beat { margin: 0 0 1.25rem; font-size: clamp(2rem, 1.5rem + 1.6vw, 3rem); line-height: 1.05; }
+  .pd__beat { margin: 0 0 1.25rem; font-size: clamp(1.9rem, 1.45rem + 1.3vw, 2.6rem); line-height: 1.08; } /* a step down with the type scale (design review 27-09-2026) */
 
   .pd__steps { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--sage-20); }
   .pd__step {
@@ -243,6 +243,26 @@ const planHref = withParams(cta.plan.href, params);
   .pd__panel--restore:has(.media--placeholder) :is(.pd__steps, .pd__step) { border-color: var(--rule); }
   .pd__panel--restore:has(.media--placeholder) .pd__items { border-left-color: var(--rule); }
   .pd__panel--restore:has(.media--placeholder) :global(.arrow-link--tone-light) { --al-colour: var(--sage-100); --focus: var(--sage-80); }
+  /* With Belle's bath clip in, the frame is bright (white bath, window light), so salt words over a
+     gradient failed. The words sit on a sand glass panel in sage instead, and the clip stays bright
+     around it (design review 27-09-2026; the sand panel route from the review brief). */
+  .pd .pd__panel--restore .pd__panel-text {
+    width: min(100%, 36rem);
+    padding: clamp(1.25rem, 2.6vw, 2.25rem);
+    background: color-mix(in srgb, var(--sand-30) 90%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.05);
+    backdrop-filter: blur(14px) saturate(1.05);
+  }
+  .pd__panel--restore:has(.media--real) { color: var(--sage-100); --heading: var(--sage-80); --focus: var(--sage-80); }
+  .pd__panel--restore:has(.media--real)::after { display: none; }
+  .pd__panel--restore:has(.media--real) :is(.pd__beat-meta, .pd__beat-num, .pd__time, .pd__line--sub, .pd__items) { color: var(--sage-100); }
+  .pd__panel--restore:has(.media--real) .pd__beat { color: var(--sage-80); }
+  .pd__panel--restore:has(.media--real) :is(.pd__steps, .pd__step) { border-color: var(--rule); }
+  .pd__panel--restore:has(.media--real) .pd__items { border-left-color: var(--rule); }
+  .pd__panel--restore:has(.media--real) :global(.arrow-link--tone-light) { --al-colour: var(--sage-100); --focus: var(--sage-80); }
+  @media (max-width: 899px) {
+    .pd .pd__panel--restore .pd__panel-text { margin: clamp(10rem, 34vh, 16rem) var(--pd-pad) var(--pd-pad); width: auto; }
+  }
 
   .pd__controls { display: none; }
 

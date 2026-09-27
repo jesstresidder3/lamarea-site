@@ -4,7 +4,9 @@
   imagery", BD-23) with Belle's own split, on the coast and in the vineyards (BD-117). Capacity reads
   first because a group buyer asks whether they fit. Each image sits in the arch-topped frame from
   style guide page 7 (--arch; set it to 0 to square everything). Choosing a card slides its panel in
-  from the right; without script the card is a plain link to the venue page. No image drift on hover.
+  from the right; without script the card is a plain link to the venue page. Belle's "cool little mini
+  animation" (T30): each arch rises in turn as the row enters, its photograph settling from a slight
+  scale, and the photograph eases in a touch on hover. Slow, no bounce, off under reduced motion.
 
   <VenueIndex venues={await getVenues()} />
 
@@ -33,11 +35,11 @@ const panelId = (v: Venue) => `${base}-panel-${v.id}`;
     </div>
   )}
 
-  <ul class="vi-grid" aria-label={label}>
-    {venues.map((v) => {
+  <ul class="vi-grid" aria-label={label} data-vi-reveal>
+    {venues.map((v, i) => {
       const d = v.data;
       return (
-        <li class="vcard" data-region={d.region}>
+        <li class="vcard" data-region={d.region} style={`--i:${i}`}>
           <a class="vcard__link" href={`/places/${v.id}`} data-venue-open={panels ? panelId(v) : undefined} aria-haspopup={panels ? 'dialog' : undefined}>
             <span class="vcard__frame"><Media media={d.card_media} aspect="fill" /></span>
             <span class="vcard__meta">
@@ -169,15 +171,47 @@ const panelId = (v: Venue) => `${base}-panel-${v.id}`;
   }
   .vcard__link:focus-visible .vcard__cta-label, .vcard__link:active .vcard__cta-label { background-size: 100% 1px, 100% 1px; }
 
+  /* Mini animation (design review 27-09-2026): a staggered rise on entry, a slow settle of the photo,
+     and a gentle ease-in of the photo on hover. */
+  .vcard__frame :global(.media) { transition: transform 1400ms var(--ease-soft); }
+  @media (hover: hover) {
+    .vcard__link:hover .vcard__frame :global(.media) { transform: scale(1.04); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.js) .vi-grid[data-vi-reveal] .vcard {
+      transition: opacity 900ms var(--ease-soft) calc(var(--i, 0) * 140ms), translate 900ms var(--ease-soft) calc(var(--i, 0) * 140ms);
+    }
+    :global(html.js) .vi-grid[data-vi-reveal] .vcard__frame :global(.media) {
+      transition: transform 1400ms var(--ease-soft), scale 1600ms var(--ease-soft) calc(var(--i, 0) * 140ms);
+    }
+    :global(html.js) .vi-grid[data-vi-reveal]:not(.is-in) .vcard { opacity: 0; translate: 0 28px; }
+    :global(html.js) .vi-grid[data-vi-reveal]:not(.is-in) .vcard__frame :global(.media) { scale: 1.08; }
+  }
+  @media print {
+    .vcard { opacity: 1 !important; translate: none !important; }
+  }
+
   .vcard__flag { margin: 0.75rem 0 0; padding-left: 0.6rem; border-left: 1px solid var(--sage-40); font-family: var(--font-ui); font-size: 0.72rem; line-height: 1.45; letter-spacing: 0.03em; color: var(--muted); }
   :global(html[data-media-notes='off']) .vcard__flag { display: none; }
 
   @media (prefers-reduced-motion: reduce) {
-    .vcard__cta-label, .vcard__cta :is(line, polyline), .vi-filter { transition: none; }
+    .vcard__cta-label, .vcard__cta :is(line, polyline), .vi-filter, .vcard__frame :global(.media) { transition: none; }
+    .vcard__link:hover .vcard__frame :global(.media) { transform: none; }
   }
 </style>
 
 <script>
+  // Entry rise for the arches: once, when the row is a fifth in view. Reduced motion shows it at once.
+  const viReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const viRows = document.querySelectorAll<HTMLElement>('[data-vi-reveal]');
+  if (viReduce || !('IntersectionObserver' in window)) viRows.forEach((r) => r.classList.add('is-in'));
+  else {
+    const viIo = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-in'); viIo.unobserve(e.target); }
+    }, { threshold: 0.2 });
+    viRows.forEach((r) => viIo.observe(r));
+  }
+
   document.querySelectorAll<HTMLElement>('[data-venue-index]').forEach((root) => {
     // Filters: single-select toggle buttons with aria-pressed.
     const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('.vi-filter'));
