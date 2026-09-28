@@ -73,6 +73,6 @@ Pepper, to taste
 1. Preheat oven to 200°C.
 2. Make bechamel sauce: Mix olive oil with flour in a pan over low heat. Cook for 5 mins, then slowly whisk in cold milk. Thicken for 10 mins, stirring on low heat, then season with salt, nutmeg, pepper & all the grated cheese.
 3. Grate the zucchini and carrot.
-4. Assemble lasagne in a baking dish: LAYER 1: Thin layer of napoletana sauce in base. 1.5 sheets of lasagna pasta on top. LAYER 2: Thin layer bechamel, zucchini, carrot, 1/3 mozzarella, handful of spinach. Season with salt & pepper. Add 1.5 sheets of pasta on top. LAYER 3: Repeat as above. Add 2 lasagne sheets on top. TOP LAYER: The rest of the napoletana sauce, smooth out the layer. Rest of mozzarella & grated Pecorino on top.
+4. Assemble lasagne in a baking dish: LAYER 1: Thin layer of napoletana sauce in base. 1.5 sheets of lasagna pasta on top. LAYER 2: Thin layer bechamel, zucchini, carrot, 1/3 mozzarella, handful of spinach. Season with salt & pepper. Add 1.5 sheets of pasta on top. LAYER 3: Repeat as above. Add 2 lasagne sheets on top. TOP LAYER: The rest of the napoletana sauce, smooth out the layer. Rest of mozzarella & grated Pecorino on top.
 5. Bake uncovered for 40 to 45 mins at 180°C.
 6. Allow to cool slightly before slicing and enjoy!!

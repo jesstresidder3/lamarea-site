@@ -71,7 +71,14 @@ const leads = (await getExperiences()).filter((e) => e.data.practitioners.includ
 const conflicts = leads.filter((e) => e.data.business_conflict).map((e) => `${e.data.name}: ${e.data.business_conflict}`);
 
 // Portrait present? Otherwise the opener is type-led (P7), never an empty frame.
-const hasPortrait = Boolean(media(d.portrait).src);
+// G9: Zoe and Sarah have no portrait of their own yet, so they open on the hosts photograph (both are in it).
+const HOSTS_FALLBACK: Record<string, { slot: string; caption: string }> = {
+  'zoe-buttery': { slot: 'team-zoe-hosts', caption: 'Zoe (right) with Belle and Sarah' },
+  'sarah-mclachlan': { slot: 'team-sarah-hosts', caption: 'Sarah (back) with Belle and Zoe' },
+};
+const fallback = !media(d.portrait).src ? HOSTS_FALLBACK[person.id] : undefined;
+const portrait = fallback ? fallback.slot : d.portrait;
+const hasPortrait = Boolean(media(portrait).src);
 const frames = workFor(person.id);
 
 const shortTitle = `${d.name}, ${d.role ?? ''}`;
@@ -111,7 +118,8 @@ const jsonLd = {
     </div>
     {hasPortrait && (
       <div class="pop__portrait" data-po-media>
-        <Media media={d.portrait} aspect="fill" priority sizes="(max-width: 899px) 100vw, 50vw" />
+        <Media media={portrait} aspect="fill" priority sizes="(max-width: 899px) 100vw, 50vw" />
+        {fallback && <div class="pop__cap" data-draft><Caption tone="salt" rule={false}>{fallback.caption}</Caption></div>}
       </div>
     )}
   </header>
@@ -202,6 +210,8 @@ const jsonLd = {
   .pop__creds { margin: 0; max-width: 30rem; font-size: var(--fs-small); line-height: 1.55; color: var(--sage-80); }
   .pop__pull { margin: clamp(2rem, 4vw, 3rem) 0 0; max-width: 34rem; font-family: var(--font-editorial); font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.85rem); line-height: 1.4; color: var(--sage-100); }
   .pop__portrait { position: relative; aspect-ratio: 4 / 5; overflow: hidden; }
+  .pop__cap { position: absolute; left: var(--gutter); bottom: clamp(1.25rem, 4svh, 2.5rem); z-index: 1; }
+  .pop__cap :global(.cap) { margin: 0; }
   @media (min-width: 900px) {
     .pop--portrait { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 100svh; }
     .pop--portrait .pop__words { padding-left: max(var(--gutter), calc((100vw - var(--wrap-max)) / 2 + var(--gutter))); }

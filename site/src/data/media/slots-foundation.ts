@@ -13,23 +13,24 @@ const GRADE = 'Grade: lift shadows, warm white balance, keep the water green and
 const raw: MediaSlot[] = [
   // Hero ------------------------------------------------------------------
   {
-    // Home opening, 28-09-2026: Belle's DJI_0604 (from her WEBSITE Drive folder), seconds 90 to 104,
-    // a top-down glide from reef shadow into turquoise shallows ending at the rock edge with two boats.
+    // Home opening: Belle's DJI_0604 (from her WEBSITE Drive folder), seconds 91 to 104 (13 seconds; re-cut
+    // 28-09-2026 one second shorter at the start, Jess H1), a top-down glide from reef shadow into turquoise
+    // shallows ending at the rock edge with two boats. 1600 wide and 720x1280 portrait (crop 1215:2160:2625:0).
     id: 'home-hero-video', src: '/media/hero-emerald-shallows-drone.mp4', srcMobile: '/media/hero-emerald-shallows-drone-portrait.mp4', poster: '/media/hero-emerald-shallows-poster.jpg',
     type: 'video',
     alt: 'Looking straight down from the air over clear emerald water, reef shadows giving way to bright turquoise shallows beside a rocky shore where two small boats are moored, Fleurieu Peninsula',
     aspect: '16 / 9',
-    suggested: 'DJI_0604.MP4, seconds 90 to 104',
+    suggested: 'DJI_0604.MP4, seconds 91 to 104',
     tone: 'sea',
     grade: 'A',
   },
   {
-    // The still the two halves of the opening hold as the scene parts (the video's first frame).
+    // The still the two halves of the opening hold as the scene parts (the video's first frame, second 91).
     id: 'home-hero-still', src: '/media/hero-emerald-shallows-poster.jpg', srcMobile: '/media/hero-emerald-shallows-poster-portrait.jpg', position: '50% 50%',
     type: 'image',
     alt: 'Clear emerald water seen from directly above, reef shadows beneath the surface, Fleurieu Peninsula',
     aspect: '16 / 9',
-    suggested: 'DJI_0604.MP4 frame at 90 seconds',
+    suggested: 'DJI_0604.MP4 frame at 91 seconds',
     tone: 'sea',
     grade: 'A',
   },
@@ -252,12 +253,16 @@ const raw: MediaSlot[] = [
   },
   // Rebuild round 1, 28-09-2026 (L1): the home story and the shared closing ------------------
   {
-    // Home, the Fleurieu coast beat (Belle T48 and T55): DJI_0604, 0.5 to 11.5 seconds.
-    id: 'home-fleurieu-video', src: '/media/fleurieu-cliffs-white-beach-drone.mp4', srcMobile: '/media/fleurieu-cliffs-white-beach-drone-portrait.mp4', poster: '/media/fleurieu-cliffs-white-beach-drone-poster.jpg',
+    // Home, the story begins: DJI_0604, seconds 64 to 77, the calm open sea from above with the sun on
+    // the water. Re-cut 28-09-2026 (Jess H4, "move the text off the rock onto the ocean"): the earlier
+    // cliffs and white beach passage (0.5 to 11.5) left under a fifth of the frame as water, so Belle's
+    // line sat on rock. 1600x900 and 720x1280 portrait (crop 1215:2160:1312:0), 13 seconds, 30fps.
+    // The cliffs clip still opens /fleurieu-peninsula-retreats and closes the full day page.
+    id: 'home-fleurieu-video', src: '/media/home-calm-sea-drone.mp4', srcMobile: '/media/home-calm-sea-drone-portrait.mp4', poster: '/media/home-calm-sea-drone-poster.jpg',
     type: 'video',
-    alt: 'Flying slowly along dark cliffs and golden summer hills on the Fleurieu Peninsula, a white beach at their foot and boats moored on emerald water under a clear blue sky',
+    alt: 'Looking down from the air on calm turquoise sea off the Fleurieu Peninsula, the sun glittering across the water',
     aspect: '16 / 9',
-    suggested: 'DJI_0604.MP4, seconds 0.5 to 11.5. Swap for DJI_0781.MP4 (Drive 1bx_Ki9uMhwt-YpL9JBpKQKQPpDATvLEx) once downloaded',
+    suggested: 'DJI_0604.MP4, seconds 64 to 77',
     tone: 'sea',
     grade: 'A',
   },
@@ -268,6 +273,16 @@ const raw: MediaSlot[] = [
     alt: 'The Fleurieu coastline pulling away into the distance from the air, the water turning from emerald near the shore to deep blue, small boats at the foot of the cliffs',
     aspect: '16 / 9',
     suggested: 'DJI_0604.MP4, seconds 50 to 61',
+    tone: 'sea',
+    grade: 'A',
+  },
+  {
+    // /contact opener (Jess G7, 28-09-2026): the coastline under open sky, calm top-left for the title.
+    id: 'contact-opener', src: '/media/drone-coastline-deep-blue.jpg', position: '30% 50%',
+    type: 'image',
+    alt: 'Golden headlands dropping into emerald and deep blue water under a clear sky, the Fleurieu coastline seen from the air',
+    aspect: '16 / 9',
+    suggested: 'DJI_0604.MP4, the coastline receding',
     tone: 'sea',
     grade: 'A',
   },

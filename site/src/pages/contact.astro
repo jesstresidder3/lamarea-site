@@ -1,0 +1,111 @@
+---
+/*
+  /contact (Jess G7, 28-09-2026). An obvious Contact page, reachable from the header ("Contact us"), the
+  menu and the footer. Full-bleed opener (P1), then the ways to reach Belle: email, Instagram, the
+  discovery call on her calendar and "Plan your day" (the funnel), beside a short message form
+  (LeadCapture, list 'contact', stub until Dom's endpoint is live). No phone number (Jess G6).
+  Only the page title, the opener sentence and the small section lines are new, all marked data-draft.
+*/
+import Base from '../layouts/Base.astro';
+import PageOpener from '../components/base/PageOpener.astro';
+import LeadCapture from '../components/base/LeadCapture.astro';
+import { contact, social, cta } from '../data/settings';
+
+const belle = contact.emails.find((e) => e.label === 'Belle');
+const info = contact.emails.find((e) => e.label !== 'Belle');
+---
+<Base
+  title="Contact us"
+  description="Contact La maréa: email Belle, find us on Instagram, book a discovery call or plan your 8 hour retreat on the Fleurieu Peninsula."
+>
+  <PageOpener
+    media="contact-opener"
+    lines={['Contact', 'us']}
+    sub="Write to Belle, or book a time to talk."
+    subDraft
+    caption="The Fleurieu Peninsula, South Australia"
+  />
+
+  <section class="ct-s" aria-labelledby="ct-routes" data-ground="salt">
+    <div class="wrap ct-s__grid">
+      <div class="ct-s__routes">
+        <h2 class="ct-s__title" id="ct-routes" data-draft>Ways to reach us</h2>
+        <dl class="ct-s__list">
+          {belle && (
+            <div class="ct-s__row">
+              <dt>Email Belle</dt>
+              <dd><a class="text-link" href={`mailto:${belle.address}`}>{belle.address}</a></dd>
+            </div>
+          )}
+          {info && (
+            <div class="ct-s__row">
+              <dt>General enquiries</dt>
+              <dd><a class="text-link" href={`mailto:${info.address}`}>{info.address}</a></dd>
+            </div>
+          )}
+          <div class="ct-s__row">
+            <dt>Instagram</dt>
+            <dd><a class="text-link" href={social.instagram.url} target="_blank" rel="noopener">{social.instagram.handle}<span class="visually-hidden"> (opens in a new tab)</span></a></dd>
+          </div>
+          <div class="ct-s__row">
+            <dt>Talk with Belle</dt>
+            <dd><a class="text-link" href={cta.discovery.href} target="_blank" rel="noopener">{cta.discovery.label}<span class="visually-hidden"> (opens Belle’s calendar in a new tab)</span></a></dd>
+          </div>
+          <div class="ct-s__row">
+            <dt>Your retreat</dt>
+            <dd><a class="btn-filled" href={`${cta.plan.href}?source=contact`}>{cta.plan.label}</a></dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="ct-s__form">
+        <h2 class="ct-s__title" id="ct-form" data-draft>Send us a message</h2>
+        <LeadCapture
+          list="contact"
+          layout="stacked"
+          firstName
+          message
+          submitLabel="Send"
+          successMessage="Thank you. Your message is with us, and Belle will be in touch."
+          id="contact-form"
+        />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ct-s { padding-block: var(--section-y); }
+  .ct-s__grid { display: grid; gap: var(--space-xl) var(--space-2xl); align-items: start; }
+  .ct-s__title {
+    margin: 0 0 var(--space-m);
+    font-size: var(--fs-h3);
+    line-height: 1.15;
+    color: var(--sage-80);
+  }
+  .ct-s__list { margin: 0; display: grid; gap: 0; border-top: 1px solid var(--rule); }
+  .ct-s__row {
+    display: grid;
+    gap: 0.35rem 2rem;
+    padding-block: 1.1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .ct-s__row dt {
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: var(--fs-caption);
+    color: var(--sage-80);
+  }
+  .ct-s__row dd { margin: 0; font-size: var(--fs-body); overflow-wrap: anywhere; }
+  .ct-s__form {
+    padding: clamp(1.5rem, 3vw, 2.75rem);
+    background: var(--salt-25);
+    border: 1px solid color-mix(in srgb, var(--sage-40) 30%, transparent);
+  }
+  .ct-s__form :global(.capture) { max-width: none; }
+
+  @media (min-width: 900px) {
+    .ct-s__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+    .ct-s__row { grid-template-columns: 11rem minmax(0, 1fr); align-items: baseline; }
+  }
+</style>

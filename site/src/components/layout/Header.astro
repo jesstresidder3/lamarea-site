@@ -2,7 +2,9 @@
 /*
   Site header, Salt and Sun (redesign direction, Header).
   Rebuild round 1 (28-09-2026, art review): three things only, at every width. Menu (the lines and
-  the word) at the far left, the La maréa wordmark centred, the "Plan your day" pill at the far right.
+  the word) at the far left, the La maréa wordmark centred, the main action at the far right: "Plan your
+  day" and "Contact us" as two pills (Jess G3, 28-09-2026), one split pill "Plan your day / Contact us"
+  where the two do not fit (phones).
   The open menu carries every link, so the header no longer reads as a nav bar before the photograph.
   Over a full-bleed opening (home, or any page whose <main> starts with a P1 PageOpener) the header is
   clear with salt ink at the top of the page.
@@ -14,6 +16,7 @@
   Behaviour: src/scripts/header.ts.
 */
 import Logo from './Logo.astro';
+import CtaPair from '../base/CtaPair.astro';
 import { cta } from '../../data/settings';
 
 interface Props {
@@ -44,7 +47,9 @@ const minimal = current.startsWith('/enquire');
         <a class="hdr__link hdr__exit" href="/">Back to La maréa</a>
       ) : (
         <>
-          <a class="btn-filled hdr__cta" href={cta.plan.href} data-magnetic aria-current={current.startsWith('/enquire') ? 'page' : undefined}>{cta.plan.label}</a>
+          <a class="btn-filled hdr__cta" href={cta.plan.href} data-magnetic>{cta.plan.label}</a>
+          <a class="btn-filled btn-quiet hdr__cta hdr__cta--contact" href={cta.contact.href} data-magnetic aria-current={current === '/contact' ? 'page' : undefined}>{cta.contact.label}</a>
+          <CtaPair layout="split" class="hdr__split" />
         </>
       )}
     </div>
@@ -165,29 +170,42 @@ const minimal = current.startsWith('/enquire');
 
   .hdr__cta { min-height: 2.5rem; padding-inline: 1.15rem; }
   .hdr__cta::after { left: 1.15rem; right: 1.15rem; }
+  .hdr__side--right { gap: 0.6rem; }
+  .hdr__side--right :global(.hdr__split) { display: none; min-height: 2.375rem; font-size: 0.75rem; letter-spacing: 0.04em; }
+  .hdr__side--right :global(.hdr__split .ctap-split__link) { padding-inline: 0.45rem; }
+  /* Below 640px the two pills become one split pill; below 420px the wordmark shrinks to make room. */
+  @media (max-width: 639px) {
+    .hdr { grid-template-columns: auto minmax(0, 1fr) auto; }
+    .hdr__logo { justify-self: center; }
+    .hdr__cta { display: none; }
+    .hdr__side--right :global(.hdr__split) { display: inline-flex; }
+  }
 
   /* Phones: the word Menu stays beside the lines (the IA decision), the pill gets smaller. */
   @media (max-width: 419px) {
-    .menu-toggle { gap: 0.55rem; font-size: 0.75rem; }
-    .menu-toggle__lines { width: 20px; }
-    .hdr__cta { min-height: 2.375rem; padding-inline: 0.85rem; font-size: 0.75rem; letter-spacing: 0.05em; }
-    .hdr__cta::after { left: 0.85rem; right: 0.85rem; }
+    .site-header { --logo-h: 1.05rem; --hdr-gutter: 0.85rem; }
+    .hdr { gap: 0.5rem; }
+    .menu-toggle { gap: 0.45rem; font-size: 0.75rem; letter-spacing: 0.04em; }
+    .menu-toggle__lines { width: 18px; }
+    .hdr__side--right :global(.hdr__split) { font-size: 0.6875rem; letter-spacing: 0.02em; padding-inline: 0.2rem; }
+    .hdr__side--right :global(.hdr__split .ctap-split__link) { padding-inline: 0.35rem; }
   }
 
 
   /* Home opens full bleed under the header (headerTone 'immersive'): at the very top the header is
      clear, with salt ink over the photograph. The pill stays sand, as everywhere. */
-  :global(html[data-header-tone='immersive']) .site-header[data-state='top'],
-  :global(html[data-header-tone='immersive']) .site-header[data-state='top'] .hdr__logo,
-  :global(html:has(main > [data-page-opener]:first-child)) .site-header[data-state='top'],
-  :global(html:has(main > [data-page-opener]:first-child)) .site-header[data-state='top'] .hdr__logo {
-    color: var(--on-image);
-    text-shadow: 0 1px 14px rgb(20 50 64 / 0.3);
-  }
+  /* G1 (28-09-2026): over a photograph the header is a sand glass strip with sage ink, the same
+     words-on-media panel as everywhere else, so "Menu" and the wordmark read over bright sky (salt ink
+     measured about 2.4:1 there). Sage 100 on this strip is 7:1 or better over any frame. */
   :global(html[data-header-tone='immersive']) .site-header[data-state='top'],
   :global(html:has(main > [data-page-opener]:first-child)) .site-header[data-state='top'] {
-    background: linear-gradient(to bottom, rgb(20 50 64 / 0.18), rgb(20 50 64 / 0));
+    color: var(--sage-100);
+    background-color: color-mix(in srgb, var(--sand-30) 86%, transparent);
+    backdrop-filter: blur(12px) saturate(1.05);
+    -webkit-backdrop-filter: blur(12px) saturate(1.05);
   }
+  :global(html[data-header-tone='immersive']) .site-header[data-state='top'] .hdr__logo,
+  :global(html:has(main > [data-page-opener]:first-child)) .site-header[data-state='top'] .hdr__logo { color: var(--sage-80); }
 
   @media (prefers-reduced-motion: reduce) {
     .site-header, .hdr__link::after, .menu-toggle__lines span, .hdr__logo :global(.lm-logo) { transition: none; }

@@ -155,6 +155,14 @@ const flags = [
     </div>
   </section>
 
+  {/* G8 (Jess, 28-09-2026): guests' words sit high, straight after the place is introduced. */}
+  {reviews.length > 0 && (
+    <section class="section section--flush-top venue-reviews" aria-label={`From retreats at ${d.name}`}>
+      <div class="wrap"><Eyebrow>From retreats here</Eyebrow></div>
+      <Testimonials items={reviews} filters={false} label={`Reviews from ${d.name}`} />
+    </section>
+  )}
+
   {rooms.length >= 2 && (
     <section class="section section--flush-top venue-rooms" aria-label={`Inside ${d.name}`}>
       <FrameSlider items={rooms.map((r) => ({ media: r.media, title: r.title }))} label={`Inside ${d.name}`} heading={`Inside ${d.name}`} />
@@ -180,13 +188,6 @@ const flags = [
   <div class="band-warm">
     <VenueDay day={extra.day} id="venue-day" />
   </div>
-
-  {reviews.length > 0 && (
-    <section class="section" aria-label={`From retreats at ${d.name}`}>
-      <div class="wrap"><Eyebrow>From retreats here</Eyebrow></div>
-      <Testimonials items={reviews} filters={false} label={`Reviews from ${d.name}`} />
-    </section>
-  )}
 
   {others.length > 0 && (
     <nav class="section section--tight others" aria-labelledby="others-heading">

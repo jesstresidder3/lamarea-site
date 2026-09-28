@@ -58,7 +58,6 @@ const count = ['No', 'One', 'Two', 'Three', 'Four', 'Five'][choices.length] ?? S
     line="Choose a waitlist and leave your email. We will write when dates are released."
     lineDraft
     height="tall"
-    shade="strong"
     phonePlace="bottom"
   />
 
@@ -70,8 +69,7 @@ const count = ['No', 'One', 'Two', 'Three', 'Four', 'Five'][choices.length] ?? S
           <li class="wlp__panel" style={`--i:${i}`}>
             <a class="wlp__frame" href={`?list=${c.value}#join`} tabindex="-1" aria-hidden="true">
               <Media media={c.media} aspect="fill" sizes="(max-width: 899px) 86vw, 30vw" />
-              <span class="wlp__shade"></span>
-              <span class="wlp__name">{c.label}</span>
+              <span class="wlp__name on-media-panel on-media-panel--title">{c.label}</span>
             </a>
             {c.meta && <p class="wlp__meta" data-draft={c.draft ? '' : undefined}>{c.meta}</p>}
             <p class="wlp__desc">{c.description}</p>
@@ -112,8 +110,8 @@ const count = ['No', 'One', 'Two', 'Three', 'Four', 'Five'][choices.length] ?? S
   .wlp__frame { position: relative; display: block; aspect-ratio: 3 / 4; overflow: hidden; background: var(--sand-40); color: var(--on-image); text-decoration: none; }
   .wlp__frame :global(img) { transition: scale 1400ms var(--ease-settle); }
   @media (hover: hover) { .wlp__panel:hover .wlp__frame :global(img) { scale: 1.04; } }
-  .wlp__shade { position: absolute; inset: 0; background: linear-gradient(to top, rgb(38 36 20 / 0.5), rgb(38 36 20 / 0.1) 40%, rgb(38 36 20 / 0) 58%); }
-  .wlp__name { position: absolute; left: 1.4rem; right: 1.4rem; bottom: 1.2rem; font-family: var(--font-display); font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.5rem); line-height: 1.04; text-shadow: 0 2px 18px rgb(38 36 20 / 0.4); }
+  /* G1: each name on the shared sand glass title panel, no shade over the photograph. */
+  .wlp__name { position: absolute; left: 1.4rem; bottom: 1.2rem; max-width: calc(100% - 2.8rem); font-family: var(--font-display); font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.2rem); line-height: 1.04; }
   .wlp__meta { margin: 1.1rem 0 0.4rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); }
   .wlp__desc { margin: 0.4rem 0 0.75rem; font-size: var(--fs-small); line-height: 1.65; }
   @media (min-width: 900px) {

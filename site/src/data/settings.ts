@@ -27,7 +27,8 @@ export const site = {
   defaultImage: '/og-default.jpg',
 } as const;
 
-/* Calls to action (build spec section 12, overriding 5.8 and section 7).
+/* Calls to action (build spec section 12, overriding 5.8 and section 7; Jess G3 and G4, 28-09-2026).
+   The main action is "Plan your day" plus "Contact us" (base/CtaPair.astro).
    Every in-page button that opens the funnel reads "Plan your day". "Book a discovery call" appears
    only where the calendar opens: the thank-you page button and the small link on funnel
    step 1 ("Rather talk first? Book a discovery call with Belle"). */
@@ -35,14 +36,16 @@ export const cta = {
   plan: { label: 'Plan your day', href: '/enquire' },
   /** "Plan your day" from anything about the 8 hour day, so the funnel arrives prefilled. */
   planFullDay: { label: 'Plan your day', href: '/enquire?format=full-day' },
-  seeFullDay: { label: 'See the full day', href: '/experiences/full-day-retreat' },
+  seeFullDay: { label: 'See an example of the full day', href: '/experiences/full-day-retreat' },
+  /** The second half of the main action everywhere (Jess G3, G4, 28-09-2026): "Plan your day" plus
+      "Contact us". base/CtaPair.astro renders the pair, or one split pill where there is no room. */
+  contact: { label: 'Contact us', href: '/contact' },
   /** Calendar only. Use on /enquire/thank-you and the step 1 text link, nowhere else. */
   discovery: { label: 'Book a discovery call', href: 'https://calendar.app.google/jiKYpzKFiG5XZV9x9' },
   bookingUrl: 'https://calendar.app.google/jiKYpzKFiG5XZV9x9',
-  /** The line under "Plan your day" wherever the Day or a closing band asks for the day, so a
-      visitor knows a call with Belle comes next (Belle, T33: "get them to book a discovery call
-      with me to curate their eight hour immersive retreat"). Content review 27-09-2026. */
-  callNote: 'A few short questions about your group, then a discovery call with Belle.',
+  /** Removed 28-09-2026 (Jess G5): no subtext under the main button anywhere. Kept as an empty string
+      so components that still read it render nothing. */
+  callNote: '',
 } as const;
 
 /* Navigation, UX build 27-09-2026 (build/design/ux-information-architecture-27-09-2026.md section 5).
@@ -97,6 +100,7 @@ export const menuTree: NavItem[] = [
   { label: 'Journal and recipes', href: '/journal' },
   { label: 'FAQs', href: '/faqs' },
   { label: 'Gift cards', href: '/gift-cards' },
+  { label: 'Contact us', href: '/contact' },
 ];
 
 /* Legacy shapes, kept so the current Header and Menu render the new structure until the designer's
@@ -133,6 +137,7 @@ export const footerGroups: { title: string; links: NavLink[] }[] = [
       { label: 'Shorter retreats and waitlists', href: '/retreats#shorter' },
       { label: 'Gift cards', href: '/gift-cards' },
       { label: 'Plan your day', href: '/enquire' },
+      { label: 'Contact us', href: '/contact' },
     ],
   },
   {
@@ -170,14 +175,8 @@ export const contact = {
     { address: 'belle@lamarea.com.au', label: 'Belle', status: 'in hand' },
     { address: 'info@lamarea.com.au', label: 'General enquiries', status: 'in hand' },
   ],
-  /** Published on the live FAQs and privacy pages, so it shows (build spec section 3). plan/11 item 77: Belle confirms it stays in the footer. */
-  phone: {
-    display: '0411 354 356',
-    asPublished: '0411354356',
-    tel: '+61411354356',
-    status: 'in hand but needs Belle’s check' as const,
-    showInFooter: true,
-  },
+  /* No phone number anywhere on the site (Jess G6, 28-09-2026). Email, Instagram and the discovery call
+     are the contact routes (/contact). */
   address: null,
   abn: null,
 } as const;

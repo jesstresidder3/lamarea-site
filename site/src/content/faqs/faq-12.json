@@ -6,7 +6,6 @@
     "How do I request an airport transfer?",
     "If you require a transfer, please contact us before purchasing your retreat ticket so we can confirm whether we can accommodate your arrival and departure times.",
     "Email: info@lamarea.com.au",
-    "Belle Redden Phone: 0411354356",
     "Which airports do you service?",
     "We primarily service Adelaide Airport (ADL).",
     "If you plan to arrive via another airport, please get in touch so we can advise your best travel options.",
@@ -51,6 +50,6 @@
     }
   ],
   "status": "draft",
-  "review": "Long answer with sub-questions, kept as paragraphs. Contains Belle's phone number 0411354356 and \"La Maréa & Naiko Retreat\". Transfer time given as 90-120 minutes.",
+  "review": "Long answer with sub-questions, kept as paragraphs. Belle's phone number line removed 28-09-2026 (Jess G6, no phone number on the site). Contains \"La Maréa & Naiko Retreat\". Transfer time given as 90-120 minutes.",
   "dash_note": "Dashes in the client text were replaced for the build: em and en dashes and spaced hyphens used as dashes became commas, number ranges became \"to\", and leading list hyphens were dropped. The verbatim original is in build/03-content-harvest.md."
 }

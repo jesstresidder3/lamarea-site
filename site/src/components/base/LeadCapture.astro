@@ -7,7 +7,8 @@
   <LeadCapture list="app" heading="Coming 2027" intro="..." submitLabel="Keep me posted" />
 
   Props
-  - list: 'newsletter' | 'app' | 'collective' | 'waitlist' (stored with the submission)
+  - list: 'newsletter' | 'app' | 'collective' | 'waitlist' | 'contact' (stored with the submission)
+  - message: show a short message box under the fields (default false; used by /contact)
   - heading, intro: optional text above the form (intro drafted copy can be marked with draft)
   - firstName: show an optional first name field (default false)
   - submitLabel (default 'Join'), successMessage
@@ -22,9 +23,10 @@
 
   Payload for Dom:
   {
-    list: 'newsletter' | 'app' | 'collective' | 'waitlist',
+    list: 'newsletter' | 'app' | 'collective' | 'waitlist' | 'contact',
     email: string,
     first_name: string | null,
+    message: string | null,              // only when the form shows a message box
     marketing_consent: boolean,          // the separate unticked box
     consent_text: string,                // the exact consent wording shown
     source_path: string,                 // location.pathname
@@ -34,7 +36,8 @@
   The honeypot field is named "company"; any value means drop the submission silently.
 */
 interface Props {
-  list?: 'newsletter' | 'app' | 'collective' | 'waitlist';
+  list?: 'newsletter' | 'app' | 'collective' | 'waitlist' | 'contact';
+  message?: boolean;
   heading?: string;
   intro?: string;
   introDraft?: boolean;
@@ -56,6 +59,7 @@ const {
   intro,
   introDraft = false,
   firstName = false,
+  message = false,
   submitLabel = 'Join',
   successMessage = 'Thank you. You are on the list, and we will be in touch.',
   consentLabel = 'Also email me La maréa news and retreat releases. Unsubscribe at any time.',
@@ -70,7 +74,7 @@ const {
 <div class:list={['capture', `capture--${tone}`, `capture--${layout}`, className]} data-lead-capture>
   {heading && <p class="capture__heading">{heading}</p>}
   {intro && <p class="capture__intro" data-draft={introDraft ? '' : undefined}>{intro}</p>}
-  <form class="capture__form" action={endpoint} method="post" novalidate data-list={list} data-live={live ? '' : undefined} aria-describedby={`${id}-status`}>
+  <form class:list={['capture__form', message && 'capture__form--message']} action={endpoint} method="post" novalidate data-list={list} data-live={live ? '' : undefined} aria-describedby={`${id}-status`}>
     <div class="capture__row">
       {firstName && (
         <label class="capture__field">
@@ -82,14 +86,23 @@ const {
         <span class="capture__label">Email</span>
         <input type="email" name="email" autocomplete="email" inputmode="email" required aria-describedby={`${id}-error`} />
       </label>
-      <button class="btn-filled capture__submit" type="submit">{submitLabel}</button>
+      {!message && <button class="btn-filled capture__submit" type="submit">{submitLabel}</button>}
     </div>
+    {message && (
+      <>
+        <label class="capture__field capture__field--message">
+          <span class="capture__label">Your message <span class="capture__optional">(optional)</span></span>
+          <textarea name="message" rows="4" maxlength="2000"></textarea>
+        </label>
+      </>
+    )}
     <p class="capture__error" id={`${id}-error`} aria-live="polite"></p>
     <label class="capture__consent">
       <input type="checkbox" name="marketing_consent" value="yes" />
       <span class="capture__check" aria-hidden="true"></span>
       <span class="capture__consent-text" data-draft>{consentLabel}</span>
     </label>
+    {message && <button class="btn-filled capture__submit capture__submit--below" type="submit">{submitLabel}</button>}
     <div class="capture__trap" aria-hidden="true">
       <label>Company <input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
     </div>
@@ -120,7 +133,7 @@ const {
   .capture__field { display: grid; gap: 0.35rem; min-width: 0; }
   .capture__label { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); }
   .capture__optional { opacity: 0.75; letter-spacing: 0.04em; }
-  .capture__field input {
+  .capture__field :is(input, textarea) {
     width: 100%;
     min-height: 2.75rem;
     padding: 0.5rem 0;
@@ -133,8 +146,11 @@ const {
     font-size: 1rem;
     transition: border-color var(--dur-fast) var(--ease-soft);
   }
-  .capture__field input:focus { outline: none; border-bottom-color: currentColor; }
-  .capture__field input:focus-visible { outline: 1.5px solid var(--focus); outline-offset: 3px; }
+  .capture__field textarea { resize: vertical; min-height: 6rem; line-height: 1.6; }
+  .capture__field--message { margin-top: 1.25rem; }
+  .capture__submit--below { margin-top: 1.25rem; }
+  .capture__field :is(input, textarea):focus { outline: none; border-bottom-color: currentColor; }
+  .capture__field :is(input, textarea):focus-visible { outline: 1.5px solid var(--focus); outline-offset: 3px; }
   .capture__field input[aria-invalid='true'] { border-bottom-color: currentColor; border-bottom-style: dashed; }
   .capture--dark .capture__submit { background: var(--sand-30); border-color: var(--sand-30); color: var(--sage-80); }
 

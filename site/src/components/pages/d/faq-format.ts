@@ -3,7 +3,7 @@
   (verbatim from lamarea.com.au/faqs); only the markup changes so long answers read calmly:
   - a line that ends in "?" after the opening lines becomes a small sub-question
   - short lines that follow a line ending in ":" become a list
-  - email addresses and Belle's published phone number become links
+  - email addresses become links (Belle's phone number is off the site, Jess G6 28-09-2026)
   - the unlinked "HERE" in the first answer links to /experiences, the page it describes
 */
 import { escapeHtml } from '../../base/text';
@@ -11,7 +11,6 @@ import { escapeHtml } from '../../base/text';
 const linkify = (s: string) =>
   s
     .replace(/([\w.+-]+@lamarea\.com\.au)/g, '<a href="mailto:$1">$1</a>')
-    .replace(/0411354356/g, '<a href="tel:+61411354356">0411354356</a>')
     .replace(/\bHERE\b/g, '<a href="/experiences">here</a>');
 
 const endsSentence = (s: string) => /[.!?)]$/.test(s.trim());

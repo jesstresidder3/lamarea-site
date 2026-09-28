@@ -12,12 +12,13 @@
 */
 import Logo from './Logo.astro';
 import Media from '../media/Media.astro';
+import CtaPair from '../base/CtaPair.astro';
 import * as settings from '../../data/settings';
 import type { NavLink } from '../../data/settings';
 
 type Item = NavLink & { children?: NavLink[] };
 const s = settings as unknown as Record<string, unknown>;
-const { cta, contact, social } = settings;
+const { contact, social } = settings;
 
 interface Props { current?: string }
 const { current = '/' } = Astro.props;
@@ -41,6 +42,7 @@ const PREVIEW: Record<string, string> = {
   '/journal': 'journal-poke-bowl',
   '/faqs': 'faqs-intro',
   '/gift-cards': 'giftcards-intro',
+  '/contact': 'contact-opener',
 };
 const withMedia = <T extends NavLink>(l: T): T => ({ ...l, media: l.media ?? PREVIEW[l.href.split('#')[0]] ?? 'menu-default' });
 const list: Item[] = (tree ?? (settings.menuPrimary as Item[])).map((l) => ({ ...withMedia(l), children: l.children?.map(withMedia) }));
@@ -87,7 +89,7 @@ let n = 0;
       )}
 
       <div class="menu__foot" style={`--i:${n++}`}>
-        <a class="btn-filled menu__cta" href={cta.plan.href}>{cta.plan.label}</a>
+        <CtaPair class="menu__cta" />
         <ul class="menu__contact" role="list" aria-label="Contact">
           {contact.emails.map((e) => <li><a href={`mailto:${e.address}`}>{e.address}</a></li>)}
           <li><a href={social.instagram.url} target="_blank" rel="noopener">Instagram<span class="visually-hidden"> (opens in a new tab)</span></a></li>

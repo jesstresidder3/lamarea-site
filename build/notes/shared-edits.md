@@ -1,5 +1,31 @@
 # Shared component edits by page builders
 
+## L1 system pass, 28-09-2026 (Jess's feedback G1 to G7). Read this first
+
+Every lane uses these. They replace the salt-text-over-a-sea-shade approach used until now.
+
+**G2, one grade for every photo and clip.** `Media.astro` applies `--media-grade` (a touch of sand warmth, contrast 0.94, saturation 0.9, a small lift) and a soft-light sand wash (`--media-tint`) to every real image and video, from `tokens.css`. Do not set your own `filter` on `img` or `video` any more (it stacks on top of the grade). Remove the `filter: saturate(...) brightness(...)` lines in your components.
+
+**G1, words on media.** Sage words on sand, carried onto the photograph by a sand glass panel sized to the words. Three classes in `styles/utilities.css`:
+
+| Class | Use it for | Measured |
+|---|---|---|
+| `.on-media-panel` | Any small words on a photo or clip: subs, captions, labels, notes, links, fact lines | Sage 100 on the panel, 8.1:1 to 10:1 on real frames (target 4.5:1) |
+| `.on-media-panel.on-media-panel--title` | Display words on a photo: put it on each line's inner span when lines animate separately (as in PageOpener and the home Opening), or on the heading when it moves as one | Sage 80, 5.2:1 to 6.2:1 on real frames (target 3:1) |
+| `.on-media` | Only if a page must keep salt display type straight on the picture: a feathered sage tint in an ellipse around the words. Large type over calm mid-tone sea only; check 3:1 on the real pixels | Tune with `--veil-a` |
+
+Rules: put the class on the block that holds the words, never the section; panels are `width: fit-content`, so they follow the words. No full-frame scrims, no `rgb(20 50 64)` sea shades, no salt text with text-shadow as the only help. `<Caption tone="salt">` is now a small sand glass panel automatically. The header over a PageOpener or the home opening is a sand glass strip with sage ink (salt ink measured about 2.4:1 over bright sky).
+
+Check a page with `node qa/zz-sys-contrast.mjs <path> <width> <scrollY> <outdir>` then `python3 qa/zz-sys-contrast.py <outdir>`: it hides the text, captures the pixels behind every panel and prints PASS or FAIL against 4.5:1 (under 24px) or 3:1.
+
+**G3, G4, the main action.** `base/CtaPair.astro`: "Plan your day" (filled) plus "Contact us" (quiet pill), or `layout="split"` for one pill reading "Plan your day / Contact us" with two links. Props: `params`, `plan`, `size`, `align`, `onMedia`, `magnetic`. `cta.contact` in `settings.ts` is `{ label: 'Contact us', href: '/contact' }`. Already in: header (two pills, split pill under 640px), menu, ClosingTide, CtaBand, PinnedDay, PlanClose. Wherever your page has its own single "Plan your day" button as the main action, swap it for `<CtaPair params={{ source: '...' }} />`.
+
+**G5.** `cta.callNote` is now an empty string, and ClosingTide has no default note. No subtext under the buttons anywhere: remove any `dy__call`, `dib__call`, `note=` or hard-coded call line you still render.
+
+**G6.** Belle's phone number is gone from `settings.ts` (`contact.phone` no longer exists), the footer, the funnel aside, the thank-you page, the privacy page and FAQ 12. Do not add it back.
+
+**G7.** `/contact` exists (`src/pages/contact.astro`): full-bleed opener (`contact-opener` slot), email, Instagram, the discovery call, Plan your day and a short message form (`LeadCapture list="contact" message firstName layout="stacked"`, stub until Dom's endpoint). Linked from the header, the menu (`menuTree`) and the footer (Retreats column and the contact line).
+
 ## L1 shared patterns, round 1 (28-09-2026). Read this before building a page
 
 L1 has built the shared visual language in `src/components/base/`. Each file's comment header lists every prop. Use these instead of the old units (MediaBand text below, PageIntro, CtaBand plus the footer motto, equal cards).
@@ -15,7 +41,7 @@ L1 has built the shared visual language in `src/components/base/`. Each file's c
 | P6 `SlideStrip.astro` | Any row of 3 to 10 items: formats, venues, related experiences, plates, practitioners | `<SlideStrip label="More experiences" items={[{ media, title, href, line }]} />`, optional `slot="head"` for words that hold still at the left |
 | P7 missing photos | Automatic. With notes off, a missing slot leaves no frame: wrappers holding only it are hidden (`data-empty`), the next ancestor gets `data-has-empty` for reflow. Mark a larger frame `data-media-frame` to drop it whole | `.card[data-has-empty] .card__text { grid-column: 1 / -1; }` |
 
-Also: `[data-drift="0.92"]` on any element moves it at that scroll speed. The header is now Menu, wordmark and "Plan your day" only, and runs clear with salt ink over any page whose `<main>` starts with a PageOpener (it must be the first child of `<main>`, not wrapped). Motion is off and everything is static under reduced motion in all seven.
+Also: `[data-drift="0.92"]` on any element moves it at that scroll speed. The header is now Menu, wordmark and the main action ("Plan your day" and "Contact us" since the system pass), and runs as a sand glass strip over any page whose `<main>` starts with a PageOpener (it must be the first child of `<main>`, not wrapped). Motion is off and everything is static under reduced motion in all seven.
 
 Screenshots note: the dev server serves stale component style modules. `qa/zz-l1-steps.mjs` (same arguments as `zz-steps-tmp.mjs`) and `qa/zz-l1-at.mjs <path> <width> <outprefix> <y...>` block those modules so shots show the current CSS. `qa/zz-l1-errs.mjs <path...>` lists page errors and sideways overflow at 1440 and 390.
 
@@ -122,3 +148,23 @@ Screenshots note: the dev server serves stale component style modules. `qa/zz-l1
 | 28-09-2026 | `site/src/components/venues/VenueIndex.astro`, `VenuePanel.astro`, `map/FleurieuMap.astro` | Venue meta reads setting and drive time first, sleeps last and quieter; venue names in HV Muse; card frame min-height so it never collapses | Audience review (day or stay, 0px cards), vision review (one venue name face) | L3 builder |
 | 28-09-2026 | `site/src/components/experiences/PaneSlider.astro` | New optional `mediaFor` prop swaps a tile's frame (used for video tiles on /experiences) | Belle T53, sliders with videos | L3 builder |
 | 28-09-2026 | `site/src/content/venues/*.json` | `card_media`, `map_media` and feature `media` point at new L3 slots with real photographs | Beresford and Encounter Bay had no photographs | L3 builder |
+| 28-09-2026 | `styles/tokens.css`, `styles/utilities.css`, `media/Media.astro` | G2 grade on every photo and clip; G1 classes `.on-media-panel`, `.on-media-panel--title`, `.on-media`; `.btn-quiet` | Jess G1, G2 | L1 system pass |
+| 28-09-2026 | `base/PageOpener`, `base/ClosingTide`, `base/Caption`, `hero/Opening`, `home/StoryBegins`, `day/PinnedDay`, `venues/PlacesArches`, `layout/Header` | Sea shades and salt text replaced by sand glass panels; component filters removed. Contrast measured on the real pixels at 1440 and 390, every block passes | Jess G1, H2 (panels only, positions unchanged) | L1 system pass |
+| 28-09-2026 | new `base/CtaPair.astro`; `layout/Header`, `Menu`, `Footer`, `base/ClosingTide`, `CtaBand`, `day/PinnedDay`, `home/PlanClose`, `data/settings.ts` | "Plan your day" plus "Contact us" everywhere shared; `cta.contact`; `cta.callNote` emptied; Contact us in `menuTree` and `footerGroups` | Jess G3, G4, G5, G7 | L1 system pass |
+| 28-09-2026 | `data/settings.ts`, `layout/Footer.astro`, and (one line each, outside L1) `pages/a/Funnel.astro`, `pages/a/ThankYou.astro`, `pages/d/privacy.ts`, `pages/d/faq-format.ts`, `content/faqs/faq-12.json` | Belle's phone number removed everywhere | Jess G6 | L1 system pass |
+| 28-09-2026 | new `pages/contact.astro`; `base/LeadCapture.astro` (optional `message` box, list `contact`), `scripts/lead-capture.ts` (sends `message`); `data/media/slots-foundation.ts` (`contact-opener`) | The Contact page | Jess G7 | L1 system pass |
+| 28-09-2026 | `public/media/hero-emerald-shallows-*` (clip, portrait clip, both posters and variants), `data/media/slots-foundation.ts` notes | Home opening re-cut from DJI_0604 second 91 to 104 (13 s, was 90 to 104), same encode settings; posters from second 91. `media-variants.mjs` rerun, which also made variants for other lanes' new posters | Jess H1 | L1 system pass |
+| 28-09-2026 | `qa/zz-sys-contrast.mjs`, `qa/zz-sys-contrast.py`, `qa/zz-sys-el.mjs`, `qa/zz-sys-menu.mjs`, `qa/shots/rebuild/sys/` | Contrast and screenshot helpers | Check method | L1 system pass |
+| 28-09-2026 | `site/src/data/media/image-sizes.json` | One entry added for `/media/beresford-pavilion-dusk.jpg` (2000x1162, 640/1024/1600 variants) by a one-file sharp run, not a full `media-variants.mjs` re-run | Jess G9: the Beresford Estate 'What is around it' band had no photograph (`venue-around-beresford-estate` in slots-page-c) | L3 |
+| 28-09-2026 | `day/PinnedDay.astro`, `experiences/ExperienceGallery.astro`, `hero/Opening.astro`, `home/StoryBegins.astro`, `data/media/slots-foundation.ts`, `data/media/image-sizes.json`, new `public/media/home-calm-sea-drone*` | Home pass for Jess H2 to H8 and G8. New optional props any lane may use: `PinnedDay example` (an "Example day" tag, the link reads "See an example of the full day" and also sits under the heading) and `headingDraft`; `ExperienceGallery size="large"` (bigger heading, a soft sand wash on the frames). Default behaviour of both is unchanged. `home-fleurieu-video` now plays DJI_0604 seconds 64 to 77 (calm open sea) so Belle's line sits on the ocean (H4); the cliffs clip is untouched for the other pages that use it. Poster variants were made for the two new posters only (media-variants.mjs was not rerun) | Jess's feedback 28-09-2026 | L1 home |
+
+## L4 G pass, 28-09-2026
+
+| Date | File | Change | Why | Who |
+|---|---|---|---|---|
+| 28-09-2026 | `components/journal/JournalCover.astro` | Only the eyebrow and masthead sit on the photo, on the shared sand glass panels. Belle's intro and the latest story moved onto sand beneath it. Shade, filter and text shadows removed | Jess J1, G1, G2 | L4 |
+| 28-09-2026 | `pages/journal/[slug].astro` | Body stops at "## References" (the list printed twice); "About the Author" set once beneath References. Short titles on one line, story titles smaller with a panel per wrapped row. Recipe facts in one row on phones | Jess J2, G1 | L4 |
+| 28-09-2026 | `content/journal/med-inspired-vegetable-lasagna.md` | Two hidden line-separator characters (U+2028) replaced by spaces, so step 4 no longer prints "04 4. Assemble" | Jess J2 | L4 |
+| 28-09-2026 | `components/pages/d/AppOpener.astro` | Wordmark on a sand glass strip and the year on a small panel over the film; shade removed | G1 | L4 |
+| 28-09-2026 | `pages/team/[slug].astro`, `data/media/slots-page-b.ts` | Zoe and Sarah open on the hosts photograph with a short caption (data-draft) instead of a page with no photograph | G9 | L4 |
+| 28-09-2026 | L2 own files only | G1 and G2 on the buyers' path: `pages/a/PageOpener.astro` (title lines, eyebrow, sentence and the 404 paths on `.on-media-panel`, shades and image filter removed), `pages/a/PanelTrack.astro` (names and numbers on panels, shade removed), `waitlist.astro` (panel names). `slots-page-a.ts`: `enquire-vineyard` and `enquire-thanks` filled (E4). Reads `pages/d/faq-format.ts` (L4) for the audience-page answers, no edit | Jess G1, G2, E4, P1 | Lane L2 |

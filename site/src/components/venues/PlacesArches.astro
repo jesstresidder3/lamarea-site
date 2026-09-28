@@ -60,7 +60,7 @@ const pins = venues
           <span class="pa__arch" data-speed="0.8">
             <Media media={archSlot(v)!} aspect="fill" sizes="(max-width: 899px) 86vw, 34vw" />
           </span>
-          <span class="pa__arch-name">{v.data.name}</span>
+          <span class="pa__arch-name on-media-panel on-media-panel--title">{v.data.name}</span>
         </a>
       ))}
     </div>
@@ -143,20 +143,20 @@ const pins = venues
     overflow: hidden;
     background: var(--sand-40);
   }
-  .pa__arch::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgb(20 50 64 / 0.42), rgb(20 50 64 / 0) 38%); pointer-events: none; }
+  /* G1 (28-09-2026): the venue name sits on a sand glass panel, centred on the arch; no shade. */
   .pa__arch-name {
     position: absolute;
-    left: 0;
-    right: 0;
+    left: 50%;
+    translate: -50% 0;
+    max-width: calc(100% - 1.5rem);
     bottom: clamp(1.25rem, 3vw, 2.5rem);
     z-index: 2;
     text-align: center;
     font-family: var(--font-display);
     /* Sized to the arch, so three arches side by side keep each name inside its own frame. */
     font-size: clamp(1.05rem, 14cqi, 3.5rem);
-    line-height: 1;
-    text-shadow: 0 1px 20px rgb(20 50 64 / 0.4);
-    padding-inline: 0.5rem;
+    line-height: 1.05;
+    padding: 0.3em 0.55em 0.35em;
   }
 
   .pa__heading { margin: 0; font-size: var(--fs-section); line-height: 1.02; }

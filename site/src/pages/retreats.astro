@@ -10,6 +10,12 @@
   photograph wide and the words overlapping it, the two paths in the home opening's arch and frame,
   the shorter formats as a row of tall panels that comes in from the right, and a closing frame of
   the coast. /retreats is where the shorter formats live; the 8 hour block points to its own page.
+  Round 2 (Jess 28-09-2026): R2 "Choose your retreat" straight after the opener, then the 8 hour
+  retreat in brief (one paragraph, the facts, framed as an example day, "See an example of the full
+  day"). R1 (blank page): in a real Chrome window the screen under the opener could stay plain sand
+  for a second or more while scrolling, because every photo below it loaded lazily and the words
+  waited on their reveal. The first photos below the opener now load eagerly and the 8 hour block no
+  longer waits on a reveal.
 
   Belle's words, verbatim (dashes replaced, source in brackets):
   - "There are different seasons that call us to pause. Time with friends, time with family, time to
@@ -136,32 +142,10 @@ const jsonLd = {
     phonePlace="top"
   />
 
-  <!-- The 8 hour immersive retreat first: the photograph wide, the words overlapping its corner -->
-  <section class="flag" aria-labelledby="flag-heading">
-    <div class="wrap">
-      <Breadcrumbs items={[{ label: 'Retreats' }]} class="flag__crumbs" />
-    </div>
-    <div class="flag__stage">
-      <div class="flag__img" data-widen="4"><Media media="a-retreats-day" aspect="fill" sizes="(max-width: 899px) 100vw, 72vw" /></div>
-      <Reveal class="flag__text">
-        <Eyebrow>8 hours, 7am to 5pm</Eyebrow>
-        <h2 class="flag__heading" id="flag-heading">{flagshipName}</h2>
-        <p class="flag__lead">Your luxury retreat includes a curated day program designed around movement, recovery, nourishing food, nervous system support, nature immersion, education and connection.</p>
-        <p>A completely curated luxury experience where everything is taken care of, venue, meals, wellness sessions, experiences, and clean-up, allowing your group to simply arrive, relax, and enjoy quality time together.</p>
-        <dl class="flag__facts">
-          <div><dt>At the venue</dt><dd>{day.times.retreat}</dd></div>
-          <div><dt>From Adelaide</dt><dd>Pick up about {day.times.pickup}, drop off about {day.times.dropoff}</dd></div>
-          <div><dt>For</dt><dd data-draft>Private groups and corporate teams</dd></div>
-        </dl>
-        <p class="flag__note">{day.note}</p>
-        <ArrowLink href={cta.seeFullDay.href} label={cta.seeFullDay.label} size="large" class="flag__go" />
-      </Reveal>
-    </div>
-  </section>
-
-  <!-- Who it is for: the two worlds from the home opening -->
+  <!-- Choose your retreat, straight after the opener (Jess R2): the two worlds from the home opening -->
   <section class="paths" aria-labelledby="paths-heading">
     <div class="wrap">
+      <Breadcrumbs items={[{ label: 'Retreats' }]} class="paths__crumbs" />
       <Reveal>
         <SectionHead
           id="paths-heading"
@@ -173,18 +157,37 @@ const jsonLd = {
       </Reveal>
       <ul class="paths__list" role="list">
         <li class="paths__card paths__card--arch">
-          <a class="paths__pic" href="/private-groups" tabindex="-1" aria-hidden="true"><Media media="home-world-private-alt" aspect="fill" sizes="(max-width: 899px) 86vw, 34vw" /></a>
+          <a class="paths__pic" href="/private-groups" tabindex="-1" aria-hidden="true"><Media media="home-world-private-alt" eager aspect="fill" sizes="(max-width: 899px) 86vw, 34vw" /></a>
           <h3 class="paths__name"><a href="/private-groups">For private groups</a></h3>
           <p>Birthdays, milestone celebrations, sister weekends, family resets or simply time with people who matter.</p>
           <ArrowLink href="/private-groups" label="See private group retreats" />
         </li>
         <li class="paths__card paths__card--frame">
-          <a class="paths__pic" href="/corporate" tabindex="-1" aria-hidden="true"><Media media="home-world-corporate" aspect="fill" sizes="(max-width: 899px) 86vw, 40vw" /></a>
+          <a class="paths__pic" href="/corporate" tabindex="-1" aria-hidden="true"><Media media="home-world-corporate" eager aspect="fill" sizes="(max-width: 899px) 86vw, 40vw" /></a>
           <h3 class="paths__name"><a href="/corporate">For corporate teams</a></h3>
           <p>A strategic reset for leadership teams and high-performing professionals.</p>
           <ArrowLink href="/corporate" label="See corporate retreats" />
         </li>
       </ul>
+    </div>
+  </section>
+
+  <!-- The 8 hour immersive retreat, briefly (Jess R2: no more detail than needed), framed as one example day -->
+  <section class="flag" aria-labelledby="flag-heading">
+    <div class="flag__stage">
+      <div class="flag__img" data-widen="4"><Media media="a-retreats-day" eager aspect="fill" sizes="(max-width: 899px) 100vw, 72vw" /></div>
+      <div class="flag__text">
+        <Eyebrow>An example day, 7am to 5pm</Eyebrow>
+        <h2 class="flag__heading" id="flag-heading">{flagshipName}</h2>
+        <p class="flag__lead">Your luxury retreat includes a curated day program designed around movement, recovery, nourishing food, nervous system support, nature immersion, education and connection.</p>
+        <dl class="flag__facts">
+          <div><dt>At the venue</dt><dd>{day.times.retreat}</dd></div>
+          <div><dt>From Adelaide</dt><dd>Pick up about {day.times.pickup}, drop off about {day.times.dropoff}</dd></div>
+          <div><dt>For</dt><dd data-draft>Private groups and corporate teams</dd></div>
+        </dl>
+        <p class="flag__note">{day.note}</p>
+        <ArrowLink href={cta.seeFullDay.href} label="See an example of the full day" size="large" class="flag__go" />
+      </div>
     </div>
   </section>
 
@@ -219,11 +222,10 @@ const jsonLd = {
 </Base>
 
 <style>
-  .flag { padding-block: clamp(1.5rem, 3vw, 2.5rem) var(--section-y); background: var(--sand-30); overflow-x: clip; }
-  .flag :global(.flag__crumbs) { margin-bottom: clamp(2.5rem, 6vw, 5rem); }
+  .flag { padding-block: var(--section-y) calc(var(--section-y) + 2rem); background: var(--sand-30); overflow-x: clip; }
   .flag__stage { display: grid; }
   .flag__img { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--sand-40); }
-  .flag__stage :global(.flag__text) {
+  .flag__text {
     position: relative;
     margin: -3rem var(--gutter) 0;
     padding: clamp(1.75rem, 4vw, 3.25rem);
@@ -240,10 +242,11 @@ const jsonLd = {
   @media (min-width: 900px) {
     .flag__stage { grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: end; padding-right: var(--gutter); }
     .flag__img { grid-column: 1 / 9; grid-row: 1; aspect-ratio: auto; height: min(78svh, 50rem); }
-    .flag__stage :global(.flag__text) { grid-column: 8 / 13; grid-row: 1; margin: 0 0 -4rem; align-self: end; }
+    .flag__text { grid-column: 8 / 13; grid-row: 1; margin: 0 0 -4rem; align-self: end; }
   }
 
-  .paths { padding-block: var(--section-y); background: var(--salt-25); }
+  .paths { padding-block: clamp(1.25rem, 2.5vw, 2rem) var(--section-y); background: var(--salt-25); }
+  .paths :global(.paths__crumbs) { margin-bottom: clamp(2.5rem, 6vw, 4.5rem); }
   .paths__list { display: grid; gap: var(--space-xl); margin: clamp(2.5rem, 5vw, 4rem) 0 0; padding: 0; list-style: none; }
   .paths__card { max-width: 34rem; }
   .paths__pic { position: relative; display: block; overflow: hidden; background: var(--sand-40); margin-bottom: 1.5rem; }

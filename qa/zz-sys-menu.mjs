@@ -1,0 +1,13 @@
+import { chromium } from 'playwright';
+const [,, w, out] = process.argv;
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: +w, height: +w < 800 ? 844 : 900 } });
+await p.route(/type=style/, (r) => r.abort());
+await p.goto('http://localhost:4322/contact', { waitUntil: 'load' });
+await p.waitForTimeout(1500);
+await p.click('[data-menu-open]');
+await p.waitForTimeout(1800);
+await p.evaluate(() => { const s = document.querySelector('.menu__sheet'); s.scrollTop = s.scrollHeight; });
+await p.waitForTimeout(500);
+await p.screenshot({ path: out });
+await b.close();

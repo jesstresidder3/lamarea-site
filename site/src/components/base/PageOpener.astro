@@ -3,8 +3,12 @@
   P1 PageOpener, the inner-page opener (art review 27-09-2026, shared pattern P1).
   The home Opening, simplified for inner pages. A full-bleed photograph or drone clip (100svh on
   desktop, at least 38rem; 88svh on phones), the page title in HV Muse salt ink broken by hand into
-  two or three lines at three indents, a soft local shade only in the corner the words sit in, the
+  two or three lines at three indents on a sand glass title panel (G1), the
   page's one-line sentence bottom left and a P3 caption bottom right.
+
+  Words on media (G1, 28-09-2026): each title line sits on its own sand glass title panel
+  (.on-media-panel--title, sage ink), the eyebrow, sentence and slot on a sand glass panel
+  (.on-media-panel), and the caption is a P3 salt caption (sand glass too). See utilities.css and build/notes/shared-edits.md.
 
   Motion: the frame washes up from the bottom edge like the tide (clip inset(100% 0 0 0) to inset(0),
   1400ms, --ease-tide) while the photo settles; the lines rise in after it. On scroll the three lines
@@ -80,22 +84,22 @@ const hasAfter = Astro.slots.has('after');
 >
   <div class="po__frame" data-hero data-po-frame>
     <div class="po__media" data-po-media style={position ? `--po-pos: ${position}` : undefined}>
-      <Media media={media} aspect="fill" priority sizes="100vw" />
+      <Media media={media} aspect="fill" priority sizes="(max-width: 699px) 340vw, 100vw" />
     </div>
     <span class="po__shade" aria-hidden="true"></span>
   </div>
 
   <div class="po__words">
-    {eyebrow && <p class="po__eyebrow">{eyebrow}</p>}
+    {eyebrow && <p class="po__eyebrow on-media-panel">{eyebrow}</p>}
     <H class="po__title" id={id}>
       {lines.map((l, i) => (
-        <span class={`po__line po__line--${i + 1}`} data-po-line={i}><span class="po__line-in" set:html={emphasis(l)} /></span>
+        <span class={`po__line po__line--${i + 1}`} data-po-line={i}><span class="po__line-in on-media-panel on-media-panel--title" set:html={emphasis(l)} /></span>
       ))}
     </H>
   </div>
 
   {(sub || hasAfter) && (
-    <div class="po__foot">
+    <div class="po__foot on-media-panel">
       {sub && <p class="po__sub" data-draft={subDraft ? '' : undefined}>{sub}</p>}
       {hasAfter && <div class="po__after"><slot name="after" /></div>}
     </div>
@@ -119,21 +123,11 @@ const hasAfter = Astro.slots.has('after');
   .po--tall { height: 82svh; min-height: 32rem; }
   .po__frame { position: absolute; inset: 0; overflow: hidden; }
   .po__media { position: absolute; inset: 0; }
-  .po__media :global(:is(img, video)) { filter: saturate(0.9) brightness(1.02); }
   .po__media[style] :global(:is(img, video)) { object-position: var(--po-pos) !important; }
 
-  /* The shade sits only where the words sit: a soft radial in a cool sea tone, never a full scrim. */
-  .po__shade { position: absolute; inset: 0; pointer-events: none; }
-  .po--top-left .po__shade {
-    background:
-      radial-gradient(95% 80% at 0% 0%, rgb(20 50 64 / 0.4), rgb(20 50 64 / 0.16) 45%, rgb(20 50 64 / 0) 70%),
-      linear-gradient(to top, rgb(20 50 64 / 0.3), rgb(20 50 64 / 0) 28%);
-  }
-  .po--bottom-left .po__shade {
-    background:
-      radial-gradient(100% 85% at 0% 100%, rgb(20 50 64 / 0.46), rgb(20 50 64 / 0.18) 45%, rgb(20 50 64 / 0) 72%),
-      linear-gradient(to bottom, rgb(20 50 64 / 0.22), rgb(20 50 64 / 0) 18%);
-  }
+  /* G1 (28-09-2026): no scrim any more. The title and the small words sit on sand glass panels and
+     the header over the opener is a sand glass strip, so the photograph keeps its own light. */
+  .po__shade { display: none; }
 
   .po__words {
     position: absolute;
@@ -145,11 +139,12 @@ const hasAfter = Astro.slots.has('after');
   .po--top-left .po__words { top: calc(var(--header-h) + clamp(2rem, 10svh, 7rem)); }
   .po--bottom-left .po__words { bottom: clamp(7.5rem, 20svh, 12rem); }
   .po__eyebrow {
-    margin: 0 0 1.25rem;
+    width: fit-content;
+    margin: 0 0 1.5rem;
+    padding: 0.3rem 0.8rem;
     font-family: var(--font-editorial);
     font-style: italic;
     font-size: 1.1875rem;
-    text-shadow: 0 1px 14px rgb(20 50 64 / 0.45);
   }
   .po__title {
     margin: 0;
@@ -159,11 +154,10 @@ const hasAfter = Astro.slots.has('after');
     font-size: clamp(2.75rem, 1rem + 4.4vw, 5.5rem);
     line-height: 0.98;
     letter-spacing: 0.004em;
-    color: inherit;
-    text-shadow: 0 2px 30px rgb(20 50 64 / 0.3);
   }
   .po__line { display: block; }
-  .po__line-in { display: inline-block; }
+  /* Each line has its own sand glass panel (G1), stepping with the indents and lifting with its line. */
+  .po__line-in { display: inline-block; padding: 0.08em 0.32em 0.14em; color: var(--sage-80); }
   .po__line--2 { padding-left: 1.3em; }
   .po__line--3 { padding-left: 0.5em; }
   .po__title :global(.place) { font-family: var(--font-editorial); font-style: italic; font-size: 1.06em; }
@@ -183,9 +177,7 @@ const hasAfter = Astro.slots.has('after');
     font-size: 0.9375rem;
     line-height: 1.6;
     letter-spacing: 0.03em;
-    text-shadow: 0 1px 16px rgb(20 50 64 / 0.55);
   }
-  .po__after :global(a) { color: var(--on-image); }
   .po :global(.po__caption) {
     position: absolute;
     right: var(--gutter);
@@ -202,12 +194,7 @@ const hasAfter = Astro.slots.has('after');
     .po__line--2 { padding-left: 0.6em; }
     .po__line--3 { padding-left: 0.2em; }
     .po--top-left .po__words { top: calc(var(--header-h) + 5svh); }
-    .po--top-left .po__shade {
-      background:
-        linear-gradient(to bottom, rgb(20 50 64 / 0.44), rgb(20 50 64 / 0.16) 42%, rgb(20 50 64 / 0) 60%),
-        linear-gradient(to top, rgb(20 50 64 / 0.42), rgb(20 50 64 / 0) 34%);
-    }
-    .po__foot { right: var(--gutter); bottom: 3.75rem; max-width: none; }
+    .po__foot { right: auto; bottom: 4rem; max-width: calc(100% - 2 * var(--gutter)); }
     .po :global(.po__caption) { left: var(--gutter); right: auto; bottom: 1.25rem; justify-content: flex-start; text-align: left; }
   }
 

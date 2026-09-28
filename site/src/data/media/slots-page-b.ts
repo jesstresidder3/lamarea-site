@@ -205,6 +205,25 @@ const raw: MediaSlot[] = [
     suggested: 'The hosts photograph from lamarea.com.au/our-story (Wix media 6ffd4a_b52439de)',
     tone: 'salt',
   },
+  // G9 (28-09-2026): Zoe and Sarah have no portrait of their own yet (team-zoe-buttery and
+  // team-sarah-mclachlan in slots-systems are empty), so their profile pages open on the hosts
+  // photograph, which shows both of them, instead of a page with no photograph at all.
+  {
+    id: 'team-zoe-hosts', src: '/media/hosts-belle-zoe-sarah.jpg', position: '62% 40%',
+    type: 'image',
+    alt: 'Zoe Buttery seated on the right, with Belle Redden seated on the left and Sarah McLachlan standing behind them, all in white by a window',
+    aspect: '4 / 5',
+    suggested: 'A portrait of Zoe on her own replaces this (team-zoe-buttery)',
+    tone: 'salt',
+  },
+  {
+    id: 'team-sarah-hosts', src: '/media/hosts-belle-zoe-sarah.jpg', position: '52% 35%',
+    type: 'image',
+    alt: 'Sarah McLachlan standing behind Belle Redden and Zoe Buttery, all in white by a window',
+    aspect: '4 / 5',
+    suggested: 'A portrait of Sarah on her own replaces this (team-sarah-mclachlan)',
+    tone: 'salt',
+  },
   {
     id: 'philosophy-opener', src: '/media/bay-cliff-walk-drone.jpg', position: '50% 50%',
     type: 'image',

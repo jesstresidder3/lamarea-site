@@ -35,7 +35,21 @@ const people = await peopleById();
 const author = authorOf(post, people);
 const authorPerson = d.author ? people.get(d.author) : undefined;
 const minutes = minutesOf(post);
-const body = post.body ?? '';
+const rawBody = post.body ?? '';
+// J2: a research post carries its reference list in the body as well as in d.references, so the list
+// printed twice. The body stops at its "## References" heading and <References> sets the list once.
+// Belle's closing "About the Author" paragraph (after the list in her post) moves beneath it, verbatim.
+let body = rawBody;
+let aboutAuthor = '';
+if (d.references.length) {
+  const ri = rawBody.search(/^##\s+References\s*$/m);
+  if (ri >= 0) {
+    const tail = rawBody.slice(ri);
+    const ai = tail.search(/^\*\*About the Author\*\*\s*$/m);
+    if (ai >= 0) aboutAuthor = tail.slice(ai).replace(/^\*\*About the Author\*\*\s*/, '').trim();
+    body = rawBody.slice(0, ri).trimEnd();
+  }
+}
 const url = new URL(`/journal/${post.id}`, site.url).href;
 
 // A recipe post renders as a recipe when it reads as one; anything else is an article.
@@ -75,6 +89,8 @@ const full = plain(d.title);
 const openerLines = (() => {
   const c = full.indexOf(':');
   if (c > 0) return [full.slice(0, c).trim(), full.slice(c + 1).trim()];
+  // A short title (the recipes) stays on one line rather than leaving one word alone on the second
+  if (full.length <= 34) return [full];
   const w = full.split(' ');
   if (w.length < 3) return [full];
   const mid = Math.ceil(w.length / 2);
@@ -163,6 +179,12 @@ const jsonLd = recipe
         )}
 
         {d.references.length > 0 && <References groups={d.references} />}
+        {aboutAuthor && (
+          <section class="post__author" aria-labelledby="about-author">
+            <h2 id="about-author" class="post__author-title">About the Author</h2>
+            <div class="post__author-body" set:html={renderMarkdown(aboutAuthor, { demote: 1 })} />
+          </section>
+        )}
       </div>
     </div>
   </article>
@@ -200,8 +222,27 @@ const jsonLd = recipe
 </script>
 
 <style>
-  .post-opener :global(.po__title), :global(.post-opener .po__title) { font-size: clamp(2.1rem, 1rem + 2.8vw, 3.75rem); line-height: 1.04; max-width: 20em; }
-  :global(.post-opener .po__line--2) { font-size: 0.72em; padding-left: 0.6em; margin-top: 0.3em; }
+  /* J2: a story title is long, so it sets smaller than a page title and its second clause smaller again,
+     each line on its own sand glass panel from PageOpener (G1). */
+  :global(.post-opener .po__title) { font-size: clamp(1.85rem, 0.9rem + 2.3vw, 3.1rem); line-height: 1.08; max-width: 22em; }
+  :global(.post-opener .po__line--2) { font-size: 0.62em; padding-left: 0.6em; margin-top: 0.35em; }
+  @media (max-width: 699px) { :global(.post-opener .po__title) { font-size: clamp(1.7rem, 1rem + 3.6vw, 2.1rem); } }
+  /* A story title wraps, and an inline-block panel then spans the whole column. Set inline and cloned,
+     each wrapped row gets its own panel fitted to its words, with enough line height that rows never overlap.
+     An inline box blurs its whole bounding rectangle, so these panels drop the blur and are a little more opaque. */
+  :global(.post-opener .po__line-in) { display: inline; -webkit-box-decoration-break: clone; box-decoration-break: clone; line-height: 1.52; padding: 0.04em 0.3em 0.1em; --panel-a: 0.86; -webkit-backdrop-filter: none; backdrop-filter: none; }
+
+  .post__author { margin-top: clamp(2.5rem, 5vw, 3.5rem); padding: clamp(1.5rem, 3vw, 2.25rem); background: var(--salt-25); max-width: 40rem; }
+  .post__author-title { margin: 0 0 0.75rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); line-height: var(--lh-label); font-weight: 400; color: var(--muted); }
+  .post__author-body :global(p) { margin: 0; font-size: var(--fs-small); line-height: 1.65; color: var(--sage-100); }
+
+  /* Recipe facts on a phone: serves, prep and cook in one row of three, not two plus one */
+  @media (max-width: 599px) {
+    .post :global(.recipe__facts) { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .post :global(.recipe__facts > div) { margin: 0; padding: 0.9rem 0.75rem 1rem; }
+    .post :global(.recipe__facts > div:first-child) { padding-left: 0; }
+    .post :global(.recipe__facts dd) { font-size: 1.05rem; white-space: nowrap; }
+  }
 
   .post { padding: clamp(1.5rem, 3vw, 2.5rem) 0 var(--section-y); }
   .post__grid { display: grid; gap: var(--space-l) clamp(2rem, 6vw, 7rem); align-items: start; }

@@ -20,9 +20,8 @@
 */
 import Media from '../../media/Media.astro';
 import ArrowLink from '../../base/ArrowLink.astro';
-import QuestionCircles from '../../base/QuestionCircles.astro';
 import { getExperiences, getVenues, getTestimonials } from '../../../lib/content';
-import { cta, contact } from '../../../data/settings';
+import { cta } from '../../../data/settings';
 import { AUDIENCE, OCCASION, OUTCOME, GUESTS, SETTING, FORMAT, REST, nextMonths, STORE_KEY, type Option } from './funnel-options';
 
 const guided = await getExperiences('guided');
@@ -47,7 +46,6 @@ const proof = {
   private: sentence('google-donna-giannetta', 'completely cared for'),
 };
 
-const belle = contact.emails.find((e) => e.label === 'Belle');
 const steps = 7;
 ---
 <section class="funnel" data-funnel data-store={STORE_KEY} aria-labelledby="funnel-title">
@@ -56,7 +54,6 @@ const steps = 7;
     <div class="funnel__main">
       <header class="funnel__top">
         <h1 class="funnel__title" id="funnel-title">Plan your day</h1>
-        <p class="funnel__intro" data-draft>A few questions, one at a time, then a call with Belle to shape your day.</p>
         <div class="funnel__progress" aria-hidden="true"><span class="funnel__fill" data-fill></span></div>
         <p class="funnel__count" data-count aria-live="polite">Question 1 of {steps}</p>
       </header>
@@ -258,47 +255,34 @@ const steps = 7;
           <span class="funnel__back" data-back-wrap hidden>
             <ArrowLink as="button" label="Back" direction="left" arrow="before" data-back />
           </span>
-          <button type="submit" class="btn-filled funnel__next" data-next>Continue</button>
+          <button type="submit" class="btn-filled funnel__next" data-next>Next</button>
           <button type="submit" class="btn-filled funnel__send" data-send>Send my enquiry</button>
         </div>
       </form>
     </div>
 
     <aside class="funnel__aside" aria-label="About planning your day">
-      <div class="aside-block" data-aside="start">
-        <figure class="aside__arch">
-          <div class="aside__arch-frame" data-speed="0.85"><Media media="a-enquire-arch" aspect="fill" sizes="(max-width: 999px) 70vw, 30vw" /></div>
+      <!-- Round 2 (Jess E1, E4): one photograph and one guest's words beside every question, the answers
+           so far once there are some, and the call. The prompts, the second title and the email block went. -->
+      <figure class="aside__arch">
+        <div class="aside__arch-frame" data-speed="0.85"><Media media="a-enquire-arch" eager aspect="fill" sizes="(max-width: 999px) 70vw, 30vw" /></div>
+      </figure>
+      {proof.private && (
+        <figure class="aside__proof is-on" data-proof="private">
+          <blockquote><p>“{proof.private.quote}”</p></blockquote>
+          <figcaption>{proof.private.by}, Google review</figcaption>
         </figure>
-        <p class="aside__title" data-draft>A day shaped around your group</p>
-        <p class="aside__line" data-draft>A few questions, one at a time. We curate the rest with you.</p>
-        <QuestionCircles showIntro={false} params={{ source: 'enquire' }} class="aside__prompts" />
-      </div>
+      )}
+      {proof.corporate && (
+        <figure class="aside__proof" data-proof="corporate">
+          <blockquote><p>“{proof.corporate.quote}”</p></blockquote>
+          <figcaption>{proof.corporate.by}, Google review</figcaption>
+        </figure>
+      )}
 
       <div class="aside-block" data-aside="summary" hidden>
         <p class="aside__title">Your day so far</p>
         <dl class="summary" data-summary></dl>
-      </div>
-
-      <div class="aside-block" data-aside="details">
-        {proof.private && (
-          <figure class="aside__proof" data-proof="private">
-            <blockquote><p>“{proof.private.quote}”</p></blockquote>
-            <figcaption>{proof.private.by}, Google review</figcaption>
-          </figure>
-        )}
-        {proof.corporate && (
-          <figure class="aside__proof" data-proof="corporate">
-            <blockquote><p>“{proof.corporate.quote}”</p></blockquote>
-            <figcaption>{proof.corporate.by}, Google review</figcaption>
-          </figure>
-        )}
-        <div class="aside__contact">
-          <p class="aside__title">Or write to Belle</p>
-          <ul role="list">
-            {belle && <li><a class="text-link" href={`mailto:${belle.address}`}>{belle.address}</a></li>}
-            <li><a class="text-link" href={`tel:${contact.phone.tel}`}>{contact.phone.display}</a></li>
-          </ul>
-        </div>
       </div>
 
       <p class="aside__call">
@@ -344,6 +328,9 @@ const steps = 7;
       var label = confirmed.querySelector('[data-confirmed-label]');
       if (label) label.textContent = audience === 'corporate' ? 'your team or organisation' : 'a private group';
     }
+    root.querySelectorAll('[data-proof]').forEach(function (f) {
+      f.classList.toggle('is-on', f.dataset.proof === (audience === 'corporate' ? 'corporate' : 'private'));
+    });
     root.querySelectorAll('[data-aside]').forEach(function (b) {
       var k = b.dataset.aside;
       b.hidden = !((k === 'start' && start === 1) || (k === 'summary' && start > 1 && start < 7) || (k === 'details' && start === 7));
@@ -368,7 +355,6 @@ const steps = 7;
     line-height: var(--lh-label);
     color: var(--sage-80);
   }
-  .funnel__intro { margin: 0.6rem 0 0; font-size: var(--fs-small); color: var(--sage-80); max-width: 30rem; }
   .funnel__progress { position: relative; height: 1px; margin-top: clamp(1.5rem, 3vw, 2.25rem); background: var(--sage-20); overflow: hidden; }
   .funnel__fill {
     position: absolute;
@@ -630,39 +616,36 @@ const steps = 7;
   :global(html:not(.js)) .funnel__next { display: none; }
   :global(html.js) .funnel__send { display: none; }
   :global(html.js) .funnel[data-at='7'] .funnel__next { display: none; }
+  /* E2: a single-choice step moves on by itself after a tap, so "Next" stays out of the way until it is
+     needed (keyboard in use, "Something else", or an answered step reached with Back). funnel.ts. */
+  :global(html.js) .funnel[data-auto]:not([data-kbd]) .funnel__next,
+  :global(html.js) .funnel[data-advancing] .funnel__next { display: none; }
+  :global(html.js) .funnel[data-auto]:not([data-kbd]) .funnel__actions:has(.funnel__back[hidden]) { display: none; }
   :global(html.js) .funnel[data-at='7'] .funnel__send { display: inline-flex; }
   .funnel__send[disabled] { opacity: 0.6; cursor: progress; }
 
-  /* Aside */
+  /* Aside: one arch, one guest's words, the answers so far, the call. Calm and the same on every step. */
   .funnel__aside { min-width: 0; color: var(--sage-100); }
   .aside-block[hidden] { display: none; }
   :global(html:not(.js)) .aside-block[data-aside='summary'] { display: none; }
-  .aside-block + .aside-block { margin-top: var(--space-l); }
-  :global(html.js) .aside-block + .aside-block { margin-top: 0; }
-  .funnel__aside :global(.aside__icon) { display: block; color: var(--sage-60); margin-bottom: 1.1rem; }
-  /* One real arch holding the shared table, so the funnel is never a form on flat sand (L2 rebuild). */
-  .aside__arch { margin: 0 0 1.5rem; width: min(100%, 22rem); }
+  .aside__arch { margin: 0 0 clamp(1.5rem, 3vw, 2.25rem); width: min(100%, 20rem); }
   .aside__arch-frame { position: relative; aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--arch); background: var(--sand-40); }
   :global(html:not([data-media-notes='on'])) .aside__arch:has(.media--placeholder) { display: none; }
-  @media (max-width: 999px) { .aside__arch { width: min(62%, 16rem); } }
-  .aside__title { margin: 0 0 0.5rem; font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.25; color: var(--sage-80); }
-  .aside__line { margin: 0 0 1.5rem; font-size: var(--fs-small); color: var(--sage-80); }
-  .funnel__aside :global(.aside__prompts .prompt) { min-height: clamp(14rem, 19vw, 17rem); padding: 4rem 0.9rem 1.2rem; }
-  .funnel__aside :global(.aside__prompts .prompt__q) { font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem); }
+  @media (max-width: 999px) { .aside__arch { width: min(56%, 14rem); } }
+  .aside__title { margin: 0 0 0.25rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); }
+  .aside-block { margin-top: clamp(1.75rem, 3vw, 2.5rem); }
   .aside__call { margin: clamp(1.75rem, 3vw, 2.5rem) 0 0; padding-top: 1.1rem; border-top: 1px solid var(--sage-20); font-size: var(--fs-small); color: var(--sage-80); }
 
-  .summary { display: grid; gap: 0; margin: 1rem 0 0; border-top: 1px solid var(--sage-20); }
-  .summary :global(div) { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: 0.75rem; padding-block: 0.7rem; border-bottom: 1px solid var(--sage-20); }
+  .summary { display: grid; gap: 0; margin: 0.6rem 0 0; border-top: 1px solid var(--sage-20); }
+  .summary :global(div) { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: 0.75rem; padding-block: 0.55rem; border-bottom: 1px solid var(--sage-20); }
   .summary :global(dt) { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); padding-top: 0.1rem; }
   .summary :global(dd) { margin: 0; font-size: var(--fs-small); line-height: 1.5; }
 
-  .aside__proof { margin: 0 0 var(--space-m); padding: 0; }
+  .aside__proof { margin: 0; padding: 0; max-width: 24rem; }
   :global(html.js) .aside__proof:not(.is-on) { display: none; }
   .aside__proof blockquote { margin: 0; }
-  .aside__proof p { margin: 0; font-family: var(--font-serif); font-style: normal; font-size: clamp(1.3rem, 1.15rem + 0.6vw, 1.65rem); line-height: 1.35; color: var(--sage-80); max-width: 22em; }
+  .aside__proof p { margin: 0; font-family: var(--font-editorial); font-style: italic; font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.55rem); line-height: 1.38; color: var(--sage-80); }
   .aside__proof figcaption { margin-top: 0.8rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.06em; color: var(--sage-80); }
-  .aside__contact ul { margin: 0.4rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.25rem; font-size: var(--fs-small); }
-  .aside__contact a { display: inline-flex; align-items: center; min-height: 2.75rem; }
 
   @media (min-width: 1000px) {
     .funnel__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(3rem, 6vw, 7rem); }

@@ -210,18 +210,20 @@ const raw: MediaSlot[] = [
     tone: 'sea',
   },
   {
-    id: 'enquire-vineyard',
+    // Filled 28-09-2026 (Jess E4: the coast answer had a photo, the vineyard answer none).
+    id: 'enquire-vineyard', src: '/media/beresford-estate-vines-sky.jpg', position: '50% 55%',
     type: 'image',
-    alt: 'Rows of vines at Beresford Estate, McLaren Vale',
+    alt: 'Rows of vines running up to Beresford Estate under a bright sky, Blewitt Springs, McLaren Vale',
     aspect: '4 / 3',
     suggested: 'Beresford Accom images, the vineyard',
     tone: 'sand',
     grade: 'A',
   },
   {
-    id: 'enquire-thanks',
+    // Filled 28-09-2026 with Belle's portrait from Our story (same file as person-belle-redden).
+    id: 'enquire-thanks', src: '/media/belle-redden-portrait.jpg', position: '50% 30%',
     type: 'image',
-    alt: 'Belle Redden, founder of La maréa, on the coast of the Fleurieu Peninsula',
+    alt: 'Belle Redden in white, seated by the deck with the sea behind her',
     aspect: '4 / 5',
     suggested: 'Portrait of Belle needed (plan/11 4.23). Same shoot as the team portraits',
     tone: 'salt',

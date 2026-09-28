@@ -1,15 +1,13 @@
 ---
 /*
-  Home, the story begins (rebuild round 1, 28-09-2026). The Fleurieu coast beat Belle put first in her
-  story (T48) and named for the home page (T55): her drone footage along the cliffs, the white beach
-  and the emerald water under a clear sky, full bleed. It opens from an inset frame to full bleed as it
-  rises and the footage settles from 1.08 to 1 as it passes (the zoom Belle loved on The Tailor, T53,
-  data-widen in scripts/motion.ts). Her line opens the story in salt over a soft local shade, broken
-  across three indents like the opening: "La maréa was created as an invitation to pause." (her note in
-  the Encounter Bay guide, p.5, and on /our-story), then the next sentence of the same note beneath it.
-  The 8 hour day's heading then rises over the footage's lower edge (PinnedDay overlap), so the two
-  sections hand over rather than stack.
-  Swap the clip for DJI_0781 in slots-foundation.ts ('home-fleurieu-video') once it is downloaded.
+  Home, the story begins (rebuild round 1, 28-09-2026; re-set for Jess H4 the same day). Belle's drone
+  footage of the calm open sea off the Fleurieu, the sun on the water (DJI_0604, 64 to 77 seconds), full
+  bleed. The earlier cliffs clip put her line on rock; now every frame behind the words is sea. It opens
+  from an inset frame to full bleed as it rises and the footage settles from 1.08 to 1 as it passes
+  (data-widen in scripts/motion.ts). Her line sits on sand glass panels (G1), broken across three
+  indents like the opening: "La maréa was created as an invitation to pause." (her note in the
+  Encounter Bay guide, p.5, and on /our-story), then the next sentence of the same note beneath it.
+  The experiences follow straight after (H5), so the words sit low in the frame with nothing over them.
   Reduced motion: a static full-bleed frame with the words in place.
 */
 import Media from '../media/Media.astro';
@@ -24,9 +22,9 @@ const next = 'Not to step away from ambition, but to support it more sustainably
     <span class="sb__shade" aria-hidden="true"></span>
     <div class="sb__words">
       <h2 class="sb__heading" id="sb-heading" data-no-split>
-        {lines.map((l, i) => <span class={`sb__line sb__line--${i + 1}`}><span class="sb__line-in">{l}</span></span>)}
+        {lines.map((l, i) => <span class={`sb__line sb__line--${i + 1}`}><span class="sb__line-in on-media-panel on-media-panel--title">{l}</span></span>)}
       </h2>
-      <p class="sb__next">{next}</p>
+      <p class="sb__next on-media-panel">{next}</p>
     </div>
     <Caption tone="salt" align="end" class="sb__caption">The <span class="place">Fleurieu Peninsula</span>, South Australia</Caption>
   </div>
@@ -54,20 +52,13 @@ const next = 'Not to step away from ambition, but to support it more sustainably
     color: var(--on-image);
     background: var(--sand-40);
   }
-  .sb__frame :global(:is(img, video)) { filter: saturate(0.92) brightness(1.03); }
-  /* The shade sits only in the lower left, where the words are. */
-  .sb__shade {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(90% 75% at 0% 78%, rgb(20 50 64 / 0.44), rgb(20 50 64 / 0.18) 46%, rgb(20 50 64 / 0) 72%);
-  }
+  /* G1 (28-09-2026): no shade. Each line sits on its own sand glass panel, the next sentence on one too. */
+  .sb__shade { display: none; }
   .sb__words {
     position: absolute;
     left: var(--gutter);
     right: var(--gutter);
-    bottom: calc(22vh + clamp(2rem, 5vh, 3.5rem));
+    bottom: clamp(3rem, 12vh, 7rem);
     z-index: 2;
   }
   .sb__heading {
@@ -78,11 +69,9 @@ const next = 'Not to step away from ambition, but to support it more sustainably
     font-size: clamp(2.4rem, 0.9rem + 4.2vw, 5.25rem);
     line-height: 1;
     letter-spacing: 0.004em;
-    color: inherit;
-    text-shadow: 0 2px 30px rgb(20 50 64 / 0.32);
   }
   .sb__line { display: block; overflow: hidden; padding-bottom: 0.06em; }
-  .sb__line-in { display: inline-block; }
+  .sb__line-in { display: inline-block; padding: 0.08em 0.32em 0.14em; color: var(--sage-80); }
   .sb__line--2 { padding-left: 1.4em; }
   .sb__line--3 { padding-left: 0.55em; }
   .sb__next {
@@ -92,7 +81,6 @@ const next = 'Not to step away from ambition, but to support it more sustainably
     font-style: italic;
     font-size: clamp(1.1875rem, 1.05rem + 0.5vw, 1.5rem);
     line-height: 1.4;
-    text-shadow: 0 1px 18px rgb(20 50 64 / 0.55);
   }
   .sb :global(.sb__caption) { position: absolute; right: var(--gutter); top: clamp(1.5rem, 5vh, 3rem); z-index: 2; margin: 0; }
   .sb :global(.sb__caption .place) { font-style: italic; }
@@ -103,8 +91,7 @@ const next = 'Not to step away from ambition, but to support it more sustainably
     .sb__line--2 { padding-left: 0.6em; }
     .sb__line--3 { padding-left: 0.25em; }
     .sb__next { margin-left: 0; }
-    .sb__words { bottom: calc(14vh + 1.5rem); }
-    .sb__shade { background: linear-gradient(to top, rgb(20 50 64 / 0.5), rgb(20 50 64 / 0.2) 45%, rgb(20 50 64 / 0) 70%); }
+    .sb__words { bottom: clamp(2.5rem, 9svh, 4rem); }
   }
 
   @media (prefers-reduced-motion: no-preference) {

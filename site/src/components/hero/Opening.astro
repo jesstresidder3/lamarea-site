@@ -8,11 +8,18 @@
   broken across three lines at three indents like a magazine opener. A caption in the corner names
   the place and what "la marea" means.
 
+  Words on media (G1, 28-09-2026): each headline line sits on its own sand glass title panel, the sub-line, the
+  meaning line, the scroll cue and each world's label on sand glass panels, all in sage ink.
+
   Scrolling, the scene holds while the line lifts away at three speeds, then the photograph parts down
   the middle. The left half draws into an arch (Belle's style guide shape) for private groups, the
   right half into a frame set higher for corporate teams, and each half turns into its own world as it
   settles. A line above the frames names the choice and changes with whichever world the visitor leans
   towards, while the idle world quietens.
+
+  The choice (Jess H3, 28-09-2026): under "Two ways to gather on the Fleurieu" a short prompt asks the
+  visitor to choose one (drafted, data-draft), and each world's label ends in a real pill button
+  (btn-filled) naming where it goes, so the two worlds read as a choice to make, not two pictures.
 
   Pinned choreography: 900px and wider, fine pointer, motion allowed (scripts/opening.ts). Phones,
   touch and reduced motion get the same story as a full-bleed first screen, then the two worlds as
@@ -70,26 +77,27 @@ const worlds: World[] = [
     <div class="op__title" data-op-title>
       <h1 class="op__heading" id="op-heading">
         {lines.map((l, i) => (
-          <span class={`op__line op__line--${i + 1}`} data-op-line={i}><span class="op__line-in" set:html={emphasis(l)} /></span>
+          <span class={`op__line op__line--${i + 1}`} data-op-line={i}><span class="op__line-in on-media-panel on-media-panel--title" set:html={emphasis(l)} /></span>
         ))}
       </h1>
     </div>
 
     <div class="op__chrome" data-op-chrome>
-    <p class="op__sub" data-draft>{sub}</p>
+    <p class="op__sub on-media-panel" data-draft>{sub}</p>
 
-    <p class="op__meaning">
+    <p class="op__meaning on-media-panel">
       <span class="op__meaning-place">The Fleurieu Peninsula, South Australia</span>
       <span class="op__meaning-word"><span lang="es">La marea</span>, Spanish for the tide</span>
     </p>
 
-    <span class="op__cue" aria-hidden="true"><span class="op__cue-line"></span>Scroll</span>
+    <span class="op__cue on-media-panel" aria-hidden="true"><span class="op__cue-line"></span>Scroll</span>
     </div>
 
     <nav class="op__worlds" aria-label="Choose your retreat" data-op-worlds>
-      <p class="op__ask" data-op-ask aria-hidden="true">
+      <p class="op__ask" data-op-ask>
         <span class="op__ask-text is-on" data-ask="idle">Two ways to gather on the <span class="place">Fleurieu</span></span>
-        {worlds.map((w) => <span class="op__ask-text" data-ask={w.key}>{w.lean}</span>)}
+        {worlds.map((w) => <span class="op__ask-text" data-ask={w.key} aria-hidden="true">{w.lean}</span>)}
+        <span class="op__prompt" data-draft>Choose the one that suits your group</span>
       </p>
 
       {worlds.map((w) => (
@@ -100,10 +108,10 @@ const worlds: World[] = [
             <span class="op__img op__img--alt" aria-hidden="true"><Media media={w.alt} aspect="fill" sizes="(max-width: 899px) 92vw, 44vw" showNote={false} /></span>
             <span class="op__frame-shade" aria-hidden="true"></span>
           </span>
-          <span class="op__label" data-op-label={w.key}>
+          <span class="op__label on-media-panel" data-op-label={w.key}>
             <span class="op__name">{w.name}</span>
             <span class="op__text">{w.line}</span>
-            <span class="op__go">
+            <span class="op__go btn-filled">
               <span class="op__go-label">{w.cta}</span>
               <svg viewBox="0 0 40 10" width="40" height="10" aria-hidden="true" focusable="false"><path d="M0.5 5H39M34 1l4.5 4-4.5 4" /></svg>
             </span>
@@ -122,16 +130,9 @@ const worlds: World[] = [
 
   .op__scene { position: relative; height: 100svh; min-height: 34rem; overflow: hidden; background: var(--sand-40); }
   .op__scene-img { position: absolute; inset: 0; }
-  .op__scene :global(:is(img, video)), .op__img--scene :global(img) { filter: saturate(0.86) brightness(1.03); }
-  /* A cool shade over the open sea only, so the salt line reads. It never reaches the beach. */
-  .op__shade {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(110% 85% at 0% 0%, rgb(20 50 64 / 0.36), rgb(20 50 64 / 0.14) 42%, rgb(20 50 64 / 0) 68%),
-      linear-gradient(to bottom, rgb(20 50 64 / 0.24), rgb(20 50 64 / 0) 20%);
-  }
+  /* G1 and G2 (28-09-2026): the clip takes the site grade from Media, and every word over it sits on
+     sand glass (.on-media-panel), so no shade is laid over the sea any more. */
+  .op__shade { display: none; }
 
   .op__title {
     position: absolute;
@@ -149,12 +150,12 @@ const worlds: World[] = [
     font-size: clamp(2.75rem, 0.9rem + 5.2vw, 6rem);
     line-height: 0.98;
     letter-spacing: 0.002em;
-    color: inherit;
-    text-shadow: 0 2px 30px rgb(20 50 64 / 0.28);
     text-wrap: balance;
   }
   .op__line { display: block; }
-  .op__line-in { display: inline-block; }
+  /* Each line carries its own sand glass panel, so the panels step with the indents and lift away
+     with their lines as the scene parts (G1). */
+  .op__line-in { display: inline-block; padding: 0.08em 0.32em 0.14em; color: var(--sage-80); }
   .op__line--2 { padding-left: 1.3em; }
   .op__line--3 { padding-left: 0.45em; }
   .op__heading :global(.place) { font-family: var(--font-editorial); font-style: italic; font-size: 1.06em; }
@@ -170,15 +171,7 @@ const worlds: World[] = [
     font-size: var(--fs-lead);
     letter-spacing: 0.02em;
     line-height: 1.55;
-    color: var(--on-image);
-    text-shadow: 0 1px 16px rgb(20 50 64 / 0.6), 0 0 2px rgb(20 50 64 / 0.25);
     pointer-events: auto;
-  }
-  .op__shade::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(60% 40% at 0% 100%, rgb(20 50 64 / 0.34), rgb(20 50 64 / 0) 70%);
   }
   .op__meaning {
     position: absolute;
@@ -190,9 +183,8 @@ const worlds: World[] = [
     justify-items: end;
     gap: 0.2rem;
     margin: 0;
+    padding: 0.55rem 0.9rem 0.6rem;
     text-align: right;
-    color: var(--on-image);
-    text-shadow: 0 1px 14px rgb(38 36 20 / 0.45);
     pointer-events: none;
   }
   .op__meaning-place { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); }
@@ -209,8 +201,7 @@ const worlds: World[] = [
     font-family: var(--font-ui);
     font-size: var(--fs-label);
     letter-spacing: var(--track-label);
-    color: var(--on-image);
-    text-shadow: 0 1px 12px rgb(38 36 20 / 0.5);
+    padding: 0.7rem 0.75rem 0.6rem;
     pointer-events: none;
   }
   .op__cue-line { width: 1px; height: 2.5rem; background: currentColor; opacity: 0.8; }
@@ -232,6 +223,25 @@ const worlds: World[] = [
     color: var(--sage-80);
   }
   .op__ask :global(.place) { font-family: var(--font-editorial); font-style: italic; }
+  .op__prompt {
+    grid-area: 2 / 1;
+    justify-self: center;
+    margin-top: 0.9rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-small);
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+    color: var(--sage-100);
+  }
+  .op__prompt::before, .op__prompt::after {
+    content: '';
+    display: inline-block;
+    width: 1.75rem;
+    height: 1px;
+    margin: 0 0.75rem 0.3em;
+    vertical-align: middle;
+    background: var(--sage-40);
+  }
   .op__ask-text { grid-area: 1 / 1; opacity: 0; translate: 0 0.35em; transition: opacity 700ms var(--ease-settle), translate 700ms var(--ease-settle); }
   .op__ask-text.is-on { opacity: 1; translate: 0 0; }
   .op__world { position: relative; display: block; color: var(--on-image); text-decoration: none; }
@@ -241,12 +251,7 @@ const worlds: World[] = [
   .op__img--scene { display: none; }
   .op__img--alt { opacity: 0; transition: opacity 1100ms var(--ease-settle); }
   .op__img :global(img) { transition: scale 1600ms var(--ease-settle), filter 900ms var(--ease-settle); }
-  .op__frame-shade {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgb(38 36 20 / 0.55), rgb(38 36 20 / 0.16) 40%, rgb(38 36 20 / 0) 62%);
-    pointer-events: none;
-  }
+  .op__frame-shade { display: none; }
   .op__label {
     position: absolute;
     left: clamp(1.25rem, 3vw, 2.75rem);
@@ -256,9 +261,10 @@ const worlds: World[] = [
     justify-items: start;
     gap: 0.6rem;
     z-index: 2;
-    text-shadow: 0 1px 16px rgb(38 36 20 / 0.35);
+    padding: clamp(1rem, 2vw, 1.5rem) clamp(1.1rem, 2.2vw, 1.75rem);
   }
   .op__name {
+    color: var(--sage-80);
     font-family: var(--font-display);
     font-size: clamp(2.25rem, 1.2rem + 3vw, 4.25rem);
     line-height: 0.98;
@@ -266,12 +272,10 @@ const worlds: World[] = [
     transition: letter-spacing 900ms var(--ease-settle);
   }
   .op__text { max-width: 24rem; font-size: var(--fs-small); line-height: 1.6; letter-spacing: 0.02em; }
-  .op__go { display: inline-flex; align-items: center; gap: 0.8rem; margin-top: 0.4rem; font-family: var(--font-ui); font-size: var(--fs-small); letter-spacing: 0.06em; }
-  .op__go-label {
-    background: linear-gradient(currentColor, currentColor) 0 100% / 0% 1px no-repeat;
-    padding-bottom: 0.2em;
-    transition: background-size 600ms var(--ease-settle);
-  }
+  /* The world's button (H3): the site's pill (btn-filled) with the arrow, so the choice reads at once. */
+  .op__go { margin-top: 0.6rem; gap: 0.9rem; padding: 0 1.25rem 0 1.4rem; }
+  .op__go::after { display: none; }
+  .op__go-label { padding-bottom: 0; }
   .op__go svg { overflow: visible; }
   .op__go path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; transition: translate 600ms var(--ease-settle); }
   .op__or { display: none; }
@@ -281,12 +285,12 @@ const worlds: World[] = [
     .op__world:hover .op__img--alt { opacity: 1; }
     .op__world:hover .op__img :global(img) { scale: 1.045; }
     .op__world:hover .op__name { letter-spacing: 0.03em; }
-    .op__world:hover .op__go-label { background-size: 100% 1px; }
+    .op__world:hover .op__go { --pill-bg: var(--sand-100); border-color: var(--sage-40); }
     .op__world:hover .op__go path { translate: 6px 0; }
     .op__worlds:has(.op__world:hover) .op__world:not(:hover) .op__img :global(img) { filter: saturate(0.5) brightness(1.08); }
   }
   .op__world:focus-visible .op__img--alt { opacity: 1; }
-  .op__world:focus-visible .op__go-label { background-size: 100% 1px; }
+  .op__world:focus-visible .op__go { --pill-bg: var(--sand-100); }
   .op__world:focus-visible { outline: 1px solid var(--sage-80); outline-offset: 6px; }
 
   @media (min-width: 900px) {
@@ -307,21 +311,7 @@ const worlds: World[] = [
   }
   @media (max-width: 699px) {
     .op__title { padding-top: 43svh; }
-    .op__shade {
-      background:
-        linear-gradient(to bottom, rgb(20 50 64 / 0.42), rgb(20 50 64 / 0.22) 38%, rgb(20 50 64 / 0) 58%),
-        linear-gradient(to top, rgb(20 50 64 / 0.3), rgb(20 50 64 / 0) 30%);
-    }
-    .op__heading { font-size: clamp(2.2rem, 0.9rem + 6.6vw, 3.4rem); line-height: 1.02; position: relative; }
-    /* A soft sage-toned shade behind the three headline lines only, so thin HV Muse reads over glitter. */
-    .op__heading::before {
-      content: '';
-      position: absolute;
-      inset: -1.5rem -2rem -1.5rem calc(-1 * var(--gutter));
-      z-index: -1;
-      background: radial-gradient(closest-side, rgb(67 61 27 / 0.24), rgb(67 61 27 / 0.1) 60%, rgb(67 61 27 / 0));
-      pointer-events: none;
-    }
+    .op__heading { font-size: clamp(1.9rem, 0.55rem + 6.4vw, 3.4rem); line-height: 1.02; position: relative; }
     .op__line--2 { padding-left: 0.5em; }
     .op__line--3 { padding-left: 0; }
     .op__sub { left: var(--gutter); right: var(--gutter); max-width: none; bottom: 5.75rem; font-size: 1rem; }
@@ -383,7 +373,9 @@ const worlds: World[] = [
      Frame B: 55vw to 94vw across, 10vh from the top, 17vh from the bottom. */
   .op.is-pinned .op__world--a .op__label { left: 8.5vw; bottom: calc(5vh + 2.5vw); top: auto; }
   .op.is-pinned .op__world--b .op__label { left: 57.5vw; bottom: calc(17vh + 2.5vw); top: auto; }
-  .op.is-pinned .op__ask { position: absolute; left: 6vw; width: 39vw; top: 8vh; opacity: 0; text-align: left; font-size: clamp(1.375rem, 0.9rem + 1vw, 2rem); pointer-events: none; }
+  .op.is-pinned .op__ask { position: absolute; left: 6vw; width: 39vw; top: 7vh; opacity: 0; text-align: left; font-size: clamp(1.375rem, 0.9rem + 1vw, 2rem); pointer-events: none; }
+  .op.is-pinned .op__prompt { justify-self: start; margin-top: 0.5rem; }
+  .op.is-pinned .op__prompt::before { display: none; }
   .op.is-pinned .op__or { top: 50vh; opacity: 0; }
   .op.is-pinned:not(.is-settled) .op__world { pointer-events: none; }
   .op.is-pinned .op__name { font-size: clamp(2.25rem, 0.9rem + 2.7vw, 3.75rem); white-space: nowrap; }

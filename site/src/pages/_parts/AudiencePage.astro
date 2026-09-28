@@ -5,15 +5,16 @@
   and widen to full bleed, corporate teams inside the frame on the right. After that each page tells
   its own story for its buyer, in the order a buyer needs it:
 
-  1 PageOpener: the photograph, the title, Belle's audience line, and the plain facts on the lower edge
-    (hours, door to door, group size, setting, who it is for). Group size links to the example day
-    until Belle answers Q12, Q40 and Q41.
-  2 Who it is for: two photographs offset (OffsetPair) beside Belle's statement and what the day includes.
-  3 Guests' words beside one retreat photograph (GuestQuotes). Corporate quotes on the corporate page.
-  4 Places to Pause as a row of tall panels that comes in from the right (PanelTrack). Venues without
-    a photograph yet show their name on sand instead of an empty frame.
-  5 Questions this group asks, with the guide as one line.
-  6 ClosingTide: the page ends on the coast with "Plan your day".
+  Round 2 (Jess's feedback 28-09-2026: G8 testimonials higher, P1 to P4, C1 less text and more space):
+  1 PageOpener: the photograph, the title and Belle's audience line on sand glass panels (G1), and three
+    plain facts on the lower edge (hours at the venue, door to door, who it is for).
+  2 Guests' words beside one retreat photograph (GuestQuotes), straight after the opener (G8).
+  3 Who it is for: the photographs offset (OffsetPair) beside Belle's statement, nothing else.
+  4 An example day: what the 8 hour immersive retreat includes, framed as an example, with room around it.
+  5 Places to Pause as a row of tall panels that comes in from the right (PanelTrack).
+  6 Questions: no visible heading (P2), one calm column, long answers set as sub-questions and lists
+    (P1, the shared faq-format.ts from /faqs). The guide line and its capture box are gone (P3).
+  7 ClosingTide: "Plan your day" and "Contact us", no subtext (G4, G5, P4).
 
   The underscore keeps this file out of routing. The page passes every word. Belle's verbatim lines
   carry no marker; drafted lines set draft flags.
@@ -26,6 +27,7 @@ import ClosingTide from '../../components/base/ClosingTide.astro';
 import Eyebrow from '../../components/base/Eyebrow.astro';
 import ArrowLink from '../../components/base/ArrowLink.astro';
 import SectionHead from '../../components/base/SectionHead.astro';
+import { answerHtml } from '../../components/pages/d/faq-format';
 import Reveal from '../../components/base/Reveal.astro';
 import Accordion from '../../components/base/Accordion.astro';
 import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
@@ -51,15 +53,16 @@ interface Props {
     whoDraft?: boolean;
     caption?: string;
   };
-  who: { statement: string; paragraphs: string[]; large: string; detail: string; shape: 'arch' | 'frame'; aside?: { text: string; label: string; href: string } };
+  who: { statement: string; paragraphs: string[]; large: string; detail?: string; shape: 'arch' | 'frame'; aside?: { text: string; label: string; href: string } };
   includes: string[];
   venues: { heading: string; intro: string; items: Venue[] };
   proof: { heading: string; items: Testimonial[]; media: string; caption?: string };
-  questions: { heading: string; faqs: Faq[]; after?: { label: string; href: string } };
-  guide: { title: string; slug: string };
+  questions: { faqs: Faq[]; after?: { label: string; href: string } };
   close: { media: string; caption?: string };
 }
-const { audience, crumb, opener, who, includes, venues, proof, questions, guide, close } = Astro.props;
+const { audience, crumb, opener, who, includes, venues, proof, questions, close } = Astro.props;
+// Jess H6 and the example framing: the day on the 8 hour page is one example, never a fixed schedule.
+const seeExample = { label: 'See an example of the full day', href: cta.seeFullDay.href };
 const source = audience === 'private' ? 'private-groups' : 'corporate';
 
 const venuePanels = venues.items.map((v) => ({
@@ -81,39 +84,17 @@ const venuePanels = venues.items.map((v) => ({
   titleDraft
   place={opener.place}
   phonePlace={opener.phonePlace}
-  shade={opener.shade}
   shape={audience === 'private' ? 'arch' : 'frame'}
   zoom={opener.zoom}
   caption={opener.caption}
   facts={[
     { label: 'At the venue', value: day.times.retreat },
     { label: 'Door to door', value: `${day.times.pickup} to ${day.times.dropoff}, from ${audience === 'corporate' ? 'your office' : 'Adelaide'}`, draft: true },
-    { label: 'Group size', value: '12 guests in our example day', href: `${cta.seeFullDay.href}#schedule`, draft: true },
-    { label: 'Setting', value: 'The coast or the vineyards', draft: true },
     { label: 'For', value: opener.who, draft: opener.whoDraft },
   ]}
 />
 
-<section class="who" aria-labelledby="who-heading">
-  <div class="wrap">
-    <Breadcrumbs items={[{ label: 'Retreats', href: '/retreats' }, { label: crumb }]} class="who__crumbs" />
-    <OffsetPair large={who.large} detail={who.detail} shape={who.shape} side={audience === 'private' ? 'left' : 'right'}>
-      <Eyebrow>Who it is for</Eyebrow>
-      <h2 class="who__statement" id="who-heading" data-no-split>{who.statement}</h2>
-      <div class="who__body">
-        {who.paragraphs.map((p) => <p>{p}</p>)}
-      </div>
-      <h3 class="who__inc-title">{flagshipName}, what the day includes</h3>
-      <ul class="who__facts" role="list">
-        {includes.map((line) => <li>{line}</li>)}
-      </ul>
-      <ArrowLink href={cta.seeFullDay.href} label={cta.seeFullDay.label} class="who__day" />
-      {who.aside && (
-        <p class="who__aside" data-draft>{who.aside.text} <a class="text-link" href={who.aside.href}>{who.aside.label}</a></p>
-      )}
-    </OffsetPair>
-  </div>
-</section>
+<div class="crumbs-band"><div class="wrap"><Breadcrumbs items={[{ label: 'Retreats', href: '/retreats' }, { label: crumb }]} /></div></div>
 
 <GuestQuotes
   id={`${source}-reviews`}
@@ -123,6 +104,37 @@ const venuePanels = venues.items.map((v) => ({
   caption={proof.caption}
   side={audience === 'private' ? 'right' : 'left'}
 />
+
+<section class="who" aria-labelledby="who-heading">
+  <div class="wrap">
+    <OffsetPair large={who.large} detail={who.detail} shape={who.shape} side={audience === 'private' ? 'left' : 'right'}>
+      <Eyebrow>Who it is for</Eyebrow>
+      <h2 class="who__statement" id="who-heading" data-no-split>{who.statement}</h2>
+      <div class="who__body">
+        {who.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+      {who.aside && (
+        <p class="who__aside" data-draft>{who.aside.text} <a class="text-link" href={who.aside.href}>{who.aside.label}</a></p>
+      )}
+    </OffsetPair>
+  </div>
+</section>
+
+<section class="inc" aria-labelledby="inc-heading">
+  <div class="wrap inc__grid">
+    <Reveal class="inc__head">
+      <Eyebrow>An example day</Eyebrow>
+      <h2 class="inc__heading" id="inc-heading" data-draft>What an 8 hour immersive retreat can include</h2>
+      <p class="inc__note">{day.note}</p>
+    </Reveal>
+    <div class="inc__list-wrap">
+      <ul class="inc__list" role="list">
+        {includes.map((line) => <li>{line}</li>)}
+      </ul>
+      <ArrowLink href={seeExample.href} label={seeExample.label} class="inc__day" />
+    </div>
+  </div>
+</section>
 
 <section class="venues-p" aria-labelledby="venues-heading">
   <div class="wrap">
@@ -136,17 +148,12 @@ const venuePanels = venues.items.map((v) => ({
 </section>
 
 <section class="qs" aria-labelledby="questions-heading">
-  <div class="wrap qs__grid">
-    <div class="qs__side">
-      <SectionHead id="questions-heading" eyebrow="Questions" heading={questions.heading} size="small" draft={{ heading: true }} />
-      <p class="qs__guide" data-draft>{guide.title} is being finished. <a class="text-link" href={`/guides/${guide.slug}`}>Ask for a copy</a></p>
-    </div>
-    <div class="qs__list">
-      <Accordion items={questions.faqs.map((f) => ({ title: f.data.question, paragraphs: f.data.answer }))} titleTag="h3" />
-      <div class="qs__links">
-        <ArrowLink href="/faqs" label="All questions" />
-        {questions.after && <ArrowLink href={questions.after.href} label={questions.after.label} />}
-      </div>
+  <div class="wrap qs__col">
+    <h2 class="visually-hidden" id="questions-heading">Questions</h2>
+    <Accordion items={questions.faqs.map((f) => ({ title: f.data.question, body: answerHtml(f.data.answer) }))} titleTag="h3" />
+    <div class="qs__links">
+      <ArrowLink href="/faqs" label="All questions" />
+      {questions.after && <ArrowLink href={questions.after.href} label={questions.after.label} />}
     </div>
   </div>
 </section>
@@ -159,40 +166,43 @@ const venuePanels = venues.items.map((v) => ({
 />
 
 <style>
-  .who { padding-block: clamp(1.5rem, 3vw, 2.5rem) var(--section-y); background: var(--sand-30); overflow-x: clip; }
-  .who :global(.who__crumbs) { margin-bottom: clamp(2.5rem, 6vw, 5rem); }
+  .crumbs-band { padding-block: clamp(1.25rem, 2.5vw, 2rem) 0; background: var(--salt-25); }
+  .who { padding-block: var(--section-y); background: var(--sand-30); overflow-x: clip; }
   .who__statement {
     margin: 1rem 0 0;
     max-width: 20em;
     font-family: var(--font-display);
-    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.5rem);
-    line-height: 1.18;
+    font-size: clamp(1.5rem, 1.15rem + 1.2vw, 2.2rem);
+    line-height: 1.22;
     color: var(--sage-80);
     text-wrap: balance;
   }
-  .who__body { margin-top: clamp(1.25rem, 2.5vw, 1.75rem); max-width: 34rem; }
-  .who__body p { margin: 0 0 1em; }
-  .who__inc-title {
-    margin: clamp(1.75rem, 3.5vw, 2.5rem) 0 0.6rem;
-    font-family: var(--font-ui);
-    font-size: var(--fs-label);
-    letter-spacing: var(--track-label);
-    font-weight: 400;
-    color: var(--sage-80);
+  .who__body { margin-top: clamp(1.5rem, 3vw, 2.25rem); max-width: 32rem; }
+  .who__body p { margin: 0 0 1em; line-height: 1.75; }
+  .who__aside { margin: 2rem 0 0; font-size: var(--fs-small); color: var(--sage-80); max-width: 30rem; }
+
+  /* The example day: a quiet band with room around it, the list in two columns on wide screens. */
+  .inc { padding-block: var(--section-y); background: var(--salt-25); }
+  .inc__grid { display: grid; gap: clamp(2rem, 5vw, 3rem); }
+  .inc__heading { margin: 0.75rem 0 0; max-width: 14em; font-size: var(--fs-h3); }
+  .inc__note { margin: 1rem 0 0; max-width: 24rem; font-family: var(--font-editorial); font-style: italic; font-size: var(--fs-lead); line-height: 1.4; color: var(--sage-80); }
+  .inc__list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--sage-20); color: var(--sage-100); }
+  .inc__list li { padding: 1rem 0; border-bottom: 1px solid var(--sage-20); line-height: 1.5; }
+  .inc :global(.inc__day) { margin-top: 2rem; }
+  @media (min-width: 900px) {
+    .inc__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(3rem, 8vw, 8rem); align-items: start; }
   }
-  .who__facts { margin: 0; padding: 0; list-style: none; max-width: 34rem; border-top: 1px solid var(--sage-20); font-size: var(--fs-small); color: var(--sage-100); }
-  .who__facts li { display: flex; align-items: center; min-height: 2.9rem; padding-block: 0.35rem; border-bottom: 1px solid var(--sage-20); }
-  .who :global(.who__day) { margin-top: 1.5rem; }
-  .who__aside { margin: 1.5rem 0 0; font-size: var(--fs-small); color: var(--sage-80); max-width: 30rem; }
 
   .venues-p { padding-block: var(--section-y); background: var(--sand-30); overflow-x: clip; }
   .venues-p :global(.section-head) { margin-bottom: clamp(2rem, 4vw, 3rem); }
 
+  /* Questions: one calm column, no heading on show (P2). Answers carry sub-questions and lists (P1). */
   .qs { padding-block: var(--section-y); background: var(--sand-40); }
-  .qs__grid { display: grid; gap: var(--space-l); align-items: start; }
-  .qs__guide { margin: 1.25rem 0 0; font-size: var(--fs-small); color: var(--sage-80); max-width: 22rem; }
-  .qs__links { display: flex; flex-wrap: wrap; gap: 0.5rem 2.5rem; margin-top: 1.75rem; }
-  @media (min-width: 900px) {
-    .qs__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr); gap: var(--space-xl) var(--space-l); }
-  }
+  .qs__col { max-width: calc(46rem + 2 * var(--gutter)); }
+  .qs__links { display: flex; flex-wrap: wrap; gap: 0.75rem 2.5rem; margin-top: 2rem; }
+  .qs :global(.faq-sub) { margin: 1.4em 0 0.4em; font-family: var(--font-serif); font-size: 1.2rem; line-height: 1.3; color: var(--sage-80); }
+  .qs :global(.acc__body ul) { margin: 0 0 1em; padding-left: 1.1rem; }
+  .qs :global(.acc__body li) { margin-bottom: 0.3em; }
+  .qs :global(.acc__body li::marker) { color: var(--sage-40); }
+  .qs :global(.acc__body a) { color: var(--heading); text-decoration-color: color-mix(in srgb, currentColor 38%, transparent); }
 </style>

@@ -9,6 +9,9 @@
   immersive wellness retreat with us looks like" (BD-52), shown "through imagery, beautiful imagery,
   um, you know, animations that move" (BD-54).
 
+  Round 2 (Jess 28-09-2026, H6): the page says plainly that this is one example day (eyebrow, the line
+  under the title, "An example day in four parts", "An example day at Beresford Estate"), and guests'
+  words sit straight after the introduction (G8).
   Lane L2 rebuild 28-09-2026: opens full bleed on the Naiko Deep Creek pan with the day's facts on
   its lower edge, the morning rotation as three wide panels from the right, guests' words after the
   day, the schedule folded into one row, and the page ends on the coast.
@@ -106,13 +109,12 @@ const jsonLd = {
   <PageOpener
     id="day"
     media="a-day-opener"
-    eyebrow="Retreats"
+    eyebrow="An example day"
     lines={['The 8 hour', 'immersive retreat']}
     indents={[0, 1.2]}
-    line="One curated day on the Fleurieu Peninsula for your private or corporate group, 7am to 5pm, door to door from Adelaide."
+    line="An example of one of our 8 hour days on the Fleurieu Peninsula, for private groups and corporate teams, door to door from Adelaide."
     lineDraft
     caption="Naiko Deep Creek, Fleurieu Peninsula"
-    shade="strong"
     facts={[
       { label: 'At the venue', value: day.times.retreat, draft: true },
       { label: 'Door to door', value: '7am to 5pm, from Adelaide', draft: true },
@@ -135,8 +137,11 @@ const jsonLd = {
     </div>
   </section>
 
+  <!-- Guests' words, higher up the page (Jess G8), one corporate and one private first -->
+  <GuestQuotes id="day-guests" heading="In our guests’ words" items={guestWords} media="a-private-walk" side="left" />
+
   <!-- 3. The pinned example day (L1). Its own Plan your day stays off: the page ends on one. -->
-  <PinnedDay seeFullDay={false} plan={false} heading="The day in four parts" eyebrow="Arrive, move, nourish, restore" params={{ format: 'full-day', source: 'day-page' }} />
+  <PinnedDay seeFullDay={false} plan={false} heading="An example day in four parts" eyebrow="Arrive, move, nourish, restore" params={{ format: 'full-day', source: 'day-page' }} />
 
   <!-- 4. The morning rotation: three stations come in from the right -->
   <section class="day-rotation" aria-labelledby="rotation-heading">
@@ -145,9 +150,6 @@ const jsonLd = {
     </div>
     <PanelTrack items={panels} size="wide" label="The morning rotation, three stations" id="rotation" />
   </section>
-
-  <!-- 5. Guests' words, one corporate and one private first -->
-  <GuestQuotes id="day-guests" heading="In our guests’ words" items={guestWords} media="a-private-walk" side="left" />
 
   <!-- 6. The full schedule in one place, folded, with what is included and the reel -->
   <section class="section band-salt day-schedule" id="schedule" aria-labelledby="schedule-heading">
@@ -161,7 +163,7 @@ const jsonLd = {
         />
       </div>
       <div class="day-schedule__table">
-        <Reveal><SectionHead heading="A day at *Beresford Estate*" id="schedule-heading" /></Reveal>
+        <Reveal><SectionHead heading="An example day at *Beresford Estate*" id="schedule-heading" draft={{ heading: true }} /></Reveal>
         <details class="day-schedule__more">
           <summary class="day-schedule__summary">
             <span>See the full schedule, hour by hour</span>

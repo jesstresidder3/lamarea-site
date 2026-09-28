@@ -16,6 +16,10 @@
   photograph (`lead`, a media slot) opens the strip at 60vh. Names are P3 captions.
 
   <ExperienceGallery items={[...guided, ...selfLed]} heading="Your retreat, your rhythm, your routine" />
+  <ExperienceGallery ... size="large" />
+
+  size="large" (home, Jess H5, 28-09-2026): a larger heading, and a soft sand wash over every frame on
+  top of the site grade so the photographs sit gentler in the strip.
 */
 import Media from '../media/Media.astro';
 import Caption from '../base/Caption.astro';
@@ -33,12 +37,14 @@ interface Props {
   /** A media slot that opens the strip as one tall photograph, not a link. */
   lead?: string;
   id?: string;
+  /** 'large' gives a bigger heading and a softer tint on the photographs (home). */
+  size?: 'default' | 'large';
 }
-const { items, heading, eyebrow, intro, link, lead, id = 'experiences' } = Astro.props;
+const { items, heading, eyebrow, intro, link, lead, id = 'experiences', size = 'default' } = Astro.props;
 const shown = items.filter((e) => Boolean(getMedia(e.data.media).src || getMedia(e.data.media).poster));
 const rhythm = ['tall', 'square', 'wide', 'square', 'tall'] as const;
 ---
-<section class="xg" id={id} aria-labelledby={`${id}-heading`} data-xg data-no-blind>
+<section class:list={['xg', size === 'large' && 'xg--large']} id={id} aria-labelledby={`${id}-heading`} data-xg data-no-blind>
   <div class="xg__pin" data-xg-pin>
       <div class="xg__intro">
         {eyebrow && <p class="xg__eyebrow">{eyebrow}</p>}
@@ -201,4 +207,20 @@ const rhythm = ['tall', 'square', 'wide', 'square', 'tall'] as const;
   @media (prefers-reduced-motion: reduce) {
     .xg__track { scroll-behavior: auto; }
   }
+
+  /* size="large" (H5): the heading steps up, and a sand wash in normal blend softens every frame a
+     little more than the site grade alone, so the strip reads calm rather than harsh. */
+  .xg--large .xg__heading { font-size: clamp(2.75rem, 1.2rem + 4.6vw, 5.5rem); line-height: 0.98; }
+  .xg--large .xg__eyebrow { font-size: 1.3125rem; }
+  .xg--large .xcard__frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: color-mix(in srgb, var(--sand-30) 16%, transparent);
+    pointer-events: none;
+  }
+  .xg--large.is-pinned .xg__heading { font-size: clamp(3rem, 1rem + 3.7vw, 5.5rem); }
+  .xg--large.is-pinned .xg__intro { width: calc(var(--gutter) + clamp(24rem, 37vw, 35rem) + 4rem); }
+  .xg--large.is-pinned .xg__track { padding-left: calc(var(--gutter) + clamp(24rem, 37vw, 35rem) + 1rem); }
 </style>

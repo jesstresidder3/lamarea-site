@@ -7,16 +7,18 @@
 
   Props
   - line: the heading (asterisks mark a place name only). HV Muse at h2 size.
-  - eyebrow, note (a small line under the link, for example Belle's personalisation note)
-  - link: { label, href } (default "Plan your day" to /enquire). Every funnel link reads "Plan your day".
+  - eyebrow, note (a small line under the link; Jess G5: no subtext under the buttons, avoid it)
+  - link: { label, href } (default "Plan your day" to /enquire), shown with "Contact us" beside it
+    (CtaPair, Jess G4 28-09-2026). Every funnel link reads "Plan your day".
   - params: prefill parameters added to the link (audience, format, venue, experience, source)
   - secondary: { label, href } a quieter second link
   - tone: 'sand' (default), 'salt' or 'warm'; align: 'centre' (default) or 'left'
   - draft: { line?, note? }
 */
 import ArrowLink from './ArrowLink.astro';
+import CtaPair from './CtaPair.astro';
 import Eyebrow from './Eyebrow.astro';
-import { emphasis, withParams } from './text';
+import { emphasis } from './text';
 import { cta } from '../../data/settings';
 
 interface Props {
@@ -52,7 +54,7 @@ const H = `h${level}` as 'h2' | 'h3';
     {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
     <H class="cta-band__line" data-draft={draft.line ? '' : undefined} set:html={emphasis(line)} />
     <div class="cta-band__actions">
-      <ArrowLink href={withParams(link.href, params)} label={link.label} size="large" />
+      <CtaPair plan={link} params={params} align={align === 'centre' ? 'centre' : 'start'} />
       {secondary && <ArrowLink href={secondary.href} label={secondary.label} />}
     </div>
     {note && <p class="cta-band__note" data-draft={draft.note ? '' : undefined}>{note}</p>}

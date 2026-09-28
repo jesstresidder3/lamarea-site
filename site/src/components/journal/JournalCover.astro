@@ -1,10 +1,15 @@
 ---
 /*
-  JournalCover (L4 rebuild, 28-09-2026). The journal opens like a magazine cover: the latest story's
-  photograph full bleed at about 90svh, the journal's own name small at the top as a masthead, and the
-  story's title large at the lower left with its date and reading time as a caption. The whole cover is
-  one link to the story. Motion follows the P1 opener: the photograph washes up from the bottom edge
-  and settles, the title rises in after it. Reduced motion: static.
+  JournalCover (L4 rebuild, 28-09-2026; calmed for Jess's J1 and G1 the same day).
+  The journal opens with the latest story's photograph full bleed, and only the journal's name sits on
+  it: the eyebrow on a small sand glass panel and the masthead on a sand glass title panel in sage
+  (.on-media-panel, .on-media-panel--title, utilities.css), lower left. Everything else moves off the
+  photograph onto sand beneath it: Belle's intro on the left, the latest story as one quiet link on the
+  right (label, title, date and reading time). The photograph carries the site grade from Media.astro,
+  so there is no filter, shade or text shadow here.
+
+  Motion follows the P1 opener: the photograph washes up from the bottom edge and settles, the
+  masthead rises in after it, the band beneath fades in. Reduced motion: static.
   P7: a story with no photograph gets a type-led cover on sand.
 
   <JournalCover post={featured} minutes={minutesOf(featured)} masthead="Wellness journal and recipes" />
@@ -22,58 +27,73 @@ const hasPhoto = Boolean(media(d.hero).src);
 const coverTitle = plain(d.title).split(':')[0].trim();
 ---
 <section class:list={['jcov', !hasPhoto && 'jcov--type']} aria-labelledby="jcov-masthead">
-  {hasPhoto && (
-    <div class="jcov__frame" aria-hidden="true">
-      <div class="jcov__media"><Media media={d.hero} aspect="fill" priority sizes="100vw" /></div>
-      <span class="jcov__shade"></span>
+  <div class="jcov__frame">
+    {hasPhoto && <div class="jcov__media" aria-hidden="true"><Media media={d.hero} aspect="fill" priority sizes="100vw" /></div>}
+    <div class="jcov__words">
+      {eyebrow && <p class:list={['jcov__eyebrow', hasPhoto && 'on-media-panel']}>{eyebrow}</p>}
+      <h1 class:list={['jcov__masthead', hasPhoto && 'on-media-panel on-media-panel--title']} id="jcov-masthead">{masthead}</h1>
     </div>
-  )}
-  <div class="jcov__top">
-    {eyebrow && <p class="jcov__eyebrow">{eyebrow}</p>}
-    <h1 class="jcov__masthead" id="jcov-masthead">{masthead}</h1>
-    {intro && <p class="jcov__intro">{intro}</p>}
   </div>
-  <a class="jcov__story" href={`/journal/${post.id}`}>
-    <span class="jcov__k">The latest story</span>
-    <span class="jcov__title">{coverTitle}</span>
-    <span class="jcov__meta">
-      <time datetime={d.date.toISOString().slice(0, 10)}>{formatDate(d.date)}</time>{minutes ? `, ${minutes} minute read` : ''}
-    </span>
-  </a>
+
+  <div class="jcov__band">
+    <div class="wrap jcov__grid">
+      {intro && <p class="jcov__intro">{intro}</p>}
+      <a class="jcov__story" href={`/journal/${post.id}`}>
+        <span class="jcov__k">The latest story</span>
+        <span class="jcov__title">{coverTitle}</span>
+        <span class="jcov__meta">
+          <span><time datetime={d.date.toISOString().slice(0, 10)}>{formatDate(d.date)}</time>{minutes ? `, ${minutes} minute read` : ''}</span>
+        </span>
+      </a>
+    </div>
+  </div>
 </section>
 
 <style>
-  .jcov { position: relative; min-height: 90svh; display: grid; grid-template-rows: auto minmax(2rem, 1fr) auto; overflow: hidden; color: var(--on-image); background: var(--sand-40); }
-  .jcov__frame { position: absolute; inset: 0; }
+  .jcov { position: relative; background: transparent; }
+  .jcov__frame { position: relative; height: 78svh; min-height: 30rem; max-height: 56rem; overflow: hidden; background: var(--sand-40); }
   .jcov__media { position: absolute; inset: 0; }
-  .jcov__media :global(:is(img, video)) { filter: saturate(0.92) brightness(1.02); }
-  .jcov__shade {
+  .jcov__words {
     position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(to bottom, rgb(20 50 64 / 0.42), rgb(20 50 64 / 0) 34%),
-      linear-gradient(to top, rgb(20 50 64 / 0.55), rgb(20 50 64 / 0.12) 38%, rgb(20 50 64 / 0) 60%);
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: clamp(1.75rem, 6svh, 3.5rem);
+    z-index: 1;
+    display: grid;
+    justify-items: start;
+    gap: 0.6rem;
   }
-  .jcov__top { position: relative; z-index: 1; padding: calc(var(--header-h) + clamp(1.5rem, 5svh, 3.5rem)) var(--gutter) 0; display: grid; gap: 0.75rem; max-width: 60rem; }
-  .jcov__eyebrow { margin: 0; font-family: var(--font-editorial); font-style: italic; font-size: 1.1875rem; text-shadow: 0 1px 14px rgb(20 50 64 / 0.45); }
-  .jcov__masthead { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(2.5rem, 1rem + 4vw, 4.5rem); line-height: 1; color: inherit; text-shadow: 0 2px 28px rgb(20 50 64 / 0.3); }
-  .jcov__intro { margin: 0.5rem 0 0; max-width: 32rem; font-size: 0.9375rem; line-height: 1.6; text-shadow: 0 1px 16px rgb(20 50 64 / 0.55); }
-  .jcov__story { position: relative; z-index: 1; grid-row: 3; display: grid; gap: 0.6rem; max-width: 40rem; padding: 0 var(--gutter) clamp(2rem, 6svh, 3.75rem); color: inherit; text-decoration: none; }
-  .jcov__k { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); text-shadow: 0 1px 12px rgb(20 50 64 / 0.6); }
-  .jcov__title { font-family: var(--font-display); font-size: clamp(1.75rem, 1.1rem + 1.8vw, 2.75rem); line-height: 1.08; text-shadow: 0 2px 24px rgb(20 50 64 / 0.4); text-wrap: balance; }
-  .jcov__meta { display: flex; align-items: baseline; gap: 0.75rem; font-family: var(--font-editorial); font-style: italic; font-size: var(--fs-caption); text-shadow: 0 1px 12px rgb(20 50 64 / 0.6); }
-  .jcov__meta::before { content: ''; width: 1.5rem; height: 1px; background: currentColor; opacity: 0.75; translate: 0 -0.3em; }
-  .jcov__story:focus-visible { outline: 1.5px solid var(--on-image); outline-offset: -8px; }
-  @media (hover: hover) { .jcov__story:hover .jcov__title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; } }
+  .jcov__eyebrow { margin: 0; font-family: var(--font-editorial); font-style: italic; font-size: 1.125rem; line-height: 1.2; padding: 0.45rem 0.9rem 0.5rem; }
+  .jcov__masthead { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(2.1rem, 1rem + 3.4vw, 4rem); line-height: 1.05; max-width: 13em; text-wrap: balance; }
 
-  .jcov--type { color: var(--heading); min-height: 70svh; background: var(--sand-30); }
-  .jcov--type :is(.jcov__eyebrow, .jcov__masthead, .jcov__intro, .jcov__k, .jcov__title, .jcov__meta) { text-shadow: none; }
+  .jcov__band { padding: clamp(2.5rem, 5vw, 4.5rem) 0 clamp(1rem, 2vw, 1.5rem); }
+  .jcov__grid { display: grid; gap: 2rem clamp(2rem, 6vw, 7.5rem); align-items: start; }
+  @media (min-width: 900px) { .jcov__grid { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); } }
+  .jcov__intro { margin: 0; max-width: 34rem; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.5; color: var(--sage-100); }
+  .jcov__story { display: grid; gap: 0.55rem; padding-top: 1.1rem; border-top: 1px solid var(--rule); color: var(--sage-100); text-decoration: none; max-width: 30rem; }
+  .jcov__k { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .jcov__title { font-family: var(--font-serif); font-size: clamp(1.35rem, 1.15rem + 0.6vw, 1.7rem); line-height: 1.22; color: var(--heading); text-wrap: balance; }
+  .jcov__meta { display: flex; align-items: baseline; gap: 0.75rem; font-family: var(--font-editorial); font-style: italic; font-size: var(--fs-caption); color: var(--sage-80); }
+  .jcov__meta::before { content: ''; width: 1.5rem; height: 1px; background: currentColor; opacity: 0.6; translate: 0 -0.3em; }
+  .jcov__story:focus-visible { outline: 1.5px solid var(--focus); outline-offset: 6px; }
+  @media (hover: hover) { .jcov__story:hover .jcov__title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; text-decoration-color: var(--sage-40); } }
+
+  @media (max-width: 699px) {
+    .jcov__frame { height: 70svh; min-height: 26rem; }
+    .jcov__eyebrow { font-size: 1rem; }
+  }
+
+  /* No photograph: the masthead sits on sand in sage, no panels */
+  .jcov--type .jcov__frame { height: auto; min-height: 0; max-height: none; background: transparent; padding: calc(var(--header-h) + clamp(2rem, 6svh, 4rem)) 0 0; }
+  .jcov--type .jcov__words { position: static; padding: 0 var(--gutter); }
+  .jcov--type .jcov__masthead { color: var(--heading); }
+  .jcov--type .jcov__eyebrow { padding: 0; color: var(--sage-80); }
 
   @media (prefers-reduced-motion: no-preference) {
     :global(html.mo) .jcov__frame { animation: jcov-tide 1400ms var(--ease-tide) both; }
     :global(html.mo) .jcov__media { animation: jcov-settle 2600ms var(--ease-settle) both; }
-    :global(html.mo) :is(.jcov__masthead, .jcov__title) { animation: jcov-rise 1300ms var(--ease-settle) 500ms both; }
-    :global(html.mo) :is(.jcov__eyebrow, .jcov__intro, .jcov__k, .jcov__meta) { animation: jcov-fade 1100ms var(--ease-settle) 900ms both; }
+    :global(html.mo) .jcov__masthead { animation: jcov-rise 1300ms var(--ease-settle) 500ms both; }
+    :global(html.mo) :is(.jcov__eyebrow, .jcov__band) { animation: jcov-fade 1100ms var(--ease-settle) 900ms both; }
   }
   @keyframes jcov-tide { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
   @keyframes jcov-settle { from { scale: 1.06; } to { scale: 1; } }

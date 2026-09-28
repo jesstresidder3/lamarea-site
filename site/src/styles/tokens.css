@@ -39,8 +39,18 @@
   --rule: color-mix(in srgb, var(--sage-40) 45%, transparent);
   --rule-strong: var(--sage-40);
   --on-image: #faf9f5;
-  /* No type sits on photographs any more, so no scrim is used anywhere. Kept for old references. */
+  /* Kept for old references. Words on photographs use the G1 system in utilities.css instead. */
   --scrim-soft: none;
+
+  /* G2, one grade for every photograph and clip (Media.astro, 28-09-2026): a touch of warm sand, softer
+     contrast and saturation, a small lift. Subtle on purpose: nothing darker, nothing muddy. */
+  --media-grade: sepia(0.08) saturate(0.9) contrast(0.94) brightness(1.03);
+  --media-tint: rgb(240 229 199 / 0.1);   /* sand 60 wash, soft-light over the frame */
+
+  /* G1, words on media (utilities.css .on-media-panel, .on-media). The optional veil is a sage 100
+     tint feathered around salt display words. */
+  --veil-rgb: 67 61 27;
+  --veil-a: 0.42;
 
   /* Type. Two working faces plus one editorial italic (Belle: three families felt busy).
      HV Muse: every display line of 22px and up, card titles, menu links.

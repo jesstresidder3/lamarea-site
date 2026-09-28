@@ -143,6 +143,19 @@ const sizes = sizesProp ?? (fill ? '100vw' : '(max-width: 767px) 92vw, 46vw');
     position: absolute; inset: 0; width: 100%; height: 100%;
   }
   .media img, .media video { object-fit: cover; }
+  /* G2, one grade for every photograph and clip on the site (tokens --media-grade, --media-tint).
+     On the figure, so a component's own filter on the img only adds to it; components should not set
+     their own grade any more. A sand wash in soft light warms the frame without flattening it. */
+  .media--real { filter: var(--media-grade); }
+  .media--real::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: var(--media-tint);
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+  }
 
   /* Placeholder: brand tones, a slow tidal drift, fine grain and a hairline inner frame.
      It has to read as intentional at a glance, never as a grey box. */

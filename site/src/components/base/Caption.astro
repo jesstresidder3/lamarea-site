@@ -9,7 +9,7 @@
   <Caption tone="salt" rule={false}>Arrive, 7am</Caption>     (over a photograph, in salt ink)
 
   Props
-  - tone: 'sage' (default, on sand or salt) or 'salt' (on a photograph, with a soft text shadow)
+  - tone: 'sage' (default, on sand or salt) or 'salt' (on a photograph: a small sand glass panel, G1)
   - rule: false drops the hairline (for tight spots)
   - align: 'start' (default) or 'end'
   - as: 'p' (default) or 'figcaption' (inside a <figure>)
@@ -24,7 +24,7 @@ interface Props {
 }
 const { tone = 'sage', rule = true, align = 'start', as: Tag = 'p', class: className } = Astro.props;
 ---
-<Tag class:list={['cap', `cap--${tone}`, `cap--${align}`, rule && 'cap--rule', className]}><span class="cap__text"><slot /></span></Tag>
+<Tag class:list={['cap', `cap--${tone}`, `cap--${align}`, rule && 'cap--rule', tone === 'salt' && 'on-media-panel', className]}><span class="cap__text"><slot /></span></Tag>
 
 <style>
   .cap {
@@ -48,6 +48,9 @@ const { tone = 'sage', rule = true, align = 'start', as: Tag = 'p', class: class
     translate: 0 -0.3em;
     background: var(--sage-40);
   }
-  .cap--salt { color: var(--on-image); text-shadow: 0 1px 14px rgb(20 50 64 / 0.45); }
-  .cap--salt.cap--rule::before { background: currentColor; opacity: 0.75; }
+  /* On a photograph (G1): the caption sits on a small sand glass panel in sage ink (.on-media-panel),
+     8:1 or better over any frame. */
+  .cap--salt { width: fit-content; padding: 0.35rem 0.8rem 0.4rem; color: var(--sage-100); }
+  .cap--salt.cap--end { margin-left: auto; }
+  .cap--salt.cap--rule::before { background: var(--sage-40); }
 </style>

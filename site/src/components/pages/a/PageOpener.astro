@@ -89,15 +89,15 @@ const {
     </div>
 
     <div class="po__title">
-      {eyebrow && <p class="po__eyebrow">{eyebrow}</p>}
+      {eyebrow && <p class="po__eyebrow on-media-panel">{eyebrow}</p>}
       <h1 class="po__heading" id={`${id}-title`} data-draft={titleDraft ? '' : undefined}>
         {lines.map((l, i) => (
           <span class="po__line" data-po-line={i} style={indents[i] ? `--indent:${indents[i]}em` : undefined}>
-            <span class="po__line-in" style={`--d:${i}`} set:html={emphasis(l)} />
+            <span class="po__line-in on-media-panel on-media-panel--title" style={`--d:${i}`} set:html={emphasis(l)} />
           </span>
         ))}
       </h1>
-      {line && <p class="po__aud" data-draft={lineDraft ? '' : undefined}>{line}</p>}
+      {line && <p class="po__aud on-media-panel" data-draft={lineDraft ? '' : undefined}>{line}</p>}
       {Astro.slots.has('default') && <div class="po__more"><slot /></div>}
     </div>
 
@@ -122,35 +122,12 @@ const {
   .po--tall .po__stage { height: 88svh; min-height: 32rem; }
   .po__clip { position: absolute; inset: 0; overflow: hidden; background: var(--sand-40); }
   .po__media { position: absolute; inset: 0; }
-  .po__media :global(:is(img, video)) { scale: var(--po-zoom); filter: saturate(0.9) brightness(1.02); }
+  .po__media :global(:is(img, video)) { scale: var(--po-zoom); }
   .po__media--phone { display: none; }
 
-  /* Shade only where the words are, cool like the home opening, never over the whole frame. */
-  .po__shade {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(90% 75% at 0% 0%, rgb(20 44 52 / 0.44), rgb(20 44 52 / 0.18) 45%, rgb(20 44 52 / 0) 72%),
-      linear-gradient(to bottom, rgb(20 44 52 / 0.26), rgb(20 44 52 / 0) 24%);
-  }
-  .po--top-right .po__shade {
-    background:
-      radial-gradient(75% 85% at 100% 10%, rgb(24 34 22 / 0.58), rgb(24 34 22 / 0.3) 42%, rgb(24 34 22 / 0) 70%),
-      linear-gradient(to bottom, rgb(20 44 52 / 0.26), rgb(20 44 52 / 0) 24%);
-  }
-  .po--bottom-left .po__shade {
-    background:
-      radial-gradient(95% 80% at 0% 100%, rgb(20 44 52 / 0.5), rgb(20 44 52 / 0.2) 45%, rgb(20 44 52 / 0) 72%),
-      linear-gradient(to bottom, rgb(20 44 52 / 0.26), rgb(20 44 52 / 0) 22%);
-  }
-
-  .po--shade-strong .po__shade::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(60% 62% at 12% 34%, rgb(20 38 30 / 0.46), rgb(20 38 30 / 0.18) 55%, rgb(20 38 30 / 0) 80%);
-  }
+  /* G1 (28-09-2026): no scrim. The title lines, eyebrow and sentence sit on the shared sand glass
+     panels (.on-media-panel, utilities.css) with sage ink, so the photograph keeps its own light. */
+  .po__shade { display: none; }
   .po__title {
     position: absolute;
     inset: 0;
@@ -166,7 +143,7 @@ const {
   .po--bottom-left .po__title { justify-content: flex-end; padding-bottom: clamp(3rem, 12svh, 8rem); }
   .po--facts.po--bottom-left .po__title { padding-bottom: clamp(7rem, 20svh, 11rem); }
   .po__title :global(a) { pointer-events: auto; }
-  .po__more { margin-top: clamp(1.5rem, 3svh, 2.25rem); --heading: var(--on-image); --focus: var(--focus-on-dark); text-shadow: 0 1px 12px rgb(20 44 52 / 0.55); }
+  .po__more { margin-top: clamp(1.5rem, 3svh, 2.25rem); }
   @media (prefers-reduced-motion: no-preference) {
     :global(html.js) .po__more { animation: po-fade 1000ms var(--ease-settle) 1400ms both; }
   }
@@ -181,7 +158,7 @@ const {
     font-family: var(--font-editorial);
     font-style: italic;
     font-size: 1.1875rem;
-    text-shadow: 0 1px 14px rgb(20 50 64 / 0.45);
+    padding: 0.3rem 0.8rem;
   }
   .po__heading {
     margin: 0;
@@ -191,12 +168,12 @@ const {
     line-height: 0.98;
     letter-spacing: 0.004em;
     color: inherit;
-    text-shadow: 0 2px 30px rgb(20 44 52 / 0.32);
   }
   .po--top-right .po__heading { justify-items: end; }
   .po__line { display: block; padding-left: var(--indent, 0); padding-bottom: 0.08em; }
   .po--top-right .po__line { padding-left: 0; padding-right: var(--indent, 0); }
-  .po__line-in { display: inline-block; }
+  /* Each line has its own sand glass panel (G1), stepping with the indents and lifting with its line. */
+  .po__line-in { display: inline-block; padding: 0.08em 0.32em 0.14em; }
   .po__heading :global(.place) { font-family: var(--font-editorial); font-style: italic; font-size: 1.06em; }
   .po__aud {
     margin: clamp(1.25rem, 3svh, 2rem) 0 0;
@@ -205,7 +182,7 @@ const {
     font-style: italic;
     font-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.5rem);
     line-height: 1.35;
-    text-shadow: 0 1px 3px rgb(20 44 52 / 0.35), 0 1px 18px rgb(20 44 52 / 0.6);
+    padding: 0.7rem 1rem;
   }
   .po :global(.po__caption) {
     position: absolute;
@@ -259,18 +236,12 @@ const {
     .po--top-right .po__title { align-items: flex-start; text-align: left; }
     .po--top-right .po__heading { justify-items: start; }
     .po--top-right .po__line { padding-right: 0; padding-left: var(--indent, 0); }
-    .po--top-right .po__shade, .po__shade {
-      background:
-        linear-gradient(to bottom, rgb(20 44 52 / 0.46), rgb(20 44 52 / 0.2) 38%, rgb(20 44 52 / 0) 62%);
-    }
-    .po--bottom-left .po__shade { background: linear-gradient(to top, rgb(20 44 52 / 0.5), rgb(20 44 52 / 0.18) 42%, rgb(20 44 52 / 0) 64%), linear-gradient(to bottom, rgb(20 44 52 / 0.28), rgb(20 44 52 / 0) 22%); }
     .po__heading { font-size: clamp(2.35rem, 1.2rem + 5.4vw, 3.4rem); }
     .po__line { padding-left: calc(var(--indent, 0) * 0.6); }
     .po__media--wide:has(+ .po__media--phone) { display: none; }
     .po__media--phone { display: block; }
     .po :global(.po__caption) { left: var(--gutter); right: auto; bottom: 1.25rem; justify-content: flex-start; text-align: left; }
     .po--phone-bottom .po__title { justify-content: flex-end; padding-bottom: clamp(2rem, 6svh, 3rem); }
-    .po--phone-bottom .po__shade { background: linear-gradient(to top, rgb(38 30 18 / 0.55), rgb(38 30 18 / 0.22) 40%, rgb(38 30 18 / 0) 62%), linear-gradient(to bottom, rgb(20 44 52 / 0.3), rgb(20 44 52 / 0) 20%); }
     .po--top-right :global(.po__caption) { left: var(--gutter); }
     .po--facts :global(.po__caption) { top: auto; bottom: 1rem; left: auto; right: var(--gutter); font-size: 0.875rem; }
   }

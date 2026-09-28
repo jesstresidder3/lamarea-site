@@ -2,8 +2,12 @@
   Enquiry funnel behaviour for components/pages/a/Funnel.astro.
 
   - Step 0 reads the URL: audience, format, venue, experience, step, source and utm_*.
-  - One step at a time. "Continue" (or Enter) checks the step and moves on; "Back" returns along the
-    visitor's own path. Answers are kept in sessionStorage under 'lm-enquiry' on every change, so a
+  - One step at a time. Single-choice steps (1, 2, 3, 5, 6) move on by themselves a short pause after
+    the visitor taps an answer (Jess E2, 28-09-2026); step 6 waits until both its answers are in, and
+    "Something else" waits for the optional words. The multi-select step (4) and the details (7) keep
+    "Next" and "Send". Keyboard: arrow keys only choose (they never jump a step), Enter or "Next" moves
+    on, and "Next" shows on single-choice steps once a keyboard is in use or the step is already
+    answered (for example after "Back"). "Back" returns along the visitor's own path. Answers are kept in sessionStorage under 'lm-enquiry' on every change, so a
     reload or a back-and-forth keeps them.
   - ?step=1|2|5 (the customise prompts) opens that step. Any question not yet seen is still asked
     before the details step, so every enquiry arrives complete.
@@ -62,6 +66,9 @@ interface State {
 }
 
 const ORDER = [1, 2, 3, 4, 5, 6, 7];
+/** Single-choice steps that move on by themselves after a tap, and the pause before they do. */
+const AUTO = [1, 2, 3, 5, 6];
+const PAUSE = 480;
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
 
@@ -138,6 +145,49 @@ function init(root: HTMLElement) {
     if (!validate(state.current)) return;
     go(next(state.current));
   });
+
+  // ---------- Auto-advance on single-choice steps (E2) ----------
+  let lastPointer = -Infinity;
+  let timer = 0;
+  form.addEventListener('pointerdown', () => { lastPointer = performance.now(); });
+  form.addEventListener('keydown', (e) => {
+    const t = e.target as HTMLInputElement;
+    if (e.key.startsWith('Arrow') || e.key === 'Tab') root.dataset.kbd = '';
+    // Enter on a chosen answer moves on, as the old Continue did.
+    if (e.key === 'Enter' && t.type === 'radio' && AUTO.includes(state.current)) {
+      e.preventDefault();
+      if (validate(state.current)) go(next(state.current));
+    }
+  });
+  form.addEventListener('click', (e) => {
+    const t = e.target as HTMLInputElement;
+    if (t.tagName !== 'INPUT' || t.type !== 'radio') return;
+    if (!AUTO.includes(state.current) || !stepEls.get(state.current)?.contains(t)) return;
+    if (performance.now() - lastPointer > 1500) return; // keyboard selection: wait for Enter or Next
+    window.clearTimeout(timer);
+    const from = state.current;
+    timer = window.setTimeout(() => {
+      if (state.current !== from) return;
+      readInputs(state.answers);
+      const a = state.answers;
+      if (!answered(from)) return syncAuto();
+      if (from === 2 && (a.audience === 'corporate' ? a.team_outcome : a.occasion) === 'other') return syncAuto();
+      if (validate(from)) go(next(from));
+    }, PAUSE);
+    root.dataset.advancing = '';
+    window.setTimeout(() => delete root.dataset.advancing, PAUSE + 300);
+  });
+
+  /** "Next" shows on a single-choice step only when it is needed: keyboard in use, or already answered. */
+  function syncAuto() {
+    const n = state.current;
+    const a = state.answers;
+    const other = n === 2 && (a.audience === 'corporate' ? a.team_outcome : a.occasion) === 'other';
+    const auto = AUTO.includes(n) && !other && !answered(n);
+    if (auto) root.dataset.auto = '';
+    else delete root.dataset.auto;
+  }
+  form.addEventListener('change', () => syncAuto());
 
   backBtn?.addEventListener('click', () => {
     const prev = state.history.pop();
@@ -217,6 +267,7 @@ function init(root: HTMLElement) {
     syncAside();
     progress();
     backWrap.hidden = state.history.length === 0;
+    syncAuto();
     save();
   }
 

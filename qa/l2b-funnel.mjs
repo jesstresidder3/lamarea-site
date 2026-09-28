@@ -1,0 +1,24 @@
+// L2 round 2: walk the funnel by clicking, a shot per step. node qa/l2b-funnel.mjs <out> <w> [query]
+import { chromium } from 'playwright';
+const [,, out, w='1440', q=''] = process.argv;
+const b = await chromium.launch();
+const ctx = await b.newContext({ viewport: { width: +w, height: +w<800?844:900 }, ...(+w<800?{isMobile:true,hasTouch:true}:{}) });
+const p = await ctx.newPage();
+const errs=[]; p.on('pageerror', e=>errs.push(e.message)); p.on('console', m=>{ if(m.type()==='error') errs.push(m.text()); });
+await p.goto('http://localhost:4322/enquire/'+q, { waitUntil: 'load' }); await p.waitForTimeout(2200);
+const at = () => p.evaluate(()=>document.querySelector('[data-funnel]').dataset.at);
+const shot = async (n) => { await p.waitForTimeout(900); await p.screenshot({ path: `${out}-${n}.png` }); };
+const pick = async (sel) => { const l = p.locator(sel).first(); await l.scrollIntoViewIfNeeded(); if (+w<800) await l.tap(); else await l.click(); };
+await shot('s1');
+const log=[];
+await pick('label.opt:has(input[name="audience"][value="private"])'); await p.waitForTimeout(1200); log.push(['after audience', await at()]); await shot('s2');
+await pick('.step.is-current label.opt:has(input[name="occasion"]) >> nth=0'); await p.waitForTimeout(1200); log.push(['after occasion', await at()]); await shot('s3');
+await pick('label.opt:has(input[name="group_size_band"])'); await p.waitForTimeout(1200); log.push(['after guests', await at()]); await shot('s4');
+await pick('label.opt:has(input[name="experiences"])'); await p.waitForTimeout(1200); log.push(['after exp tick (should stay 4)', await at()]); await shot('s4b');
+await p.locator('[data-next]').click(); await p.waitForTimeout(1000); log.push(['after next', await at()]); await shot('s5');
+await pick('label.opt:has(input[name="setting"])'); await p.waitForTimeout(1200); log.push(['after setting', await at()]); await shot('s6');
+await pick('label.opt:has(input[name="preferred_month"])'); await p.waitForTimeout(1200); log.push(['after month (should stay 6)', await at()]);
+await pick('label.opt:has(input[name="format_slug"])'); await p.waitForTimeout(1200); log.push(['after format', await at()]); await shot('s7');
+await p.locator('[data-back]').click(); await p.waitForTimeout(900); log.push(['after back', await at()]);
+console.log(JSON.stringify(log), errs);
+await b.close();

@@ -38,7 +38,7 @@ export const experienceMedia: Record<string, ExperienceMedia> = {
   'meditation-and-mindfulness': { lead: 'c-xp-breath-faces', gallery: ['c-xp-breath-mats', 'c-xp-rest-faces', 'c-xp-deck-breathwork'] },
   massage: { lead: 'c-xp-massage-rest', gallery: ['c-xp-massage-face'] },
   'mediterranean-table': { lead: 'c-xp-long-table-group', gallery: ['c-xp-tortelli-lemons', 'c-xp-oil-pour', 'c-xp-table-wine', 'c-xp-grilled-veg'], tile: 'c-xp-nutrition-reel' },
-  'pasta-making': { lead: 'c-xp-chef-bench', gallery: ['c-xp-chef-kitchen', 'c-xp-pasta-lemons', 'c-xp-tortelli-lemons'] },
+  'pasta-making': { lead: 'c-xp-chef-bench', gallery: ['c-xp-tortelli', 'c-xp-chef-kitchen', 'c-xp-pasta-lemons', 'c-xp-tortelli-lemons'] },
   'gut-health': { lead: 'c-xp-bowls', gallery: ['c-xp-grilled-veg'] },
   'nutrition-consultations': { lead: 'c-xp-journal' },
   'coastal-hiking': { lead: 'c-xp-bay-walk', gallery: ['c-xp-hillside-walk', 'c-eb-walk', 'c-xp-hidden-cove'] },

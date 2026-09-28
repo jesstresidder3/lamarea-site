@@ -36,6 +36,7 @@ document.querySelectorAll<HTMLFormElement>('[data-lead-capture] form').forEach((
       list: form.dataset.list ?? 'newsletter',
       email: email.value.trim(),
       first_name: (String(data.get('first_name') ?? '').trim() || null) as string | null,
+      message: (String(data.get('message') ?? '').trim() || null) as string | null,
       marketing_consent: data.get('marketing_consent') === 'yes',
       consent_text: consentText,
       source_path: location.pathname,

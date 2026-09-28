@@ -12,6 +12,11 @@
   Reduced motion: static.
 
   Same words as PageOpener: lines, eyebrow, sub, caption, id. `second` is the right-hand photograph.
+
+  G1 and G2 (Jess, 28-09-2026): no sea shade and no own filter. Each title line sits on its own sand
+  glass panel (.on-media-panel--title, sage ink), the eyebrow and the sub with its link on a sand glass
+  panel (.on-media-panel), the captions are P3 salt captions (sand glass too), and the photographs take
+  the site grade from Media.astro. Same system as base/PageOpener.
 */
 import Media from '../../media/Media.astro';
 import Caption from '../../base/Caption.astro';
@@ -38,19 +43,18 @@ const hasAfter = Astro.slots.has('after');
   <div class="pp__frame pp__frame--b" aria-hidden="true">
     <Media media={second} aspect="fill" eager sizes="50vw" />
   </div>
-  <span class="pp__shade" aria-hidden="true"></span>
 
   <div class="pp__words">
-    {eyebrow && <p class="pp__eyebrow">{eyebrow}</p>}
+    {eyebrow && <p class="pp__eyebrow on-media-panel">{eyebrow}</p>}
     <h1 class="pp__title" id={id}>
       {lines.map((l, i) => (
-        <span class={`pp__line pp__line--${i + 1}`} data-po-line={i}><span class="pp__line-in" set:html={emphasis(l)} /></span>
+        <span class={`pp__line pp__line--${i + 1}`} data-po-line={i}><span class="pp__line-in on-media-panel on-media-panel--title" set:html={emphasis(l)} /></span>
       ))}
     </h1>
   </div>
 
   {(sub || hasAfter) && (
-    <div class="pp__foot">
+    <div class="pp__foot on-media-panel">
       {sub && <p class="pp__sub" data-draft={subDraft ? '' : undefined}>{sub}</p>}
       {hasAfter && <div class="pp__after"><slot name="after" /></div>}
     </div>
@@ -79,18 +83,9 @@ const hasAfter = Astro.slots.has('after');
   .pp__frame { position: absolute; top: 0; bottom: 0; overflow: hidden; }
   .pp__frame--a { left: 0; width: 50%; }
   .pp__frame--b { right: 0; width: 50%; }
-  .pp__frame :global(:is(img, video)) { filter: saturate(0.9) brightness(1.02); }
   /* A hairline of sand between the two pages of the spread. */
   .pp__frame--b { border-left: 3px solid var(--sand-30); }
 
-  .pp__shade {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(60% 55% at 18% 18%, rgb(20 50 64 / 0.5), rgb(20 50 64 / 0.2) 50%, rgb(20 50 64 / 0) 76%),
-      linear-gradient(to top, rgb(20 50 64 / 0.46), rgb(20 50 64 / 0.16) 22%, rgb(20 50 64 / 0) 36%);
-  }
   .pp__words {
     position: absolute;
     top: calc(var(--header-h) + clamp(2rem, 10svh, 7rem));
@@ -99,7 +94,7 @@ const hasAfter = Astro.slots.has('after');
     z-index: 2;
     pointer-events: none;
   }
-  .pp__eyebrow { margin: 0 0 1.25rem; font-family: var(--font-editorial); font-style: italic; font-size: 1.1875rem; text-shadow: 0 1px 14px rgb(20 50 64 / 0.45); }
+  .pp__eyebrow { width: fit-content; margin: 0 0 1.5rem; padding: 0.3rem 0.8rem; font-family: var(--font-editorial); font-style: italic; font-size: 1.1875rem; }
   .pp__title {
     margin: 0;
     display: grid;
@@ -108,11 +103,10 @@ const hasAfter = Astro.slots.has('after');
     font-size: clamp(2.75rem, 1rem + 4.4vw, 5.5rem);
     line-height: 0.98;
     letter-spacing: 0.004em;
-    color: inherit;
-    text-shadow: 0 2px 30px rgb(20 50 64 / 0.34);
   }
   .pp__line { display: block; }
-  .pp__line-in { display: inline-block; }
+  /* Each line has its own sand glass panel (G1), stepping with the indents and lifting with its line. */
+  .pp__line-in { display: inline-block; padding: 0.08em 0.32em 0.14em; color: var(--sage-80); }
   .pp__line--2 { padding-left: 1.3em; }
   .pp__line--3 { padding-left: 0.5em; }
   .pp__title :global(.place) { font-family: var(--font-editorial); font-style: italic; font-size: 1.06em; }
@@ -125,8 +119,7 @@ const hasAfter = Astro.slots.has('after');
     gap: 1rem;
     max-width: 26rem;
   }
-  .pp__sub { margin: 0; font-family: var(--font-ui); font-size: 0.9375rem; line-height: 1.6; letter-spacing: 0.03em; text-shadow: 0 1px 16px rgb(20 50 64 / 0.6); }
-  .pp__after :global(a) { color: var(--on-image); }
+  .pp__sub { margin: 0; font-family: var(--font-ui); font-size: 0.9375rem; line-height: 1.6; letter-spacing: 0.03em; }
   .pp__caps {
     position: absolute;
     left: var(--gutter);
@@ -144,16 +137,11 @@ const hasAfter = Astro.slots.has('after');
     .pp { height: 88svh; min-height: 34rem; }
     .pp__frame--a { width: 100%; }
     .pp__frame--b { display: none; }
-    .pp__shade {
-      background:
-        linear-gradient(to bottom, rgb(20 50 64 / 0.44), rgb(20 50 64 / 0.16) 42%, rgb(20 50 64 / 0) 60%),
-        linear-gradient(to top, rgb(20 50 64 / 0.62), rgb(20 50 64 / 0.3) 30%, rgb(20 50 64 / 0) 52%);
-    }
     .pp__words { top: calc(var(--header-h) + 5svh); }
     .pp__title { font-size: clamp(2.35rem, 1rem + 6.2vw, 2.9rem); line-height: 1.02; }
     .pp__line--2 { padding-left: 0.6em; }
     .pp__line--3 { padding-left: 0.2em; }
-    .pp__foot { right: var(--gutter); bottom: 3.75rem; max-width: none; }
+    .pp__foot { right: auto; bottom: 4rem; max-width: calc(100% - 2 * var(--gutter)); }
     .pp__caps { grid-template-columns: 1fr; bottom: 1.25rem; }
     .pp :global(.pp__cap--b) { display: none; }
   }

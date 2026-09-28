@@ -166,6 +166,59 @@
 .text-link:active, .text-link:focus-visible { background-size: 100% 1px, 100% 1px; }
 @media (prefers-reduced-motion: reduce) { .text-link { transition: none; } }
 
+/* Words on media (G1, 28-09-2026) ---------------------------------------- */
+/* One system for any words set over a photograph or clip. Sage words on sand, as everywhere else on
+   the site, carried onto the picture by a soft sand glass panel sized to the words.
+
+   .on-media-panel          a sand glass panel behind small words (subs, captions, notes, labels,
+                            links) in sage 100. 8:1 or better over any photograph, so body text always
+                            clears 4.5:1. --panel-a sets the opacity (default 0.88).
+   .on-media-panel--title   the same panel for a display title (HV Muse, sage 80), a little clearer
+                            (0.8) so the photograph shows through the blur. Worst case (black behind)
+                            is 3.9:1, over real frames 6:1 or better; large text needs 3:1.
+   .on-media                a softer option for lanes that want salt display type straight on the
+                            picture: a feathered sage tint in an ellipse around the words, no edges.
+                            Large type only, and only over calm, mid-tone parts of a frame (sea, not
+                            sky or surf); check 3:1 on the real pixels. --veil-a tunes it.
+
+   Put the class on the block that holds the words (a p, an h1, a small wrapper), never on the section,
+   and keep it the width of the words (the panels set width: fit-content). Never a full-frame scrim. */
+.on-media-panel {
+  --panel-a: 0.88;
+  width: fit-content;
+  max-width: 100%;
+  color: var(--sage-100);
+  background: color-mix(in srgb, var(--sand-30) calc(var(--panel-a) * 100%), transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.05);
+  backdrop-filter: blur(14px) saturate(1.05);
+  padding: 0.85rem 1.1rem;
+  text-shadow: none;
+}
+.on-media-panel a:not(.btn-filled) { color: var(--sage-100); }
+.on-media-panel--title {
+  --panel-a: 0.8;
+  color: var(--sage-80);
+  padding: 0.28em 0.5em 0.34em;
+}
+.on-media {
+  color: var(--on-image);
+  margin: -1em -1.6em;
+  padding: 1em 1.6em;
+  background: radial-gradient(farthest-side, rgb(var(--veil-rgb) / var(--veil-a)) 45%, rgb(var(--veil-rgb) / calc(var(--veil-a) * 0.5)) 75%, rgb(var(--veil-rgb) / 0));
+  text-shadow: 0 1px 2px rgb(var(--veil-rgb) / 0.3);
+}
+
+/* The main action pair (G3, G4): "Plan your day" plus "Contact us". base/CtaPair.astro renders it:
+   two pills where there is room, one split pill ("Plan your day / Contact us", two links) where not. */
+.btn-quiet {
+  --pill-bg: color-mix(in srgb, var(--salt-25) 72%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+@media (hover: hover) {
+  .btn-quiet:hover { --pill-bg: var(--salt-25); }
+}
+
 /* Placeholders ----------------------------------------------------------- */
 html[data-media-notes='on'] [data-draft] {
   text-decoration-line: underline;

@@ -54,10 +54,8 @@ const slim = Astro.url.pathname.startsWith('/enquire');
     <div class="footer__contact">
       <h2 class="visually-hidden">Contact</h2>
       <ul role="list">
+        <li><a href="/contact">Contact us</a></li>
         {contact.emails.map((e) => <li><a href={`mailto:${e.address}`}>{e.address}</a></li>)}
-        {contact.phone.showInFooter && (
-          <li><a href={`tel:${contact.phone.tel}`} data-check="Belle to confirm the phone number shows in the footer">{contact.phone.display}</a></li>
-        )}
         <li><a href={social.instagram.url} target="_blank" rel="noopener">Instagram {social.instagram.handle}<span class="visually-hidden"> (opens in a new tab)</span></a></li>
       </ul>
     </div>

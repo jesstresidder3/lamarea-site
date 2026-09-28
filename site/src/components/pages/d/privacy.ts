@@ -204,7 +204,6 @@ export const privacySections: LegalSection[] = [
         items: [
           '<a href="mailto:info@lamarea.com.au">info@lamarea.com.au</a>',
           '<a href="mailto:belle@lamarea.com.au">belle@lamarea.com.au</a>',
-          'Belle Redden, <a href="tel:+61411354356">0411 354 356</a>',
         ],
       },
       // [live] "We’ll respond as quickly and openly as possible."

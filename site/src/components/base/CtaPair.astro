@@ -1,0 +1,105 @@
+---
+/*
+  The main action, everywhere (Jess G3 and G4, 28-09-2026): "Plan your day" plus "Contact us".
+
+  <CtaPair params={{ source: 'home' }} />                       two pills, Plan your day filled, Contact us quiet
+  <CtaPair layout="split" />                                    one pill reading "Plan your day / Contact us"
+  <CtaPair size="large" align="centre" />
+
+  Props
+  - layout: 'pair' (default, two pills that wrap onto two lines only when they must) or 'split' (one
+    pill holding both links with a slash between, for tight spots such as the phone header)
+  - size: 'default' or 'large'
+  - align: 'start' (default) or 'centre'
+  - params: prefill parameters added to the Plan your day link (format, audience, source ...)
+  - plan: override { label, href } for the first link (default cta.plan)
+  - onMedia: true when the pair sits on a photograph (the quiet pill gets a salt glass fill)
+  - magnetic: true adds data-magnetic to the pills (default false)
+  - class
+  No subtext under the buttons (Jess G5).
+*/
+import { withParams } from './text';
+import { cta } from '../../data/settings';
+
+interface Props {
+  layout?: 'pair' | 'split';
+  size?: 'default' | 'large';
+  align?: 'start' | 'centre';
+  params?: Record<string, string | number | undefined>;
+  plan?: { label: string; href: string };
+  onMedia?: boolean;
+  magnetic?: boolean;
+  class?: string;
+}
+const {
+  layout = 'pair',
+  size = 'default',
+  align = 'start',
+  params,
+  plan = cta.plan,
+  onMedia = false,
+  magnetic = false,
+  class: className,
+} = Astro.props;
+const planHref = withParams(plan.href, params);
+const mag = magnetic ? '' : undefined;
+---
+{layout === 'split' ? (
+  <div class:list={['ctap-split', `ctap-split--${size}`, onMedia && 'ctap-split--media', className]} role="group" aria-label={`${plan.label} or ${cta.contact.label.toLowerCase()}`}>
+    <a class="ctap-split__link" href={planHref}>{plan.label}</a>
+    <span class="ctap-split__slash" aria-hidden="true">/</span>
+    <a class="ctap-split__link" href={cta.contact.href}>{cta.contact.label}</a>
+  </div>
+) : (
+  <div class:list={['ctap', `ctap--${align}`, className]}>
+    <a class:list={['btn-filled', size === 'large' && 'btn-filled--large']} href={planHref} data-magnetic={mag}>{plan.label}</a>
+    <a class:list={['btn-filled', 'btn-quiet', size === 'large' && 'btn-filled--large', onMedia && 'btn-quiet--media']} href={cta.contact.href} data-magnetic={mag}>{cta.contact.label}</a>
+  </div>
+)}
+
+<style>
+  .ctap { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+  .ctap--centre { justify-content: center; }
+  /* Phones: large pills drop to the standard size so the two sit side by side. */
+  @media (max-width: 479px) {
+    .ctap { gap: 0.5rem; }
+    .ctap .btn-filled--large { min-height: 2.875rem; padding: 0 1.15rem; font-size: var(--fs-nav); }
+    .ctap .btn-filled--large::after { left: 1.15rem; right: 1.15rem; }
+  }
+  .ctap :global(.btn-quiet--media) { --pill-bg: color-mix(in srgb, var(--salt-25) 86%, transparent); }
+
+  .ctap-split {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.875rem;
+    padding: 0 0.35rem;
+    border: 1px solid color-mix(in srgb, var(--sage-40) 70%, transparent);
+    border-radius: 999px;
+    background: var(--sand-60);
+    color: var(--sage-100);
+    font-family: var(--font-ui);
+    font-size: var(--fs-nav);
+    letter-spacing: var(--track-nav);
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .ctap-split--large { min-height: 3.5rem; padding: 0 0.9rem; font-size: 0.9375rem; }
+  .ctap-split__link {
+    display: inline-flex;
+    align-items: center;
+    align-self: stretch;
+    padding: 0 0.7rem;
+    border-radius: 999px;
+    color: inherit;
+    text-decoration: none;
+    transition: background-color 500ms var(--ease-settle);
+  }
+  .ctap-split__slash { color: var(--sage-60); }
+  @media (hover: hover) {
+    .ctap-split__link:hover { background-color: var(--sand-100); }
+  }
+  .ctap-split__link:focus-visible { outline-offset: -3px; }
+  @media (prefers-reduced-motion: reduce) {
+    .ctap-split__link { transition: none; }
+  }
+</style>

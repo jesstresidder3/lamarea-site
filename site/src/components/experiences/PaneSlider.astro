@@ -284,24 +284,9 @@ const trackId = `${base}-track`;
     line-height: 1.15;
   }
 
-  /* portrait: the numeral runs up the left edge of the frame */
+  /* The portrait numeral up the frame edge is retired (G1, 28-09-2026: no salt words straight on a
+     photograph). The name below the frame carries the tile. */
   .tile__edge-num { display: none; }
-  .tile__edge-num--old {
-    position: absolute;
-    left: 0.65rem;
-    bottom: 0.9rem;
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    font-family: var(--font-ui);
-    font-size: var(--fs-label);
-    letter-spacing: var(--track-label);
-    color: var(--salt-25);
-    mix-blend-mode: normal;
-    z-index: 2;
-    text-shadow: 0 0 12px rgb(35 32 14 / 0.25);
-  }
-  /* Over a light placeholder the numeral takes sage ink (QA M3). */
-  .tile:has(.media--placeholder) .tile__edge-num { color: var(--sage-100); text-shadow: none; }
 
   /* Captions: small type, one line of feeling beneath (BD-17). */
   .tile__caption { padding-top: 1.1rem; }

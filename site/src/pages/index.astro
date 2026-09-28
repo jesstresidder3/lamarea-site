@@ -4,18 +4,19 @@
   rather than stacking as rectangles. The ground drifts from morning salt at the top to dusk sand at
   the bottom (Base dayTone).
 
-  1 Opening: one full-bleed scene with Belle's line that parts into the two worlds (kept as built)
-  2 The story begins: Belle's "La maréa was created as an invitation to pause." over her drone footage
-    of the Fleurieu coast, opening to full bleed and settling as it passes (StoryBegins)
-  3 The 8 hour day: its heading rises over the coast footage (P4 handover), then the sticky split with
-    a full-height photograph that slides in from the right for each part (PinnedDay overlap)
-  4 The experiences: the pinned strip in the five-beat rhythm, the heading holding still at the left
-  5 The food: plates that slide in from the right (P6 SlideStrip), to /food
-  6 Places to Pause: the arch, the venue list and the map behind them
-  7 Our difference: Belle's five on a panel overlapping the hidden cove (P2), then the pillar drift
-  8 In our guests' words: one review at a time, each with a photograph of that kind of day
-  9 The invitation: Restore. Reconnect. Realign. over the coastline pulling away (P5 ClosingTide),
-    and the footer follows on sand
+  1 Opening: one full-bleed scene with Belle's line that parts into the two worlds, each with a clear
+    button, under a line asking the visitor to choose (Jess H2, H3)
+  2 The story begins: Belle's "La maréa was created as an invitation to pause." on sand glass over the
+    calm open sea from her drone footage (StoryBegins, Jess H4)
+  3 The experiences, straight after the story (Jess H5): the pinned strip, a larger heading
+  4 Our difference, moved up (Jess H7): Belle's five on a panel over the hidden cove, then the pillar drift
+  5 In our guests' words, moved up (Jess G8): one review at a time, each with a photograph of that day
+  6 The food: plates that slide in from the right, to /food
+  7 Places to Pause: the arch, the venue list and the map behind them
+  8 The 8 hour day, lower down and labelled as one example day (Jess H6), link "See an example of the
+    full day"
+  9 The invitation: Restore. Reconnect. Realign. over the coastline pulling away, with Plan your day and
+    Contact us and no line under them (Jess H8), then the footer on sand
 
   Every word is Belle's or already on the site; drafted lines keep their data-draft marker.
 */
@@ -79,8 +80,6 @@ const jsonLd = {
 
   <StoryBegins />
 
-  <PinnedDay params={{ format: 'full-day', source: 'home' }} plan={false} overlap />
-
   <ExperienceGallery
     items={[...guided, ...selfLed]}
     eyebrow="The experiences"
@@ -88,7 +87,13 @@ const jsonLd = {
     intro="Luxury South Australian wellness experiences, curated to form La maréa."
     link={{ href: '/experiences', label: 'See every experience' }}
     lead="home-experiences-lead"
+    size="large"
   />
+
+  <Difference items={rows} />
+  <PillarDrift />
+
+  <GuestWords items={reviews} max={6} />
 
   <FoodStrip />
 
@@ -97,10 +102,13 @@ const jsonLd = {
     intro="La maréa retreats are intentionally limited and venue selection is highly considered."
   />
 
-  <Difference items={rows} />
-  <PillarDrift />
-
-  <GuestWords items={reviews} max={6} />
+  <PinnedDay
+    params={{ format: 'full-day', source: 'home' }}
+    plan={false}
+    heading="An example of one of our 8 hour days on the *Fleurieu*"
+    headingDraft
+    example
+  />
 
   <ClosingTide
     line="Restore. Reconnect. Realign."

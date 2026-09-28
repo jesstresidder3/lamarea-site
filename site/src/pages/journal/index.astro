@@ -74,7 +74,7 @@ const jsonLd = {
 
 
   {posts.length > 1 && (
-  <section class="section j-all section--tight-top" aria-labelledby="all-heading">
+  <section class="section j-all" aria-labelledby="all-heading">
     <div class="wrap">
       <Reveal><SectionHead id="all-heading" eyebrow="Browse by topic" heading="Every story" size="small" /></Reveal>
       <JournalCards posts={posts} variant="grid" label="Every story in the wellness journal" id="journal-grid" />
@@ -104,6 +104,10 @@ const jsonLd = {
   .j-head__intro { margin: 0; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.5; color: var(--sage-100); max-width: 30rem; }
   @media (min-width: 900px) { .j-head__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); } }
 
+  /* J1: the cover's band flows straight into the grid, and the grid into the email line */
+  .j-all { padding-top: clamp(2.5rem, 5vw, 4rem); padding-bottom: clamp(3rem, 6vw, 5rem); }
+  .j-updates { padding-top: 0; }
+  .j-updates__grid { padding-top: clamp(2rem, 4vw, 3rem); border-top: 1px solid var(--rule); }
   .j-updates__grid { display: grid; gap: 1.5rem clamp(2rem, 6vw, 7.5rem); align-items: end; }
   .j-updates__title { margin: 0; max-width: 14em; font-size: max(1.75rem, var(--fs-h3)); }
   @media (min-width: 900px) { .j-updates__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }

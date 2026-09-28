@@ -19,6 +19,7 @@ import Media from '../../media/Media.astro';
 import Eyebrow from '../../base/Eyebrow.astro';
 import ArrowLink from '../../base/ArrowLink.astro';
 import SlideIn from '../../base/SlideIn.astro';
+import CtaPair from '../../base/CtaPair.astro';
 import { day, steps as allSteps, type BeatId } from '../../../data/day';
 import { cta } from '../../../data/settings';
 import { emphasis, withParams, numeral } from '../../base/text';
@@ -86,10 +87,9 @@ const planHref = withParams(cta.planFullDay.href, params);
   </ol>
 
   <div class="wrap dib__actions">
-    <ArrowLink href={cta.seeFullDay.href} label={cta.seeFullDay.label} />
-    <ArrowLink href={planHref} label={cta.planFullDay.label} />
+    <ArrowLink href={cta.seeFullDay.href} label="See an example of the full day" />
+    <CtaPair plan={{ label: cta.plan.label, href: planHref }} />
   </div>
-  <div class="wrap"><p class="dib__example dib__call">{cta.callNote}</p></div>
 </section>
 
 <style>

@@ -5,6 +5,7 @@
   hairline sage frame, the La maréa wordmark, one of Belle's pillar films playing inside). The phone
   shows the look only: it names no feature, screen or price the app does not yet have (plan/11 item
   70). Belle asked for the app to match the website (email of 28-09-2026).
+  Words on the film use the shared sand glass (G1, 28-09-2026).
   Motion: the phone rises and settles as the page opens; reduced motion shows it at rest.
 */
 import Media from '../../media/Media.astro';
@@ -28,9 +29,8 @@ const hasActions = Astro.slots.has('default');
       <div class="appo__phone">
         <div class="appo__screen">
           <Media media={film} aspect="fill" sizes="20rem" />
-          <span class="appo__shade"></span>
-          <span class="appo__logo" set:html={logo} />
-          <span class="appo__year">2027</span>
+          <span class="appo__bar on-media-panel"><span class="appo__logo" set:html={logo} /></span>
+          <span class="appo__year on-media-panel">2027</span>
         </div>
       </div>
     </div>
@@ -57,11 +57,14 @@ const hasActions = Astro.slots.has('default');
     box-shadow: 0 30px 60px -30px rgb(60 70 40 / 0.35);
   }
   .appo__screen { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 2.1rem; background: var(--sand-40); }
-  .appo__shade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgb(20 50 64 / 0.38), rgb(20 50 64 / 0) 30%, rgb(20 50 64 / 0) 70%, rgb(20 50 64 / 0.35)); }
-  .appo__logo { position: absolute; top: 1.6rem; left: 50%; translate: -50% 0; width: 58%; color: var(--on-image); }
+  /* G1: words on the film sit on the site's sand glass (.on-media-panel), sage on sand, the way the
+     header sits over a photograph: a strip across the top of the screen holding the wordmark, and the
+     year on a small panel at the foot. No shade over the film. */
+  .appo__bar { position: absolute; top: 0; left: 0; right: 0; width: auto; display: grid; justify-items: center; padding: 2rem 1rem 0.9rem; }
+  .appo__logo { display: block; width: 62%; color: var(--sage-100); }
   .appo__logo :global(svg) { width: 100%; height: auto; display: block; }
   .appo__logo :global(svg *) { fill: currentColor; }
-  .appo__year { position: absolute; left: 0; right: 0; bottom: 1.5rem; text-align: center; font-family: var(--font-editorial); font-style: italic; font-size: 1.25rem; color: var(--on-image); }
+  .appo__year { position: absolute; left: 50%; bottom: 1.5rem; translate: -50% 0; padding: 0.3rem 0.9rem 0.4rem; font-family: var(--font-editorial); font-style: italic; font-size: 1.25rem; line-height: 1.2; }
 
   @media (min-width: 900px) {
     .appo { min-height: 100svh; display: grid; align-items: center; }
