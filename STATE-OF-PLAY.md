@@ -2,7 +2,9 @@
 
 ## Rebuild, 28-09-2026
 
-Every page was rebuilt in four lanes on shared patterns (full-bleed opener, closing tide, captions, slide strips), then checked at 1440 and 390 with no errors, broken images or sideways scroll. The dev server for this work runs on port 4322, and it serves stale component CSS until it is restarted. What changed, what is still open and one list of questions for Belle are in `build/reviews/rebuild-final-28-09-2026.md`. Nothing has been built, committed or sent.
+Every page was rebuilt in four lanes on shared patterns (full-bleed opener, closing tide, captions, slide strips), then checked at 1440 and 390 with no errors, broken images or sideways scroll. The dev server for this work runs on port 4322, and it serves stale component CSS until it is restarted. What changed, what is still open and one list of questions for Belle are in `build/reviews/rebuild-final-28-09-2026.md`. Committed as cac164b and pushed to the private repo github.com/jesstresidder3/lamarea-site (branch main). Nothing has been built for production or sent to Belle.
+
+Still open, in order. 1) Swap in the best of the 674 stills pulled from Belle's Drive (`media-pool/incoming/drive/`, ranked in `build/media-drive-pull-28-09-2026.md`): the 6496px sand cove drone shot as a possible home hero, the Deep Creek house over the cove, the linen and lemons table series, the bright bath shot, 9 Beresford photos, Luca's headshot. Skip Joe's Henley Beach screenshots and other businesses' marketing images. 2) Jess to judge the retreat edit on /private-groups (cuts about once a second, may be too busy; reverting to the deck still is a one-line change) and the /corporate title over white plates. 3) Jess to reply to Belle's 28-09 email: eight app questions for Dom, plus the 18 website questions in the final review, plus asking Georgia Evans for a view-only link to the 23 GB Dropbox shoot (Jess's free Dropbox cannot open it). 4) Belle's 1.7 GB "La marea summer video.mov" is in ~/Downloads, uncut. Raw drone clips are in `media-pool/incoming/` (git-ignored).
 
 ## Local build, 27-09-2026
 
