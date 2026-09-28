@@ -31,6 +31,7 @@
   - tone: section surface, 'sand' (default), 'warm' (sand-40) or 'salt'
   - draft: { intro?: boolean; heading?: boolean } marks drafted copy
   - id: anchor id for the section
+  - mediaFor: { [experience id]: slot id } swaps a tile's frame, for example a video (L3, 28-09-2026)
 */
 import Media from '../media/Media.astro';
 import Eyebrow from '../base/Eyebrow.astro';
@@ -54,6 +55,7 @@ interface Props {
   draft?: { intro?: boolean; heading?: boolean };
   id?: string;
   class?: string;
+  mediaFor?: Record<string, string>;
 }
 
 const {
@@ -70,6 +72,7 @@ const {
   draft = {},
   id,
   class: className,
+  mediaFor = {},
 } = Astro.props;
 
 const base = id ?? uid('pane');
@@ -109,7 +112,7 @@ const trackId = `${base}-track`;
             <li class:list={['tile', `tile--${d.art_direction}`]} data-status={d.status}>
               <div class="tile__frame">
                 <div class="tile__media">
-                  <Media media={d.media} aspect="fill" notePosition={d.art_direction === 'portrait' ? 'top-right' : 'bottom-left'} />
+                  <Media media={mediaFor[e.id] ?? d.media} aspect="fill" notePosition={d.art_direction === 'portrait' ? 'top-right' : 'bottom-left'} />
                 </div>
                 {d.art_direction === 'inset' && (
                   <h3 class="tile__name tile__name--inset"><span class="tile__num" aria-hidden="true">{pad2(i + 1)}</span><Name class="tile__title" href={href}>{d.name}</Name></h3>
@@ -282,7 +285,8 @@ const trackId = `${base}-track`;
   }
 
   /* portrait: the numeral runs up the left edge of the frame */
-  .tile__edge-num {
+  .tile__edge-num { display: none; }
+  .tile__edge-num--old {
     position: absolute;
     left: 0.65rem;
     bottom: 0.9rem;

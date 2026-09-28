@@ -1,12 +1,17 @@
 ---
 /*
-  /team (plan/11 4.15 with build spec 12, page builder C). Belle: "who are our key wellness
-  practitioners, who are our lead sort of food and hospitality team... this big beautiful imagery of
-  the person and a bit about their qualifications and bio" (BD-67), in SHA's advisory board manner
-  (BD-81), in two groups (BD-82), not The Tailor's one-person slider (BD-64).
+  /team (plan/11 4.15 with build spec 12; rebuilt by lane L4, 28-09-2026). Belle: "who are our key
+  wellness practitioners, who are our lead sort of food and hospitality team... this big beautiful
+  imagery of the person and a bit about their qualifications and bio" (BD-67, T39), in SHA's advisory
+  board manner (BD-81), in two groups (BD-82).
 
-  Order: the team at work, the family run line, the hosts (Belle and Zoe), the practitioners in two
-  tabs, the local businesses behind them, "Partner with us" as one line, Plan your day.
+  Order: the opener (Jaimi's yoga on the deck, full bleed), the family run line, the hosts as a
+  masthead beside their own photograph, the practitioners in two tabs with their portraits, their
+  work at full image size, the local businesses behind them, "Partner with us" as one line, and the
+  one closing tide.
+
+  Photographs: the hosts photograph and Belle's, Courtney's and Malissa's portraits are Belle's own
+  from lamarea.com.au; the practitioners' frames come from her Drive folder "Wellness Partners".
 
   voice-verbatim-source: Encounter Bay guide p.19 and p.20 (the family run line, the facilitation
   line, "Your Retreat Hosts"), the live difference 03, lamarea.com.au/partners (the partnership line,
@@ -14,14 +19,19 @@
   decision 12.
 */
 import Base from '../../layouts/Base.astro';
-import Band from '../../components/pages/c/Band.astro';
+import PageOpener from '../../components/base/PageOpener.astro';
+import ClosingTide from '../../components/base/ClosingTide.astro';
+import Caption from '../../components/base/Caption.astro';
 import SectionHead from '../../components/base/SectionHead.astro';
 import ArrowLink from '../../components/base/ArrowLink.astro';
-import CtaBand from '../../components/base/CtaBand.astro';
+import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
 import Reveal from '../../components/base/Reveal.astro';
+import Slider from '../../components/slider/Slider.astro';
+import Media from '../../components/media/Media.astro';
 import TeamCarousel from '../../components/team/TeamCarousel.astro';
+import HostsMasthead from '../../components/team/HostsMasthead.astro';
+import { work } from '../../components/team/work';
 import Statement from '../../components/pages/c/Statement.astro';
-import HostsPair from '../../components/pages/c/HostsPair.astro';
 import NoteFlag from '../../components/pages/c/NoteFlag.astro';
 import { practitionerBusinesses } from '../../components/pages/c/local-businesses';
 import { getPeople, pillarsById } from '../../lib/content';
@@ -33,9 +43,12 @@ const tabs = [
   { id: 'food', label: 'Food and hospitality', people: await getPeople('food_hospitality') },
 ].filter((t) => t.people.length);
 const pillars = await pillarsById();
-const { wellness, table } = practitionerBusinesses(await getPeople());
+const everyone = await getPeople();
+const { wellness, table } = practitionerBusinesses(everyone);
 const businesses = [...wellness, ...table];
 const d3 = differences.find((d) => d.id === 'difference-03');
+const nameOf = (id: string) => everyone.find((p) => p.id === id)?.data.name ?? '';
+const frames = work.filter((w) => everyone.some((p) => p.id === w.person));
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -51,10 +64,20 @@ const jsonLd = {
 <Base
   title="Our team, hosts and practitioners"
   description="Meet La maréa's retreat hosts and the qualified wellness practitioners, chef and nutritionist who lead each day on the Fleurieu Peninsula."
-  headerTone="over-media"
   jsonLd={jsonLd}
 >
-  <Band media="team-hero" height="tall" hero text="over" level={1} eyebrow="About" heading="Our team" body="The hosts and qualified wellness practitioners who run your day." draft={{ body: true }} />
+  <PageOpener
+    media="team-opener"
+    lines={['Our', 'team']}
+    eyebrow="About"
+    sub="The hosts and qualified wellness practitioners who run your day."
+    subDraft
+    caption="Yoga on the deck, Fleurieu Peninsula"
+    shadeAt="top-left"
+    position="50% 14%"
+  />
+
+  <div class="wrap team-crumbs"><Breadcrumbs items={[{ label: 'About', href: '/our-story' }, { label: 'Our team' }]} /></div>
 
   <section class="section team-intro">
     <div class="wrap">
@@ -66,10 +89,10 @@ const jsonLd = {
     </div>
   </section>
 
-  <section class="section section--flush-top" aria-labelledby="hosts-heading">
+  <section class="section section--flush-top team-hosts" aria-labelledby="hosts-heading">
     <div class="wrap">
       <Reveal><SectionHead id="hosts-heading" eyebrow="With you across the day" heading="Your retreat hosts" draft={{ eyebrow: true }} /></Reveal>
-      <HostsPair hosts={hosts} />
+      <HostsMasthead hosts={hosts} media="story-hosts-photo" caption="Belle (left), Zoe (right) and Sarah (back)" />
       <NoteFlag items={['Hosts differ between sources: the live Our story names Belle, Zoe and Sarah; the guide p.20 names Belle, Zoe and Jaimi (decision 12).']} />
     </div>
   </section>
@@ -80,20 +103,42 @@ const jsonLd = {
         <SectionHead id="practitioners-heading" eyebrow="Practitioners and partners" heading={d3?.display ?? 'Our practitioners'} class="team-d3" />
       </Reveal>
       <TeamCarousel tabs={tabs} pillars={pillars} id="team-carousel" />
-      {businesses.length > 0 && (
-        <p class="team-biz">
-          <span class="team-biz__k">The local businesses behind them</span>
-          <span class="team-biz__list">
-            {businesses.map((b, i) => (
-              <>
-                <a class="text-link" href={b.person?.href}>{b.name}</a>{i < businesses.length - 2 ? ', ' : i === businesses.length - 2 ? ' and ' : ''}
-              </>
-            ))}
-          </span>
-        </p>
-      )}
     </div>
   </section>
+
+  {frames.length > 0 && (
+    <section class="section team-work" aria-labelledby="work-heading">
+      <div class="wrap">
+        <p class="label">On the day</p>
+        <h2 class="team-work__heading" id="work-heading" data-draft>Their work, in the room</h2>
+      </div>
+      <Slider label="The practitioners at work" itemLabel="photograph" perView={{ phone: 1.15, tablet: 2.1, desktop: 2.7, wide: 3.1 }} gap="clamp(1rem, 2vw, 2rem)" counter>
+        {frames.map((f) => (
+          <figure class="work-frame">
+            <a href={`/team/${f.person}`} class="work-frame__link">
+              <span class="work-frame__media"><Media media={f.media} aspect="4 / 5" sizes="(max-width: 699px) 86vw, 34vw" /></span>
+              <span class="visually-hidden">{nameOf(f.person)}</span>
+            </a>
+            <Caption as="figcaption">{f.caption}</Caption>
+          </figure>
+        ))}
+      </Slider>
+      {businesses.length > 0 && (
+        <div class="wrap">
+          <p class="team-biz">
+            <span class="team-biz__k">The local businesses behind them</span>
+            <span class="team-biz__list">
+              {businesses.map((b, i) => (
+                <>
+                  <a class="text-link" href={b.person?.href}>{b.name}</a>{i < businesses.length - 2 ? ', ' : i === businesses.length - 2 ? ' and ' : ''}
+                </>
+              ))}
+            </span>
+          </p>
+        </div>
+      )}
+    </section>
+  )}
 
   <section class="section section--tight team-partner" aria-label="Partner with us">
     <div class="wrap team-partner__row">
@@ -102,12 +147,22 @@ const jsonLd = {
     </div>
   </section>
 
-  <CtaBand line="Spend the day with our team" params={{ source: 'team' }} tone="salt" draft={{ line: true }} />
+  <ClosingTide line="Spend the day with our team" lineDraft params={{ source: 'team' }} />
 </Base>
 
 <style>
+  .team-crumbs { padding-top: clamp(1.5rem, 3vw, 2.5rem); }
   .team-intro { padding-bottom: calc(var(--section-y) * 0.8); }
   :global(.team-d3) .section-head__heading { max-width: 22em; }
+
+  .team-work__heading { margin: 0.75rem 0 clamp(2rem, 4vw, 3rem); max-width: 14em; }
+  .work-frame { margin: 0; }
+  .work-frame__link { display: block; color: inherit; }
+  .work-frame__media { display: block; overflow: hidden; }
+  .work-frame__media :global(.media) { transition: transform 900ms var(--ease-settle); }
+  @media (hover: hover) { .work-frame__link:hover .work-frame__media :global(.media) { transform: scale(1.03); } }
+  .work-frame__link:focus-visible { outline: 1.5px solid var(--focus); outline-offset: 4px; }
+
   .team-biz {
     display: grid;
     gap: 0.6rem;
@@ -121,10 +176,9 @@ const jsonLd = {
     color: var(--sage-100);
   }
   .team-biz__k { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
-  .team-partner { border-bottom: 1px solid var(--rule); }
+  .team-partner { border-top: 1px solid var(--rule); }
   .team-partner__row { display: grid; gap: 1rem 3rem; align-items: center; }
   .team-partner__line { margin: 0; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.45; color: var(--sage-100); max-width: 36rem; }
-  @media (min-width: 900px) {
-    .team-partner__row { grid-template-columns: minmax(0, 1fr) auto; }
-  }
+  @media (min-width: 900px) { .team-partner__row { grid-template-columns: minmax(0, 1fr) auto; } }
+  @media (prefers-reduced-motion: reduce) { .work-frame__media :global(.media) { transition: none; } }
 </style>

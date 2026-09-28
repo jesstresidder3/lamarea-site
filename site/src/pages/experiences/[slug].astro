@@ -19,10 +19,18 @@ import AnswerBlock from '../../components/base/AnswerBlock.astro';
 import SectionHead from '../../components/base/SectionHead.astro';
 import Accordion from '../../components/base/Accordion.astro';
 import ArrowLink from '../../components/base/ArrowLink.astro';
-import CtaBand from '../../components/base/CtaBand.astro';
 import Icon from '../../components/base/Icon.astro';
 import Reveal from '../../components/base/Reveal.astro';
 import Media from '../../components/media/Media.astro';
+import PageOpener from '../../components/base/PageOpener.astro';
+import SlideStrip from '../../components/base/SlideStrip.astro';
+import ClosingTide from '../../components/base/ClosingTide.astro';
+import TypeOpener from '../../components/pages/c/TypeOpener.astro';
+import FactLine from '../../components/pages/c/FactLine.astro';
+import FrameSlider from '../../components/pages/c/FrameSlider.astro';
+import PairOpener from '../../components/pages/c/PairOpener.astro';
+import { experienceMedia, venueCaption, openerLines, isPortrait } from '../../components/pages/c/experience-media';
+import { media as getMedia } from '../../data/media';
 import PersonCard from '../../components/pages/b/PersonCard.astro';
 import Flag from '../../components/pages/b/Flag.astro';
 import { getExperiences, getFaqs, pillarsById, peopleById, pillarHref, type Experience } from '../../lib/content';
@@ -83,6 +91,22 @@ if (guided && copy.step === 6 && d.duration && d.duration_basis?.startsWith('Ber
 if (d.business && !d.business_conflict) facts.push({ k: 'With', v: d.business.name });
 if (pillars[0]) facts.push({ k: 'Pillar', v: pillars[0]!.data.name, href: pillarHref(pillars[0]!) });
 
+/* L3 rebuild 28-09-2026: the opener, the gallery and who leads it. */
+const em = experienceMedia[slug] ?? {};
+const hasPhoto = (id?: string) => { if (!id) return false; const m = getMedia(id); return Boolean(m.src || m.poster); };
+const lead = hasPhoto(em.lead) ? em.lead : hasPhoto(d.media) ? d.media : undefined;
+/* A portrait lead opens as a two page spread with the next portrait from the gallery. */
+const pairWith = lead && isPortrait(lead) ? (em.gallery ?? []).find((id) => id !== lead && hasPhoto(id) && isPortrait(id)) : undefined;
+const gallery = (em.gallery ?? []).filter((id) => id !== lead && id !== pairWith).map((id) => ({ media: id, caption: venueCaption[id] }));
+const openerCaption = em.caption ?? (lead ? venueCaption[lead] : undefined) ?? (step ? `In the day, ${step.range}` : undefined);
+const withPortrait = leads.filter((p) => hasPhoto(p!.data.portrait));
+const withoutPortrait = leads.filter((p) => !hasPhoto(p!.data.portrait));
+const strip = siblings.filter((e) => e.id !== slug).map((e) => {
+  const m = experienceMedia[e.id];
+  const img = m?.lead && hasPhoto(m.lead) ? m.lead : e.data.media;
+  return { media: img, title: e.data.name, href: `/experiences/${e.id}` };
+});
+
 const title = `${d.name} on the Fleurieu Peninsula`.length <= 48 ? `${d.name} on the Fleurieu Peninsula` : d.name;
 let description = `${d.name}, ${guided ? 'a guided experience' : 'a self-led activity'} on La maréa’s 8 hour wellness retreat on the Fleurieu Peninsula, South Australia.`;
 if (description.length > 155) description = `${d.name}, on La maréa’s 8 hour wellness retreat on the Fleurieu Peninsula.`;
@@ -103,29 +127,19 @@ const jsonLd: Record<string, unknown>[] = [
 if (questions.length) jsonLd.push(faqJsonLd(questions.map((f) => ({ question: f!.data.question, answer: f!.data.answer.join(' ') }))));
 ---
 <Base title={title} description={description} jsonLd={jsonLd} class="page-xd">
-  <!-- 1. Hero -->
-  <section class="xd-hero" aria-labelledby="xd-title">
-    <div class="wrap xd-hero__grid">
-      <div class="xd-hero__media">
-        <Media media={d.media} aspect="4 / 5" priority notePosition="top-left" />
-      </div>
-      <div class="xd-hero__text">
-        <Breadcrumbs items={[{ label: 'Experiences', href: '/experiences' }, { label: d.name }]} />
-        <p class="xd-kind">{kindLabel}</p>
-        <h1 class="xd-title" id="xd-title">{d.name}</h1>
-      </div>
-      {facts.length > 0 && (
-        <dl class="xd-facts">
-          {facts.map((f) => (
-            <div class="xd-fact">
-              <dt>{f.k}</dt>
-              <dd>{f.href ? <a href={f.href}>{f.v}</a> : f.v}</dd>
-            </div>
-          ))}
-        </dl>
-      )}
-    </div>
-  </section>
+  <!-- 1. Opener: the experience full bleed with its name over it, or type-led until a photograph arrives -->
+  {lead && pairWith ? (
+    <PairOpener media={lead} second={pairWith} lines={openerLines(d.name)} eyebrow={kindLabel} caption={openerCaption} secondCaption={venueCaption[pairWith]} id="xd-title" />
+  ) : lead ? (
+    <PageOpener media={lead} lines={openerLines(d.name)} eyebrow={kindLabel} caption={openerCaption} shadeAt={em.shadeAt ?? 'top-left'} id="xd-title" />
+  ) : (
+    <TypeOpener lines={openerLines(d.name)} eyebrow={kindLabel} id="xd-title" />
+  )}
+
+  <div class="wrap xd-top">
+    <Breadcrumbs items={[{ label: 'Experiences', href: '/experiences' }, { label: d.name }]} />
+    <FactLine items={facts} label={`${d.name} at a glance`} class="xd-facts" />
+  </div>
 
   <!-- 2. What is it (with no answer from Belle yet, the section shows with the notes layer on only) -->
   <section class="section xd-answer" data-notes-only={answer.length > 0 ? undefined : ''}>
@@ -140,19 +154,40 @@ if (questions.length) jsonLd.push(faqJsonLd(questions.map((f) => ({ question: f!
     </div>
   </section>
 
-  <!-- 3. Who leads it -->
+  <!-- 2b. In pictures: the Basq room slider, from the right -->
+  {gallery.length >= 2 && (
+    <section class="section section--flush-top xd-gallery" aria-label={`${d.name}, in pictures`}>
+      <FrameSlider items={gallery} label={`${d.name}, in pictures`} />
+    </section>
+  )}
+
+  <!-- 3. Who leads it: portraits where they exist, otherwise names as text rows (P7) -->
   {leads.length > 0 && (
-    <section class="section band-salt xd-who" aria-labelledby="xd-who">
+    <section class="section band-salt xd-who" aria-labelledby="xd-who" data-ground="salt">
       <div class="wrap xd-who__grid">
         <div class="xd-who__head">
           <SectionHead eyebrow="Who leads it" heading={leads.length > 1 ? 'Qualified local practitioners' : `Led by ${leads[0]!.data.name.split(' ')[0]}`} id="xd-who" size="small" draft={{ heading: true }} />
           <ArrowLink href="/team" label="Meet the team" />
         </div>
-        {leads.length === 1 ? (
-          <PersonCard person={leads[0]!} size="feature" />
-        ) : (
-          <div class="xd-people">{leads.map((p) => <PersonCard person={p!} />)}</div>
-        )}
+        <div class="xd-who__people">
+          {withPortrait.length === 1 && withoutPortrait.length === 0 && <PersonCard person={withPortrait[0]!} size="feature" />}
+          {(withPortrait.length > 1 || (withPortrait.length === 1 && withoutPortrait.length > 0)) && (
+            <div class="xd-people">{withPortrait.map((p) => <PersonCard person={p!} />)}</div>
+          )}
+          {withoutPortrait.length > 0 && (
+            <ul class="xd-rows" role="list">
+              {withoutPortrait.map((p) => (
+                <li>
+                  <a class="xd-row" href={`/team/${p!.id}`}>
+                    <span class="xd-row__name">{p!.data.name}</span>
+                    <span class="xd-row__role">{p!.data.role}{p!.data.business ? `, ${p!.data.business.replace(/ Centre$/, '')}` : ''}</span>
+                    <svg width="28" height="10" viewBox="0 0 28 10" aria-hidden="true" focusable="false"><line x1="0.5" y1="5" x2="27.25" y2="5" /><polyline points="22.25,0.5 27.25,5 22.25,9.5" /></svg>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </section>
   )}
@@ -208,69 +243,54 @@ if (questions.length) jsonLd.push(faqJsonLd(questions.map((f) => ({ question: f!
     </section>
   )}
 
-  <!-- 6. More -->
-  {others.length > 0 && (
-    <section class="section band-salt xd-more" aria-labelledby="xd-more">
-      <div class="wrap">
+  <!-- 6. More: the rest of the day as a slide-in strip -->
+  {strip.length > 0 && (
+    <section class="section xd-more" aria-labelledby="xd-more">
+      <div class="wrap xd-more__head">
         <SectionHead heading={guided ? 'More experiences' : 'More from the afternoon'} id="xd-more" size="small">
           <ArrowLink slot="aside" href="/experiences" label="All experiences" />
         </SectionHead>
-        <ul class="xd-more__list" role="list">
-          {others.map((e) => (
-            <li>
-              <a class="xd-tile" href={`/experiences/${e.id}`}>
-                <span class="xd-tile__media"><Media media={e.data.media} aspect="fill" showNote={false} /></span>
-                <span class="xd-tile__name">{e.data.name}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
       </div>
+      <SlideStrip items={strip} label={guided ? 'More experiences' : 'More from the afternoon'} scale="m" />
     </section>
   )}
 
   <!-- 7. Plan your day -->
-  <CtaBand
+  <ClosingTide
     line={guided ? 'Curate a day for your group' : 'An unhurried afternoon on the *Fleurieu*'}
     params={{ experience: slug, source: 'experience-page' }}
-    note={cta.callNote}
-    draft={{ line: true }}
+    lineDraft
   />
 </Base>
 
 <style>
-  /* 1. Phones: name, then the frame, then the facts. Wide: the frame left, name and facts right. */
-  .xd-hero { padding-top: clamp(1rem, 2.5vw, 2rem); }
-  .xd-hero__grid { display: grid; gap: 1.75rem; }
-  .xd-hero__media { width: 100%; }
-  .xd-hero__text :global(.crumbs) { margin-bottom: clamp(1.5rem, 4vw, 3rem); }
-  .xd-kind { margin: 0 0 1rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
-  .xd-title { margin: 0; font-size: var(--fs-h1); max-width: 12em; }
-  .xd-facts { display: grid; margin: 0; border-top: 1px solid var(--rule); }
-  .xd-fact { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: 1rem; padding: 0.8rem 0; border-bottom: 1px solid var(--rule); }
-  .xd-fact dt { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.08em; color: var(--muted); padding-top: 0.2rem; }
-  .xd-fact dd { margin: 0; font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.35; color: var(--heading); }
-  .xd-fact a { color: inherit; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 0.2em; }
-  @media (max-width: 899px) {
-    .xd-hero__text { order: 1; }
-    .xd-hero__media { order: 2; }
-    .xd-facts { order: 3; }
-  }
-  @media (min-width: 900px) {
-    .xd-hero__grid {
-      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-      grid-template-rows: 1fr auto;
-      column-gap: clamp(3rem, 7vw, 7rem);
-      row-gap: clamp(2rem, 4vw, 3rem);
-    }
-    .xd-hero__media { grid-row: 1 / span 2; grid-column: 1; }
-    .xd-hero__text { grid-column: 2; align-self: end; }
-    .xd-facts { grid-column: 2; align-self: end; margin-bottom: 0.5rem; }
-    .xd-hero__media :global(.media) { aspect-ratio: 4 / 5; max-height: calc(100svh - var(--header-h) - 4rem); }
-  }
+  /* 1. Under the opener: breadcrumbs, then the facts as one caption line */
+  .xd-top { display: grid; gap: 1.25rem; padding-top: clamp(1.5rem, 3vw, 2.5rem); }
+  .xd-top :global(.xd-facts) { padding-bottom: clamp(1rem, 2vw, 1.5rem); }
+  .xd-gallery { padding-bottom: 0; }
 
   /* 3 */
   .xd-who__grid { display: grid; gap: var(--space-l); }
+  .xd-rows { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
+  .xd-rows + * { margin-top: 2rem; }
+  .xd-people + .xd-rows { margin-top: 2.5rem; }
+  .xd-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'name arrow' 'role arrow';
+    gap: 0.35rem 1.5rem;
+    align-items: center;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--rule);
+    color: var(--heading);
+    text-decoration: none;
+  }
+  .xd-row__name { grid-area: name; font-family: var(--font-display); font-size: clamp(1.5rem, 1.2rem + 1vw, 2.1rem); line-height: 1.1; }
+  .xd-row__role { grid-area: role; font-size: var(--fs-small); color: var(--sage-80); }
+  .xd-row svg { grid-area: arrow; overflow: visible; }
+  .xd-row :is(line, polyline) { fill: none; stroke: currentColor; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; transition: transform var(--dur-fast) var(--ease-soft); }
+  @media (hover: hover) { .xd-row:hover polyline { transform: translateX(6px); } }
+  .xd-row:focus-visible { outline: 1.5px solid var(--focus); outline-offset: 4px; }
   .xd-who__head :global(.section-head) { margin-bottom: 1rem; }
   .xd-people { display: grid; gap: 2.5rem 1.5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   @media (min-width: 900px) {
@@ -303,20 +323,6 @@ if (questions.length) jsonLd.push(faqJsonLd(questions.map((f) => ({ question: f!
   @media (min-width: 900px) { .xd-questions__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(2rem, 6vw, 7.5rem); } }
 
   /* 6 */
-  .xd-more__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem 1.25rem; margin: 0; padding: 0; list-style: none; }
-  @media (min-width: 900px) { .xd-more__list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; } }
-  .xd-tile { display: block; color: inherit; text-decoration: none; }
-  .xd-tile__media { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; }
-  .xd-tile__media :global(.media) { transition: transform 900ms var(--ease-soft); }
-  .xd-tile__name { display: block; margin-top: 0.9rem; font-family: var(--font-serif); font-size: 1.25rem; line-height: 1.25; color: var(--heading); }
-  @media (hover: hover) {
-    .xd-tile:hover .xd-tile__media :global(.media) { transform: scale(1.035); }
-    .xd-tile:hover .xd-tile__name { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); }
-  }
-  .xd-tile:focus-visible { outline: none; }
-  .xd-tile:focus-visible .xd-tile__media { outline: 1.5px solid var(--focus); outline-offset: 4px; }
-  @media (prefers-reduced-motion: reduce) {
-    .xd-tile__media :global(.media) { transition: none; }
-    .xd-tile:hover .xd-tile__media :global(.media) { transform: none; }
-  }
+  .xd-more { padding-inline: 0; }
+  .xd-more__head :global(.section-head) { margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
 </style>

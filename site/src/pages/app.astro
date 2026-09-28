@@ -7,26 +7,26 @@
   to subscribers.subscription_interest (plan/10 section 2). No prices, no dates beyond 2027.
 */
 import Base from '../layouts/Base.astro';
-import PageIntro from '../components/pages/d/PageIntro.astro';
+import AppOpener from '../components/pages/d/AppOpener.astro';
 import ListCapture from '../components/pages/d/ListCapture.astro';
 import ArrowLink from '../components/base/ArrowLink.astro';
 import TextPair from '../components/base/TextPair.astro';
-import CtaBand from '../components/base/CtaBand.astro';
+import ClosingTide from '../components/base/ClosingTide.astro';
 import Reveal from '../components/base/Reveal.astro';
 ---
 <Base
   title="The La maréa app, coming 2027"
   description="The La maréa wellness app is coming in 2027, with foundational subscriptions, from the team behind La maréa retreats on the Fleurieu Peninsula."
 >
-  <PageIntro
+  <AppOpener
     eyebrow="Coming 2027"
     heading="The La maréa app"
     lead="We are building a La maréa wellness app, and foundational subscriptions will come with it."
     leadDraft
-    media="app-hero"
+    film="pv-movement"
   >
     <ArrowLink href="#interest" label="Register your interest" direction="down" />
-  </PageIntro>
+  </AppOpener>
 
   <section class="section band-salt" aria-label="What is still to come" data-notes-only>
     <div class="wrap">
@@ -58,14 +58,7 @@ import Reveal from '../components/base/Reveal.astro';
     </TextPair>
   </section>
 
-  <CtaBand
-    eyebrow="For past guests"
-    line="Stay close through the Rising Tides Collective"
-    link={{ label: 'The Rising Tides Collective', href: '/rising-tides-collective' }}
-    secondary={{ label: 'Plan your day', href: '/enquire?source=app' }}
-    tone="warm"
-    draft={{ line: true }}
-  />
+  <ClosingTide line="Stay close through the Rising Tides Collective" lineDraft link={{ label: 'The Rising Tides Collective', href: '/rising-tides-collective' }} note="" />
 </Base>
 
 <style>

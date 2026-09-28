@@ -1,0 +1,47 @@
+---
+/*
+  FactLine (L3 rebuild, 28-09-2026): a row of facts set as one line of P3 captions, separated by small
+  sage 40 dots (art review L3 item 7), instead of a listing-site table. Each fact is a label and a
+  value; the label is visually quiet but read aloud. Wraps on phones.
+
+  <FactLine items={[{ k: 'Setting', v: 'On the coast' }, { k: 'From Adelaide', v: 'About 90 minutes' }]} />
+*/
+import { emphasis } from '../../base/text';
+interface Fact { k: string; v: string; href?: string; quiet?: boolean }
+interface Props { items: Fact[]; label?: string; class?: string }
+const { items, label = 'At a glance', class: className } = Astro.props;
+---
+{items.length > 0 && (
+  <dl class:list={['fl', className]} aria-label={label}>
+    {items.map((f) => (
+      <div class:list={['fl__item', f.quiet && 'fl__item--quiet']}>
+        <dt class="fl__k">{f.k}</dt>
+        <dd class="fl__v">{f.href ? <a href={f.href} set:html={emphasis(f.v)} /> : <span set:html={emphasis(f.v)} />}</dd>
+      </div>
+    ))}
+  </dl>
+)}
+
+<style>
+  .fl { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6rem 0; margin: 0; }
+  .fl__item { display: inline-flex; align-items: baseline; gap: 0.5rem; }
+  .fl__item + .fl__item::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    margin: 0 1rem;
+    border-radius: 50%;
+    background: var(--sage-40);
+    translate: 0 -0.2em;
+  }
+  .fl__k { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.06em; color: var(--sage-80); }
+  .fl__v { margin: 0; font-family: var(--font-editorial); font-style: italic; font-size: clamp(1.05rem, 1rem + 0.3vw, 1.25rem); color: var(--sage-100); }
+  .fl__v :global(.place) { font-style: italic; }
+  .fl__item--quiet .fl__v { color: var(--sage-80); font-size: 1rem; }
+  .fl__v a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); text-underline-offset: 0.2em; }
+  @media (max-width: 699px) {
+    .fl { display: grid; gap: 0.5rem; }
+    .fl__item + .fl__item::before { display: none; }
+    .fl__item { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+  }
+</style>

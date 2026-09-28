@@ -14,18 +14,20 @@
   6 Plan your day
 */
 import Base from '../../layouts/Base.astro';
-import MediaBand from '../../components/base/MediaBand.astro';
+import PageOpener from '../../components/base/PageOpener.astro';
+import ClosingTide from '../../components/base/ClosingTide.astro';
+import Media from '../../components/media/Media.astro';
+import { media } from '../../data/media';
 import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
 import SectionHead from '../../components/base/SectionHead.astro';
 import Accordion from '../../components/base/Accordion.astro';
 import ArrowLink from '../../components/base/ArrowLink.astro';
-import CtaBand from '../../components/base/CtaBand.astro';
 import Icon from '../../components/base/Icon.astro';
 import JournalCards from '../../components/journal/JournalCards.astro';
 import Flag from '../../components/pages/b/Flag.astro';
 import { getPillars, getExperiences, getJournal, type Pillar } from '../../lib/content';
 import { listHtml } from '../../components/pages/b/copy';
-import { site, cta } from '../../data/settings';
+import { site } from '../../data/settings';
 
 export async function getStaticPaths() {
   const pillars = await getPillars();
@@ -48,6 +50,9 @@ const evidence = d.evidence.map((g, i) => ({
   body: listHtml(g.claims, 'pl-claims'),
   open: i === 0,
 }));
+const film = media(`pv-${pillar.id}`).src ? `pv-${pillar.id}` : null;
+const words = name.split(' ');
+const lines = words.length > 2 ? [words.slice(0, 2).join(' '), words.slice(2).join(' ')] : words;
 const refCount = d.references.reduce((n, g) => n + g.entries.length, 0);
 
 const jsonLd = {
@@ -62,23 +67,21 @@ const jsonLd = {
 <Base
   title={`${name} on a Fleurieu retreat`}
   description={`The evidence and references behind La maréa’s ${name.toLowerCase()} pillar, part of every 8 hour wellness retreat on the Fleurieu Peninsula.`}
-  headerTone="over-media"
   jsonLd={jsonLd}
 >
-  <!-- 1. The pillar’s video -->
-  <div class="pl-hero">
-    <MediaBand media={`pillar-hero-${pillar.id}`} height="band" hero parallax={false} />
-  </div>
+  <!-- 1. The pillar’s film, full bleed, the name laid over it -->
+  <PageOpener media={`pillar-hero-${pillar.id}`} lines={lines} eyebrow="One of ten pillars" shadeAt="bottom-left" id="pl-title" />
 
   <!-- 2. The word and its line -->
-  <section class="section pl-word" aria-labelledby="pl-title">
+  <section class="section pl-word" aria-label={`${name}, in a line`}>
     <div class="wrap">
       <Breadcrumbs items={[{ label: 'About', href: '/our-story' }, { label: 'Our philosophy', href: '/philosophy' }, { label: name }]} />
       <div class="pl-word__grid">
-        <Icon name={d.icon.replace(/\.svg$/, '')} size="clamp(4.5rem, 9vw, 7.5rem)" class="pl-word__icon" />
+        <div class="pl-word__aside">
+          {film ? <div class="pl-word__film"><Media media={film} aspect="9 / 16" sizes="(max-width: 899px) 60vw, 22vw" /></div> : <Icon name={d.icon.replace(/\.svg$/, '')} size="clamp(4.5rem, 9vw, 7.5rem)" class="pl-word__icon" />}
+        </div>
         <div>
-          <p class="label">One of ten pillars</p>
-          <h1 class="pl-word__title" id="pl-title">{name}</h1>
+          {film && <Icon name={d.icon.replace(/\.svg$/, '')} size="3.25rem" class="pl-word__icon pl-word__icon--small" />}
           <p class="pl-word__line">{d.line}</p>
           {experiences.length > 0 && (
             <p class="pl-word__on">
@@ -105,26 +108,6 @@ const jsonLd = {
     </div>
   </section>
 
-  <!-- 4. References -->
-  {refCount > 0 && (
-    <section class="section pl-refs" aria-labelledby="pl-refs">
-      <div class="wrap pl-refs__grid">
-        <div>
-          <h2 class="pl-refs__title" id="pl-refs">References</h2>
-          {article && <p class="pl-refs__from">From <a href={`/journal/${article.id}`}>{article.data.title}</a>{article.data.byline ? `, by ${article.data.byline.name}` : ''}</p>}
-        </div>
-        <div class="pl-refs__groups">
-          {d.references.map((g) => (
-            <div class="pl-refs__group">
-              <h3 class="pl-refs__head">{g.group}</h3>
-              <ol class="pl-refs__list">{g.entries.map((r) => <li>{r}</li>)}</ol>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
-
   <!-- 5. From the journal -->
   {posts.length > 0 && (
     <section class="section band-warm pl-journal" aria-labelledby="pl-journal">
@@ -138,17 +121,46 @@ const jsonLd = {
     </section>
   )}
 
+  <!-- 4. References -->
+  {refCount > 0 && (
+    <section class="section pl-refs" aria-labelledby="pl-refs">
+      <div class="wrap pl-refs__grid">
+        <div>
+          <h2 class="pl-refs__title" id="pl-refs">References</h2>
+          <p class="pl-refs__count">{refCount} sources</p>
+          {article && <p class="pl-refs__from">From <a href={`/journal/${article.id}`}>{article.data.title}</a>{article.data.byline ? `, by ${article.data.byline.name}` : ''}</p>}
+        </div>
+        <details class="pl-refs__more">
+          <summary><span>Show the references</span><svg width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><polyline points="0.5,0.5 5,5 9.5,0.5" /></svg></summary>
+        <div class="pl-refs__groups">
+          {d.references.map((g) => (
+            <div class="pl-refs__group">
+              <h3 class="pl-refs__head">{g.group}</h3>
+              <ol class="pl-refs__list">{g.entries.map((r) => <li>{r}</li>)}</ol>
+            </div>
+          ))}
+        </div>
+        </details>
+      </div>
+    </section>
+  )}
+
   <!-- 6. Plan your day -->
-  <CtaBand
-    line="Curate a day for your group"
-    params={{ source: `pillar-${pillar.id}` }}
-    note={cta.callNote}
-    draft={{ line: true }}
-  />
+  <ClosingTide line="Curate a day for your group" lineDraft params={{ source: `pillar-${pillar.id}` }} />
 </Base>
 
 <style>
   /* 2 */
+  .pl-word__film { width: 17rem; max-width: 70vw; }
+  .pl-word :global(.pl-word__icon--small) { margin-bottom: 1.25rem; }
+  .pl-refs__count { font-size: var(--fs-small); color: var(--sage-80); margin: 0 0 0.5rem; }
+  .pl-refs__more { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .pl-refs__more summary { display: flex; align-items: center; justify-content: space-between; min-height: 3rem; cursor: pointer; list-style: none; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.08em; color: var(--heading); }
+  .pl-refs__more summary::-webkit-details-marker { display: none; }
+  .pl-refs__more summary svg { overflow: visible; transition: transform var(--dur-step) var(--ease-soft); }
+  .pl-refs__more summary polyline { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .pl-refs__more[open] summary svg { transform: rotate(180deg); }
+  .pl-refs__more[open] .pl-refs__groups { padding: 1rem 0 2rem; }
   .pl-word__grid { display: grid; gap: 1.5rem; margin-top: clamp(2rem, 5vw, 4rem); }
   .pl-word :global(.pl-word__icon) { color: var(--sage-60); }
   .pl-word__title { margin: 0; font-size: var(--fs-h1); }
@@ -166,7 +178,8 @@ const jsonLd = {
   .pl-word__k { display: block; margin-bottom: 0.35rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
   @media (min-width: 900px) {
     .pl-word__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(2rem, 6vw, 7.5rem); align-items: start; }
-    .pl-word :global(.pl-word__icon) { justify-self: end; margin-top: 2rem; }
+    .pl-word__aside { justify-self: end; }
+    .pl-word :global(.pl-word__icon:not(.pl-word__icon--small)) { margin-top: 2rem; }
   }
 
   /* 3 */

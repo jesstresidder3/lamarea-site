@@ -1,7 +1,7 @@
 ---
 /*
   VenueIndex (C4): Places to Pause as cards, led by Basq House's rooms index ("just a big beautiful
-  imagery", BD-23) with Belle's own split, on the coast and in the vineyards (BD-117). Capacity reads
+  imagery", BD-23) with Belle's own split, on the coast and in the vineyards (BD-117). Setting and drive time read first, sleeps after it and quieter (the product is a day; audience review 27-09-2026). Earlier: capacity read
   first because a group buyer asks whether they fit. Each image sits in the arch-topped frame from
   style guide page 7 (--arch; set it to 0 to square everything). Choosing a card slides its panel in
   from the right; without script the card is a plain link to the venue page. Belle's "cool little mini
@@ -43,8 +43,8 @@ const panelId = (v: Venue) => `${base}-panel-${v.id}`;
           <a class="vcard__link" href={`/places/${v.id}`} data-venue-open={panels ? panelId(v) : undefined} aria-haspopup={panels ? 'dialog' : undefined}>
             <span class="vcard__frame"><Media media={d.card_media} aspect="fill" /></span>
             <span class="vcard__meta">
+              <span class="vcard__region">{regionLabel(d.region)}{d.drive_from_adelaide ? `, ${d.drive_from_adelaide.text.charAt(0).toLowerCase()}${d.drive_from_adelaide.text.slice(1)}` : ''}</span>
               <span class="vcard__sleeps">{sleepsLabel(d.sleeps.display)}</span>
-              <span class="vcard__region">{regionLabel(d.region)}</span>
             </span>
             <span class="vcard__name">{d.name}</span>
             <span class="vcard__where">{d.location_label}</span>
@@ -116,6 +116,7 @@ const panelId = (v: Venue) => `${base}-panel-${v.id}`;
     position: relative;
     display: block;
     aspect-ratio: 4 / 5;
+    min-height: 12rem; /* never collapses, even before the photo decodes (audience review) */
     border-radius: var(--arch, 0);
     overflow: hidden;
     isolation: isolate;
@@ -137,10 +138,11 @@ const panelId = (v: Venue) => `${base}-panel-${v.id}`;
     letter-spacing: var(--track-label);
     color: var(--muted);
   }
-  .vcard__sleeps { color: var(--sage-100); }
+  .vcard__region { color: var(--sage-100); }
+  .vcard__sleeps { color: var(--sage-80); white-space: nowrap; }
   .vcard__name {
     margin-top: 0.7rem;
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
     font-size: clamp(1.6rem, 1.35rem + 0.7vw, 1.95rem);
     line-height: 1.15;
     color: var(--heading);

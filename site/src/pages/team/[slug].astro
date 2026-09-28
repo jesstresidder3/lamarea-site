@@ -13,7 +13,10 @@ import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
 import Eyebrow from '../../components/base/Eyebrow.astro';
 import Icon from '../../components/base/Icon.astro';
 import ArrowLink from '../../components/base/ArrowLink.astro';
-import CtaBand from '../../components/base/CtaBand.astro';
+import ClosingTide from '../../components/base/ClosingTide.astro';
+import Caption from '../../components/base/Caption.astro';
+import Slider from '../../components/slider/Slider.astro';
+import { workFor } from '../../components/team/work';
 import Reveal from '../../components/base/Reveal.astro';
 import Accordion from '../../components/base/Accordion.astro';
 import ToCome from '../../components/pages/c/ToCome.astro';
@@ -67,10 +70,15 @@ const personPillars = d.pillars.map((id) => pillars.get(id)).filter((p): p is No
 const leads = (await getExperiences()).filter((e) => e.data.practitioners.includes(person.id));
 const conflicts = leads.filter((e) => e.data.business_conflict).map((e) => `${e.data.name}: ${e.data.business_conflict}`);
 
+// Portrait present? Otherwise the opener is type-led (P7), never an empty frame.
+const hasPortrait = Boolean(media(d.portrait).src);
+const frames = workFor(person.id);
+
 const shortTitle = `${d.name}, ${d.role ?? ''}`;
 const title = d.role && shortTitle.length <= 48 ? shortTitle : `${d.name}, ${business ?? 'La maréa team'}`;
 const firstPara = d.bio.find((b) => b.kind === 'para')?.text ?? `${d.name}, ${d.role}.`;
 const description = firstPara.length <= 155 ? firstPara : firstPara.slice(0, firstPara.lastIndexOf(' ', 150)).replace(/[,;:]$/, '') + '…';
+const pull = firstPara.match(/^(.+?[.!?])(\s|$)/)?.[1] ?? null;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -86,22 +94,32 @@ const jsonLd = {
 };
 ---
 <Base title={title} description={description} jsonLd={jsonLd}>
-  <article class="person">
-    <div class="wrap person__grid">
-      <div class="person__portrait">
-        <div class="person__portrait-inner"><Media media={d.portrait} aspect="4 / 5" priority /></div>
+  <header class:list={['pop', hasPortrait ? 'pop--portrait' : 'pop--type']} aria-labelledby="person-name">
+    <div class="pop__words">
+      <Breadcrumbs items={[{ label: 'About', href: '/our-story' }, { label: 'Our team', href: '/team' }, { label: d.name }]} />
+      <p class="pop__role">{d.role}</p>
+      <h1 class="pop__name" id="person-name">
+        {d.name.split(' ').map((w, i) => <span class={`pop__line pop__line--${i + 1}`}><span class="pop__line-in">{w}</span></span>)}
+      </h1>
+      {business && (
+        <p class="pop__business">
+          {d.business_url ? <a class="text-link" href={d.business_url} target="_blank" rel="noopener">{business}<span class="visually-hidden"> (opens in a new tab)</span></a> : business}
+        </p>
+      )}
+      {d.credentials.length > 0 && <p class="pop__creds">{d.credentials.join(', ')}</p>}
+      {!hasPortrait && pull && <p class="pop__pull">{pull}</p>}
+    </div>
+    {hasPortrait && (
+      <div class="pop__portrait" data-po-media>
+        <Media media={d.portrait} aspect="fill" priority sizes="(max-width: 899px) 100vw, 50vw" />
       </div>
+    )}
+  </header>
 
-      <div class="person__text">
-        <Breadcrumbs items={[{ label: 'About', href: '/our-story' }, { label: 'Our team', href: '/team' }, { label: d.name }]} />
-        <p class="person__role">{d.role}</p>
-        <h1 class="person__name">{d.name}</h1>
-        {business && (
-          <p class="person__business">
-            {d.business_url ? <a class="text-link" href={d.business_url} target="_blank" rel="noopener">{business}<span class="visually-hidden"> (opens in a new tab)</span></a> : business}
-          </p>
-        )}
-        {d.credentials.length > 0 && <p class="person__creds">{d.credentials.join(', ')}</p>}
+  <article class="person" aria-labelledby="about-heading">
+    <div class="wrap person__grid">
+      <div class="person__side">
+        <h2 class="person__h" id="about-heading">About {firstName}</h2>
         {personPillars.length > 0 && (
           <ul class="person__pillars" role="list" aria-label="Pillars in their work">
             {personPillars.map((p) => (
@@ -109,9 +127,10 @@ const jsonLd = {
             ))}
           </ul>
         )}
+      </div>
 
+      <div class="person__text">
         <Reveal class="person__section">
-          <h2 class="person__h">About {firstName}</h2>
           {blocks.map((b, i) =>
             b.kind === 'para' ? <p class:list={[i === 0 && 'person__lead']}>{b.text}</p> : <ul class="person__list">{b.items.map((t) => <li>{t}</li>)}</ul>,
           )}
@@ -130,26 +149,30 @@ const jsonLd = {
     </div>
   </article>
 
-  {leads.length > 0 && (
+  {(frames.length > 0 || leads.length > 0) && (
     <section class="section band-salt leads" aria-labelledby="leads-heading">
       <div class="wrap">
         <Eyebrow>On a retreat</Eyebrow>
         <h2 class="leads__heading" id="leads-heading">What {firstName} leads</h2>
-        <ul class="leads__list" role="list">
-          {leads.map((e) => {
-            const m = media(e.data.media);
-            return (
-              <li>
-                <a class="lead-card" href={`/experiences/${e.id}`}>
-                  <span class="lead-card__media"><Media media={e.data.media} aspect="4 / 5" still={m.type === 'video'} /></span>
-                  <span class="lead-card__name">{e.data.name}</span>
-                  {e.data.short && <span class="lead-card__short">{e.data.short.text}</span>}
-                </a>
-              </li>
-            );
-          })}
-        </ul>
       </div>
+      <Slider label={`What ${firstName} leads`} itemLabel="photograph" perView={{ phone: 1.15, tablet: 2.1, desktop: 2.6, wide: 3 }} gap="clamp(1rem, 2vw, 2rem)">
+        {frames.map((f) => (
+          <figure class="lead-frame">
+            <Media media={f.media} aspect="4 / 5" sizes="(max-width: 699px) 86vw, 36vw" />
+            <Caption as="figcaption">{f.caption}</Caption>
+          </figure>
+        ))}
+        {leads.map((e) => {
+          const m = media(e.data.media);
+          return (
+            <a class="lead-card" href={`/experiences/${e.id}`}>
+              <span class="lead-card__media"><Media media={e.data.media} aspect="4 / 5" still={m.type === 'video'} sizes="(max-width: 699px) 86vw, 36vw" /></span>
+              <span class="lead-card__name">{e.data.name}</span>
+              {e.data.short && <span class="lead-card__short">{e.data.short.text}</span>}
+            </a>
+          );
+        })}
+      </Slider>
     </section>
   )}
 
@@ -161,35 +184,63 @@ const jsonLd = {
     </div>
   </nav>
 
-  <CtaBand line={`Spend the day with ${firstName}`} params={{ source: `team-${person.id}` }} tone="salt" draft={{ line: true }} />
+  <ClosingTide line={`Spend the day with ${firstName}`} lineDraft params={{ source: `team-${person.id}` }} />
 </Base>
 
 <style>
-  .person { padding: clamp(1.5rem, 3vw, 3rem) 0 var(--section-y); }
+  /* Person opener: the portrait bleeds to the right edge at full height, the name set large on sand. */
+  .pop { position: relative; display: grid; background: var(--sand-30); }
+  .pop__words { padding: calc(var(--header-h) + clamp(1.5rem, 4vw, 3rem)) var(--gutter) clamp(2.5rem, 6vw, 4rem); display: grid; align-content: end; }
+  .pop__role { margin: clamp(2rem, 5vw, 3.5rem) 0 1rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .pop__name { margin: 0; display: grid; font-family: var(--font-display); font-weight: 400; font-size: clamp(3rem, 1.2rem + 5vw, 6rem); line-height: 0.96; color: var(--heading); }
+  .pop__line { display: block; }
+  .pop__line--2 { padding-left: 0.9em; }
+  .pop__line--3 { padding-left: 0.4em; }
+  .pop__line-in { display: inline-block; }
+  .pop__business { margin: clamp(1.5rem, 3vw, 2.25rem) 0 0.4rem; font-family: var(--font-editorial); font-style: italic; font-size: 1.5rem; color: var(--heading); }
+  .pop__name + .pop__creds { margin-top: clamp(1.5rem, 3vw, 2.25rem); }
+  .pop__creds { margin: 0; max-width: 30rem; font-size: var(--fs-small); line-height: 1.55; color: var(--sage-80); }
+  .pop__pull { margin: clamp(2rem, 4vw, 3rem) 0 0; max-width: 34rem; font-family: var(--font-editorial); font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.85rem); line-height: 1.4; color: var(--sage-100); }
+  .pop__portrait { position: relative; aspect-ratio: 4 / 5; overflow: hidden; }
+  @media (min-width: 900px) {
+    .pop--portrait { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 100svh; }
+    .pop--portrait .pop__words { padding-left: max(var(--gutter), calc((100vw - var(--wrap-max)) / 2 + var(--gutter))); }
+    .pop__portrait { aspect-ratio: auto; min-height: 100svh; }
+    .pop--type { min-height: 78svh; }
+    .pop--type .pop__words { padding-left: max(var(--gutter), calc((100vw - var(--wrap-max)) / 2 + var(--gutter))); max-width: 64rem; }
+  }
+  @media (max-width: 899px) {
+    .pop--portrait .pop__portrait { order: -1; }
+    .pop--portrait .pop__words { padding-top: clamp(1.5rem, 5vw, 2.5rem); }
+    .pop--portrait .pop__role { margin-top: 1.5rem; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.mo) .pop__portrait { animation: pop-tide 1400ms var(--ease-tide) both; }
+    :global(html.mo) .pop__portrait :global(:is(img, video)) { animation: pop-settle 2600ms var(--ease-settle) both; }
+    :global(html.mo) .pop__line-in { animation: pop-rise 1300ms var(--ease-settle) both; }
+    :global(html.mo) .pop__line--1 .pop__line-in { animation-delay: 300ms; }
+    :global(html.mo) .pop__line--2 .pop__line-in { animation-delay: 440ms; }
+    :global(html.mo) .pop__line--3 .pop__line-in { animation-delay: 580ms; }
+  }
+  @keyframes pop-tide { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes pop-settle { from { scale: 1.06; } to { scale: 1; } }
+  @keyframes pop-rise { from { opacity: 0; translate: 0 0.4em; } to { opacity: 1; translate: 0 0; } }
+
+  .person { padding: var(--section-y) 0; }
   .person__grid { display: grid; gap: var(--space-l) clamp(2rem, 6vw, 7rem); align-items: start; }
-  .person__portrait-inner { max-width: 34rem; }
-  .person__role { margin: 1.5rem 0 0.75rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
-  .person__name { margin: 0 0 0.6rem; }
-  .person__business { margin: 0 0 0.4rem; font-family: var(--font-serif); font-size: 1.3rem; color: var(--heading); }
-  .person__creds { margin: 0 0 1.25rem; font-size: var(--fs-small); color: var(--muted); max-width: 32rem; }
-  .person__pillars { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin: 0 0 0.5rem; padding: 0; list-style: none; }
-  .person__pillar { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 2.75rem; color: var(--sage-80); text-decoration: none; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.06em; }
+  .person__h { margin: 0 0 1.1rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); line-height: var(--lh-label); }
+  .person__pillars { display: grid; gap: 0.25rem; margin: 0; padding: 0; list-style: none; }
+  .person__pillar { display: inline-flex; align-items: center; gap: 0.75rem; min-height: 2.75rem; color: var(--sage-80); text-decoration: none; font-family: var(--font-editorial); font-style: italic; font-size: 1.2rem; }
   .person__pillar :global(.lm-icon) { color: var(--sage-60); }
   @media (hover: hover) { .person__pillar:hover span { text-decoration: underline; text-underline-offset: 0.3em; text-decoration-thickness: 1px; } }
 
-  .person :global(.person__section) { margin-top: clamp(2rem, 4vw, 3rem); padding-top: 1.5rem; border-top: 1px solid var(--rule); }
-  .person__h { margin: 0 0 1.1rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); line-height: var(--lh-label); }
   .person :global(.person__section) p { color: var(--sage-100); max-width: 36rem; }
   .person__lead { font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.5; }
   .person__list { margin: 0 0 1em; padding-left: 1.1rem; max-width: 36rem; font-size: var(--fs-small); line-height: 1.6; color: var(--sage-100); }
   .person__list li + li { margin-top: 0.35rem; }
   .person__list li::marker { color: var(--sage-40); }
-  @media (min-width: 1100px) {
-    .person__list--cols { columns: 2; column-gap: 2.5rem; max-width: none; }
-    .person__list--cols li { break-inside: avoid; }
-  }
   .person :global(.to-come) { margin-top: 1.25rem; max-width: 34rem; }
-  .person__details { margin-top: clamp(2rem, 4vw, 3rem); }
+  .person__details { margin-top: clamp(2rem, 4vw, 3rem); max-width: 40rem; }
   .person__details :global(.person-acc-list) { margin: 0; padding: 0 0 0.5rem 1.1rem; font-size: var(--fs-small); line-height: 1.6; color: var(--sage-100); }
   .person__details :global(.person-acc-list li + li) { margin-top: 0.35rem; }
   .person__details :global(.person-acc-list li::marker) { color: var(--sage-40); }
@@ -197,15 +248,13 @@ const jsonLd = {
     .person__details :global(.person-acc-list--cols) { columns: 2; column-gap: 2.5rem; }
     .person__details :global(.person-acc-list--cols li) { break-inside: avoid; }
   }
-
   @media (min-width: 900px) {
-    .person__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
-    .person__portrait { position: sticky; top: calc(var(--header-compact) + 1.5rem); }
-    .person__text { padding-top: 0.25rem; }
+    .person__grid { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
+    .person__side { position: sticky; top: calc(var(--header-compact) + 1.5rem); }
   }
 
   .leads__heading { margin: 0 0 clamp(2rem, 3vw, 2.75rem); }
-  .leads__list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr)); gap: clamp(1.5rem, 2.5vw, 2.25rem); margin: 0; padding: 0; list-style: none; }
+  .lead-frame { margin: 0; }
   .lead-card { display: grid; gap: 0.5rem; color: inherit; text-decoration: none; }
   .lead-card__media { display: block; overflow: hidden; margin-bottom: 0.5rem; }
   .lead-card__media :global(.media) { transition: transform 700ms var(--ease-soft); }

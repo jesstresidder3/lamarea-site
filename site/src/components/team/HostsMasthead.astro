@@ -1,0 +1,76 @@
+---
+/*
+  HostsMasthead (L4 rebuild, 28-09-2026). The retreat hosts set like a magazine masthead: the hosts
+  photograph from Belle's live Our story page (Belle left, Zoe right, Sarah back) large on one side,
+  and each host as one typeset row on the other, role small in Jost, name in HV Muse, credentials in
+  Cormorant italic, the first line of their bio and a link to their page. Replaces HostsPair, whose
+  second portrait frame stayed empty.
+
+  Motion: the photograph drifts at 0.94 (data-drift, scripts/motion.ts) and the rows slide in from
+  the right one after another (Belle's "slides in from the right"). Reduced motion: static.
+  P7: with no hosts photograph the rows take the full measure.
+
+  <HostsMasthead hosts={hosts} media="story-hosts-photo" caption="Belle (left), Zoe (right) and Sarah (back)" />
+*/
+import Media from '../media/Media.astro';
+import Caption from '../base/Caption.astro';
+import ArrowLink from '../base/ArrowLink.astro';
+import SlideIn from '../base/SlideIn.astro';
+import type { Person } from '../../lib/content';
+
+interface Props { hosts: Person[]; media?: string; caption?: string; id?: string }
+const { hosts, media, caption, id } = Astro.props;
+const first = (n: string) => n.split(' ')[0];
+const firstSentence = (t: string) => {
+  const m = t.match(/^(.+?[.!?])(\s|$)/);
+  return m ? m[1] : t;
+};
+---
+<div class:list={['hm', !media && 'hm--solo']} id={id}>
+  {media && (
+    <figure class="hm__photo" data-drift="0.94">
+      <Media media={media} aspect="4 / 5" sizes="(max-width: 899px) 100vw, 44vw" />
+      {caption && <Caption as="figcaption">{caption}</Caption>}
+    </figure>
+  )}
+  <ol class="hm__rows" role="list">
+    {hosts.map((p, i) => {
+      const d = p.data;
+      const line = d.bio[0]?.text ? firstSentence(d.bio[0].text) : null;
+      return (
+        <li>
+          <SlideIn from="right" distance="8%" index={i} class="hm__row">
+            <p class="hm__role">{d.role}</p>
+            <h3 class="hm__name"><a href={`/team/${p.id}`}>{d.name}</a></h3>
+            {d.credentials.length > 0 && <p class="hm__creds">{d.credentials.join(', ')}</p>}
+            {line && <p class="hm__line">{line}</p>}
+            <ArrowLink href={`/team/${p.id}`} label={`Meet ${first(d.name)}`} class="hm__link" />
+          </SlideIn>
+        </li>
+      );
+    })}
+  </ol>
+</div>
+
+<style>
+  .hm { display: grid; gap: clamp(2.5rem, 6vw, 4rem); }
+  .hm__photo { margin: 0; }
+  .hm__rows { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
+  .hm__rows > li { border-bottom: 1px solid var(--rule); }
+  .hm :global(.hm__row) { padding: clamp(1.75rem, 3.5vw, 2.75rem) 0; }
+  .hm__role { margin: 0 0 0.9rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .hm__name { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(2.25rem, 1.6rem + 2vw, 2.75rem); line-height: 1.02; }
+  .hm__name a { color: var(--heading); text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size 600ms var(--ease-settle); }
+  @media (hover: hover) { .hm__name a:hover { background-size: 100% 1px; } }
+  .hm__creds { margin: 0.75rem 0 0; font-family: var(--font-editorial); font-style: italic; font-size: 1.125rem; line-height: 1.4; color: var(--sage-80); max-width: 30rem; }
+  .hm__line { margin: 1rem 0 0; font-size: var(--fs-small); line-height: 1.65; color: var(--sage-100); max-width: 30rem; }
+  .hm :global(.hm__link) { margin-top: 1.1rem; }
+
+  @media (min-width: 900px) {
+    .hm { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: clamp(3rem, 7vw, 8rem); align-items: start; }
+    .hm__rows { margin-top: clamp(4rem, 12vh, 8rem); }
+    .hm--solo { grid-template-columns: minmax(0, 1fr); max-width: 46rem; }
+    .hm--solo .hm__rows { margin-top: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { .hm__name a { transition: none; } }
+</style>

@@ -29,6 +29,7 @@ import ArrowLink from '../base/ArrowLink.astro';
 import SliderArrows from '../slider/SliderArrows.astro';
 import { pad2, placeHtml, uid } from '../../lib/text';
 import { pillarHref, type Pillar } from '../../lib/content';
+import { media } from '../../data/media';
 
 interface Props {
   pillars: Pillar[];
@@ -45,6 +46,8 @@ const { pillars, eyebrow, heading, statement, start, anchors = true, draft = {},
 const base = id ?? uid('pillars');
 const startIndex = Math.max(0, pillars.findIndex((p) => p.id === start));
 const iconName = (file: string) => file.replace(/\.svg$/, '');
+// Belle's pillar films (Drive, Branding pillar videos) where they are in; the pillar's own slot otherwise.
+const filmFor = (p: Pillar) => (media(`pv-${p.id}`).src ? `pv-${p.id}` : p.data.video);
 ---
 <section class:list={['flex-showcase', className]} id={id} aria-labelledby={`${base}-heading`} data-flex-showcase data-start={startIndex}>
   <div class="fs-grid">
@@ -69,7 +72,7 @@ const iconName = (file: string) => file.replace(/\.svg$/, '');
                 <span class="fs-vname">{d.name}</span>
               </button>
               <div class="fs-body" id={bid} data-fs-body>
-                <div class="fs-media"><Media media={d.video} aspect="fill" /></div>
+                <div class="fs-media"><Media media={filmFor(p)} aspect="fill" sizes="(max-width: 799px) 100vw, 40vw" /></div>
                 <div class="fs-copy">
                   <h3 class="fs-name" id={`${bid}-name`}>{d.long_name ?? d.name}</h3>
                   <p class="fs-line">{d.line}</p>

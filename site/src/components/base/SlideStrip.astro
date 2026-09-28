@@ -1,0 +1,170 @@
+---
+/*
+  P6 SlideStrip, the Tailor slide-in (art review 27-09-2026, shared pattern P6).
+  For any row of three to ten items: experiences, formats, venues, plates, related experiences.
+  Mixed widths in a five-beat rhythm (tall 3:4, square, wide 3:2, square, tall 3:4), every frame
+  bottom-aligned to one baseline so the row reads as a horizon. When the strip reaches the screen the
+  items slide in from the right, 64px of travel with an 80ms stagger (--ease-settle). Native sideways
+  scroll with snap on touch, drag with the mouse, arrow buttons and the keyboard. Each title is a P3
+  caption under its frame, with an optional quiet line beneath.
+  Items with no photograph are left out (P7), so a strip never shows an empty frame.
+  Reduced motion: the row is simply there, no slide-in.
+
+  <SlideStrip
+    label="Plates from the day"
+    items={[
+      { media: 'food-kingfish', title: 'Kingfish', href: '/food' },
+      { media: 'food-long-table', title: 'The long table', line: 'Lunch, shared', ratio: '3 / 2' },
+    ]}
+  />
+
+  Props
+  - items: { media, title, href?, line?, ratio?, draft? }[] (media is a slot id; ratio overrides the rhythm)
+  - label: accessible name for the list (required)
+  - scale: 'l' (default, tall 3:4 at about 26vw) or 'm' (about 20 per cent smaller, for inner pages)
+  - arrows: show the previous and next buttons (default true, hidden when everything fits)
+  - lead: start the strip at the page gutter (default true) or flush with its container (false)
+  - id, class
+  - slot "head": optional words to the left of the strip on wide screens (they stay put while the
+    strip scrolls under the sand panel behind them)
+*/
+import Media from '../media/Media.astro';
+import Caption from './Caption.astro';
+import { media as getMedia } from '../../data/media';
+
+interface Item { media: string; title: string; href?: string; line?: string; ratio?: string; draft?: boolean }
+interface Props {
+  items: Item[];
+  label: string;
+  scale?: 'l' | 'm';
+  arrows?: boolean;
+  id?: string;
+  class?: string;
+}
+const { items, label, scale = 'l', arrows = true, id, class: className } = Astro.props;
+const rhythm = ['3 / 4', '1 / 1', '3 / 2', '1 / 1', '3 / 4'];
+const shown = items.filter((it) => { const m = getMedia(it.media); return Boolean(m.src || m.poster); });
+const hasHead = Astro.slots.has('head');
+---
+<div class:list={['strip', `strip--${scale}`, hasHead && 'strip--headed', className]} id={id} data-strip data-no-blind>
+  {hasHead && <div class="strip__head"><slot name="head" /></div>}
+  <ol class="strip__list" role="list" aria-label={label} tabindex="0" data-strip-list>
+    {shown.map((it, i) => {
+      const ratio = it.ratio ?? rhythm[i % rhythm.length];
+      const kind = ratio === '3 / 2' ? 'wide' : ratio === '1 / 1' ? 'square' : 'tall';
+      const Tag = it.href ? 'a' : 'div';
+      return (
+        <li class:list={['strip__item', `strip__item--${kind}`]} data-strip-item style={`--i:${i}`}>
+          <Tag class="strip__link lift-host" href={it.href} data-cursor={it.href ? 'View' : undefined} draggable="false">
+            <span class="strip__frame lift-img" style={`--ratio:${ratio}`}>
+              <Media media={it.media} aspect="fill" still sizes="(max-width: 699px) 80vw, 34vw" />
+            </span>
+            <Caption as="span" class="strip__title">{it.title}</Caption>
+            {it.line && <span class="strip__line" data-draft={it.draft ? '' : undefined}>{it.line}</span>}
+          </Tag>
+        </li>
+      );
+    })}
+  </ol>
+  {arrows && shown.length > 2 && (
+    <div class="strip__arrows">
+      <button type="button" class="strip__arrow" data-strip-prev aria-label={`Previous: ${label}`}>
+        <svg viewBox="0 0 40 12" width="40" height="12" aria-hidden="true" focusable="false"><path d="M39.5 6H1M6 1L1 6l5 5" /></svg>
+      </button>
+      <button type="button" class="strip__arrow" data-strip-next aria-label={`Next: ${label}`}>
+        <svg viewBox="0 0 40 12" width="40" height="12" aria-hidden="true" focusable="false"><path d="M0.5 6H39M34 1l5 5-5 5" /></svg>
+      </button>
+    </div>
+  )}
+</div>
+
+<script>
+  import '../../scripts/slide-strip';
+</script>
+
+<style>
+  .strip { --u: 26vw; position: relative; }
+  .strip--m { --u: 21vw; }
+  .strip__list {
+    display: flex;
+    align-items: flex-end;
+    gap: clamp(1rem, 2.4vw, 2.5rem);
+    margin: 0;
+    padding: 0 var(--gutter) 0.5rem;
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+    cursor: grab;
+    outline-offset: -2px;
+  }
+  .strip__list::-webkit-scrollbar { display: none; }
+  .strip__list.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+  .strip__list.is-dragging .strip__link { pointer-events: none; }
+  .strip__item { flex: none; scroll-snap-align: start; }
+  .strip__item--tall { width: var(--u); }
+  .strip__item--square { width: calc(var(--u) * 0.84); }
+  .strip__item--wide { width: calc(var(--u) * 1.32); }
+  .strip__link { display: grid; color: inherit; text-decoration: none; user-select: none; -webkit-user-drag: none; }
+  .strip__frame { position: relative; display: block; aspect-ratio: var(--ratio); overflow: hidden; background: var(--sand-40); }
+  .strip :global(.strip__title) { font-size: 1.125rem; color: var(--sage-80); }
+  .strip__line { margin-top: 0.3rem; padding-left: 2.25rem; font-size: var(--fs-small); line-height: 1.55; color: var(--sage-100); max-width: 22rem; }
+
+  .strip__arrows { display: flex; gap: 0.5rem; justify-content: flex-end; padding: 1.25rem var(--gutter) 0; }
+  .strip__arrow {
+    display: grid; place-items: center;
+    width: 3.25rem; height: 3.25rem;
+    border: 1px solid color-mix(in srgb, var(--sage-40) 60%, transparent);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--sage-80);
+    transition: background-color 400ms var(--ease-settle), opacity 400ms var(--ease-settle);
+  }
+  .strip__arrow:disabled { opacity: 0.35; }
+  .strip__arrow svg { width: 1.5rem; overflow: visible; }
+  .strip__arrow path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+  @media (hover: hover) { .strip__arrow:not(:disabled):hover { background: var(--sand-60); } }
+  .strip.is-fits .strip__arrows { display: none; }
+
+  @media (max-width: 699px) {
+    .strip { --u: 66vw; }
+    .strip--m { --u: 60vw; }
+    .strip__item--wide { width: 80vw; }
+  }
+
+  /* Headed strip on wide screens: the words sit on a sand panel at the left, and the strip passes
+     under the panel's soft right edge as it scrolls. */
+  @media (min-width: 900px) {
+    .strip--headed { display: grid; grid-template-columns: minmax(0, 1fr); }
+    .strip__head {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 2;
+      width: calc(var(--gutter) + clamp(17rem, 25vw, 24rem));
+      padding: 0 3rem 0 var(--gutter);
+      display: grid;
+      align-content: end;
+      padding-bottom: 5.5rem;
+      background: linear-gradient(to right, var(--page-tone, var(--sand-30)) 82%, color-mix(in srgb, var(--page-tone, var(--sand-30)) 0%, transparent));
+      pointer-events: none;
+    }
+    .strip__head :global(a, button) { pointer-events: auto; }
+    .strip--headed .strip__list { padding-left: calc(var(--gutter) + clamp(17rem, 25vw, 24rem)); scroll-padding-left: calc(var(--gutter) + clamp(17rem, 25vw, 24rem)); }
+  }
+  @media (max-width: 899px) {
+    .strip__head { padding: 0 var(--gutter) 2rem; }
+  }
+
+  /* The slide-in from the right (scripts/slide-strip.ts adds .is-in). */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.js) .strip:not(.is-in) .strip__item { opacity: 0; translate: 64px 0; }
+    :global(html.js) .strip .strip__item {
+      transition: opacity 900ms var(--ease-settle), translate 1100ms var(--ease-settle);
+      transition-delay: calc(var(--i, 0) * 80ms);
+    }
+  }
+</style>

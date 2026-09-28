@@ -1,0 +1,104 @@
+---
+/*
+  P4 Handover, the section handover (art review 27-09-2026, shared pattern P4).
+  Sections stop stacking as rectangles. A closing photograph starts as an inset frame (8vw in from each
+  side) and opens to full bleed as it rises through the screen (data-widen, scripts/motion.ts), while
+  the next section's words rise over its lower edge on a sand panel that overlaps it by about 20vh.
+  Reduced motion or phones under 700px: the photograph is full width and the panel simply overlaps.
+  P7: with no photograph the frame drops out and the panel reads as an ordinary section.
+
+  <Handover media="places-bath" caption="The bath at Naiko Deep Creek" ground="salt">
+    <h2>The house</h2>
+    <p>...</p>
+  </Handover>
+
+  Props
+  - media: media slot id for the photograph or clip (required)
+  - caption: P3 caption, set small in salt on the photograph's lower right (optional)
+  - height: 'screen' (90svh, default) or 'band' (70svh)
+  - ground: the panel's ground, 'sand' (default, sand 30), 'salt' (salt 25) or 'warm' (sand 40).
+    The section also carries data-ground so the page ground can drift to it (see motion.ts)
+  - align: 'left' (default) or 'centre' for the panel's words
+  - position: object-position override for the crop
+  - id, class
+  - default slot: the panel's words (the next section's heading and lead)
+
+  Ground drift (the second handover): any section on any page can declare data-ground="salt|sand|warm"
+  and the page ground eases towards it as that section reaches the middle of the screen, so colour
+  changes read as a tide rather than a hard edge. Give sections a transparent background to use it.
+*/
+import Media from '../media/Media.astro';
+import Caption from './Caption.astro';
+
+interface Props {
+  media: string;
+  caption?: string;
+  height?: 'screen' | 'band';
+  ground?: 'sand' | 'salt' | 'warm';
+  align?: 'left' | 'centre';
+  position?: string;
+  id?: string;
+  class?: string;
+}
+const { media, caption, height = 'screen', ground = 'sand', align = 'left', position, id, class: className } = Astro.props;
+const hasPanel = Astro.slots.has('default');
+---
+<section class:list={['ho', `ho--${height}`, `ho--${ground}`, `ho--${align}`, className]} id={id} data-ground={ground} data-no-blind>
+  <div class="ho__frame" data-widen="8" data-media-frame style={position ? `--ho-pos: ${position}` : undefined}>
+    <Media media={media} aspect="fill" sizes="100vw" />
+    {caption && <Caption tone="salt" align="end" class="ho__caption">{caption}</Caption>}
+  </div>
+  {hasPanel && (
+    <div class="ho__panel" data-ho-panel>
+      <div class="ho__panel-in"><slot /></div>
+    </div>
+  )}
+</section>
+
+<style>
+  .ho { position: relative; }
+  .ho__frame { position: relative; height: 90svh; min-height: 26rem; overflow: hidden; background: var(--sand-40); }
+  .ho--band .ho__frame { height: 70svh; min-height: 22rem; }
+  .ho__frame[style] :global(:is(img, video)) { object-position: var(--ho-pos) !important; }
+  .ho :global(.ho__caption) { position: absolute; right: var(--gutter); bottom: calc(20vh + 1.25rem); z-index: 2; margin: 0; }
+
+  .ho__panel {
+    position: relative;
+    z-index: 2;
+    margin: -20vh auto 0;
+    width: min(100% - 2 * var(--gutter), 62rem);
+    padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.5rem, 5vw, 4.5rem) 0;
+    background: var(--ho-ground);
+  }
+  .ho--sand { --ho-ground: var(--sand-30); }
+  .ho--salt { --ho-ground: var(--salt-25); }
+  .ho--warm { --ho-ground: var(--sand-40); }
+  .ho--centre .ho__panel-in { text-align: center; display: grid; justify-items: center; }
+  .ho__panel-in :global(> :first-child) { margin-top: 0; }
+
+  @media (max-width: 699px) {
+    .ho__frame { height: 70svh; }
+    .ho__panel { margin-top: -12vh; width: calc(100% - var(--gutter)); margin-left: 0; padding-left: var(--gutter); padding-right: 1.25rem; }
+    .ho :global(.ho__caption) { bottom: calc(12vh + 1rem); }
+  }
+
+  /* P7: with no photograph the panel is an ordinary section. */
+  :global(html:not([data-media-notes='on'])) .ho:has(.ho__frame .media--placeholder) .ho__frame { display: none; }
+  :global(html:not([data-media-notes='on'])) .ho:has(.ho__frame .media--placeholder) .ho__panel { margin-top: 0; padding-top: var(--section-y); }
+</style>
+
+<script>
+  // The panel rises over the photograph's lower edge as it arrives.
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<HTMLElement>('[data-ho-panel]').forEach((panel) => {
+      gsap.fromTo(panel, { y: () => window.innerHeight * 0.1 }, {
+        y: 0,
+        ease: 'none',
+        scrollTrigger: { trigger: panel, start: 'top bottom', end: 'top 55%', scrub: 0.6, invalidateOnRefresh: true },
+      });
+    });
+  }
+</script>

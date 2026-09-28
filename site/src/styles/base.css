@@ -75,7 +75,7 @@ body {
   overflow-x: clip;
 }
 /* Home: the ground follows the time of day (dawn to dusk tone). */
-body.tone-day { background: var(--page-tone); }
+body.tone-day, body.tone-ground { background: var(--page-tone); }
 
 /* Paper grain: a 3 per cent monochrome noise fixed to the viewport, so flat sand reads as paper. */
 body::after {
@@ -162,7 +162,10 @@ em, i, cite { font-style: normal; }
 
 .site-main { display: block; outline: none; }
 .site-main--solid, .site-main--over-media { padding-top: var(--header-h); }
+/* Home opens full bleed under the clear header. */
+.site-main--immersive { padding-top: 0; }
 
 .lm-icon { display: inline-block; flex: none; color: inherit; line-height: 0; }
 .lm-icon svg { width: 100%; height: 100%; overflow: visible; }
 .lm-icon svg [stroke] { vector-effect: non-scaling-stroke; stroke-width: var(--icon-stroke); }
+.site-main:has(> [data-page-opener]:first-child) { padding-top: 0; }

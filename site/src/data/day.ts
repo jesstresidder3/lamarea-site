@@ -125,7 +125,7 @@ export const beats: DayBeat[] = [
 export const day = {
   /** Section heading. The place name takes the site's one italic (asterisks, see base/text.ts). */
   heading: 'An 8 hour day on the *Fleurieu*',
-  example: 'An example day at Beresford Estate, 12 guests',
+  example: 'An example corporate day at Beresford Estate, 12 guests', // 'corporate' from Belle's own schedule caption ('bespoke luxury corporate wellness day, 12 guests'), audience review 28-09-2026
   /** Belle's own line, verbatim from the published schedule, brackets included. */
   note: '(Note we can curate a personalised retreat to suit your group)',
   /** Sourced, Encounter Bay guide p.24: "RETREAT TIME: 8AM-4PM (APPROX. PICK UP 7AM, DROP OFF 5PM)". */

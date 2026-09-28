@@ -17,6 +17,12 @@
   - sizes: the img `sizes` hint for srcset. Default: 100vw for 'fill' media, otherwise a card-sized guess
   - class: extra class on the wrapper
 
+  Missing media (P7): with the notes layer off (the visitor's view) a missing slot shows nothing and
+  leaves no empty frame: the figure is hidden, wrappers that hold only it are marked data-empty and
+  hidden, and the nearest ancestor that holds anything else is marked data-has-empty so its layout can
+  reflow. Mark a bigger frame with data-media-frame to have it drop out as a whole. ?notes=on shows the
+  placeholders again.
+
   Photos carry a srcset of the width variants listed in src/data/media/image-sizes.json (written by
   scripts/media-variants.mjs), and their intrinsic width and height so nothing shifts while loading.
 */
@@ -27,6 +33,8 @@ interface Props {
   media: string;
   aspect?: string | 'fill';
   priority?: boolean;
+  /** Load now without raising fetch priority (frames that appear within the first screen of scroll). */
+  eager?: boolean;
   fit?: 'cover' | 'contain';
   showNote?: boolean;
   still?: boolean;
@@ -35,7 +43,7 @@ interface Props {
   class?: string;
 }
 
-const { media: slotId, aspect, priority = false, fit = 'cover', showNote = true, still = false, notePosition = 'bottom-left', sizes: sizesProp, class: className = '' } = Astro.props;
+const { media: slotId, aspect, priority = false, eager = false, fit = 'cover', showNote = true, still = false, notePosition = 'bottom-left', sizes: sizesProp, class: className = '' } = Astro.props;
 const m = getMedia(slotId);
 const ratio = aspect ?? m.aspect ?? '4 / 5';
 const fill = ratio === 'fill';
@@ -73,7 +81,7 @@ const sizes = sizesProp ?? (fill ? '100vw' : '(max-width: 767px) 92vw, 46vw');
         width={imgInfo?.w}
         height={imgInfo?.h}
         alt={m.alt}
-        loading={priority ? 'eager' : 'lazy'}
+        loading={priority || eager ? 'eager' : 'lazy'}
         decoding="async"
         fetchpriority={priority ? 'high' : 'auto'}
         style={fitStyle}
@@ -228,6 +236,21 @@ const sizes = sizesProp ?? (fill ? '100vw' : '(max-width: 767px) 92vw, 46vw');
 </style>
 
 <script>
+  // P7: mark every wrapper that exists only to hold a missing photo (data-empty, hidden by
+  // styles/utilities.css while the notes layer is off) and the first ancestor that holds anything
+  // else (data-has-empty), so layouts can reflow around the gap.
+  const STOP = new Set(['MAIN', 'BODY', 'SECTION', 'ARTICLE', 'LI', 'UL', 'OL', 'NAV', 'HEADER', 'FOOTER']);
+  document.querySelectorAll<HTMLElement>('.media--placeholder').forEach((fig) => {
+    let node: HTMLElement = fig;
+    let parent = fig.parentElement;
+    while (parent && !STOP.has(parent.tagName) && parent.children.length === 1 && !Array.from(parent.childNodes).some((n) => n.nodeType === 3 && n.textContent?.trim())) {
+      parent.setAttribute('data-empty', '');
+      node = parent;
+      parent = parent.parentElement;
+    }
+    if (node !== fig || parent) (parent ?? node).setAttribute('data-has-empty', '');
+  });
+
   // Videos load and play only while on screen, pause when scrolled past (plan/10 section 4).
   // Reduced motion or save-data: the poster stays and the video never attaches.
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

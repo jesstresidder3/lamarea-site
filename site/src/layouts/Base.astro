@@ -41,7 +41,7 @@ interface Props {
   imageAlt?: string;
   ogType?: 'website' | 'article';
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
-  headerTone?: 'over-media' | 'solid';
+  headerTone?: 'over-media' | 'solid' | 'immersive';
   noindex?: boolean;
   stickyCta?: boolean;
   mediaNotes?: 'on' | 'off';
@@ -116,7 +116,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
   </head>
   <body class:list={[bodyClass, dayTone && 'tone-day']}>
     <a class="skip-link" href="#main">Skip to content</a>
-    <Header tone={headerTone} current={path} />
+    <Header tone={headerTone === 'immersive' ? 'over-media' : headerTone} current={path} />
     <Menu current={path} />
     <main id="main" tabindex="-1" class:list={['site-main', `site-main--${headerTone}`]}>
       <slot />

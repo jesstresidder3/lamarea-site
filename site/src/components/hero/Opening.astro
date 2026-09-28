@@ -1,0 +1,399 @@
+---
+/*
+  Home opening: one coast, two ways to gather (Jess's opening brief, 27-09-2026).
+
+  The first screen is Belle's drone footage (DJI_0604), a slow top-down glide over emerald water into
+  turquoise shallows, full bleed under a clear header. It washes in
+  from the bottom edge like the tide, and Belle's line is layered over the open sea in salt type,
+  broken across three lines at three indents like a magazine opener. A caption in the corner names
+  the place and what "la marea" means.
+
+  Scrolling, the scene holds while the line lifts away at three speeds, then the photograph parts down
+  the middle. The left half draws into an arch (Belle's style guide shape) for private groups, the
+  right half into a frame set higher for corporate teams, and each half turns into its own world as it
+  settles. A line above the frames names the choice and changes with whichever world the visitor leans
+  towards, while the idle world quietens.
+
+  Pinned choreography: 900px and wider, fine pointer, motion allowed (scripts/opening.ts). Phones,
+  touch and reduced motion get the same story as a full-bleed first screen, then the two worlds as
+  frames that open from their own sides.
+*/
+import Media from '../media/Media.astro';
+import { emphasis } from '../base/text';
+
+interface World {
+  key: 'a' | 'b';
+  href: string;
+  name: string;
+  line: string;
+  lean: string;
+  cta: string;
+  media: string;
+  alt: string;
+}
+
+// Belle's positioning line, broken into three editorial lines.
+const lines = ['Luxury coastal', 'wellness retreats', 'on the *Fleurieu Peninsula*'];
+// Drafted (Invitation sub-line), still marked draft. 'door to door from Adelaide' is the approved wording
+// on the full day page (audience review 28-09-2026: the clearest sentence on the site must say it).
+const sub = '8 hour retreats for private groups and corporate teams, door to door from Adelaide.';
+const worlds: World[] = [
+  {
+    key: 'a',
+    href: '/private-groups',
+    name: 'Private groups',
+    line: 'Birthdays, milestone celebrations, sister weekends, family resets or simply time with people who matter.',
+    lean: 'For friends, families and aligned groups',
+    cta: 'Explore private retreats',
+    media: 'home-world-private',
+    alt: 'home-world-private-alt',
+  },
+  {
+    key: 'b',
+    href: '/corporate',
+    name: 'Corporate teams',
+    line: 'A strategic reset for leadership teams and high-performing professionals.',
+    lean: 'For leadership teams and high-performing professionals',
+    cta: 'Explore corporate retreats',
+    media: 'home-world-corporate',
+    alt: 'home-world-corporate-alt',
+  },
+];
+---
+<section class="op" aria-labelledby="op-heading" data-opening data-no-split data-no-blind>
+  <div class="op__stage" data-op-stage>
+    <div class="op__scene" data-op-scene data-hero>
+      <div class="op__scene-img" data-op-scene-live><Media media="home-hero-video" aspect="fill" priority sizes="100vw" /></div>
+      <span class="op__shade" aria-hidden="true" data-op-shade></span>
+    </div>
+
+    <div class="op__title" data-op-title>
+      <h1 class="op__heading" id="op-heading">
+        {lines.map((l, i) => (
+          <span class={`op__line op__line--${i + 1}`} data-op-line={i}><span class="op__line-in" set:html={emphasis(l)} /></span>
+        ))}
+      </h1>
+    </div>
+
+    <div class="op__chrome" data-op-chrome>
+    <p class="op__sub" data-draft>{sub}</p>
+
+    <p class="op__meaning">
+      <span class="op__meaning-place">The Fleurieu Peninsula, South Australia</span>
+      <span class="op__meaning-word"><span lang="es">La marea</span>, Spanish for the tide</span>
+    </p>
+
+    <span class="op__cue" aria-hidden="true"><span class="op__cue-line"></span>Scroll</span>
+    </div>
+
+    <nav class="op__worlds" aria-label="Choose your retreat" data-op-worlds>
+      <p class="op__ask" data-op-ask aria-hidden="true">
+        <span class="op__ask-text is-on" data-ask="idle">Two ways to gather on the <span class="place">Fleurieu</span></span>
+        {worlds.map((w) => <span class="op__ask-text" data-ask={w.key}>{w.lean}</span>)}
+      </p>
+
+      {worlds.map((w) => (
+        <a class:list={['op__world', `op__world--${w.key}`]} href={w.href} data-op-world={w.key}>
+          <span class="op__frame" data-op-frame={w.key}>
+            <span class="op__img op__img--scene" data-op-scene-img aria-hidden="true"><Media media="home-hero-still" aspect="fill" eager sizes="100vw" showNote={false} /></span>
+            <span class="op__img op__img--world" data-op-world-img><Media media={w.media} aspect="fill" eager sizes="(max-width: 899px) 92vw, 44vw" /></span>
+            <span class="op__img op__img--alt" aria-hidden="true"><Media media={w.alt} aspect="fill" sizes="(max-width: 899px) 92vw, 44vw" showNote={false} /></span>
+            <span class="op__frame-shade" aria-hidden="true"></span>
+          </span>
+          <span class="op__label" data-op-label={w.key}>
+            <span class="op__name">{w.name}</span>
+            <span class="op__text">{w.line}</span>
+            <span class="op__go">
+              <span class="op__go-label">{w.cta}</span>
+              <svg viewBox="0 0 40 10" width="40" height="10" aria-hidden="true" focusable="false"><path d="M0.5 5H39M34 1l4.5 4-4.5 4" /></svg>
+            </span>
+          </span>
+        </a>
+      ))}
+      <span class="op__or" aria-hidden="true" data-op-or>or</span>
+    </nav>
+  </div>
+</section>
+
+<style>
+  /* ============ Shared ============ */
+  .op { position: relative; }
+  .op__stage { position: relative; }
+
+  .op__scene { position: relative; height: 100svh; min-height: 34rem; overflow: hidden; background: var(--sand-40); }
+  .op__scene-img { position: absolute; inset: 0; }
+  .op__scene :global(:is(img, video)), .op__img--scene :global(img) { filter: saturate(0.86) brightness(1.03); }
+  /* A cool shade over the open sea only, so the salt line reads. It never reaches the beach. */
+  .op__shade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(110% 85% at 0% 0%, rgb(20 50 64 / 0.36), rgb(20 50 64 / 0.14) 42%, rgb(20 50 64 / 0) 68%),
+      linear-gradient(to bottom, rgb(20 50 64 / 0.24), rgb(20 50 64 / 0) 20%);
+  }
+
+  .op__title {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 100svh;
+    min-height: 34rem;
+    padding: calc(var(--header-h) + clamp(2.5rem, 11svh, 8rem)) var(--gutter) 0;
+    pointer-events: none;
+    z-index: 3;
+    color: var(--on-image);
+  }
+  .op__heading {
+    margin: 0;
+    display: grid;
+    font-size: clamp(2.75rem, 0.9rem + 5.2vw, 6rem);
+    line-height: 0.98;
+    letter-spacing: 0.002em;
+    color: inherit;
+    text-shadow: 0 2px 30px rgb(20 50 64 / 0.28);
+    text-wrap: balance;
+  }
+  .op__line { display: block; }
+  .op__line-in { display: inline-block; }
+  .op__line--2 { padding-left: 1.3em; }
+  .op__line--3 { padding-left: 0.45em; }
+  .op__heading :global(.place) { font-family: var(--font-editorial); font-style: italic; font-size: 1.06em; }
+  .op__chrome { position: absolute; inset: 0 0 auto 0; height: 100svh; min-height: 34rem; z-index: 3; pointer-events: none; }
+  /* The sub-line sits straight on the shaded sea in salt, aligned to the third line's indent (no chip). */
+  .op__sub {
+    position: absolute;
+    left: calc(var(--gutter) + 0.45 * clamp(2.75rem, 0.9rem + 5.2vw, 6rem));
+    bottom: clamp(2rem, 6svh, 3.5rem);
+    margin: 0;
+    max-width: 25rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-lead);
+    letter-spacing: 0.02em;
+    line-height: 1.55;
+    color: var(--on-image);
+    text-shadow: 0 1px 16px rgb(20 50 64 / 0.6), 0 0 2px rgb(20 50 64 / 0.25);
+    pointer-events: auto;
+  }
+  .op__shade::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(60% 40% at 0% 100%, rgb(20 50 64 / 0.34), rgb(20 50 64 / 0) 70%);
+  }
+  .op__meaning {
+    position: absolute;
+    right: var(--gutter);
+    top: calc(100svh - clamp(2rem, 6svh, 3.5rem));
+    translate: 0 -100%;
+    z-index: 3;
+    display: grid;
+    justify-items: end;
+    gap: 0.2rem;
+    margin: 0;
+    text-align: right;
+    color: var(--on-image);
+    text-shadow: 0 1px 14px rgb(38 36 20 / 0.45);
+    pointer-events: none;
+  }
+  .op__meaning-place { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); }
+  .op__meaning-word { font-family: var(--font-editorial); font-style: italic; font-size: var(--fs-caption); }
+  .op__cue {
+    position: absolute;
+    left: 50%;
+    top: calc(100svh - 5.75rem);
+    translate: -50% 0;
+    z-index: 3;
+    display: grid;
+    justify-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--on-image);
+    text-shadow: 0 1px 12px rgb(38 36 20 / 0.5);
+    pointer-events: none;
+  }
+  .op__cue-line { width: 1px; height: 2.5rem; background: currentColor; opacity: 0.8; }
+
+  /* ============ The two worlds, stacked (phones, touch, reduced motion) ============ */
+  .op__worlds {
+    position: relative;
+    display: grid;
+    gap: clamp(3rem, 10vw, 6rem);
+    padding: clamp(4rem, 12vw, 7rem) var(--gutter) clamp(3rem, 8vw, 5rem);
+  }
+  .op__ask {
+    display: grid;
+    margin: 0;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    line-height: 1.15;
+    color: var(--sage-80);
+  }
+  .op__ask :global(.place) { font-family: var(--font-editorial); font-style: italic; }
+  .op__ask-text { grid-area: 1 / 1; opacity: 0; translate: 0 0.35em; transition: opacity 700ms var(--ease-settle), translate 700ms var(--ease-settle); }
+  .op__ask-text.is-on { opacity: 1; translate: 0 0; }
+  .op__world { position: relative; display: block; color: var(--on-image); text-decoration: none; }
+  .op__frame { position: relative; display: block; overflow: hidden; background: var(--sand-40); aspect-ratio: 4 / 5; }
+  .op__world--a .op__frame { border-radius: var(--arch); }
+  .op__img { position: absolute; inset: 0; display: block; }
+  .op__img--scene { display: none; }
+  .op__img--alt { opacity: 0; transition: opacity 1100ms var(--ease-settle); }
+  .op__img :global(img) { transition: scale 1600ms var(--ease-settle), filter 900ms var(--ease-settle); }
+  .op__frame-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(38 36 20 / 0.55), rgb(38 36 20 / 0.16) 40%, rgb(38 36 20 / 0) 62%);
+    pointer-events: none;
+  }
+  .op__label {
+    position: absolute;
+    left: clamp(1.25rem, 3vw, 2.75rem);
+    right: clamp(1.25rem, 3vw, 2.75rem);
+    bottom: clamp(1.25rem, 3vw, 2.5rem);
+    display: grid;
+    justify-items: start;
+    gap: 0.6rem;
+    z-index: 2;
+    text-shadow: 0 1px 16px rgb(38 36 20 / 0.35);
+  }
+  .op__name {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 1.2rem + 3vw, 4.25rem);
+    line-height: 0.98;
+    letter-spacing: 0.005em;
+    transition: letter-spacing 900ms var(--ease-settle);
+  }
+  .op__text { max-width: 24rem; font-size: var(--fs-small); line-height: 1.6; letter-spacing: 0.02em; }
+  .op__go { display: inline-flex; align-items: center; gap: 0.8rem; margin-top: 0.4rem; font-family: var(--font-ui); font-size: var(--fs-small); letter-spacing: 0.06em; }
+  .op__go-label {
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0% 1px no-repeat;
+    padding-bottom: 0.2em;
+    transition: background-size 600ms var(--ease-settle);
+  }
+  .op__go svg { overflow: visible; }
+  .op__go path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; transition: translate 600ms var(--ease-settle); }
+  .op__or { display: none; }
+
+  /* A world comes alive on hover or focus, and the idle one quietens. */
+  @media (hover: hover) {
+    .op__world:hover .op__img--alt { opacity: 1; }
+    .op__world:hover .op__img :global(img) { scale: 1.045; }
+    .op__world:hover .op__name { letter-spacing: 0.03em; }
+    .op__world:hover .op__go-label { background-size: 100% 1px; }
+    .op__world:hover .op__go path { translate: 6px 0; }
+    .op__worlds:has(.op__world:hover) .op__world:not(:hover) .op__img :global(img) { filter: saturate(0.5) brightness(1.08); }
+  }
+  .op__world:focus-visible .op__img--alt { opacity: 1; }
+  .op__world:focus-visible .op__go-label { background-size: 100% 1px; }
+  .op__world:focus-visible { outline: 1px solid var(--sage-80); outline-offset: 6px; }
+
+  @media (min-width: 900px) {
+    .op__worlds { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 8vw; align-items: start; }
+    .op__ask { grid-column: 1 / -1; }
+    .op__world--b { margin-top: 12vw; }
+    .op__or {
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 55%;
+      translate: -50% -50%;
+      font-family: var(--font-editorial);
+      font-style: italic;
+      font-size: clamp(1.75rem, 1rem + 1.4vw, 2.5rem);
+      color: var(--sage-60);
+    }
+  }
+  @media (max-width: 699px) {
+    .op__title { padding-top: 43svh; }
+    .op__shade {
+      background:
+        linear-gradient(to bottom, rgb(20 50 64 / 0.42), rgb(20 50 64 / 0.22) 38%, rgb(20 50 64 / 0) 58%),
+        linear-gradient(to top, rgb(20 50 64 / 0.3), rgb(20 50 64 / 0) 30%);
+    }
+    .op__heading { font-size: clamp(2.2rem, 0.9rem + 6.6vw, 3.4rem); line-height: 1.02; position: relative; }
+    /* A soft sage-toned shade behind the three headline lines only, so thin HV Muse reads over glitter. */
+    .op__heading::before {
+      content: '';
+      position: absolute;
+      inset: -1.5rem -2rem -1.5rem calc(-1 * var(--gutter));
+      z-index: -1;
+      background: radial-gradient(closest-side, rgb(67 61 27 / 0.24), rgb(67 61 27 / 0.1) 60%, rgb(67 61 27 / 0));
+      pointer-events: none;
+    }
+    .op__line--2 { padding-left: 0.5em; }
+    .op__line--3 { padding-left: 0; }
+    .op__sub { left: var(--gutter); right: var(--gutter); max-width: none; bottom: 5.75rem; font-size: 1rem; }
+    .op__meaning { top: auto; bottom: 1.5rem; translate: none; right: auto; left: var(--gutter); justify-items: start; text-align: left; }
+    .op__cue { display: none; }
+    .op__world--a .op__frame { aspect-ratio: 3 / 4; }
+  }
+
+  /* Arrival: the photograph washes in from the bottom edge like the tide, then the line rises. */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.mo) .op__scene { animation: op-tide 1900ms var(--ease-tide) both; }
+    :global(html.mo) .op__scene-img { animation: op-settle 2800ms var(--ease-settle) both; }
+    :global(html.mo) .op__line-in { animation: op-rise 1500ms var(--ease-settle) both; }
+    :global(html.mo) .op__line--1 .op__line-in { animation-delay: 650ms; }
+    :global(html.mo) .op__line--2 .op__line-in { animation-delay: 820ms; }
+    :global(html.mo) .op__line--3 .op__line-in { animation-delay: 990ms; }
+    :global(html.mo) :is(.op__sub, .op__meaning) { animation: op-fade 1200ms var(--ease-settle) 1350ms both; }
+    :global(html.mo) .op__cue { animation: op-fade 1000ms var(--ease-settle) 1900ms both; }
+    :global(html.mo) .op__cue-line { animation: op-cue 2400ms var(--ease-tide) 2200ms infinite; }
+  }
+  @keyframes op-tide { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes op-settle { from { scale: 1.14; } to { scale: 1.04; } }
+  @keyframes op-rise { from { opacity: 0; translate: 0 0.45em; } to { opacity: 1; translate: 0 0; } }
+  @keyframes op-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes op-cue {
+    0% { scale: 1 0; transform-origin: 50% 0; }
+    45% { scale: 1 1; transform-origin: 50% 0; }
+    55% { scale: 1 1; transform-origin: 50% 100%; }
+    100% { scale: 1 0; transform-origin: 50% 100%; }
+  }
+
+  /* ============ Pinned choreography (scripts/opening.ts adds .is-pinned) ============ */
+  .op.is-pinned { height: 340vh; }
+  .op.is-pinned .op__stage { position: sticky; top: 0; height: 100vh; overflow: hidden; background: var(--sand-30); }
+  .op.is-pinned .op__scene { position: absolute; inset: 0; height: auto; min-height: 0; background: transparent; z-index: 2; pointer-events: none; }
+  /* The live drone clip plays over the two frames until the scene begins to part, then hands over to
+     the still both halves hold (the clip's first frame). */
+  .op.is-pinned .op__worlds { position: absolute; inset: 0; padding: 0; display: block; z-index: 1; }
+  .op.is-pinned .op__world { position: static; }
+  .op.is-pinned .op__frame {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+    border-radius: 0;
+    will-change: clip-path;
+  }
+  .op.is-pinned .op__world--a .op__frame { clip-path: inset(0vh 50vw 0vh 0vw round 0vw 0vw 0vw 0vw); }
+  .op.is-pinned .op__world--b .op__frame { clip-path: inset(0vh 0vw 0vh 50vw round 0vw 0vw 0vw 0vw); }
+  .op.is-pinned .op__img--scene { display: block; }
+  .op.is-pinned .op__img--world { opacity: 0; }
+  .op.is-pinned .op__frame-shade { opacity: 0; }
+  /* The seam: the two halves meet on the page's centre line, so the frames must line up there. */
+  .op.is-pinned .op__world--a :is(.op__img--world, .op__img--alt) { inset: 18vh 55vw 5vh 6vw; }
+  .op.is-pinned .op__world--b :is(.op__img--world, .op__img--alt) { inset: 10vh 6vw 17vh 55vw; }
+  .op.is-pinned .op__world--a .op__frame-shade { inset: 18vh 55vw 5vh 6vw; }
+  .op.is-pinned .op__world--b .op__frame-shade { inset: 10vh 6vw 17vh 55vw; }
+  .op.is-pinned .op__label { position: absolute; opacity: 0; right: auto; bottom: auto; width: 33vw; }
+  /* Frame A, the arch: 6vw to 45vw across, 18vh from the top, 5vh from the bottom.
+     Frame B: 55vw to 94vw across, 10vh from the top, 17vh from the bottom. */
+  .op.is-pinned .op__world--a .op__label { left: 8.5vw; bottom: calc(5vh + 2.5vw); top: auto; }
+  .op.is-pinned .op__world--b .op__label { left: 57.5vw; bottom: calc(17vh + 2.5vw); top: auto; }
+  .op.is-pinned .op__ask { position: absolute; left: 6vw; width: 39vw; top: 8vh; opacity: 0; text-align: left; font-size: clamp(1.375rem, 0.9rem + 1vw, 2rem); pointer-events: none; }
+  .op.is-pinned .op__or { top: 50vh; opacity: 0; }
+  .op.is-pinned:not(.is-settled) .op__world { pointer-events: none; }
+  .op.is-pinned .op__name { font-size: clamp(2.25rem, 0.9rem + 2.7vw, 3.75rem); white-space: nowrap; }
+  /* The arrival animation plays on the two frames (the scene lives inside them here). */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.mo) .op.is-pinned .op__img--scene { animation: op-settle 2800ms var(--ease-settle) both; }
+    :global(html.mo) .op.is-pinned .op__worlds { animation: op-tide 1900ms var(--ease-tide) both; }
+  }
+</style>
+
+<script>
+  import '../../scripts/opening';
+</script>

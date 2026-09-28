@@ -1,0 +1,71 @@
+---
+/*
+  MealStrip (L3 rebuild, 28-09-2026): the day at the table as three tall frames, breakfast,
+  refreshments and lunch, bottom-aligned on one horizon with Belle's words under each (art review L3
+  item 9, P6). The frames slide in from the right in turn as the row reaches the screen. Placeholder
+  meals (dinner, dessert) and meals without a photograph are left out (P7). Phones: a sideways row
+  with snap. Reduced motion: static.
+*/
+import Media from '../media/Media.astro';
+import Caption from '../base/Caption.astro';
+import { media as getMedia } from '../../data/media';
+import type { MealMoment } from '../../lib/content';
+
+interface Props { moments: MealMoment[]; label?: string }
+const { moments, label = 'The day at the table' } = Astro.props;
+const shown = moments.filter((m) => !m.data.placeholder && Boolean(getMedia(m.data.media).src));
+const ratios = ['3 / 4', '4 / 5', '2 / 3'];
+---
+<ol class="ms" role="list" aria-label={label} data-ms>
+  {shown.map((m, i) => {
+    const d = m.data;
+    return (
+      <li class="ms__item" style={`--i:${i}`}>
+        <span class="ms__frame" style={`--r:${ratios[i % 3]}`}><Media media={d.media} aspect="fill" sizes="(max-width: 699px) 78vw, 30vw" /></span>
+        <Caption>{d.time ?? d.kicker ?? 'Across the day'}</Caption>
+        <h3 class="ms__name">{d.name}</h3>
+        {d.line && <p class="ms__line">{d.line}</p>}
+        {d.detail.map((t) => <p class="ms__detail">{t}</p>)}
+      </li>
+    );
+  })}
+</ol>
+
+<style>
+  .ms {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    align-items: end;
+    gap: clamp(1.25rem, 3vw, 3rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ms__item { display: grid; align-content: end; }
+  .ms__frame { position: relative; display: block; aspect-ratio: var(--r); overflow: hidden; background: var(--sand-40); }
+  .ms__name { margin: 0.6rem 0 0.5rem; font-family: var(--font-display); font-size: clamp(1.6rem, 1.3rem + 0.8vw, 2.1rem); line-height: 1.1; color: var(--heading); }
+  .ms__line { margin: 0 0 0.6rem; font-family: var(--font-editorial); font-size: 1.2rem; line-height: 1.4; color: var(--sage-100); }
+  .ms__detail { margin: 0 0 0.4rem; font-size: var(--fs-small); line-height: 1.6; color: var(--sage-100); max-width: 26rem; }
+  /* One horizon: the frames share a baseline, the words hang below on a common top line. */
+  @media (min-width: 700px) {
+    .ms { align-items: start; }
+    .ms__item { grid-template-rows: 34rem auto; }
+    .ms__frame { align-self: end; }
+  }
+  @media (max-width: 699px) {
+    .ms { grid-auto-columns: 78vw; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter); scrollbar-width: none; }
+    .ms__item { scroll-snap-align: start; align-content: start; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.js) .ms__item { transition: opacity 900ms var(--ease-settle), translate 1200ms var(--ease-settle); transition-delay: calc(var(--i) * 120ms); }
+    :global(html.js) .ms:not(.is-in) .ms__item { opacity: 0; translate: 72px 0; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ms]').forEach((el) => {
+    const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { el.classList.add('is-in'); io.disconnect(); } }, { rootMargin: '0px 0px -15% 0px' });
+    io.observe(el);
+  });
+</script>

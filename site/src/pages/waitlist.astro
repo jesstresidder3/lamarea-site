@@ -7,9 +7,12 @@
   verbatim. Which stay is decision 22. A waitlist join is not an enquiry and never starts the funnel.
   Preselect a list with ?list=sunset-reset, womens-wellness-weekend or retreat-releases.
   noindex: a utility page reached from links, not search.
+  Lane L2 rebuild 28-09-2026: a full-bleed beach opener, then the three waitlists as tall photographic
+  panels; each panel's link preselects its list in the one form beneath (#join).
 */
 import Base from '../layouts/Base.astro';
-import PageIntro from '../components/pages/d/PageIntro.astro';
+import PageOpener from '../components/pages/a/PageOpener.astro';
+import Media from '../components/media/Media.astro';
 import ListCapture from '../components/pages/d/ListCapture.astro';
 import ReviewNote from '../components/pages/d/ReviewNote.astro';
 import ArrowLink from '../components/base/ArrowLink.astro';
@@ -17,6 +20,7 @@ import ArrowLink from '../components/base/ArrowLink.astro';
 const choices = [
   {
     value: 'sunset-reset',
+    media: 'a-waitlist-sunset',
     label: 'Sunset Reset',
     meta: 'An evening by the sea, 3 hours',
     draft: true,
@@ -24,12 +28,14 @@ const choices = [
   },
   {
     value: 'womens-wellness-weekend',
+    media: 'a-waitlist-weekend',
     label: 'Women’s Wellness Weekend',
     meta: 'For women seeking space to restore, reconnect and return to rhythm.',
     description: 'Join the waitlist to receive upcoming dates and early access to bookings.',
   },
   {
     value: 'retreat-releases',
+    media: 'a-waitlist-releases',
     label: 'Retreat releases',
     description: 'Join our retreat waitlist so you never miss out on retreat releases!',
   },
@@ -40,20 +46,46 @@ const count = ['No', 'One', 'Two', 'Three', 'Four', 'Five'][choices.length] ?? S
   title="Retreat waitlists, Fleurieu Peninsula"
   description="Join a La maréa waitlist to hear first about Sunset Reset evenings, the Women’s Wellness Weekend and new retreat releases."
   noindex
+  headerTone="immersive"
 >
-  <PageIntro
-    size="compact"
+  <PageOpener
+    id="waitlist"
+    media="a-waitlist-opener"
+    mobileMedia="a-waitlist-opener-phone"
     eyebrow="Waitlists"
-    heading="Join a waitlist"
-    lead="Choose a waitlist and leave your email. We will write when dates are released."
-    leadDraft
-    media="waitlist-intro"
+    lines={['Join a', 'waitlist']}
+    indents={[0, 1.1]}
+    line="Choose a waitlist and leave your email. We will write when dates are released."
+    lineDraft
+    height="tall"
+    shade="strong"
+    phonePlace="bottom"
   />
 
-  <section class="section section--flush-top wrap">
+  <section class="wlp" aria-labelledby="wlp-title">
+    <div class="wrap">
+      <h2 class="wlp__title" id="wlp-title">{count} waitlists</h2>
+      <ul class="wlp__list" role="list">
+        {choices.map((c, i) => (
+          <li class="wlp__panel" style={`--i:${i}`}>
+            <a class="wlp__frame" href={`?list=${c.value}#join`} tabindex="-1" aria-hidden="true">
+              <Media media={c.media} aspect="fill" sizes="(max-width: 899px) 86vw, 30vw" />
+              <span class="wlp__shade"></span>
+              <span class="wlp__name">{c.label}</span>
+            </a>
+            {c.meta && <p class="wlp__meta" data-draft={c.draft ? '' : undefined}>{c.meta}</p>}
+            <p class="wlp__desc">{c.description}</p>
+            <ArrowLink href={`?list=${c.value}#join`} label={`Join the ${c.label} waitlist`} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section wrap" id="join">
     <div class="wl">
       <div class="wl__aside">
-        <h2 class="wl__title">{count} waitlists</h2>
+        <h2 class="wl__title">Leave your email</h2>
         <p class="small wl__alt" data-draft>For a private group or a corporate team, planning a day starts with a few questions instead.</p>
         <ArrowLink href="/retreats" label="See retreats for groups" />
       </div>
@@ -74,6 +106,21 @@ const count = ['No', 'One', 'Two', 'Three', 'Four', 'Five'][choices.length] ?? S
 </Base>
 
 <style>
+  .wlp { padding-block: clamp(3rem, 7vw, 6rem) 0; }
+  .wlp__title { margin: 0 0 clamp(2rem, 4vw, 3rem); font-size: var(--fs-h2); }
+  .wlp__list { display: grid; gap: var(--space-xl) var(--space-l); margin: 0; padding: 0; list-style: none; }
+  .wlp__frame { position: relative; display: block; aspect-ratio: 3 / 4; overflow: hidden; background: var(--sand-40); color: var(--on-image); text-decoration: none; }
+  .wlp__frame :global(img) { transition: scale 1400ms var(--ease-settle); }
+  @media (hover: hover) { .wlp__panel:hover .wlp__frame :global(img) { scale: 1.04; } }
+  .wlp__shade { position: absolute; inset: 0; background: linear-gradient(to top, rgb(38 36 20 / 0.5), rgb(38 36 20 / 0.1) 40%, rgb(38 36 20 / 0) 58%); }
+  .wlp__name { position: absolute; left: 1.4rem; right: 1.4rem; bottom: 1.2rem; font-family: var(--font-display); font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.5rem); line-height: 1.04; text-shadow: 0 2px 18px rgb(38 36 20 / 0.4); }
+  .wlp__meta { margin: 1.1rem 0 0.4rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); }
+  .wlp__desc { margin: 0.4rem 0 0.75rem; font-size: var(--fs-small); line-height: 1.65; }
+  @media (min-width: 900px) {
+    .wlp__list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .wlp__panel:nth-child(2) { margin-top: clamp(3rem, 6vw, 6rem); }
+  }
+
   .wl { display: grid; gap: var(--space-l); padding-top: clamp(1rem, 2vw, 2rem); border-top: 1px solid var(--sage-20); }
   .wl__title { margin: 0; font-size: var(--fs-h2); }
   .wl__alt { margin: 1.25rem 0 0.5rem; max-width: 22rem; color: var(--sage-100); }

@@ -1,0 +1,53 @@
+---
+/*
+  P3 Caption, the caption system (art review 27-09-2026, shared pattern P3).
+  Cormorant italic 15.5px in sage 80, set about 12px under an image, after a 24px hairline in sage 40.
+  Say only a place or a moment the site already states ("Naiko Deep Creek, Fleurieu Peninsula",
+  "Arrive, 7am"). Never a new claim.
+
+  <Caption>Naiko Deep Creek, Fleurieu Peninsula</Caption>
+  <Caption tone="salt" rule={false}>Arrive, 7am</Caption>     (over a photograph, in salt ink)
+
+  Props
+  - tone: 'sage' (default, on sand or salt) or 'salt' (on a photograph, with a soft text shadow)
+  - rule: false drops the hairline (for tight spots)
+  - align: 'start' (default) or 'end'
+  - as: 'p' (default) or 'figcaption' (inside a <figure>)
+  - class: extra class
+*/
+interface Props {
+  tone?: 'sage' | 'salt';
+  rule?: boolean;
+  align?: 'start' | 'end';
+  as?: 'p' | 'figcaption' | 'span';
+  class?: string;
+}
+const { tone = 'sage', rule = true, align = 'start', as: Tag = 'p', class: className } = Astro.props;
+---
+<Tag class:list={['cap', `cap--${tone}`, `cap--${align}`, rule && 'cap--rule', className]}><span class="cap__text"><slot /></span></Tag>
+
+<style>
+  .cap {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin: 0.75rem 0 0;
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: var(--fs-caption);
+    line-height: 1.35;
+    letter-spacing: 0.005em;
+    color: var(--sage-80);
+  }
+  .cap--end { justify-content: flex-end; text-align: right; }
+  .cap--rule::before {
+    content: '';
+    flex: none;
+    width: 1.5rem;
+    height: 1px;
+    translate: 0 -0.3em;
+    background: var(--sage-40);
+  }
+  .cap--salt { color: var(--on-image); text-shadow: 0 1px 14px rgb(20 50 64 / 0.45); }
+  .cap--salt.cap--rule::before { background: currentColor; opacity: 0.75; }
+</style>

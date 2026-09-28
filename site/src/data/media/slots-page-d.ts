@@ -224,6 +224,28 @@ const raw: MediaSlot[] = [
     note: 'Text sits lower left over calm water.',
     tone: 'sea',
   },
+
+  // L4 rebuild, 28-09-2026: journal images from the live posts on lamarea.com.au, and new openers
+  { id: 'jr-lasagna', src: '/media/journal-lasagna.jpg', position: '50% 55%', type: 'image', alt: 'A vegetable lasagne fresh from the oven in a glass dish on a wooden board', aspect: '4 / 5', tone: 'sand', suggested: 'The live post\'s image, lamarea.com.au/post/med-inspired-vegetable-lasagna' },
+  { id: 'jr-gnocchi', src: '/media/journal-gnocchi.jpg', position: '50% 50%', type: 'image', alt: 'A bowl of Mediterranean gnocchi with roasted vegetables, cherry tomatoes, goat cheese and parsley', aspect: '4 / 5', tone: 'sand', suggested: 'The live post\'s image, lamarea.com.au/post/mediterranean-gnocchi' },
+  { id: 'jr-sleep', src: '/media/naiko-bedroom-bath-sea.jpg', position: '50% 55%', type: 'image', alt: 'A made bed facing floor-to-ceiling windows, a freestanding bath and the sea and headland beyond', aspect: '4 / 5', tone: 'salt', suggested: 'The live post\'s image, credited "Naiko, Deep Creek" (lamarea.com.au/post/the-importance-of-sleep)' },
+  { id: 'collective-opener', src: '/media/drone-emerald-water-boats-top-down.jpg', position: '50% 50%', type: 'image', alt: 'Emerald shallows from directly above, three white boats moored beside a rock edge', aspect: '16 / 9', tone: 'sea', suggested: 'DJI_0604.MP4 frame at 106 seconds' },
+  { id: 'gallery-opener', src: '/media/coast-cove-house-drone.jpg', srcMobile: '/media/coast-cove-house-drone-mobile.jpg', position: '45% 50%', type: 'image', alt: 'The retreat house on a green hillside above a turquoise cove and dark cliffs, seen from the air', aspect: '16 / 9', tone: 'sea', suggested: 'Pool homepage5' },
+
+  // L4 rebuild, 28-09-2026: the gallery wall, frames from the Naiko Deep Creek retreat shoot (Belle's Drive)
+  { id: 'gallery-wall-1', src: '/media/mats-glass-room-sea.jpg', type: 'image', alt: 'Mats laid out in a glass room above the sea', aspect: '3 / 4', tone: 'salt', suggested: 'Pool, mats-glass-room-sea' },
+  { id: 'gallery-wall-2', src: '/media/deck-sea-guests.jpg', type: 'image', alt: 'Guests on the sunlit deck, a big sky and the sea beyond the rail', aspect: '4 / 3', tone: 'salt', suggested: 'Pool, deck-sea-guests' },
+  { id: 'gallery-wall-3', src: '/media/table-three-women-sea.jpg', type: 'image', alt: 'Three women around the long table by the windows onto the sea', aspect: '4 / 5', tone: 'salt', suggested: 'Pool, table-three-women-sea' },
+  { id: 'gallery-wall-4', src: '/media/yoga-side-bend-window.jpg', type: 'image', alt: 'Guests in a side bend by the window, arms reaching over', aspect: '2 / 3', tone: 'salt', suggested: 'Pool, yoga-side-bend-window' },
+  { id: 'gallery-wall-5', src: '/media/long-table-overhead-group.jpg', type: 'image', alt: 'A group sharing lunch around one long table, seen from above', aspect: '1 / 1', tone: 'salt', suggested: 'Pool, long-table-overhead-group' },
+  { id: 'gallery-wall-6', src: '/media/deck-breathwork-sky.jpg', type: 'image', alt: 'Guests lying along the deck under a big sky, the sea beyond the rail', aspect: '4 / 3', tone: 'salt', suggested: 'Pool, deck-breathwork-sky' },
+  { id: 'gallery-wall-7', src: '/media/barrel-sauna-towels-sea.jpg', type: 'image', alt: 'Guests with towels beside the barrel sauna on the clifftop, the sea beyond', aspect: '3 / 4', tone: 'salt', suggested: 'Pool, barrel-sauna-towels-sea' },
+  { id: 'gallery-wall-8', src: '/media/luca-plating-window.jpg', type: 'image', alt: 'Luca plating at the kitchen bench by the window, glasses set out beside him', aspect: '4 / 5', tone: 'salt', suggested: 'Pool, luca-plating-window' },
+  { id: 'gallery-wall-9', src: '/media/hillside-walk-three.jpg', type: 'image', alt: 'Three women walking up a green hillside in the sun', aspect: '3 / 2', tone: 'salt', suggested: 'Pool, hillside-walk-three' },
+  { id: 'gallery-wall-10', src: '/media/bath-window-sea.jpg', type: 'image', alt: 'The freestanding bath beside a tall window onto the hills and sea, a candle on the stool', aspect: '4 / 5', tone: 'salt', suggested: 'Pool, bath-window-sea' },
+  { id: 'gallery-wall-11', src: '/media/kingfish-plate.jpg', type: 'image', alt: 'Slices of kingfish with orange and herb oil on a white plate', aspect: '1 / 1', tone: 'salt', suggested: 'Pool, kingfish-plate' },
+  { id: 'gallery-wall-12', src: '/media/breathwork-floor-hills.jpg', type: 'image', alt: 'Guests lying on mats under the verandah as a facilitator walks past, green hills beyond', aspect: '3 / 4', tone: 'salt', suggested: 'Pool, breathwork-floor-hills' },
+  { id: 'gallery-wall-13', src: '/media/cup-sea-view.jpg', type: 'image', alt: 'A woman holding a cup, looking out over the grassy headland to the sea', aspect: '4 / 5', tone: 'salt', suggested: 'Pool, cup-sea-view' },
 ];
 
 export const slots: MediaSlot[] = raw.map((slot) => ({ ...slot, note: slot.note ? `${slot.note} ${GRADE}` : GRADE }));

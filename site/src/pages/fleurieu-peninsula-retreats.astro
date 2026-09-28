@@ -14,17 +14,19 @@
   (venue sites, build spec 12), 90 to 120 minutes the airport transfer (live FAQ 12).
 */
 import Base from '../layouts/Base.astro';
-import Band from '../components/pages/c/Band.astro';
+import PageOpener from '../components/base/PageOpener.astro';
+import OffsetPair from '../components/base/OffsetPair.astro';
+import ClosingTide from '../components/base/ClosingTide.astro';
+import Caption from '../components/base/Caption.astro';
+import Breadcrumbs from '../components/base/Breadcrumbs.astro';
+import FactLine from '../components/pages/c/FactLine.astro';
 import AnswerBlock from '../components/base/AnswerBlock.astro';
 import SectionHead from '../components/base/SectionHead.astro';
 import Eyebrow from '../components/base/Eyebrow.astro';
 import ArrowLink from '../components/base/ArrowLink.astro';
-import CtaBand from '../components/base/CtaBand.astro';
 import Reveal from '../components/base/Reveal.astro';
-import SlideIn from '../components/base/SlideIn.astro';
 import Media from '../components/media/Media.astro';
 import FleurieuMap from '../components/map/FleurieuMap.astro';
-import WildSide from '../components/pages/c/WildSide.astro';
 import LocalBusinesses from '../components/pages/c/LocalBusinesses.astro';
 import NoteFlag from '../components/pages/c/NoteFlag.astro';
 import { faqJsonLd } from '../components/base/schema';
@@ -40,14 +42,20 @@ const where = {
     'The Fleurieu Peninsula runs south of Adelaide in South Australia, from the vineyards of McLaren Vale down to the coast at Deep Creek, Victor Harbor and Encounter Bay. McLaren Vale is about 50 minutes from Adelaide and Deep Creek about 90 minutes. From Adelaide Airport, the transfer typically takes 90 to 120 minutes, depending on traffic and time of day.',
 };
 
-const frames = [
-  { media: 'fleurieu-wild-dolphins', subject: 'Dolphins', where: 'Near the rocks below Naiko, Deep Creek' },
-  { media: 'fleurieu-wild-seals', subject: 'Seals' },
-  { media: 'fleurieu-wild-kangaroos', subject: 'Kangaroos' },
-  { media: 'fleurieu-wild-ocean', subject: 'The ocean' },
-  { media: 'fleurieu-wild-hiking', subject: 'Coastal walks', where: 'The Heysen Trail, Deep Creek' },
-  { media: 'fleurieu-whales', subject: 'Whales', where: 'May to October, off Deep Creek' },
+/* The wild side, only frames that exist (P7): Belle's nature reel, then three stills, offset at 4:5. */
+const wild = [
+  { media: 'c-xp-nature-reel', subject: 'Nature immersion' },
+  { media: 'c-fl-kangaroo', subject: 'Kangaroos' },
+  { media: 'c-fl-surf', subject: 'The ocean' },
+  { media: 'c-fl-bluff', subject: 'The coast at Encounter Bay' },
 ];
+/* The distances, pulled out of the answer below in its own words (audience review). */
+const glance = [
+  { k: 'McLaren Vale', v: 'about 50 minutes' },
+  { k: 'Deep Creek', v: 'about 90 minutes' },
+  { k: 'Adelaide Airport transfer', v: '90 to 120 minutes' },
+];
+
 
 const jsonLd = [
   {
@@ -69,7 +77,19 @@ const jsonLd = [
   headerTone="over-media"
   jsonLd={jsonLd}
 >
-  <Band media="fleurieu-hero" height="screen" hero text="over" level={1} eyebrow="The Fleurieu Peninsula, South Australia" heading="Where is the *Fleurieu Peninsula*?" body="The coast and vineyards south of Adelaide where every La maréa retreat happens, for guests coming from interstate." draft={{ body: true }} />
+  <PageOpener
+    media="c-fleurieu-coast-ochre"
+    lines={['Where is the', '*Fleurieu*', '*Peninsula*?']}
+    sub="The coast and vineyards south of Adelaide where every La maréa retreat happens, for guests coming from interstate."
+    subDraft
+    caption="The Fleurieu Peninsula, South Australia"
+    id="fl-title"
+  />
+
+  <div class="wrap fl-top">
+    <Breadcrumbs items={[{ label: 'Venues', href: '/places' }, { label: 'The Fleurieu Peninsula' }]} />
+    <FactLine items={glance} label="Drive times from Adelaide" />
+  </div>
 
   <section class="section fl-where">
     <div class="wrap">
@@ -86,6 +106,7 @@ const jsonLd = [
       </Reveal>
     </div>
     <FleurieuMap venues={venues} id="fleurieu-map" class="fmap--wide" />
+    <div class="wrap fl-map__more"><ArrowLink href="/places" label="See the Places to Pause" /></div>
   </section>
 
   <section class="section band-salt fl-wild" aria-labelledby="fl-wild-heading">
@@ -100,26 +121,29 @@ const jsonLd = [
         />
       </Reveal>
     </div>
-    <WildSide frames={frames} />
+    <ul class="wrap fl-wild__trio" role="list">
+      {wild.map((w, i) => (
+        <li class={`fl-wild__item fl-wild__item--${i + 1}`} data-drift={i % 2 ? '1.06' : '0.94'}>
+          <figure>
+            <div class="fl-wild__frame"><Media media={w.media} aspect="4 / 5" sizes="(max-width: 699px) 80vw, 24vw" /></div>
+            <Caption as="figcaption">{w.subject}</Caption>
+          </figure>
+        </li>
+      ))}
+    </ul>
     <div class="wrap">
-      <NoteFlag items={['Captions to come from Belle. The dolphin, seal and kangaroo footage is her iPhone footage, not yet located (S5). Places are named only where the Naiko site says so.']} />
+      <NoteFlag items={['The dolphin, seal and whale footage is Belle\'s iPhone footage, not yet located (S5); those frames stay off the page until it arrives. Places are named only where the Naiko site says so.']} />
     </div>
   </section>
 
   <section class="section fl-belle" aria-labelledby="fl-belle-heading">
-    <div class="wrap fl-belle__grid">
-      <div class="fl-belle__media">
-        <SlideIn from="left" distance="12%" class="fl-belle__portrait"><div><Media media="fleurieu-belle" aspect="4 / 5" /></div></SlideIn>
-        <SlideIn distance="16%" index={1} class="fl-belle__vines"><div><Media media="fleurieu-vines" aspect="3 / 2" /></div></SlideIn>
-      </div>
-      <Reveal class="fl-belle__text">
-        <Eyebrow>Belle's Fleurieu</Eyebrow>
-        <h2 class="fl-belle__heading" id="fl-belle-heading" set:html={emphasis('The *Fleurieu Peninsula* has always been home for me.')} />
-        <p>She grew up in McLaren Vale on thirteen acres of land, spending most of her childhood outdoors, training for swimming and surf lifesaving at Moana Beach.</p>
-        <p>Her love for the Fleurieu Peninsula was nurtured from a young age, with her summers filled with long days at Myponga Beach, family, water activities, sunshine, and afternoons enjoying freshly caught squid.</p>
-        <ArrowLink href="/our-story" label="Read our story" class="fl-belle__link" />
-      </Reveal>
-    </div>
+    <OffsetPair large="c-fl-vines" detail="c-fl-cove" caption="McLaren Vale" detailCaption="The Fleurieu coast">
+      <p class="fl-eyebrow">Belle's Fleurieu</p>
+      <h2 class="fl-belle__heading" id="fl-belle-heading" set:html={emphasis('The *Fleurieu Peninsula* has always been home for me.')} />
+      <p>She grew up in McLaren Vale on thirteen acres of land, spending most of her childhood outdoors, training for swimming and surf lifesaving at Moana Beach.</p>
+      <p>Her love for the Fleurieu Peninsula was nurtured from a young age, with her summers filled with long days at Myponga Beach, family, water activities, sunshine, and afternoons enjoying freshly caught squid.</p>
+      <ArrowLink href="/our-story" label="Read our story" class="fl-belle__link" />
+    </OffsetPair>
   </section>
 
   <section class="section band-warm fl-local" aria-labelledby="fl-local-heading">
@@ -134,23 +158,31 @@ const jsonLd = [
     </div>
   </section>
 
-  <CtaBand line="Bring your group to the *Fleurieu*" params={{ source: 'fleurieu' }} tone="salt" draft={{ line: true }} secondary={{ label: 'See the Places to Pause', href: '/places' }} />
+  <ClosingTide line="Bring your group to the *Fleurieu*" params={{ source: 'fleurieu' }} lineDraft />
 </Base>
 
 <style>
   .fl-where { padding-bottom: calc(var(--section-y) * 0.85); }
   .fl-map { padding-bottom: var(--section-y); }
+  .fl-map__more { margin-top: clamp(1.5rem, 3vw, 2.5rem); }
   .fl-wild :global(.c-flag) { margin-top: 1.75rem; }
 
-  .fl-belle__grid { display: grid; gap: var(--space-xl) clamp(2rem, 6vw, 7.5rem); align-items: center; }
-  .fl-belle__media { position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: end; }
-  .fl-belle__media :global(.fl-belle__portrait) { grid-column: 1 / span 8; grid-row: 1; }
-  .fl-belle__media :global(.fl-belle__vines) { grid-column: 6 / span 7; grid-row: 1; margin-bottom: -12%; border: clamp(6px, 0.8vw, 10px) solid var(--sand-30); }
+
+  .fl-top { display: grid; gap: 1.25rem; padding-top: clamp(1.5rem, 3vw, 2.5rem); }
+  .fl-eyebrow { margin: 0 0 1rem; font-family: var(--font-editorial); font-style: italic; font-size: 1.1875rem; color: var(--sage-80); }
   .fl-belle__heading { margin: 0 0 1.5rem; max-width: 13em; }
-  .fl-belle :global(.fl-belle__text) p { color: var(--sage-100); }
+  .fl-belle p { color: var(--sage-100); }
   .fl-belle :global(.fl-belle__link) { margin-top: 1rem; }
+
+  .fl-wild__trio { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 1rem; margin: clamp(2rem, 4vw, 3rem) auto 0; padding-inline: var(--gutter); list-style: none; }
+  .fl-wild__trio figure { margin: 0; }
+  .fl-wild__frame { overflow: hidden; }
+  .fl-wild__item--2, .fl-wild__item--4 { margin-top: 3rem; }
   @media (min-width: 900px) {
-    .fl-belle__grid { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
+    .fl-wild__trio { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(1.5rem, 3vw, 3rem); align-items: start; }
+    .fl-wild__item--2 { margin-top: 6rem; }
+    .fl-wild__item--3 { margin-top: 2rem; }
+    .fl-wild__item--4 { margin-top: 8rem; }
   }
 
   .fl-local__grid { display: grid; gap: var(--space-l) clamp(2rem, 6vw, 7.5rem); align-items: start; }

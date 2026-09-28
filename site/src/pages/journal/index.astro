@@ -17,13 +17,14 @@ import SectionHead from '../../components/base/SectionHead.astro';
 import Eyebrow from '../../components/base/Eyebrow.astro';
 import LeadCapture from '../../components/base/LeadCapture.astro';
 import Reveal from '../../components/base/Reveal.astro';
-import CtaBand from '../../components/base/CtaBand.astro';
+import ClosingTide from '../../components/base/ClosingTide.astro';
+import JournalCover from '../../components/journal/JournalCover.astro';
 import JournalCards from '../../components/journal/JournalCards.astro';
 import FeaturedPost from '../../components/pages/c/FeaturedPost.astro';
 import NoteFlag from '../../components/pages/c/NoteFlag.astro';
 import { authorOf, minutesOf } from '../../components/pages/c/lib/journal';
 import { getJournal, peopleById } from '../../lib/content';
-import { site, cta } from '../../data/settings';
+import { site } from '../../data/settings';
 
 const posts = await getJournal();
 const people = await peopleById();
@@ -46,24 +47,17 @@ const jsonLd = {
 <Base
   title="Journal and recipes"
   description="Research, recipes and lifestyle wellness from La maréa, rooted in the Mediterranean way of eating and the evidence behind rest, movement and food."
+  headerTone="over-media"
   jsonLd={jsonLd}
 >
-  <section class="section j-head">
-    <div class="wrap j-head__grid">
-      <div>
-        <Eyebrow>Research and recipes</Eyebrow>
-        <h1 class="j-head__title">Wellness journal and recipes</h1>
-      </div>
-      <p class="j-head__intro">Food and nutrition are integral to our philosophy. Our lifestyle wellness retreats are deeply inspired by the Mediterranean way of living, where nourishment is simple, seasonal, and shared.</p>
-    </div>
-  </section>
-
   {featured && (
-    <section class="section section--flush-top" aria-label="The latest story">
-      <div class="wrap">
-        <FeaturedPost post={featured} minutes={minutesOf(featured)} author={authorOf(featured, people)} />
-      </div>
-    </section>
+    <JournalCover
+      post={featured}
+      minutes={minutesOf(featured)}
+      eyebrow="Research and recipes"
+      masthead="Wellness journal and recipes"
+      intro="Food and nutrition are integral to our philosophy. Our lifestyle wellness retreats are deeply inspired by the Mediterranean way of living, where nourishment is simple, seasonal, and shared."
+    />
   )}
 
   {/* Under eight posts the slider only repeated the grid, so the page shows the latest story and then
@@ -80,9 +74,9 @@ const jsonLd = {
 
 
   {posts.length > 1 && (
-  <section class="section j-all" aria-labelledby="all-heading">
+  <section class="section j-all section--tight-top" aria-labelledby="all-heading">
     <div class="wrap">
-      <Reveal><SectionHead id="all-heading" eyebrow="Browse by topic" heading="Every story" /></Reveal>
+      <Reveal><SectionHead id="all-heading" eyebrow="Browse by topic" heading="Every story" size="small" /></Reveal>
       <JournalCards posts={posts} variant="grid" label="Every story in the wellness journal" id="journal-grid" />
       <NoteFlag items={['Category names are decision 24: "Recipes" follows Belle\'s own "research and recipe section" and "Sleep and recovery" is the live category.']} />
     </div>
@@ -100,7 +94,7 @@ const jsonLd = {
     </div>
   </section>
 
-  <CtaBand line="Curate your 8 hour immersive retreat" params={{ source: 'journal' }} note={cta.callNote} tone="salt" draft={{ line: true }} />
+  <ClosingTide line="Curate your 8 hour immersive retreat" lineDraft params={{ source: 'journal' }} />
 </Base>
 
 <style>

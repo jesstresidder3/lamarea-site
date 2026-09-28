@@ -1,36 +1,46 @@
 ---
 /*
-  Home, Salt and Sun (redesign build 27-09-2026). The seven sections of the UX document
-  (build/design/ux-information-architecture-27-09-2026.md section 5), in the visual language of
-  build/design/luxury-redesign-direction-27-09-2026.md. The ground drifts from morning salt at the top
-  to dusk sand at the bottom (Base dayTone).
+  Home, rebuilt round 1 (28-09-2026): one story that unfolds, each section handing over to the next
+  rather than stacking as rectangles. The ground drifts from morning salt at the top to dusk sand at
+  the bottom (Base dayTone).
 
-  1 Hero: the framed horizon, Belle's line, the product line, two doors
-  2 The 8 hour immersive retreat in brief: the sticky split day, four beats, the tide line
-  3 Experiences: the pinned sideways gallery, guided and self-led together (the culinary two included)
-  4 Places to Pause: the arch, the venue list and the pinned map
-  5 Our difference: Belle's five, then her ten pillar names drifting past
-  6 In our guests' words: one review at a time
-  7 Plan your day: the page ends at dusk, with the one pill in the body
+  1 Opening: one full-bleed scene with Belle's line that parts into the two worlds (kept as built)
+  2 The story begins: Belle's "La maréa was created as an invitation to pause." over her drone footage
+    of the Fleurieu coast, opening to full bleed and settling as it passes (StoryBegins)
+  3 The 8 hour day: its heading rises over the coast footage (P4 handover), then the sticky split with
+    a full-height photograph that slides in from the right for each part (PinnedDay overlap)
+  4 The experiences: the pinned strip in the five-beat rhythm, the heading holding still at the left
+  5 The food: plates that slide in from the right (P6 SlideStrip), to /food
+  6 Places to Pause: the arch, the venue list and the map behind them
+  7 Our difference: Belle's five on a panel overlapping the hidden cove (P2), then the pillar drift
+  8 In our guests' words: one review at a time, each with a photograph of that kind of day
+  9 The invitation: Restore. Reconnect. Realign. over the coastline pulling away (P5 ClosingTide),
+    and the footer follows on sand
 
   Every word is Belle's or already on the site; drafted lines keep their data-draft marker.
 */
 import Base from '../layouts/Base.astro';
-import Hero from '../components/hero/Hero.astro';
+import Opening from '../components/hero/Opening.astro';
+import StoryBegins from '../components/home/StoryBegins.astro';
 import PinnedDay from '../components/day/PinnedDay.astro';
 import ExperienceGallery from '../components/experiences/ExperienceGallery.astro';
+import FoodStrip from '../components/home/FoodStrip.astro';
 import PlacesArches from '../components/venues/PlacesArches.astro';
-import DifferenceRows from '../components/home/DifferenceRows.astro';
+import Difference from '../components/home/Difference.astro';
 import PillarDrift from '../components/home/PillarDrift.astro';
 import GuestWords from '../components/home/GuestWords.astro';
-import PlanClose from '../components/home/PlanClose.astro';
+import ClosingTide from '../components/base/ClosingTide.astro';
 import { getExperiences, getVenues, getTestimonials } from '../lib/content';
 import { differences, site } from '../data/settings';
 
 const guided = await getExperiences('guided');
 const selfLed = await getExperiences('self_led');
 const venues = await getVenues();
-const reviews = await getTestimonials();
+// Reviews alternate between corporate teams and private groups, so neither reads as the whole story.
+const allReviews = await getTestimonials();
+const corp = allReviews.filter((t) => t.data.group_type === 'corporate');
+const rest = allReviews.filter((t) => t.data.group_type !== 'corporate');
+const reviews = Array.from({ length: Math.max(corp.length, rest.length) }, (_, i) => [rest[i], corp[i]]).flat().filter((t): t is (typeof allReviews)[number] => Boolean(t));
 
 // Each difference links to its proof (as before). Difference 4 goes to the team, where the local
 // businesses behind the day are named.
@@ -45,7 +55,6 @@ const rows = differences.map((d, i) => ({
   text: d.display,
   href: proof[d.id]?.href ?? d.href,
   linkLabel: proof[d.id]?.label,
-  media: `home-difference-${String(i + 1).padStart(2, '0')}`,
 }));
 
 const jsonLd = {
@@ -62,13 +71,15 @@ const jsonLd = {
 <Base
   title="Luxury wellness retreats, Fleurieu Peninsula"
   description="8 hour luxury wellness retreats for private groups and corporate teams on the Fleurieu Peninsula, south of Adelaide, South Australia."
-  headerTone="over-media"
+  headerTone="immersive"
   dayTone
   jsonLd={jsonLd}
 >
-  <Hero />
+  <Opening />
 
-  <PinnedDay params={{ format: 'full-day', source: 'home' }} plan={false} />
+  <StoryBegins />
+
+  <PinnedDay params={{ format: 'full-day', source: 'home' }} plan={false} overlap />
 
   <ExperienceGallery
     items={[...guided, ...selfLed]}
@@ -76,17 +87,24 @@ const jsonLd = {
     heading="Your retreat, your rhythm, your routine"
     intro="Luxury South Australian wellness experiences, curated to form La maréa."
     link={{ href: '/experiences', label: 'See every experience' }}
+    lead="home-experiences-lead"
   />
+
+  <FoodStrip />
 
   <PlacesArches
     venues={venues}
     intro="La maréa retreats are intentionally limited and venue selection is highly considered."
   />
 
-  <DifferenceRows items={rows} />
+  <Difference items={rows} />
   <PillarDrift />
 
-  <GuestWords items={reviews} />
+  <GuestWords items={reviews} max={6} />
 
-  <PlanClose />
+  <ClosingTide
+    line="Restore. Reconnect. Realign."
+    params={{ source: 'home' }}
+    id="home-close"
+  />
 </Base>

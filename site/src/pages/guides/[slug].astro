@@ -14,7 +14,7 @@ import Base from '../../layouts/Base.astro';
 import PageIntro from '../../components/pages/d/PageIntro.astro';
 import ListCapture from '../../components/pages/d/ListCapture.astro';
 import ReviewNote from '../../components/pages/d/ReviewNote.astro';
-import CtaBand from '../../components/base/CtaBand.astro';
+import ClosingTide from '../../components/base/ClosingTide.astro';
 
 export function getStaticPaths() {
   const guides = [
@@ -92,13 +92,7 @@ const { guide } = Astro.props;
     </div>
   </section>
 
-  <CtaBand
-    line={guide.cta}
-    params={{ audience: guide.audience, source: guide.slug }}
-    secondary={guide.path}
-    tone="warm"
-    draft={{ line: true }}
-  />
+  <ClosingTide line={guide.cta} lineDraft params={{ audience: guide.audience, source: guide.slug }} />
 </Base>
 
 <style>

@@ -9,11 +9,13 @@
   The page reads correctly whether members end up in a site area or the app (K5, Belle decides).
 */
 import Base from '../layouts/Base.astro';
-import MediaBand from '../components/base/MediaBand.astro';
+import PageOpener from '../components/base/PageOpener.astro';
+import OffsetPair from '../components/base/OffsetPair.astro';
+import ClosingTide from '../components/base/ClosingTide.astro';
+import ArrowLink from '../components/base/ArrowLink.astro';
+import Eyebrow from '../components/base/Eyebrow.astro';
 import SectionHead from '../components/base/SectionHead.astro';
 import NumberedMoments from '../components/base/NumberedMoments.astro';
-import TextPair from '../components/base/TextPair.astro';
-import CtaBand from '../components/base/CtaBand.astro';
 import Reveal from '../components/base/Reveal.astro';
 import Media from '../components/media/Media.astro';
 import Statement from '../components/pages/d/Statement.astro';
@@ -23,19 +25,16 @@ const benefits = [
   {
     title: 'First release retreats',
     text: 'Members hear about new La maréa retreats before they are released to everyone else.',
-    media: 'collective-first-release',
     draft: true,
   },
   {
     title: 'Recipes',
     text: 'Seasonal, plant-based Mediterranean recipes to cook at home between retreats.',
-    media: 'collective-recipes',
     draft: true,
   },
   {
     title: 'Resources',
     text: 'Lifestyle wellness resources from the La maréa team, to keep the habits from your retreat going.',
-    media: 'collective-resources',
     draft: true,
   },
 ];
@@ -43,21 +42,14 @@ const benefits = [
 <Base
   title="Rising Tides Collective"
   description="The Rising Tides Collective is La maréa’s private space for past guests of its Fleurieu Peninsula retreats. Membership comes with attending a retreat."
-  headerTone="over-media"
 >
-  <!-- MediaBand sits in a div: a direct child of <Base> with a `slot` prop would be read as a named slot. -->
-  <div>
-  <MediaBand
-    media="collective-hero"
-    height="tall"
-    hero
-    text="over"
+  <PageOpener
+    media="collective-opener"
+    lines={['The Rising', 'Tides', 'Collective']}
     eyebrow="A private collective"
-    heading="The Rising Tides Collective"
-    level={1}
-    parallax={false}
+    shadeAt="top-left"
+    caption="Fleurieu Peninsula"
   />
-  </div>
 
   <section class="section wrap" aria-labelledby="collective-what">
     <Reveal>
@@ -76,21 +68,17 @@ const benefits = [
     </div>
   </section>
 
-  <section class="section wrap">
-    <TextPair heading="How you join" mediaSide="left" split="wide">
+  <section class="section collective-join" aria-labelledby="join-heading">
+    <OffsetPair large="collective-join" detail="collective-recipes" side="right" caption="The shared table">
+      <Eyebrow>Membership</Eyebrow>
+      <h2 id="join-heading">How you join</h2>
       <p data-draft>Membership cannot be bought or chosen. You join by attending a La maréa retreat or experience, and every guest becomes a member automatically afterwards.</p>
       <ReviewNote>Where members find the recipes and resources, a site area or the app, is Belle’s decision (K5). This page reads the same either way and names no login and no dates.</ReviewNote>
-      <div slot="media" class="join-media"><Media media="collective-join" aspect="4 / 5" /></div>
-    </TextPair>
+      <ArrowLink href="/app" label="The La maréa app" />
+    </OffsetPair>
   </section>
 
-  <CtaBand
-    line="Begin with a day on the *Fleurieu*"
-    params={{ source: 'collective' }}
-    secondary={{ label: 'The La maréa app', href: '/app' }}
-    tone="warm"
-    draft={{ line: true }}
-  />
+  <ClosingTide line="Begin with a day on the *Fleurieu*" lineDraft params={{ source: 'collective' }} />
 </Base>
 
 <style>
@@ -100,5 +88,6 @@ const benefits = [
     .receive { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(2rem, 6vw, 7.5rem); align-items: start; }
     .receive :global(.receive__head) { position: sticky; top: calc(var(--header-compact) + 2.5rem); }
   }
-  .join-media { width: min(100%, 34rem); margin-left: auto; }
+  .collective-join :global(.opair__text p) { color: var(--sage-100); max-width: 30rem; }
+  .collective-join :global(.opair__text h2) { margin: 0.5rem 0 1.25rem; }
 </style>

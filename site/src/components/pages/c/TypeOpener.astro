@@ -1,0 +1,72 @@
+---
+/*
+  TypeOpener (L3 rebuild, 28-09-2026): the type-led opener for a page whose photograph has not
+  arrived (art review P1 variant and P7). The name in HV Muse at up to 88px on sand, broken at three
+  indents like the photographic opener, a small italic eyebrow above, a P3 caption under it. The
+  words rise in once; nothing else moves. Reduced motion: static.
+
+  <TypeOpener lines={['Infrared', 'sauna']} eyebrow="Self-led, in the unhurried afternoon" caption="In the day, 1pm to 4pm" />
+*/
+import Caption from '../../base/Caption.astro';
+import { emphasis } from '../../base/text';
+
+interface Props { lines: string[]; eyebrow?: string; caption?: string; sub?: string; id?: string }
+const { lines, eyebrow, caption, sub, id = 'page-title' } = Astro.props;
+---
+<section class="to" aria-labelledby={id} data-no-split>
+  <div class="to__in">
+    {eyebrow && <p class="to__eyebrow">{eyebrow}</p>}
+    <h1 class="to__title" id={id}>
+      {lines.map((l, i) => <span class={`to__line to__line--${i + 1}`}><span class="to__line-in" set:html={emphasis(l)} /></span>)}
+    </h1>
+    {sub && <p class="to__sub">{sub}</p>}
+    {caption && <Caption class="to__cap">{caption}</Caption>}
+  </div>
+  <svg class="to__tide" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path d="M0 70 C 240 30, 480 110, 720 70 S 1200 30, 1440 70" />
+    <path d="M0 92 C 260 60, 520 124, 780 92 S 1220 60, 1440 92" />
+  </svg>
+</section>
+
+<style>
+  .to {
+    position: relative;
+    min-height: min(70svh, 42rem);
+    display: grid;
+    align-items: end;
+    padding: clamp(3rem, 12svh, 7rem) var(--gutter) clamp(4rem, 12svh, 8rem);
+    background: var(--sand-30);
+    overflow: hidden;
+  }
+  .to__eyebrow { margin: 0 0 1.5rem; font-family: var(--font-editorial); font-style: italic; font-size: 1.1875rem; color: var(--sage-80); }
+  .to__title {
+    margin: 0;
+    display: grid;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.75rem, 1rem + 4.4vw, 5.5rem);
+    line-height: 0.98;
+    color: var(--sage-100);
+  }
+  .to__line { display: block; }
+  .to__line-in { display: inline-block; }
+  .to__line--2 { padding-left: 1.3em; }
+  .to__line--3 { padding-left: 0.5em; }
+  .to__sub { margin: 2rem 0 0; max-width: 30rem; font-size: 0.9375rem; line-height: 1.6; color: var(--sage-100); }
+  .to :global(.to__cap) { margin-top: 1.75rem; }
+  .to__tide { position: absolute; left: 0; right: 0; bottom: 1.5rem; width: 100%; height: 5rem; pointer-events: none; }
+  .to__tide path { fill: none; stroke: var(--sage-40); stroke-width: 1; vector-effect: non-scaling-stroke; opacity: 0.55; }
+  .to__tide path + path { opacity: 0.3; }
+  @media (max-width: 699px) {
+    .to__title { font-size: clamp(2.35rem, 1rem + 6.2vw, 2.9rem); line-height: 1.02; }
+    .to__line--2 { padding-left: 0.6em; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.mo) .to__line-in { animation: to-rise 1300ms var(--ease-settle) both; }
+    :global(html.mo) .to__line--2 .to__line-in { animation-delay: 140ms; }
+    :global(html.mo) .to__line--3 .to__line-in { animation-delay: 280ms; }
+    :global(html.mo) .to__tide { animation: to-drift 18s var(--ease-tide) infinite alternate; }
+  }
+  @keyframes to-rise { from { opacity: 0; translate: 0 0.45em; } to { opacity: 1; translate: 0 0; } }
+  @keyframes to-drift { from { translate: -2% 0; } to { translate: 2% 0; } }
+</style>

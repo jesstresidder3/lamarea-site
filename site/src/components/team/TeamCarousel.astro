@@ -20,6 +20,7 @@ import ArrowLink from '../base/ArrowLink.astro';
 import SliderArrows from '../slider/SliderArrows.astro';
 import { splitLead, uid } from '../../lib/text';
 import type { Person, Pillar } from '../../lib/content';
+import { media } from '../../data/media';
 
 interface Tab { id: string; label: string; people: Person[] }
 interface Props { tabs: Tab[]; pillars?: Map<string, Pillar>; linkBase?: string; id?: string; class?: string }
@@ -27,6 +28,8 @@ const { tabs, pillars, linkBase = '/team/', id, class: className } = Astro.props
 const base = id ?? uid('team');
 const first = (n: string) => n.split(' ')[0];
 const iconName = (file: string) => file.replace(/\.svg$/, '');
+// P7: a person with no portrait yet stands as a type card (their first name set large on sand), never an empty frame.
+const hasPortrait = (p: Person) => Boolean(media(p.data.portrait).src);
 ---
 <div class:list={['team', className]} id={id} data-team>
   {tabs.length > 1 && (
@@ -46,7 +49,9 @@ const iconName = (file: string) => file.replace(/\.svg$/, '');
           <div class="tc-portraits" data-tc-portraits>
             {t.people.map((p, i) => (
               <div class="tc-portrait" data-tc-portrait data-pos={i === 0 ? 'current' : i === 1 ? 'next' : 'off'} aria-hidden={i === 0 ? undefined : 'true'}>
-                <Media media={p.data.portrait} aspect="fill" />
+                {hasPortrait(p)
+                  ? <Media media={p.data.portrait} aspect="fill" />
+                  : <div class="tc-typecard" aria-hidden="true"><span class="tc-typecard__name">{first(p.data.name)}</span><span class="tc-typecard__role">{p.data.role}</span></div>}
               </div>
             ))}
           </div>
@@ -158,6 +163,21 @@ const iconName = (file: string) => file.replace(/\.svg$/, '');
   }
   .tc-portrait[data-pos='current'] { flex-shrink: 0; width: clamp(15rem, 25vw, 23.5rem); aspect-ratio: 4 / 5; opacity: 1; }
   .tc-portrait[data-pos='off'] { display: none; }
+  .tc-typecard {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: clamp(1rem, 2.5vw, 2rem);
+    background: linear-gradient(170deg, var(--salt-25), var(--sand-40));
+    border: 1px solid var(--rule);
+  }
+  .tc-typecard__name { font-family: var(--font-editorial); font-style: italic; font-size: clamp(2.25rem, 1.5rem + 2.4vw, 4rem); line-height: 1; color: var(--sage-80); }
+  .tc-typecard__role { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .tc-portrait:not([data-pos='current']) .tc-typecard__name { font-size: 1.35rem; }
+  .tc-portrait:not([data-pos='current']) .tc-typecard__role { display: none; }
 
   .tc-details { min-width: 0; }
   /* Only the current person is laid out, so a long bio never leaves a gap under a short one. It fades in. */

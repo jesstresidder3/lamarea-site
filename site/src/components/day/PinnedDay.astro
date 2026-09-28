@@ -22,7 +22,7 @@ import ArrowLink from '../base/ArrowLink.astro';
 import Eyebrow from '../base/Eyebrow.astro';
 import { emphasis, withParams, numeral } from '../base/text';
 import { day } from '../../data/day';
-import { cta } from '../../data/settings';
+import { cta, flagshipName } from '../../data/settings';
 
 interface Props {
   heading?: string;
@@ -32,21 +32,24 @@ interface Props {
   plan?: boolean;
   params?: Record<string, string | number | undefined>;
   id?: string;
+  /** true lets the heading rise over the previous section's lower edge on a sand panel (P4 handover). */
+  overlap?: boolean;
 }
 const {
   heading = day.heading,
-  eyebrow = 'The 8 hour day',
+  eyebrow = flagshipName,
   seeFullDay = true,
   plan = true,
   params = { format: 'full-day' },
   id = 'the-day',
+  overlap = false,
 } = Astro.props;
 const beats = day.beats;
 const planHref = withParams(cta.plan.href, params);
 // Beat tints, morning to dusk, all from Belle's palette (salt 100 to sand 100).
 const tints = ['#e9e5d6', '#ece3c9', '#ead9b2', '#e6d6a4'];
 ---
-<section class="dy" id={id} aria-labelledby={`${id}-heading`} data-pinned-day>
+<section class:list={['dy', overlap && 'dy--overlap']} id={id} aria-labelledby={`${id}-heading`} data-pinned-day data-no-blind>
   <header class="wrap dy__head">
     <Eyebrow>{eyebrow}</Eyebrow>
     <h2 class="dy__heading" id={`${id}-heading`} set:html={emphasis(heading)} />
@@ -79,7 +82,7 @@ const tints = ['#e9e5d6', '#ece3c9', '#ead9b2', '#e6d6a4'];
         <article class="dy__beat" id={`${id}-${b.id}`} data-dy-beat={i} data-name={b.name} data-time={b.railTime} data-tint={tints[i]} aria-labelledby={`${id}-${b.id}-title`}>
           <div class="dy__beat-photo" aria-hidden="true"><Media media={b.media} aspect="4 / 5" sizes="92vw" /></div>
           <p class="dy__beat-time"><span class="dy__dot" aria-hidden="true"></span>{b.railTime}</p>
-          <h3 class="dy__beat-name" id={`${id}-${b.id}-title`}><span class="dy__beat-num" aria-hidden="true">{numeral(i + 1)}</span>{b.name}</h3>
+          <h3 class="dy__beat-name" id={`${id}-${b.id}-title`} aria-label={b.name}><span class="dy__beat-num" aria-hidden="true">{numeral(i + 1)}</span><span class="dy__nm" data-name={b.name}><span class="dy__nm-in">{b.name}</span></span></h3>
           <ol class="dy__steps" role="list">
             {b.steps.map((s) => (
               <li class="dy__step">
@@ -116,13 +119,27 @@ const tints = ['#e9e5d6', '#ece3c9', '#ead9b2', '#e6d6a4'];
 </script>
 
 <style>
-  .dy { position: relative; padding-block: var(--section-y); }
+  .dy { position: relative; padding-block: clamp(6rem, 12vh, 10rem); }
 
-  .dy__head { display: grid; gap: 0; margin-bottom: clamp(3rem, 6vw, 6rem); }
+  .dy__head { display: grid; gap: 0; margin-bottom: clamp(3rem, 6vw, 5rem); }
   .dy__heading { margin: 0; font-size: var(--fs-section); line-height: 1.02; max-width: 11em; }
-  .dy__head-meta { display: grid; gap: 0.35rem; margin-top: clamp(1.5rem, 3vw, 2.5rem); max-width: 30rem; }
+  .dy__head-meta { display: grid; gap: 0.5rem; margin-top: clamp(1.5rem, 3vw, 2.5rem); max-width: 30rem; }
   .dy__example { margin: 0; font-family: var(--font-ui); font-size: var(--fs-small); letter-spacing: 0.04em; color: var(--sage-80); }
-  .dy__note { margin: 0; font-family: var(--font-editorial); font-style: italic; font-size: 1.1875rem; line-height: 1.45; color: var(--sage-100); }
+  .dy__note { margin: 0; font-size: var(--fs-body); line-height: 1.6; color: var(--sage-100); }
+
+  /* P4 handover: the heading rises over the previous section's lower edge on a sand panel. */
+  .dy--overlap { padding-top: 0; }
+  .dy--overlap .dy__head {
+    position: relative;
+    z-index: 3;
+    margin-top: -22vh;
+    width: min(100% - var(--gutter), 64rem);
+    margin-left: 0;
+    margin-right: auto;
+    padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.5rem, 4vw, 4rem) 0 var(--gutter);
+    background: var(--page-tone, var(--sand-30));
+  }
+  @media (max-width: 699px) { .dy--overlap .dy__head { margin-top: -14vh; } }
 
   /* Phones and reduced motion: a stack. */
   .dy__split { position: relative; }
@@ -189,30 +206,34 @@ const tints = ['#e9e5d6', '#ece3c9', '#ead9b2', '#e6d6a4'];
 
   /* 900px and up with motion: the sticky split. */
   @media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+    /* The photograph column runs flush to the left edge, 50vw by a full screen, with no margin. */
     .dy__split {
+      --over: 0.62em;
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: clamp(3rem, 6vw, 7rem);
+      gap: 0;
       padding-right: var(--gutter);
     }
     .dy__stage {
       display: block;
       position: sticky;
-      top: calc(var(--header-compact) + 3svh);
-      height: calc(100svh - var(--header-compact) - 9svh);
+      top: 0;
+      height: 100svh;
       align-self: start;
     }
-    .dy__frame { position: relative; height: calc(100% - 2.75rem); overflow: hidden; background: var(--sand-40); }
+    .dy__frame { position: relative; height: 100%; overflow: hidden; background: var(--sand-40); }
+    /* Each new photograph enters from the right (T33) while the last one eases away to the left. */
     .dy__photo {
       position: absolute;
       inset: 0;
       clip-path: inset(0 0 0 100%);
-      transition: clip-path 1100ms var(--ease-tide);
+      translate: 12% 0;
+      transition: clip-path 1200ms var(--ease-tide), translate 1200ms var(--ease-tide);
     }
     .dy__photo :global(img), .dy__photo :global(video) { scale: 1.08; transition: scale 1600ms var(--ease-settle); }
-    .dy__photo.is-active { clip-path: inset(0 0 0 0); z-index: 1; }
+    .dy__photo.is-active { clip-path: inset(0 0 0 0); translate: 0 0; z-index: 1; }
     .dy__photo.is-active :global(img), .dy__photo.is-active :global(video) { scale: 1; }
-    .dy__photo.is-leaving { clip-path: inset(0 0 0 0); z-index: 0; }
+    .dy__photo.is-leaving { clip-path: inset(0 0 0 0); translate: -6% 0; z-index: 0; }
     .dy__tint {
       position: absolute;
       inset: 0;
@@ -224,7 +245,16 @@ const tints = ['#e9e5d6', '#ece3c9', '#ead9b2', '#e6d6a4'];
       pointer-events: none;
     }
     .dy__stage-caption {
-      margin: 0.85rem 0 0;
+      position: absolute;
+      left: var(--gutter);
+      bottom: clamp(1.5rem, 4svh, 2.5rem);
+      z-index: 3;
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      color: var(--on-image) !important;
+      text-shadow: 0 1px 14px rgb(20 50 64 / 0.5);
+      margin: 0;
       font-family: var(--font-editorial);
       font-style: italic;
       font-size: var(--fs-caption);
@@ -232,11 +262,29 @@ const tints = ['#e9e5d6', '#ece3c9', '#ead9b2', '#e6d6a4'];
       color: var(--sage-80);
     }
 
-    .dy__times { padding: 0 0 0 3.5rem; }
-    .dy__tide { left: 0; width: 2rem; }
-    .dy__dot { left: calc(-3.5rem + 1rem - 4px); }
-    .dy__beat { min-height: 88svh; padding-block: 12svh; display: grid; align-content: center; }
-    .dy__beat:first-of-type { padding-top: 4svh; align-content: start; min-height: 80svh; }
+    .dy__stage-caption::before { content: ''; width: 1.5rem; height: 1px; translate: 0 -0.3em; background: currentColor; opacity: 0.75; }
+    .dy__times { padding: 0 0 0 clamp(3.5rem, 6vw, 6rem); }
+    .dy__tide { left: clamp(1rem, 2vw, 2rem); }
+    .dy__dot { left: calc(-1 * clamp(3.5rem, 6vw, 6rem) + clamp(1rem, 2vw, 2rem) + 1rem - 4px) !important; }
+
+    /* The part name at 88px: its first letters run over the photograph's edge in salt, and the rest
+       continues on sand in sage. Two layers of the one word, each clipped to its side of the edge. */
+    .dy__beat-name { font-size: clamp(4rem, 2rem + 3.4vw, 5.5rem); margin-bottom: 2rem; gap: 0; }
+    .dy__beat-num { position: absolute; translate: 0 -2.4em; }
+    .dy__nm { position: relative; display: inline-block; margin-left: calc(-1 * (clamp(3.5rem, 6vw, 6rem) + var(--over))); }
+    .dy__nm-in { display: inline-block; clip-path: inset(-0.3em -0.3em -0.3em var(--over)); }
+    .dy__nm::before {
+      content: attr(data-name);
+      position: absolute;
+      inset: 0;
+      color: var(--on-image);
+      text-shadow: 0 1px 18px rgb(20 50 64 / 0.35);
+      clip-path: inset(-0.3em calc(100% - var(--over)) -0.3em -0.3em);
+      pointer-events: none;
+    }
+    .dy__tide { width: 2rem; }
+    .dy__beat { position: relative; min-height: 92svh; padding-block: 14svh; display: grid; align-content: center; }
+    .dy__beat:first-of-type { padding-top: 22svh; min-height: 96svh; }
     .dy__head { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); column-gap: 4rem; align-items: end; }
     .dy__head :global(.eyebrow) { grid-column: 1 / -1; }
     .dy__head-meta { margin: 0 0 0.6rem; }

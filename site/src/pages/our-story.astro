@@ -20,12 +20,14 @@
   live difference 05.
 */
 import Base from '../layouts/Base.astro';
-import Band from '../components/pages/c/Band.astro';
+import PageOpener from '../components/base/PageOpener.astro';
+import OffsetPair from '../components/base/OffsetPair.astro';
+import Handover from '../components/base/Handover.astro';
+import ClosingTide from '../components/base/ClosingTide.astro';
 import Eyebrow from '../components/base/Eyebrow.astro';
 import Breadcrumbs from '../components/base/Breadcrumbs.astro';
 import TextPair from '../components/base/TextPair.astro';
 import ArrowLink from '../components/base/ArrowLink.astro';
-import CtaBand from '../components/base/CtaBand.astro';
 import Reveal from '../components/base/Reveal.astro';
 import SlideIn from '../components/base/SlideIn.astro';
 import Media from '../components/media/Media.astro';
@@ -94,18 +96,29 @@ const jsonLd = {
 <Base
   title="About La maréa, our story"
   description="How Belle Redden's childhood on the Fleurieu Peninsula, her work in nutrition and exercise science, and the Mediterranean shaped La maréa."
-  headerTone="over-media"
   jsonLd={jsonLd}
 >
-  <Band media="story-hero" height="screen" hero text="over" level={1} eyebrow="About" heading="Our story" body="A family owned business originating from the Fleurieu Peninsula, founded by Belle Redden." draft={{ body: true }} />
+  <PageOpener
+    media="story-cove-video"
+    lines={['Our', 'story']}
+    eyebrow="About"
+    sub="A family owned business originating from the Fleurieu Peninsula, founded by Belle Redden."
+    subDraft
+    caption="Fleurieu Peninsula"
+    shadeAt="top-left"
+  />
 
   <div class="wrap story-crumbs"><Breadcrumbs items={[{ label: 'About' }]} /></div>
 
   <section class="section story-note" aria-labelledby="note-heading">
     <div class="wrap story-note__grid">
-      <Reveal class="story-note__head">
+      <div class="story-note__head">
         <h2 class="story-note__title" id="note-heading">A note from Belle</h2>
-      </Reveal>
+        <figure class="story-note__portrait" data-drift="0.95">
+          <Media media="story-opener" aspect="4 / 5" sizes="(max-width: 899px) 100vw, 40vw" />
+          <figcaption class="story-note__cap">Belle Redden, founder</figcaption>
+        </figure>
+      </div>
       <Reveal class="story-note__letter">
         {note.map((p) => <p>{p}</p>)}
         <p class="story-note__sign">With gratitude,<br />Belle Redden<br /><span>Founder, La maréa</span></p>
@@ -113,26 +126,29 @@ const jsonLd = {
     </div>
   </section>
 
-  <section class="section band-salt story-life" aria-labelledby="life-heading">
-    <div class="wrap">
-      <Reveal>
-        <Eyebrow>McLaren Vale, Moana Beach and Myponga Beach</Eyebrow>
-        <h2 class="story-life__title" id="life-heading" set:html={emphasis('Growing up on the *Fleurieu*')} data-draft />
+  <Handover media="story-hero" caption="Fleurieu Peninsula" ground="salt" class="story-life-open">
+    <Eyebrow>McLaren Vale, Moana Beach and Myponga Beach</Eyebrow>
+    <h2 class="story-life__title" id="life-heading" set:html={emphasis('Growing up on the *Fleurieu*')} data-draft />
+  </Handover>
+
+  <section class="section story-life" aria-labelledby="life-heading" data-ground="salt">
+    <OffsetPair large="story-beach-bright" detail="story-kangaroo" caption="The Fleurieu coast" class="story-pair">
+      {chapters[0].text.map((t) => <p class="story-pair__lead">{t}</p>)}
+      {chapters[1].text.map((t) => <p>{t}</p>)}
+    </OffsetPair>
+
+    <div class="wrap story-turn">
+      <Reveal class="story-turn__text">
+        {chapters[2].text.map((t, j) => <p class:list={[j === 0 && 'story-turn__lead']}>{t}</p>)}
       </Reveal>
-      <ol class="chapters" role="list">
-        {chapters.map((c, i) => (
-          <li class:list={['chapter', c.media ? (i % 2 ? 'chapter--right' : 'chapter--left') : 'chapter--text']}>
-            {c.media && (
-              <SlideIn from={i % 2 ? 'right' : 'left'} distance="10%" class="chapter__media">
-                <div><Media media={c.media} aspect={c.aspect ?? '4 / 5'} /></div>
-              </SlideIn>
-            )}
-            <Reveal class="chapter__text">
-              {c.text.map((t, j) => <p class:list={[j === 0 && !c.media && 'chapter__lead']}>{t}</p>)}
-            </Reveal>
-          </li>
-        ))}
-      </ol>
+    </div>
+
+    <OffsetPair large="story-table-sea" detail="story-oil-bread" side="right" caption="The long table" class="story-pair">
+      <Eyebrow>The Mediterranean</Eyebrow>
+      {chapters[3].text.map((t, j) => <p class:list={[j === 0 && 'story-pair__lead']}>{t}</p>)}
+    </OffsetPair>
+
+    <div class="wrap">
       <NoteFlag items={[
         'Cut for length from the live Our story, whole sentences only: the horizons paragraph, the degrees paragraph (it lives on Belle\'s team page) and the sentence about family and friends facing illness and loss. Belle confirms the cut.',
         '"Belles travels" is published without its apostrophe; set here as "Belle\'s travels" pending Belle.',
@@ -162,7 +178,7 @@ const jsonLd = {
   <section class="section band-warm" aria-label="Family owned">
     <div class="wrap">
       <TextPair eyebrow="Your hosts" heading="Our team" mediaSide="left" split="wide" link={{ label: 'Meet the team', href: '/team' }}>
-        <div slot="media"><Media media="story-hosts" aspect="3 / 2" /></div>
+        <div slot="media"><Media media="story-hosts-photo" aspect="4 / 5" /></div>
         <p>With Belle, the Founder (left), bringing expertise in nutrition, exercise science, and lifestyle wellness coaching, supported by Zoe her sister (right), and Sarah (back), both with a background in events management, you can be assured that your retreat will be thoughtfully curated and truly unforgettable.</p>
         <p>Our mission is to combine holistic lifestyle wellness practices with luxury heartfelt hospitality, and our team is dedicated to creating personalised experiences that cater to your individual needs and wellness journey.</p>
         <p class="story-family__close">From our family to yours, we can’t wait to share our special retreats and experiences with you soon.</p>
@@ -193,18 +209,30 @@ const jsonLd = {
     </div>
   </section>
 
-  <CtaBand line="Spend a day with us" params={{ source: 'our-story' }} tone="salt" draft={{ line: true }} />
+  <ClosingTide line="Spend a day with us" lineDraft params={{ source: 'our-story' }} />
 </Base>
 
 <style>
+  .story-life-open :global(.story-life__title) { margin: 0.5rem 0 0; }
+  .story-life { padding-top: clamp(3rem, 6vw, 5rem); }
+  .story-life :global(.story-pair) { margin-block: clamp(2rem, 5vw, 4rem); }
+  .story-life :global(.story-pair p) { color: var(--sage-100); max-width: 32rem; }
+  .story-life :global(.story-pair__lead) { font-family: var(--font-serif); font-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.5rem); line-height: 1.5; }
+  .story-turn { display: grid; justify-items: center; margin-block: clamp(4rem, 10vw, 8rem); }
+  .story-turn :global(.story-turn__text) { max-width: 38rem; padding: 2rem 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .story-turn p { color: var(--sage-100); }
+  .story-turn__lead { font-family: var(--font-serif); font-size: clamp(1.3rem, 1.1rem + 0.7vw, 1.75rem); line-height: 1.45; }
   .story-note__grid { display: grid; gap: var(--space-l) clamp(2rem, 7vw, 8rem); align-items: start; }
   .story-note__title { margin: 0; max-width: 12em; font-size: var(--fs-h1); line-height: 1.12; }
+  .story-note__portrait { margin: clamp(1.75rem, 4vw, 3rem) 0 0; max-width: 30rem; }
+  .story-note__cap { margin-top: 0.75rem; font-family: var(--font-editorial); font-style: italic; font-size: var(--fs-caption); color: var(--sage-80); }
   .story-note :global(.story-note__letter) p {
     max-width: 34rem;
     margin: 0 0 1.1em;
-    font-family: var(--font-serif);
-    font-size: var(--fs-lead);
-    line-height: 1.55;
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: 1.375rem;
+    line-height: 1.5;
     color: var(--sage-100);
   }
   .story-note :global(.story-note__letter) .story-note__sign {
@@ -217,7 +245,7 @@ const jsonLd = {
   .story-note__sign span { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
   @media (min-width: 900px) {
     .story-note__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
-    .story-note :global(.story-note__head) { position: sticky; top: calc(var(--header-compact) + 2rem); }
+    .story-note__head { position: sticky; top: calc(var(--header-compact) + 2rem); }
   }
 
   .story-life__title { margin: 0 0 clamp(2.5rem, 5vw, 4.5rem); }

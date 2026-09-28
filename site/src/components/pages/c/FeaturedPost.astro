@@ -15,9 +15,8 @@ const d = post.data;
 const href = `/journal/${post.id}`;
 ---
 <article class="featured">
-  <a class="featured__card" href={href} aria-labelledby={`featured-${post.id}`}>
-    <span class="featured__media"><Media media={d.hero} aspect="fill" priority notePosition="top-right" /></span>
-    <span class="featured__shade" aria-hidden="true"></span>
+  <a class="featured__card lift-host" data-cursor="Read" href={href} aria-labelledby={`featured-${post.id}`}>
+    <span class="featured__media lift-img"><Media media={d.hero} aspect="fill" priority notePosition="top-right" /></span>
     <span class="featured__text">
       <span class="featured__chip">{d.category}</span>
       <span class="featured__title" id={`featured-${post.id}`}>{plain(d.title)}</span>
@@ -39,42 +38,24 @@ const href = `/journal/${post.id}`;
 </article>
 
 <style>
+  /* Salt and Sun: the title sits on sand beneath the photograph, never over it (a magazine cover). */
   .featured { display: grid; gap: var(--space-l) clamp(2rem, 5vw, 5.5rem); align-items: end; }
-  .featured__card {
-    position: relative;
-    display: block;
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-    isolation: isolate;
-    color: var(--salt-25);
-    text-decoration: none;
-    background: var(--sand-40);
-  }
-  .featured__media { position: absolute; inset: 0; display: block; }
-  .featured__media :global(.media) { transition: transform 900ms var(--ease-soft); }
-  @media (hover: hover) { .featured__card:hover .featured__media :global(.media) { transform: scale(1.03); } }
+  .featured__card { display: grid; gap: 1.25rem; color: var(--sage-80); text-decoration: none; }
+  .featured__media { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; background: var(--sand-40); }
   .featured__card:focus-visible { outline: 1.5px solid var(--focus); outline-offset: 4px; }
-  .featured__shade { position: absolute; inset: 40% 0 0; z-index: 1; background: linear-gradient(to top, rgb(35 32 14 / 0.22), rgb(35 32 14 / 0)); pointer-events: none; }
-  .featured__text { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: grid; gap: 1rem; justify-items: start; padding: clamp(1.25rem, 3vw, 2.5rem); }
-  .featured__chip { font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: 0.1em; line-height: 1.2; }
-  .featured__title { max-width: 22em; font-family: var(--font-serif); font-size: clamp(1.5rem, 1.1rem + 1.5vw, 2.4rem); line-height: 1.18; text-wrap: balance; }
-  /* While the slot still shows its light placeholder, the words take sage ink and the gradient goes (QA M3). */
-  .featured__card:has(.media--placeholder) { color: var(--sage-100); }
-  .featured__card:has(.media--placeholder) .featured__shade { display: none; }
+  .featured__text { display: grid; gap: 0.75rem; justify-items: start; }
+  .featured__chip { font-family: var(--font-editorial); font-style: italic; font-size: 1.125rem; line-height: 1.2; color: var(--sage-80); }
+  .featured__title { max-width: 20em; font-family: var(--font-display); font-size: clamp(1.625rem, 1.1rem + 1.6vw, 2.75rem); line-height: 1.12; text-wrap: balance; color: var(--sage-80); }
   .featured__card :global(.ph-note) { max-width: min(22rem, 70%); }
 
   .featured__aside { display: grid; justify-items: start; gap: 0; max-width: 28rem; }
-  .featured__label { margin: 0 0 1rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
-  .featured__meta { display: flex; gap: 0.6rem; margin: 0 0 1.25rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.06em; color: var(--sage-80); }
-  .featured__excerpt { margin: 0 0 1.25rem; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.5; color: var(--sage-100); }
+  .featured__label { margin: 0 0 1rem; font-family: var(--font-editorial); font-style: italic; font-size: 1.125rem; color: var(--sage-80); }
+  .featured__meta { display: flex; gap: 0.6rem; margin: 0 0 1.25rem; font-family: var(--font-ui); font-size: var(--fs-small); letter-spacing: 0.04em; color: var(--sage-80); }
+  .featured__excerpt { margin: 0 0 1.25rem; font-size: var(--fs-lead); line-height: 1.6; color: var(--sage-100); }
   .featured__author { margin: 0 0 0.75rem; font-size: var(--fs-small); color: var(--sage-80); }
 
   @media (min-width: 900px) {
     .featured { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); }
-    .featured__card { aspect-ratio: 3 / 2; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .featured__media :global(.media) { transition: none; }
-    .featured__card:hover .featured__media :global(.media) { transform: none; }
+    .featured__media { aspect-ratio: 3 / 2; }
   }
 </style>

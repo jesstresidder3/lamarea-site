@@ -8,9 +8,9 @@
   src/content/journal, unchanged; only heading levels step down under the page's H1.
 */
 import Base from '../../layouts/Base.astro';
-import Band from '../../components/pages/c/Band.astro';
+import PageOpener from '../../components/base/PageOpener.astro';
+import ClosingTide from '../../components/base/ClosingTide.astro';
 import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
-import CtaBand from '../../components/base/CtaBand.astro';
 import SectionHead from '../../components/base/SectionHead.astro';
 import Media from '../../components/media/Media.astro';
 import JournalCards from '../../components/journal/JournalCards.astro';
@@ -70,6 +70,17 @@ const shortTitle = plain(d.title).split(':')[0];
 // Title tags stay under 60 characters with the site name: a long title keeps its first clause
 const title = shortTitle.length <= 48 ? shortTitle : shortTitle.slice(0, shortTitle.lastIndexOf(',', 48) > 20 ? shortTitle.lastIndexOf(',', 48) : shortTitle.lastIndexOf(' ', 48));
 
+// The opener sets the title in two lines: before and after its colon, or split near the middle.
+const full = plain(d.title);
+const openerLines = (() => {
+  const c = full.indexOf(':');
+  if (c > 0) return [full.slice(0, c).trim(), full.slice(c + 1).trim()];
+  const w = full.split(' ');
+  if (w.length < 3) return [full];
+  const mid = Math.ceil(w.length / 2);
+  return [w.slice(0, mid).join(' '), w.slice(mid).join(' ')];
+})();
+
 const jsonLd = recipe
   ? recipeJsonLd({
       name: plain(d.title),
@@ -98,7 +109,7 @@ const jsonLd = recipe
     };
 ---
 <Base title={title} description={d.excerpt.length <= 155 ? d.excerpt : `${d.excerpt.slice(0, d.excerpt.lastIndexOf(' ', 150))}…`} headerTone="over-media" ogType="article" jsonLd={jsonLd}>
-  <Band media={d.hero} height="tall" hero text="over" level={1} eyebrow={d.category} heading={plain(d.title)} class="post-hero" />
+  <PageOpener media={d.hero} lines={openerLines} eyebrow={d.category} caption={`${formatDate(d.date)}, ${minutes} minute read`} shadeAt="bottom-left" height="tall" class="post-opener" />
 
   <article class="post">
     <div class="wrap post__grid">
@@ -118,12 +129,15 @@ const jsonLd = recipe
           </div>
         </dl>
         {showContents && (
-          <nav class="post__toc" aria-label="In this story">
-            <p class="post__toc-title">In this story</p>
+          <details class="post__toc" data-post-toc>
+            <summary>
+              <span class="post__toc-title">In this story</span>
+              <span class="post__toc-now" data-toc-now>{contents[0].text.replace(/\.$/, '')}</span>
+            </summary>
             <ol role="list">
-              {contents.map((h) => <li class:list={[h.level === 2 && 'post__toc-major']}><a href={`#${h.id}`}>{h.text.replace(/\.$/, '')}</a></li>)}
+              {contents.map((h) => <li class:list={[h.level === 2 && 'post__toc-major']}><a href={`#${h.id}`} data-toc-link={h.id}>{h.text.replace(/\.$/, '')}</a></li>)}
             </ol>
-          </nav>
+          </details>
         )}
       </aside>
 
@@ -139,7 +153,7 @@ const jsonLd = recipe
             {html.length > 1 && credit && (
               <>
                 <figure class="post__figure">
-                  <div><Media media={INLINE[post.id] ?? d.hero} aspect="3 / 2" /></div>
+                  <div><Media media={INLINE[post.id] ?? d.hero} aspect="21 / 9" sizes="(max-width: 999px) 100vw, 90vw" /></div>
                   <figcaption>Image credit: {credit}</figcaption>
                 </figure>
                 <div class="prose" set:html={html[1]} />
@@ -162,11 +176,32 @@ const jsonLd = recipe
     </section>
   )}
 
-  <CtaBand line={CTA[d.category] ?? 'Plan a day on the *Fleurieu*'} params={{ source: `journal-${post.id}` }} tone="sand" draft={{ line: true }} />
+  <ClosingTide line={CTA[d.category] ?? 'Plan a day on the *Fleurieu*'} lineDraft params={{ source: `journal-${post.id}` }} />
 </Base>
 
+<script>
+  // "In this story" shows only the heading being read; the full list opens beneath it.
+  document.querySelectorAll<HTMLDetailsElement>('[data-post-toc]').forEach((toc) => {
+    const now = toc.querySelector<HTMLElement>('[data-toc-now]');
+    const links = Array.from(toc.querySelectorAll<HTMLAnchorElement>('[data-toc-link]'));
+    const heads = links.map((a) => document.getElementById(a.dataset.tocLink ?? '')).filter((h): h is HTMLElement => Boolean(h));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const a = links.find((l) => l.dataset.tocLink === e.target.id);
+        if (!a || !now) return;
+        now.textContent = a.textContent;
+        links.forEach((l) => l.toggleAttribute('aria-current', l === a));
+      });
+    }, { rootMargin: '0px 0px -70% 0px' });
+    heads.forEach((h) => io.observe(h));
+    links.forEach((l) => l.addEventListener('click', () => (toc.open = false)));
+  });
+</script>
+
 <style>
-  :global(.post-hero .band__heading) { font-size: clamp(2rem, 1.3rem + 2.2vw, 3.25rem); max-width: 21em; }
+  .post-opener :global(.po__title), :global(.post-opener .po__title) { font-size: clamp(2.1rem, 1rem + 2.8vw, 3.75rem); line-height: 1.04; max-width: 20em; }
+  :global(.post-opener .po__line--2) { font-size: 0.72em; padding-left: 0.6em; margin-top: 0.3em; }
 
   .post { padding: clamp(1.5rem, 3vw, 2.5rem) 0 var(--section-y); }
   .post__grid { display: grid; gap: var(--space-l) clamp(2rem, 6vw, 7rem); align-items: start; }
@@ -176,21 +211,16 @@ const jsonLd = recipe
   .post__meta dd { margin: 0; font-size: var(--fs-small); line-height: 1.5; color: var(--sage-100); }
   .post__role { display: block; margin-top: 0.3rem; font-size: 0.78rem; color: var(--sage-80); }
 
-  .post__toc { margin-top: 1.75rem; padding-top: 1.1rem; border-top: 1px solid var(--rule); }
-  .post__toc-title { margin: 0 0 0.6rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
-  .post__toc ol { margin: 0; padding: 0; list-style: none; }
-  .post__toc a {
-    display: block;
-    padding: 0.4rem 0;
-    font-size: 0.8125rem;
-    line-height: 1.4;
-    color: var(--sage-80);
-    text-decoration: none;
-    transition: color var(--dur-fast) var(--ease-soft);
-  }
-  .post__toc-major a { font-family: var(--font-serif); font-size: 1rem; color: var(--heading); padding-top: 0.6rem; }
+  .post__toc { margin-top: 1.75rem; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .post__toc summary { display: grid; gap: 0.3rem; padding: 0.9rem 0; cursor: pointer; list-style: none; }
+  .post__toc summary::-webkit-details-marker { display: none; }
+  .post__toc-title { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .post__toc-now { font-family: var(--font-editorial); font-style: italic; font-size: 1.125rem; line-height: 1.35; color: var(--heading); }
+  .post__toc ol { margin: 0; padding: 0 0 0.75rem; list-style: none; }
+  .post__toc a { display: block; padding: 0.35rem 0; font-size: 0.8125rem; line-height: 1.4; color: var(--sage-80); text-decoration: none; }
+  .post__toc a[aria-current] { color: var(--heading); }
+  .post__toc-major a { color: var(--heading); padding-top: 0.55rem; }
   @media (hover: hover) { .post__toc a:hover { color: var(--sage-100); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.25em; } }
-  .post__toc a:focus-visible { color: var(--sage-100); }
   @media (max-width: 999px) { .post__toc { display: none; } }
 
   @media (min-width: 1000px) {
@@ -213,6 +243,11 @@ const jsonLd = recipe
   .prose :global(a) { color: var(--heading); text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); }
   .prose :global(strong) { color: var(--sage-100); }
 
-  .post__figure { margin: 2.5rem 0; max-width: 46rem; }
+  .post__figure { margin: clamp(2.5rem, 6vw, 5rem) 0; }
+  @media (min-width: 1000px) {
+    /* One image per story breaks out of the reading column and bleeds off the right edge of the page. */
+    .post__figure { width: calc(100% + max(var(--gutter), (100vw - var(--wrap-max)) / 2 + var(--gutter))); }
+    .post__figure figcaption { padding-right: var(--gutter); }
+  }
   .post__figure figcaption { margin-top: 0.8rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.06em; color: var(--muted); }
 </style>

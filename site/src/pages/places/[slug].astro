@@ -14,15 +14,19 @@
   src/components/pages/c/venue-extras.ts for each venue's day. Drafted lines carry data-draft.
 */
 import Base from '../../layouts/Base.astro';
-import Band from '../../components/pages/c/Band.astro';
+import PageOpener from '../../components/base/PageOpener.astro';
+import Handover from '../../components/base/Handover.astro';
+import ClosingTide from '../../components/base/ClosingTide.astro';
+import FrameSlider from '../../components/pages/c/FrameSlider.astro';
+import FactLine from '../../components/pages/c/FactLine.astro';
+import { venueMedia } from '../../components/pages/c/venue-media';
+import { media as getMedia } from '../../data/media';
 import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
 import Eyebrow from '../../components/base/Eyebrow.astro';
-import CtaBand from '../../components/base/CtaBand.astro';
 import ArrowLink from '../../components/base/ArrowLink.astro';
 import Reveal from '../../components/base/Reveal.astro';
 import SteppedGallery from '../../components/venues/SteppedGallery.astro';
 import Testimonials from '../../components/testimonials/Testimonials.astro';
-import AtAGlance from '../../components/pages/c/AtAGlance.astro';
 import VenueAround from '../../components/pages/c/VenueAround.astro';
 import VenueDay from '../../components/pages/c/VenueDay.astro';
 import NoteFlag from '../../components/pages/c/NoteFlag.astro';
@@ -66,7 +70,24 @@ for (const n of d.nearby) {
 for (const f of moved) if (!around.some((a) => a.text === f.text)) around.push({ name: f.name, kind: kindOf(f.name), text: f.text });
 
 const nearbyTexts = new Set(d.nearby.map((n) => n.text));
-const gallery = d.features.filter((f) => !extra.aroundFromFeatures?.includes(f.name) && !nearbyTexts.has(f.text));
+const hasPhoto = (id?: string) => { if (!id) return false; const m = getMedia(id); return Boolean(m.src || m.poster); };
+// P7: a feature without a photograph leaves the gallery (its words stay in the venue's own facts).
+const gallery = d.features.filter((f) => !extra.aroundFromFeatures?.includes(f.name) && !nearbyTexts.has(f.text) && hasPhoto(f.media));
+
+/* L3 rebuild 28-09-2026: the opener, the rooms slider, the handover frame and the facts as one line. */
+const vm = venueMedia[venue.id];
+const openerSlot = vm && hasPhoto(vm.opener) ? vm.opener : heroSlot;
+const rooms = (vm?.rooms ?? []).filter((r) => hasPhoto(r.media) && !gallery.some((g) => g.media === r.media));
+// Setting and the drive first, then the day capacity, the place, and sleeps last and quieter: the
+// product is a day, so an overnight number should not lead (audience review).
+const facts = [
+  { k: 'Setting', v: regionLabel(d.region) },
+  ...(d.drive_from_adelaide ? [{ k: 'From Adelaide', v: d.drive_from_adelaide.text.replace(/ from Adelaide$/, '') }] : []),
+  ...(d.day_capacity && d.day_capacity.min && d.day_capacity.max ? [{ k: 'Day retreats', v: `${d.day_capacity.min} to ${d.day_capacity.max} guests` }] : []),
+  { k: 'Location', v: d.location_label },
+  { k: 'Partner', v: d.partner_label },
+  ...(d.sleeps.display ? [{ k: 'Sleeps', v: d.sleeps.display, quiet: true }] : []),
+];
 
 const reviews = (await getTestimonials()).filter((t) => t.data.venue === venue.id);
 const others = (await getVenues()).filter((v) => v.id !== venue.id);
@@ -110,12 +131,12 @@ const flags = [
 ];
 ---
 <Base title={`${d.name}, ${area} retreat venue`} description={description} headerTone="over-media" jsonLd={jsonLd}>
-  <Band media={heroSlot} height="screen" hero text="over" level={1} eyebrow={regionLabel(d.region)} heading={d.name} />
+  <PageOpener media={openerSlot} lines={d.name.startsWith('Naiko ') ? ['Naiko', `*${d.name.slice(6)}*`] : [d.name]} eyebrow={regionLabel(d.region)} caption={vm?.openerCaption} shadeAt={vm?.shadeAt ?? 'top-left'} id="venue-title" />
 
   <section class="section venue-top">
     <div class="wrap">
       <Breadcrumbs items={[{ label: 'Venues', href: '/places' }, { label: d.name }]} class="venue-crumbs" />
-      <AtAGlance venue={venue} />
+      <FactLine items={facts} label={`${d.name} at a glance`} />
     </div>
   </section>
 
@@ -134,12 +155,22 @@ const flags = [
     </div>
   </section>
 
+  {rooms.length >= 2 && (
+    <section class="section section--flush-top venue-rooms" aria-label={`Inside ${d.name}`}>
+      <FrameSlider items={rooms.map((r) => ({ media: r.media, title: r.title }))} label={`Inside ${d.name}`} heading={`Inside ${d.name}`} />
+    </section>
+  )}
+
   {gallery.length > 0 && (
     <section class="section band-salt venue-within" aria-label={`Within ${d.name}`}>
       <div class="wrap">
         <SteppedGallery items={gallery} label="Within the venue" sublabel={d.name} aria={`${d.name}, within the venue`} id={`within-${venue.id}`} />
       </div>
     </section>
+  )}
+
+  {vm?.handover && hasPhoto(vm.handover.media) && (
+    <Handover media={vm.handover.media} caption={vm.handover.caption} height="band" ground="sand" />
   )}
 
   {around.length > 0 && (
@@ -166,7 +197,7 @@ const flags = [
             <li>
               <a class="others__link" href={`/places/${o.id}`}>
                 <span class="others__name">{o.data.name}</span>
-                <span class="others__meta">{regionLabel(o.data.region)}, {sleepsLabel(o.data.sleeps.display).toLowerCase()}</span>
+                <span class="others__meta">{regionLabel(o.data.region)}{o.data.drive_from_adelaide ? `, ${o.data.drive_from_adelaide.text.charAt(0).toLowerCase()}${o.data.drive_from_adelaide.text.slice(1)}` : ''}</span>
                 <svg width="28" height="10" viewBox="0 0 28 10" aria-hidden="true" focusable="false"><line x1="0.5" y1="5" x2="27.25" y2="5" /><polyline points="22.25,0.5 27.25,5 22.25,9.5" /></svg>
               </a>
             </li>
@@ -177,18 +208,19 @@ const flags = [
     </nav>
   )}
 
-  <CtaBand
-    eyebrow="Plan your day here"
+  <ClosingTide
     line={`Bring your group to *${extra.ctaPlace}*`}
+    lead="Plan your day here"
     params={{ venue: venue.id, source: 'venue' }}
-    note={cta.callNote}
-    tone="salt"
-    draft={{ line: true }}
+    lineDraft
+    leadDraft
+    media={vm?.closing ?? 'closing-tide'}
   />
 </Base>
 
 <style>
   .venue-top { padding-top: clamp(1.5rem, 3vw, 2.5rem); padding-bottom: var(--space-2xl); }
+  .venue-rooms { padding-bottom: var(--section-y); }
   .venue-top :global(.venue-crumbs) { margin-bottom: clamp(1rem, 2vw, 1.75rem); }
 
   .about { display: grid; gap: var(--space-m) clamp(2rem, 6vw, 7.5rem); }
@@ -215,7 +247,7 @@ const flags = [
     color: var(--heading);
     text-decoration: none;
   }
-  .others__name { grid-area: name; font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.2; }
+  .others__name { grid-area: name; font-family: var(--font-display); font-size: var(--fs-card); line-height: 1.2; }
   .others__meta { grid-area: meta; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.06em; color: var(--muted); }
   .others__link svg { grid-area: arrow; overflow: visible; }
   .others__link :is(line, polyline) { fill: none; stroke: currentColor; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; transition: transform var(--dur-fast) var(--ease-soft); }

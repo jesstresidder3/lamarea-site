@@ -21,15 +21,14 @@
   The same notes show inside the answers while the placeholder layer is on.
 */
 import Base from '../layouts/Base.astro';
-import PageIntro from '../components/pages/d/PageIntro.astro';
+import Breadcrumbs from '../components/base/Breadcrumbs.astro';
+import ClosingTide from '../components/base/ClosingTide.astro';
 import Accordion from '../components/base/Accordion.astro';
 import ArrowLink from '../components/base/ArrowLink.astro';
-import CtaBand from '../components/base/CtaBand.astro';
 import { faqJsonLd } from '../components/base/schema';
 import { getFaqs } from '../lib/content';
 import { day } from '../data/day';
 import { answerHtml, noteHtml } from '../components/pages/d/faq-format';
-import { cta } from '../data/settings';
 
 const faqs = await getFaqs();
 const byOrder = new Map(faqs.map((f) => [f.data.order, f]));
@@ -45,12 +44,15 @@ const notes: Record<number, string> = {
 };
 
 const groups = [
-  { id: 'booking', label: 'Booking', orders: [1, 4, 9, 10, 11] },
-  { id: 'teams-and-groups', label: 'Teams and groups', orders: [2, 7, 8] },
+  { id: 'booking', label: 'Booking', orders: [1, 9, 10, 11] },
+  { id: 'teams-and-groups', label: 'Teams and groups', orders: [2, 8] },
   { id: 'dietary', label: 'Dietary', orders: [3] },
   { id: 'venues', label: 'Venues', orders: [6] },
   { id: 'what-to-bring', label: 'What to bring', orders: [5] },
   { id: 'transfers', label: 'Transfers', orders: [12] },
+  // FAQ 4 (pairs only) and FAQ 7 (weekend retreats) describe formats the site no longer leads with,
+  // so they sit apart until Belle confirms them (audience review 27-09-2026).
+  { id: 'weekends-and-pairs', label: 'Weekends and pairs', orders: [4, 7], draft: true },
 ].map((g) => ({
   ...g,
   items: g.orders
@@ -73,30 +75,36 @@ const schema = faqJsonLd(faqs.map((f) => ({ question: f.data.question, answer: f
   description="Answers to common questions about La maréa retreats on the Fleurieu Peninsula: what is included, food and dietary needs, venues, packing and transfers."
   jsonLd={schema}
 >
-  <PageIntro
-    eyebrow="FAQs"
-    heading="Frequently asked questions"
-    crumbs={[{ label: 'FAQs' }]}
-    lead="Answers to the questions guests ask most, from what a retreat includes to transfers from Adelaide Airport."
-    leadDraft
-    media="faqs-intro"
-    size="compact"
-  >
-    <ArrowLink href="mailto:info@lamarea.com.au" label="Ask us at info@lamarea.com.au" />
-  </PageIntro>
-
-  <nav class="wrap faq-nav" aria-label="Question groups">
-    <ul role="list">
-      {groups.map((g) => <li><a href={`#${g.id}`}>{g.label}</a></li>)}
-    </ul>
-  </nav>
+  <header class="faq-open">
+    <div class="wrap">
+      <Breadcrumbs items={[{ label: 'FAQs' }]} />
+      <p class="faq-open__eyebrow">FAQs</p>
+      <h1 class="faq-open__title">Frequently asked questions</h1>
+      <div class="faq-open__foot">
+        <p class="faq-open__lead" data-draft>Answers to the questions guests ask most, from what a retreat includes to transfers from Adelaide Airport.</p>
+        <ArrowLink href="mailto:info@lamarea.com.au" label="Ask us at info@lamarea.com.au" />
+      </div>
+      <nav class="faq-index" aria-label="Question groups">
+        <ol role="list">
+          {groups.map((g, i) => (
+            <li style={`--k:${i}`}>
+              <a href={`#${g.id}`}>
+                <span class="faq-index__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <span class="faq-index__word" data-draft={g.draft ? '' : undefined}>{g.label}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </div>
+  </header>
 
   <div class="wrap faq-groups">
     {groups.map((g, i) => (
       <section class="faq-group" id={g.id} aria-labelledby={`${g.id}-title`}>
         <header class="faq-group__head">
           <span class="faq-group__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-          <h2 class="faq-group__title" id={`${g.id}-title`}>{g.label}</h2>
+          <h2 class="faq-group__title" id={`${g.id}-title`} data-draft={g.draft ? '' : undefined}>{g.label}</h2>
           <p class="faq-group__count">{g.items.length === 1 ? 'One question' : `${['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six'][g.items.length] ?? g.items.length} questions`}</p>
         </header>
         <Accordion items={g.items} name={`faq-${g.id}`} titleTag="h3" class="faq-group__list" />
@@ -104,38 +112,31 @@ const schema = faqJsonLd(faqs.map((f) => ({ question: f.data.question, answer: f
     ))}
   </div>
 
-  <CtaBand line="Curate your 8 hour immersive retreat" note={cta.callNote} params={{ source: 'faqs' }} tone="salt" draft={{ line: true }} />
+  <ClosingTide line="Curate your 8 hour immersive retreat" lineDraft params={{ source: 'faqs' }} />
 </Base>
 
 <style>
-  .faq-nav { padding-bottom: clamp(1.5rem, 3vw, 2.5rem); }
-  .faq-nav ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0 clamp(1.25rem, 2.5vw, 2.25rem);
-    margin: 0;
-    padding: 0.5rem 0;
-    border-block: 1px solid var(--sage-20);
-    list-style: none;
+  .faq-open { padding: calc(var(--header-h) + clamp(1.5rem, 4vw, 3rem)) 0 clamp(2.5rem, 5vw, 4rem); background: var(--salt-25); }
+  .faq-open__eyebrow { margin: clamp(2rem, 5vw, 3.5rem) 0 1rem; font-family: var(--font-editorial); font-style: italic; font-size: 1.1875rem; color: var(--sage-80); }
+  .faq-open__title { margin: 0; max-width: 9em; font-family: var(--font-display); font-weight: 400; font-size: clamp(2.75rem, 1rem + 5vw, 5.5rem); line-height: 0.98; color: var(--heading); }
+  .faq-open__foot { display: grid; gap: 1.25rem; margin-top: clamp(1.5rem, 3vw, 2.5rem); max-width: 30rem; }
+  .faq-open__lead { margin: 0; line-height: 1.6; color: var(--sage-100); }
+  .faq-index { margin-top: clamp(3rem, 7vw, 5.5rem); }
+  .faq-index ol { display: grid; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
+  @media (min-width: 900px) { .faq-index ol { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(2rem, 6vw, 6rem); } }
+  .faq-index li { border-bottom: 1px solid var(--rule); overflow-x: clip; }
+  .faq-index a { display: flex; align-items: baseline; gap: 1.25rem; min-height: 2.75rem; padding: clamp(0.8rem, 1.6vw, 1.2rem) 0; color: var(--heading); text-decoration: none; }
+  .faq-index__num { width: 2rem; flex: none; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .faq-index__word { font-family: var(--font-display); font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.75rem); line-height: 1.05; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size 600ms var(--ease-settle); }
+  @media (hover: hover) { .faq-index a:hover .faq-index__word { background-size: 100% 1px; } }
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .faq-index a { animation: faq-in linear both; animation-timeline: view(); animation-range: entry 5% entry 85%; }
+    }
   }
-  .faq-nav a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
-    font-family: var(--font-ui);
-    font-size: var(--fs-nav);
-    letter-spacing: 0.08em;
-    color: var(--sage-80);
-    text-decoration: none;
-    background: linear-gradient(currentColor, currentColor) 0 calc(100% - 0.7rem) / 0% 1px no-repeat;
-    transition: background-size var(--dur-fast) var(--ease-soft), color var(--dur-fast) var(--ease-soft);
-  }
-  @media (hover: hover) {
-    .faq-nav a:hover { background-size: 100% 1px; color: var(--sage-100); }
-  }
-  .faq-nav a:active { background-size: 100% 1px; }
+  @keyframes faq-in { from { opacity: 0; transform: translateX(10%); } to { opacity: 1; transform: none; } }
 
-  .faq-groups { padding-bottom: var(--section-y); }
+  .faq-groups { padding-top: clamp(1rem, 3vw, 2rem); padding-bottom: var(--section-y); }
   .faq-group {
     display: grid;
     gap: 1.25rem;
@@ -179,7 +180,5 @@ const schema = faqJsonLd(faqs.map((f) => ({ question: f.data.question, answer: f
   .faq-groups :global(.faq-note span) { display: block; letter-spacing: var(--track-label); opacity: 0.8; }
   :global(html:not([data-media-notes='on'])) .faq-groups :global(.faq-note) { display: none; }
 
-  @media (prefers-reduced-motion: reduce) {
-    .faq-nav a { transition: none; }
-  }
+  @media (prefers-reduced-motion: reduce) { .faq-index__word { transition: none; } }
 </style>

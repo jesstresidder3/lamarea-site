@@ -14,7 +14,7 @@
   Proof is anonymised: reviews show a descriptor and the format, never a name, and no client is named
   anywhere on the page until Belle has written permission (plan/11 item 63).
   Group size: no single number publishes (the live page says up to 20, the guide 10 to 14); sizes vary
-  by venue (decision 14). Venues are ordered largest first.
+  by venue (decision 14). Venues keep the site order, so the first card has a photograph.
 */
 import Base from '../layouts/Base.astro';
 import AudiencePage from './_parts/AudiencePage.astro';
@@ -22,7 +22,7 @@ import { getVenues, getFaqs, getTestimonials } from '../lib/content';
 import { faqJsonLd } from '../components/base/schema';
 import { site } from '../data/settings';
 
-const venues = (await getVenues()).sort((a, b) => (b.data.sleeps.value ?? 0) - (a.data.sleeps.value ?? 0));
+const venues = await getVenues();
 const order = ['faq-06', 'faq-03', 'faq-02', 'faq-08', 'faq-09'];
 const faqs = (await getFaqs()).filter((f) => order.includes(f.id)).sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
 const reviews = await getTestimonials({ groupType: 'corporate' });
@@ -43,39 +43,47 @@ const jsonLd = [
 <Base
   title="Corporate wellness retreats, Fleurieu Peninsula"
   description="Corporate wellness retreats on the Fleurieu Peninsula, South Australia: the 8 hour immersive retreat for leadership teams, with transport from your Adelaide office."
-  headerTone="over-media"
+  headerTone="immersive"
   jsonLd={jsonLd}
 >
   <AudiencePage
     audience="corporate"
     crumb="For corporate teams"
-    hero={{
-      slot: 'corporate-hero',
+    opener={{
+      media: 'a-corporate-opener',
       eyebrow: 'For corporate teams',
-      heading: 'Corporate wellness retreats',
-      body: 'A strategic reset for leadership teams and high-performing professionals.',
+      lines: ['Corporate', 'wellness', 'retreats'],
+      indents: [0, 1.2, 2.4],
+      line: 'A strategic reset for leadership teams and high-performing professionals.',
+      place: 'top-right',
+      zoom: 1.42,
+      who: 'Leadership teams and professionals',
+      whoDraft: true,
     }}
     who={{
       statement: 'Corporate retreats are designed for teams who understand that sustainable performance requires recovery, clarity and nervous system regulation, not just output.',
       paragraphs: [
         'Drawing from La maréa’s ten evidence-based pillars each retreat integrates structured movement, restorative wellness practices, Mediterranean-inspired nourishment and practical lifestyle wellness education. The experience is private by design, creating psychological safety and space for meaningful conversation without distraction.',
       ],
+      large: 'a-corporate-rest',
+      detail: 'a-detail-bowls',
+      shape: 'frame',
     }}
     includes={[
       'Energising group vinyasa yoga flow or mat pilates',
       'Individual restorative massage therapy',
       'Group lifestyle wellness workshop',
       'Shared private chef curated Mediterranean-inspired lunch',
-      'Luxury private return group transport from Adelaide',
+      'Luxury private transfer, group pickup from work office',
     ]}
     venues={{
       heading: 'Places to Pause for your team',
       intro: 'Guided by our personalisation pillar, each retreat location is carefully matched to the group and the retreat intention.',
       items: venues,
-      filters: false,
     }}
-    proof={{ heading: 'In our guests’ words', items: reviews }}
+    proof={{ heading: 'In our guests’ words', items: reviews, media: 'a-quotes-corporate' }}
     questions={{ heading: 'Practical answers for planners', faqs }}
-    guide={{ title: 'The corporate group guide', list: 'guide:corporate-group-guide' }}
+    guide={{ title: 'The corporate group guide', slug: 'corporate-group-guide' }}
+    close={{ media: 'a-close-emerald', caption: 'The Fleurieu coast' }}
   />
 </Base>

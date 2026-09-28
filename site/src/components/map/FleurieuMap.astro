@@ -120,9 +120,9 @@ const rings = [34, 20, 9];
               <div class="fm-venue">
                 <h3 class="fm-name">{v.data.name}</h3>
                 <p class="fm-facts">
-                  <span>Sleeps {v.data.sleeps.display ?? 'to confirm'}</span>
-                  <span>{v.data.partner_label}</span>
                   {v.data.drive_from_adelaide && <span>{v.data.drive_from_adelaide.text}</span>}
+                  <span>{v.data.partner_label}</span>
+                  <span>Sleeps {v.data.sleeps.display ?? 'to confirm'}</span>
                 </p>
                 <ArrowLink href={`/places/${v.id}`} label={`Discover ${v.data.name}`} class="fm-link" />
               </div>

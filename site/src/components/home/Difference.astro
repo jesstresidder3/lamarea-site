@@ -1,0 +1,60 @@
+---
+/*
+  Home, Our difference (rebuild round 1, 28-09-2026). Replaces the five hairline rows (DifferenceRows),
+  which read as a feature list. Belle's five differences, verbatim from her live home page, sit on a
+  sand panel that overlaps a tall photograph of the hidden cove (P2 OffsetPair), with a small detail of
+  the Fleurieu's wildlife set lower. Each difference links to where it is shown on the site.
+  The two photographs drift apart as the pair passes (0.92 and 1.08). Reduced motion: static.
+
+  <Difference items={rows} />
+*/
+import OffsetPair from '../base/OffsetPair.astro';
+
+interface Item { text: string; href: string; linkLabel?: string }
+interface Props { items: Item[]; heading?: string; id?: string }
+const { items, heading = 'Our difference', id = 'difference' } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+<section class="df" aria-labelledby={`${id}-heading`} data-ground="salt">
+  <OffsetPair large="home-difference" detail="home-difference-detail" caption="A hidden cove on the Fleurieu coast" side="right" largeAspect="4 / 5">
+    <h2 class="df__heading" id={`${id}-heading`}>{heading}</h2>
+    <ol class="df__list" role="list">
+      {items.map((it, i) => (
+        <li class="df__item">
+          <span class="df__num" aria-hidden="true">{pad(i + 1)}</span>
+          <a class="df__link" href={it.href} aria-label={`${it.text}. ${it.linkLabel ?? 'Read more'}`}>
+            <span class="df__text">{it.text}</span>
+            {it.linkLabel && <span class="df__go">{it.linkLabel}</span>}
+          </a>
+        </li>
+      ))}
+    </ol>
+  </OffsetPair>
+</section>
+
+<style>
+  .df { position: relative; padding-block: clamp(6rem, 12vh, 10rem); }
+  .df__heading { margin: 0 0 clamp(1.5rem, 3vw, 2.5rem); font-size: var(--fs-section); line-height: 1.02; }
+  .df__list { margin: 0; padding: 0; list-style: none; display: grid; gap: 0; border-top: 1px solid var(--rule); }
+  .df__item { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); gap: 0 0.75rem; padding: 1rem 0; border-bottom: 1px solid var(--rule); }
+  .df__num { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.1em; color: var(--sage-80); padding-top: 0.4rem; }
+  .df__link { display: grid; gap: 0.35rem; color: inherit; text-decoration: none; }
+  .df__text {
+    font-family: var(--font-editorial);
+    font-size: clamp(1.1875rem, 1.05rem + 0.45vw, 1.4375rem);
+    line-height: 1.35;
+    color: var(--sage-100);
+  }
+  .df__go {
+    justify-self: start;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: 0.06em;
+    color: var(--sage-80);
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0% 1px no-repeat;
+    padding-bottom: 0.1em;
+    transition: background-size 500ms var(--ease-settle);
+  }
+  @media (hover: hover) { .df__link:hover .df__go { background-size: 100% 1px; } }
+  .df__link:focus-visible .df__go { background-size: 100% 1px; }
+</style>

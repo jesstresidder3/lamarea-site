@@ -9,10 +9,11 @@
   collection, so a venue Belle adds appears in the cards, the filter and the map with no code change.
 */
 import Base from '../../layouts/Base.astro';
-import Band from '../../components/pages/c/Band.astro';
+import PageOpener from '../../components/base/PageOpener.astro';
+import OffsetPair from '../../components/base/OffsetPair.astro';
+import ClosingTide from '../../components/base/ClosingTide.astro';
+import ArrowLink from '../../components/base/ArrowLink.astro';
 import SectionHead from '../../components/base/SectionHead.astro';
-import TextPair from '../../components/base/TextPair.astro';
-import CtaBand from '../../components/base/CtaBand.astro';
 import Reveal from '../../components/base/Reveal.astro';
 import VenueIndex from '../../components/venues/VenueIndex.astro';
 import FleurieuMap from '../../components/map/FleurieuMap.astro';
@@ -40,16 +41,13 @@ const jsonLd = {
   headerTone="over-media"
   jsonLd={jsonLd}
 >
-  <Band
-    media="places-hero"
-    height="tall"
-    hero
-    text="over"
-    level={1}
-    eyebrow="Venues"
-    heading="Places to Pause"
-    body="Our partner venues for the 8 hour immersive retreat, on the coast and in the vineyards of the Fleurieu Peninsula."
-    draft={{ body: true }}
+  <PageOpener
+    media="c-places-opener"
+    lines={['Places', 'to Pause']}
+    sub="Our partner venues for the 8 hour immersive retreat, on the coast and in the vineyards of the Fleurieu Peninsula."
+    subDraft
+    caption="The Fleurieu Peninsula, South Australia"
+    id="places-title"
   />
 
   <section class="section places-intro">
@@ -74,31 +72,35 @@ const jsonLd = {
   <section class="section places-map" aria-labelledby="map-heading">
     <div class="wrap">
       <Reveal>
-        <SectionHead id="map-heading" eyebrow="Where they are" heading="South of *Adelaide*, between the vines and the sea" draft={{ heading: true }} />
+        <SectionHead id="map-heading" eyebrow="Where they are" heading="Between the vines and the sea, south of *Adelaide*" draft={{ heading: true }} />
       </Reveal>
     </div>
     <FleurieuMap venues={venues} id="places-map" class="fmap--wide" />
-  </section>
-
-  <section class="section band-warm" aria-labelledby="curated-heading">
-    <div class="wrap">
-      <TextPair heading="Curated partnerships" headingId="curated-heading">
-        <p data-draft>More places will join the collection over time, each one chosen the same way.</p>
-        <p>Where aligned in values and guest experience, we are open to curating retreats at other luxury venues upon request. If you have a setting in mind, we welcome the conversation to explore suitability.</p>
-      </TextPair>
+    <div class="wrap places-map__more">
+      <ArrowLink href="/fleurieu-peninsula-retreats" label="Where is the Fleurieu Peninsula?" />
     </div>
   </section>
 
-  <CtaBand
+  <section class="section places-curated" aria-labelledby="curated-heading" data-ground="warm">
+    <OffsetPair large="c-be-yoga" detail="c-eb-walk" largeAspect="4 / 5" caption="Beresford Estate, McLaren Vale" detailCaption="Encounter Bay">
+      <h2 id="curated-heading">Curated partnerships</h2>
+      <p data-draft>More places will join the collection over time, each one chosen the same way.</p>
+      <p>Where aligned in values and guest experience, we are open to curating retreats at other luxury venues upon request. If you have a setting in mind, we welcome the conversation to explore suitability.</p>
+    </OffsetPair>
+  </section>
+
+  <ClosingTide
     line="Tell us who is coming, and we will suggest the place"
-    note="Guided by our personalisation pillar, each retreat location is carefully matched to the group and the retreat intention."
+    lead="Guided by our personalisation pillar, each retreat location is carefully matched to the group and the retreat intention."
     params={{ source: 'places' }}
-    tone="salt"
-    draft={{ line: true }}
+    media="c-dc-open-sea"
+    lineDraft
   />
 </Base>
 
 <style>
   .places-intro { padding-bottom: calc(var(--section-y) * 0.75); }
   .places-map { padding-bottom: var(--section-y); }
+  .places-map__more { margin-top: clamp(1.5rem, 3vw, 2.5rem); }
+  .places-curated h2 { margin: 0 0 1.5rem; }
 </style>

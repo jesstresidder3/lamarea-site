@@ -115,6 +115,11 @@ const total = galleryGroups.reduce((n, g) => n + g.tiles.length, 0);
 </script>
 
 <style>
+  /* P7 (L4 rebuild, 28-09-2026): with the notes layer off, a retreat with no photographs yet steps
+     aside, and the filter bar goes when no retreat has a photograph to filter. */
+  :global(html:not([data-media-notes='on'])) .gg:not(:has(.media--real)) { display: none; }
+  :global(html:not([data-media-notes='on'])) .gallery:not(:has(.gg .media--real)) .gallery__bar { display: none; }
+
   .gallery { padding-bottom: var(--section-y); }
 
   /* Filters: two quiet rows of text toggles, sentence case, an underline for the active one. */

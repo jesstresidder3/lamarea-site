@@ -1,0 +1,65 @@
+---
+/*
+  OffsetPair (lane L2, rebuild 28-09-2026). One large photograph and one small detail that overlaps
+  its corner, with the words in the open column beside them. The large photo drifts slower than the
+  page and the detail a little faster, so the pair separates gently as it passes (data-speed, the
+  site's parallax in scripts/motion.ts). The section already has a picture while its words arrive.
+
+  <OffsetPair large="table-lemons-sea" detail="olive-oil-bread" side="left" caption="Naiko Deep Creek">
+    ...words...
+  </OffsetPair>
+
+  Props
+  - large, detail: slot ids (detail optional)
+  - side: where the pictures sit, 'left' (default) or 'right'
+  - shape: 'arch' puts the large photo in the style guide's arch, 'frame' keeps it square-cornered
+  - caption: a Cormorant caption under the large photo
+  - class
+*/
+import Media from '../../media/Media.astro';
+
+interface Props { large: string; detail?: string; side?: 'left' | 'right'; shape?: 'arch' | 'frame'; caption?: string; class?: string }
+const { large, detail, side = 'left', shape = 'frame', caption, class: className } = Astro.props;
+---
+<div class:list={['op2', `op2--${side}`, `op2--${shape}`, detail && 'op2--detail', className]}>
+  <div class="op2__pics">
+    <figure class="op2__large">
+      <div class="op2__large-frame" data-speed="0.9"><Media media={large} aspect="fill" sizes="(max-width: 899px) 86vw, 44vw" /></div>
+      {caption && <figcaption class="op2__caption">{caption}</figcaption>}
+    </figure>
+    {detail && <div class="op2__detail" data-speed="0.8"><Media media={detail} aspect="fill" sizes="(max-width: 899px) 44vw, 18vw" showNote={false} /></div>}
+  </div>
+  <div class="op2__words"><slot /></div>
+</div>
+
+<style>
+  .op2 { display: grid; gap: clamp(3rem, 8vw, 5rem) var(--space-l); align-items: center; }
+  .op2__pics { position: relative; padding-bottom: 0; }
+  .op2--detail .op2__pics { padding-bottom: clamp(3rem, 10vw, 6rem); padding-right: clamp(3rem, 14vw, 9rem); }
+  .op2__large { margin: 0; }
+  .op2__large-frame { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--sand-40); }
+  .op2--arch .op2__large-frame { border-radius: var(--arch); }
+  .op2__caption { margin-top: 0.7rem; font-family: var(--font-editorial); font-style: italic; font-size: var(--fs-caption); color: var(--sage-80); }
+  .op2__detail {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 44%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--sand-40);
+    outline: clamp(0.4rem, 1vw, 0.75rem) solid var(--op2-ground, var(--sand-30));
+  }
+  .op2__words { max-width: 34rem; }
+  :global(html:not([data-media-notes='on'])) .op2__detail:has(.media--placeholder) { display: none; }
+  :global(html:not([data-media-notes='on'])) .op2__pics:has(.op2__large .media--placeholder) { display: none; }
+
+  @media (min-width: 900px) {
+    .op2 { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(3rem, 7vw, 8rem); }
+    .op2--right { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+    .op2--right .op2__pics { order: 2; }
+    .op2--right.op2--detail .op2__pics { padding-right: 0; padding-left: clamp(3rem, 8vw, 9rem); }
+    .op2--right .op2__detail { right: auto; left: 0; }
+    .op2__large-frame { aspect-ratio: 4 / 5; max-height: 84svh; }
+  }
+</style>

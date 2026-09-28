@@ -1,0 +1,173 @@
+---
+/*
+  FrameSlider (L3 rebuild, 28-09-2026): Basq House's room slider at full scale (Belle, T30: "a really
+  beautiful way with beautiful imagery"). Large 3:2 frames, the next one peeking in from the right,
+  arrows and a counter under the row, a P3 caption under each frame. The row slides in from the right
+  when it reaches the screen (64px, --ease-settle), then moves by native scroll with snap: swipe on
+  touch, arrows or the keyboard elsewhere. Frames without a photograph are left out (P7), and a
+  slider with fewer than two frames renders nothing.
+  Reduced motion: no slide-in, arrows jump.
+
+  <FrameSlider label="Yoga, in pictures" items={[{ media: 'c-xp-yoga-silhouette' }, { media: 'c-be-yoga', caption: 'Beresford Estate' }]} />
+
+  Props
+  - items: { media, caption?, title? }[] (media is a slot id)
+  - label: accessible name (required)
+  - heading: optional small heading above the row (Cormorant italic caption style)
+  - ratio: unused (kept for older calls); frames take 4:5 or 3:2 from the photograph
+  - id, class
+*/
+import Media from '../../media/Media.astro';
+import Caption from '../../base/Caption.astro';
+import { media as getMedia } from '../../../data/media';
+import { isPortrait } from './experience-media';
+
+interface Item { media: string; caption?: string; title?: string }
+interface Props { items: Item[]; label: string; heading?: string; ratio?: string; id?: string; class?: string }
+const { items, label, heading, ratio = '3 / 2', id, class: className } = Astro.props;
+const shown = items.filter((it) => { const m = getMedia(it.media); return Boolean(m.src || m.poster); });
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+{shown.length >= 2 && (
+  <section class:list={['fs', className]} id={id} aria-roledescription="carousel" aria-label={label} data-fs>
+    {heading && <p class="fs__heading">{heading}</p>}
+    <ol class="fs__list" role="list" tabindex="0" aria-label={label} data-fs-list>
+      {shown.map((it, i) => (
+        <li class:list={['fs__item', isPortrait(it.media) ? 'fs__item--tall' : 'fs__item--wide']} style={`--i:${i}`} aria-roledescription="slide" aria-label={`${i + 1} of ${shown.length}`} data-fs-item>
+          <figure class="fs__fig">
+            <span class="fs__frame"><Media media={it.media} aspect="fill" sizes="(max-width: 699px) 88vw, 70vw" /></span>
+            {(it.title || it.caption) && (
+              <Caption as="figcaption">{it.title}{it.title && it.caption ? ', ' : ''}{it.caption}</Caption>
+            )}
+          </figure>
+        </li>
+      ))}
+    </ol>
+    <div class="fs__nav">
+      <p class="fs__count" aria-hidden="true"><span data-fs-current>01</span><span class="fs__sep">/</span><span>{pad(shown.length)}</span></p>
+      <span class="fs__rule" aria-hidden="true"><span class="fs__bar" data-fs-bar style={`width:${100 / shown.length}%`}></span></span>
+      <div class="fs__arrows">
+        <button type="button" class="fs__arrow" data-fs-prev aria-label={`Previous photograph: ${label}`}>
+          <svg viewBox="0 0 40 12" width="40" height="12" aria-hidden="true" focusable="false"><path d="M39.5 6H1M6 1L1 6l5 5" /></svg>
+        </button>
+        <button type="button" class="fs__arrow" data-fs-next aria-label={`Next photograph: ${label}`}>
+          <svg viewBox="0 0 40 12" width="40" height="12" aria-hidden="true" focusable="false"><path d="M0.5 6H39M34 1l5 5-5 5" /></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .fs { position: relative; }
+  .fs__heading {
+    margin: 0 var(--gutter) clamp(1.25rem, 2.5vw, 2rem);
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+    color: var(--sage-80);
+  }
+  .fs__list {
+    display: flex;
+    gap: clamp(0.9rem, 2vw, 2rem);
+    margin: 0;
+    padding: 0 var(--gutter) 0.25rem;
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+    outline-offset: -2px;
+  }
+  .fs__list::-webkit-scrollbar { display: none; }
+  /* One height for every frame, so the row reads as a horizon; portraits stand at 4:5, landscapes
+     at 3:2, both capped to the screen on phones. */
+  .fs { --fs-h: clamp(22rem, 66svh, 44rem); }
+  .fs__item { flex: none; scroll-snap-align: start; }
+  .fs__fig { margin: 0; }
+  .fs__frame { position: relative; display: block; height: var(--fs-h); overflow: hidden; background: var(--sand-40); }
+  .fs__item--tall .fs__frame { width: min(calc(var(--fs-h) * 0.8), 86vw); }
+  .fs__item--wide .fs__frame { width: min(calc(var(--fs-h) * 1.5), 86vw); }
+  .fs__fig :global(.cap) { max-width: calc(var(--fs-h) * 0.8); }
+  .fs__frame :global(.media) { transition: scale 1600ms var(--ease-settle); }
+
+  .fs__nav {
+    display: grid;
+    grid-template-columns: auto minmax(3rem, 1fr) auto;
+    align-items: center;
+    gap: 1.25rem;
+    padding: clamp(1.25rem, 2.5vw, 2rem) var(--gutter) 0;
+  }
+  .fs__count { margin: 0; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); font-variant-numeric: tabular-nums; }
+  .fs__sep { margin-inline: 0.4em; opacity: 0.6; }
+  .fs__rule { position: relative; height: 1px; background: var(--sage-20); }
+  .fs__bar { position: absolute; left: 0; top: -0.5px; height: 2px; background: var(--sage-80); transition: translate 700ms var(--ease-settle); }
+  .fs__arrows { display: flex; gap: 0.5rem; }
+  .fs__arrow {
+    display: grid; place-items: center;
+    width: 3.25rem; height: 3.25rem;
+    border: 1px solid color-mix(in srgb, var(--sage-40) 60%, transparent);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--sage-80);
+    transition: background-color 400ms var(--ease-settle), opacity 400ms var(--ease-settle);
+  }
+  .fs__arrow:disabled { opacity: 0.35; }
+  .fs__arrow svg { width: 1.5rem; overflow: visible; }
+  .fs__arrow path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+  @media (hover: hover) { .fs__arrow:not(:disabled):hover { background: var(--sand-60); } }
+
+  @media (max-width: 699px) {
+    .fs { --fs-h: 62svh; }
+    .fs__item--wide .fs__frame { height: auto; aspect-ratio: 4 / 3; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.js) .fs:not(.is-in) .fs__item { opacity: 0; translate: 64px 0; }
+    :global(html.js) .fs .fs__item { transition: opacity 900ms var(--ease-settle), translate 1200ms var(--ease-settle); transition-delay: calc(var(--i, 0) * 90ms); }
+    :global(html.js) .fs:not(.is-in) .fs__frame :global(.media) { scale: 1.06; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-fs]').forEach((root) => {
+    const list = root.querySelector<HTMLElement>('[data-fs-list]');
+    const items = Array.from(root.querySelectorAll<HTMLElement>('[data-fs-item]'));
+    const prev = root.querySelector<HTMLButtonElement>('[data-fs-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-fs-next]');
+    const cur = root.querySelector<HTMLElement>('[data-fs-current]');
+    const bar = root.querySelector<HTMLElement>('[data-fs-bar]');
+    if (!list || !items.length) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { root.classList.add('is-in'); io.disconnect(); } }, { rootMargin: '0px 0px -12% 0px' });
+    io.observe(list);
+    const index = () => {
+      const x = list.scrollLeft;
+      let best = 0;
+      items.forEach((it, i) => { if (Math.abs(it.offsetLeft - items[0].offsetLeft - x) < Math.abs(items[best].offsetLeft - items[0].offsetLeft - x)) best = i; });
+      return best;
+    };
+    const update = () => {
+      const i = index();
+      const max = list.scrollWidth - list.clientWidth;
+      if (cur) cur.textContent = String(i + 1).padStart(2, '0');
+      if (bar) bar.style.translate = `${i * 100}% 0`;
+      if (prev) prev.disabled = list.scrollLeft < 4;
+      if (next) next.disabled = list.scrollLeft > max - 4;
+    };
+    const go = (k: number) => {
+      const i = Math.max(0, Math.min(items.length - 1, k));
+      list.scrollTo({ left: items[i].offsetLeft - items[0].offsetLeft, behavior: reduce ? 'auto' : 'smooth' });
+    };
+    prev?.addEventListener('click', () => go(index() - 1));
+    next?.addEventListener('click', () => go(index() + 1));
+    list.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(index() + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(index() - 1); }
+    });
+    list.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  });
+</script>

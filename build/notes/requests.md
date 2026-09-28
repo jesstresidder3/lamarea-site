@@ -88,3 +88,29 @@
 - **For the designer (`funnel-options.ts`, `TableMoment.astro`, `ExpandTile.astro` example).** Old names still show: "The 8 hour day" as the funnel format label, and "The Table" as a link label on home. New names: "The 8 hour immersive retreat" and "Food and sample menus".
 - **For the designer (home, `index.astro`).** The home doors read "Private groups and retreats" and "Corporate teams". The nav, menu and footer now say "For private groups" and "For corporate teams". The home first screen could also use the UX line "Full day wellness retreats for private groups and corporate teams, on the coast and in the vineyards of the Fleurieu Peninsula, door to door from Adelaide."
 - **For everyone.** `components/pages/a/PathPage.astro` is no longer used by any page. The two audience pages use `pages/_parts/AudiencePage.astro`.
+
+## L1 Home and system, round 1, 28-09-2026
+
+- **For every lane.** The seven shared patterns are built. Usage table at the top of `shared-edits.md`. Swap your openers to `PageOpener` (first child of `<main>`, so the header goes clear over it), your page endings to `ClosingTide` (drop the page's `CtaBand` when you do), rows of cards to `SlideStrip`. Missing photos no longer leave frames (P7), so check your grids still read with the gap: use `[data-has-empty]` to reflow.
+- **For L2 (`funnel-options.ts`).** The funnel format label still reads "The 8 hour day"; the UX name is "The 8 hour immersive retreat".
+- **For L2, L3, L4.** The header no longer shows inline links at any width (art review finding 9: Menu, wordmark, pill only). The UX request to keep a visible "Home" link is superseded; "Home" stays first in the menu.
+- **Handled from earlier requests.** PinnedDay `plan={false}` and the eyebrow name were already in; the home map now opens on Deep Creek with a bright frame; no text sits over the Restore photo any more; `ExpandTile` example link now reads "Food and sample menus".
+
+## Lane L2, 28-09-2026
+
+- **For L3 (venues).** The buyers' pages now show venues through `components/pages/a/PanelTrack.astro` using the `venue-<id>-card` slots, so the 0px-high Beresford and Encounter Bay cards in `VenueIndex` no longer show on /private-groups, /corporate or the 8 hour page. Encounter Bay, Beresford Estate and The Vineyard Retreat show as named sand panels until their card photos exist. When the Beresford photos arrive from Drive folder 13wedhtpKiF0TzIm0MlmMwf4oFb3CWx5l, filling `venue-beresford-estate-card` (slots-systems, L1) is all these pages need.
+- **For L1.** `components/pages/a/GuestQuotes.astro` follows your GuestWords behaviour with a photo beside it. If you build the shared testimonial pattern, the buyers' pages can switch to it by props.
+
+## L4 (Story and proof), 28-09-2026
+
+- **For L1 (`slots-systems.ts`, `pillar-*` slots).** Belle's ten pillar films are now in `public/media/pillar-*.mp4` with posters, as slots `pv-<pillar id>` in `slots-page-b.ts`. FlexShowcase uses them on /philosophy. If home shows the pillars, point the `pillar-*` slots at the same files or read `pv-*`.
+- **For L1 (Footer).** On every L4 page that now ends in ClosingTide the footer still prints its own motto band, so the motto shows twice (ClosingTide's small line, then the large footer band).
+- **For L3 (`slots-page-c.ts`).** `team-hero` (the shirtless breathwork frame) and `story-hero`, `story-moana`, `story-myponga`, `story-mediterranean`, `story-hosts` are no longer used by /team or /our-story. `story-hosts` can take `/media/hosts-belle-zoe-sarah.jpg` if anything else still reads it.
+
+## L3 builder (Experiences, places, food), round 1, 28-09-2026
+
+- **For L1 (home hero), DJI_0781 is found.** Belle's named home-hero clip is in her Drive folder 17Vku458GY8NaBOb0YpW4mNaFEr1zbpYH (file 1bx_Ki9uMhwt-YpL9JBpKQKQPpDATvLEx, 250 MB, 2688x1512, 25fps, 40s). It is on disk at `media-pool/incoming/drive-28-09/video/DJI_0781_2beb165e.MP4`. It is a slow top-down pass along dark cliffs, emerald water on one side and dry paddocks on the other, a little dark and brown, so it wants a lift and warm grade. Not cut for the web, since the home hero is your lane. The same folder also holds "La marea summer video.mov" (1.7 GB) and a "Branding pillar videos" folder.
+- **For L1 (home Places to Pause, PlacesArches).** `card_media` for Beresford Estate and Naiko Encounter Bay now points at real photographs (`c-card-beresford-estate`, `c-card-naiko-encounter-bay` in `slots-page-c.ts`), and `map_media` for both is filled too. Beresford's arch no longer needs dropping: it is the estate across the vines under a blue sky.
+- **For L4 (team, philosophy).** Belle's Drive "Wellness & Hospitality Partners / Wellness Partners" holds folders for Jaimi Baker (yoga), Kris (Third Spaces), Courtney Selfe (Earth House), Luca (Aromi Dining) and Malissa Fedele. I pulled 14 frames from the November 2025 shoot into `site/public/media/` (yoga-*, sauna-barrel-*, breathwork-*, chef-*, tortelli-lemons-green, table-tortelli-wine, grilled-vegetables-plates). `luca-chef-sea.jpg` is a strong new portrait of Luca at the rail above the sea (229A8659), unused by me, yours if you want it for /team.
+- **For L4 (philosophy pillar videos), duplicate reels.** I cut `pillar-movement-reel.mp4`, `pillar-nutrition-reel.mp4` and `pillar-nature-reel.mp4` at 0.8x (720x1280) for the /experiences slider and the Fleurieu page before I saw another lane's full-speed `pillar-*.mp4` set. Both sets exist; if you want one set only, keep whichever and tell me the slot to repoint.
+- **For everyone.** New venue photography from Drive: Naiko at the Bluff (Encounter Bay, 8 frames `encounter-bay-*`), Naiko Deep Creek (NAIKO-JUL23 set, 6 frames `deep-creek-*`) and Beresford Estate (7 frames `beresford-*`). Slots are in `slots-page-c.ts` with honest alts. The Beresford frames show the estate and its glass pavilion; nothing is captioned as a suite, the plunge pool or Beresford House.

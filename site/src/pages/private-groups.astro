@@ -24,8 +24,9 @@ import { faqJsonLd } from '../components/base/schema';
 import { site } from '../data/settings';
 
 const venues = await getVenues();
-const faqs = (await getFaqs()).filter((f) => ['faq-02', 'faq-03', 'faq-06', 'faq-09', 'faq-05'].includes(f.id));
-const order = ['faq-06', 'faq-02', 'faq-03', 'faq-09', 'faq-05'];
+// Interstate groups need the airport transfer answer more than the packing list (audience review 27-09).
+const order = ['faq-06', 'faq-12', 'faq-02', 'faq-03', 'faq-09'];
+const faqs = (await getFaqs()).filter((f) => order.includes(f.id));
 faqs.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
 
 // Reviews from groups of friends and women's retreats, never the corporate mornings.
@@ -49,21 +50,30 @@ const jsonLd = [
 <Base
   title="Private group retreats, Fleurieu Peninsula"
   description="Private group retreats on the Fleurieu Peninsula, South Australia: the 8 hour immersive retreat for friends and family, with transport from Adelaide."
-  headerTone="over-media"
+  headerTone="immersive"
   jsonLd={jsonLd}
 >
   <AudiencePage
     audience="private"
     crumb="For private groups"
-    hero={{
-      slot: 'private-hero',
+    opener={{
+      media: 'a-private-opener-film',
       eyebrow: 'For private groups',
-      heading: 'Private group retreats',
-      body: 'Birthdays, milestone celebrations, sister weekends, family resets or simply time with people who matter.',
+      lines: ['Private group', 'retreats'],
+      indents: [0, 1.6],
+      line: 'Birthdays, milestone celebrations, sister weekends, family resets or simply time with people who matter.',
+      place: 'top-left',
+      phonePlace: 'bottom',
+      shade: 'strong',
+      who: 'Friends, families and aligned groups',
     }}
     who={{
       statement: 'Intimate, privately curated retreats for friends, families and aligned groups seeking meaningful time away together.',
       paragraphs: ['Each experience is tailored to your group and hosted across our luxury coastal and vineyard partner properties.'],
+      large: 'a-private-walk',
+      detail: 'a-detail-oil-bread',
+      shape: 'arch',
+      aside: { text: 'Looking for a weekend away?', label: 'See shorter retreats and weekends', href: '/retreats#shorter' },
     }}
     includes={[
       'Energising group vinyasa yoga flow or mat pilates',
@@ -76,14 +86,10 @@ const jsonLd = [
       heading: 'Places to Pause for your group',
       intro: 'Guided by our personalisation pillar, each retreat location is carefully matched to the group and the retreat intention.',
       items: venues,
-      filters: true,
     }}
-    proof={{
-      heading: 'In our guests’ words',
-      items: reviews,
-      placeholder: 'A review from a private group day, to be selected by Belle once a group has written one',
-    }}
-    questions={{ heading: 'Questions private groups ask', faqs }}
-    guide={{ title: 'The private group guide', list: 'guide:private-group-guide' }}
+    proof={{ heading: 'In our guests’ words', items: reviews, media: 'a-quotes-private' }}
+    questions={{ heading: 'Questions private groups ask', faqs, after: { label: 'Where is the Fleurieu Peninsula?', href: '/fleurieu-peninsula-retreats' } }}
+    guide={{ title: 'The private group guide', slug: 'private-group-guide' }}
+    close={{ media: 'a-close-cliffs', caption: 'The Fleurieu coast' }}
   />
 </Base>

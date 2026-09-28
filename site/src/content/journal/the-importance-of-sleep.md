@@ -12,7 +12,7 @@ byline:
   name: "Annabelle Redden"
   role: "Performance Nutritionist | Exercise Scientist | Lifestyle Wellness Retreat Host"
   credentials: "B.Ex.S., B.Nut.Food Sci."
-hero: "journal-sleep"
+hero: "jr-sleep"
 image_credit: "Naiko, Deep Creek"
 excerpt: "We often talk about nutrition, exercise and stress management when it comes to feeling and performing at our best, but sleep is one of the foundations that ties all of these together."
 excerpt_basis: "First paragraph of the post, verbatim, bold removed"

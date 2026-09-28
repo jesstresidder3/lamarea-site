@@ -1,5 +1,9 @@
 # La maréa website, state of play
 
+## Rebuild, 28-09-2026
+
+Every page was rebuilt in four lanes on shared patterns (full-bleed opener, closing tide, captions, slide strips), then checked at 1440 and 390 with no errors, broken images or sideways scroll. The dev server for this work runs on port 4322, and it serves stale component CSS until it is restarted. What changed, what is still open and one list of questions for Belle are in `build/reviews/rebuild-final-28-09-2026.md`. Nothing has been built, committed or sent.
+
 ## Local build, 27-09-2026
 
 The site now runs locally at `~/dev/lamarea-site` (its own git repo, copied from the cloud branch `claude-work/intelligent-franklin-rc3yad`). Start it with the "lamarea" entry in the workspace launch config, or `npm run dev` in `site/`, then open http://localhost:4321. Placeholder notes are hidden by default. Add `?notes=on` to any URL to see what belongs in each empty frame.

@@ -206,3 +206,13 @@ html:not([data-media-notes='on']) :is(.placeholder-line, .to-come, [data-notes-o
    layer (?notes=on) keeps the full placeholder for Jess and Belle. */
 html:not([data-media-notes='on']) .media--placeholder { display: none !important; }
 html:not([data-media-notes='on']) :is([data-media-wrap]):has(> .media--placeholder) { display: none !important; }
+
+/* P7, the placeholder policy (art review 27-09-2026). In the visitor's view an empty slot leaves no
+   frame behind. The figure goes, any wrapper that holds only that figure goes, and any element marked
+   data-media-frame that holds a missing photo goes. Media.astro's script also marks each emptied
+   wrapper with data-empty and its nearest surviving ancestor with data-has-empty, so a layout can
+   reflow: for example `.pair[data-has-empty] .pair__text { grid-column: 1 / -1; }`. The notes layer
+   (?notes=on) keeps every placeholder for Jess and Belle. */
+html:not([data-media-notes='on']) :has(> .media--placeholder:only-child) { display: none !important; }
+html:not([data-media-notes='on']) [data-media-frame]:has(.media--placeholder) { display: none !important; }
+html:not([data-media-notes='on']) [data-empty] { display: none !important; }

@@ -6,6 +6,10 @@
   immersive retreat in brief (Belle's guide lines and the three facts, "See the full day"),
   4 shorter retreats and weekends (the other formats and the two waitlists), 5 Plan your day.
   One "Plan your day" in the body, in the closing band. The formats tiles ask about a format instead.
+  Lane L2 rebuild 28-09-2026: a full-bleed opener, then the 8 hour immersive retreat first with its
+  photograph wide and the words overlapping it, the two paths in the home opening's arch and frame,
+  the shorter formats as a row of tall panels that comes in from the right, and a closing frame of
+  the coast. /retreats is where the shorter formats live; the 8 hour block points to its own page.
 
   Belle's words, verbatim (dashes replaced, source in brackets):
   - "There are different seasons that call us to pause. Time with friends, time with family, time to
@@ -23,15 +27,15 @@
   waitlists live on 24-09-2026 (Sunset Reset, Women's Wellness Weekend) link to /waitlist.
 */
 import Base from '../layouts/Base.astro';
-import MediaBand from '../components/base/MediaBand.astro';
 import Media from '../components/media/Media.astro';
 import Eyebrow from '../components/base/Eyebrow.astro';
 import ArrowLink from '../components/base/ArrowLink.astro';
 import SectionHead from '../components/base/SectionHead.astro';
-import ExpandTile from '../components/base/ExpandTile.astro';
 import Reveal from '../components/base/Reveal.astro';
-import CtaBand from '../components/base/CtaBand.astro';
 import Breadcrumbs from '../components/base/Breadcrumbs.astro';
+import PageOpener from '../components/pages/a/PageOpener.astro';
+import PanelTrack from '../components/pages/a/PanelTrack.astro';
+import ClosingTide from '../components/base/ClosingTide.astro';
 import { getFormats } from '../lib/content';
 import { day } from '../data/day';
 import { cta, site, flagshipName } from '../data/settings';
@@ -99,7 +103,8 @@ const menu: Record<string, { title: string; eyebrow: string; media: string; summ
 };
 const tiles = formats
   .filter((f) => f.id !== 'full-day-retreat' && menu[f.id])
-  .map((f) => menu[f.id]);
+  .map((f) => menu[f.id])
+  .map((t) => ({ media: t.media, name: t.title, eyebrow: t.eyebrow, html: (t.summary ? para(t.summary) : '') + t.body, link: t.link }));
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -114,59 +119,31 @@ const jsonLd = {
 <Base
   title="Retreats for private groups and corporate teams"
   description="La maréa retreats on the Fleurieu Peninsula, South Australia: the 8 hour immersive retreat for private groups and corporate teams, with transport from Adelaide, plus shorter retreats and weekends."
-  headerTone="over-media"
+  headerTone="immersive"
   jsonLd={jsonLd}
 >
-  <!-- 1. What this page is, and who it is for -->
-  <div class="hero-f">
-    <MediaBand
-      media="retreats-hero"
-      height="tall"
-      hero
-      text="over"
-      eyebrow="Retreats"
-      heading="Retreat days for private groups and corporate teams"
-      level={1}
-      body="8 hour immersive retreats on the Fleurieu Peninsula, with transport from Adelaide and everything taken care of."
-      draft={{ heading: true, body: true }}
-    />
-  </div>
+  <PageOpener
+    id="retreats"
+    media="a-retreats-opener"
+    shade="strong"
+    mobileMedia="a-retreats-opener-phone"
+    eyebrow="Retreats"
+    lines={['Retreat days', 'for private groups', 'and corporate teams']}
+    indents={[0, 1.4, 0.5]}
+    line="8 hour immersive retreats on the Fleurieu Peninsula, with transport from Adelaide and everything taken care of."
+    lineDraft
+    titleDraft
+    phonePlace="top"
+  />
 
-  <!-- 2. Who it is for, the two paths -->
-  <section class="paths" aria-labelledby="paths-heading">
-    <div class="wrap">
-      <Breadcrumbs items={[{ label: 'Retreats' }]} class="paths__crumbs" />
-      <Reveal>
-        <SectionHead
-          id="paths-heading"
-          eyebrow="Who it is for"
-          heading="Choose your retreat"
-          intro="There are different seasons that call us to pause. Time with friends, time with family, time to reconnect as a team."
-          draft={{ heading: true }}
-        />
-      </Reveal>
-      <ul class="paths__list" role="list">
-        <li class="paths__card">
-          <h3 class="paths__name"><a href="/private-groups">For private groups</a></h3>
-          <p>Birthdays, milestone celebrations, sister weekends, family resets or simply time with people who matter.</p>
-          <ArrowLink href="/private-groups" label="See private group retreats" />
-        </li>
-        <li class="paths__card">
-          <h3 class="paths__name"><a href="/corporate">For corporate teams</a></h3>
-          <p>A strategic reset for leadership teams and high-performing professionals.</p>
-          <ArrowLink href="/corporate" label="See corporate retreats" />
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- 3. The 8 hour immersive retreat in brief -->
+  <!-- The 8 hour immersive retreat first: the photograph wide, the words overlapping its corner -->
   <section class="flag" aria-labelledby="flag-heading">
-    <div class="wrap flag__grid">
-      <Reveal class="flag__media">
-        <div class="flag__img"><Media media="retreats-flagship" aspect="fill" /></div>
-      </Reveal>
-      <Reveal class="flag__text" delay={120}>
+    <div class="wrap">
+      <Breadcrumbs items={[{ label: 'Retreats' }]} class="flag__crumbs" />
+    </div>
+    <div class="flag__stage">
+      <div class="flag__img" data-widen="4"><Media media="a-retreats-day" aspect="fill" sizes="(max-width: 899px) 100vw, 72vw" /></div>
+      <Reveal class="flag__text">
         <Eyebrow>8 hours, 7am to 5pm</Eyebrow>
         <h2 class="flag__heading" id="flag-heading">{flagshipName}</h2>
         <p class="flag__lead">Your luxury retreat includes a curated day program designed around movement, recovery, nourishing food, nervous system support, nature immersion, education and connection.</p>
@@ -177,14 +154,41 @@ const jsonLd = {
           <div><dt>For</dt><dd data-draft>Private groups and corporate teams</dd></div>
         </dl>
         <p class="flag__note">{day.note}</p>
-        <div class="flag__actions">
-          <ArrowLink href={cta.seeFullDay.href} label={cta.seeFullDay.label} size="large" />
-        </div>
+        <ArrowLink href={cta.seeFullDay.href} label={cta.seeFullDay.label} size="large" class="flag__go" />
       </Reveal>
     </div>
   </section>
 
-  <!-- 4. Shorter retreats and weekends. The only place the waitlists sit. -->
+  <!-- Who it is for: the two worlds from the home opening -->
+  <section class="paths" aria-labelledby="paths-heading">
+    <div class="wrap">
+      <Reveal>
+        <SectionHead
+          id="paths-heading"
+          eyebrow="Who it is for"
+          heading="Choose your retreat"
+          intro="There are different seasons that call us to pause. Time with friends, time with family, time to reconnect as a team."
+          draft={{ heading: true }}
+        />
+      </Reveal>
+      <ul class="paths__list" role="list">
+        <li class="paths__card paths__card--arch">
+          <a class="paths__pic" href="/private-groups" tabindex="-1" aria-hidden="true"><Media media="home-world-private-alt" aspect="fill" sizes="(max-width: 899px) 86vw, 34vw" /></a>
+          <h3 class="paths__name"><a href="/private-groups">For private groups</a></h3>
+          <p>Birthdays, milestone celebrations, sister weekends, family resets or simply time with people who matter.</p>
+          <ArrowLink href="/private-groups" label="See private group retreats" />
+        </li>
+        <li class="paths__card paths__card--frame">
+          <a class="paths__pic" href="/corporate" tabindex="-1" aria-hidden="true"><Media media="home-world-corporate" aspect="fill" sizes="(max-width: 899px) 86vw, 40vw" /></a>
+          <h3 class="paths__name"><a href="/corporate">For corporate teams</a></h3>
+          <p>A strategic reset for leadership teams and high-performing professionals.</p>
+          <ArrowLink href="/corporate" label="See corporate retreats" />
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Shorter retreats and weekends. The only place the waitlists sit. -->
   <section class="menu-f" id="shorter" aria-labelledby="formats-heading">
     <div class="wrap">
       <Reveal>
@@ -196,7 +200,9 @@ const jsonLd = {
           draft={{ heading: true }}
         />
       </Reveal>
-      <ExpandTile items={tiles} height="clamp(24rem, 54vh, 34rem)" class="menu-f__tiles" />
+    </div>
+    <PanelTrack items={tiles} size="card" label="Shorter retreats and weekends" id="formats" />
+    <div class="wrap">
       <div class="menu-f__wait">
         <p>Join our retreat waitlist so you never miss out on retreat releases.</p>
         <ArrowLink href="/waitlist" label="Join the waitlist" />
@@ -204,72 +210,58 @@ const jsonLd = {
     </div>
   </section>
 
-  <!-- 5. How booking works, and the one Plan your day -->
-  <CtaBand
+  <ClosingTide
+    media="a-close-coast"
     line="Curate your 8 hour immersive retreat"
+    lineDraft
     params={{ format: 'full-day', source: 'retreats' }}
-    note={cta.callNote}
-    tone="warm"
-    draft={{ line: true }}
   />
 </Base>
 
 <style>
-  .paths { padding-block: clamp(1.5rem, 3vw, 2.5rem) var(--section-y); background: var(--salt-25); }
-  .paths :global(.paths__crumbs) { margin-bottom: clamp(2rem, 4vw, 3.5rem); }
-  .paths__list { display: grid; gap: var(--space-l); margin: clamp(2rem, 4vw, 3rem) 0 0; padding: 0; list-style: none; }
-  .paths__card { padding-top: 1.25rem; border-top: 1px solid var(--sage-20); max-width: 34rem; }
-  .paths__name { margin: 0 0 0.75rem; font-size: var(--fs-h3, 1.6rem); }
-  .paths__name a { color: inherit; text-decoration: none; }
-  .paths__card p { margin: 0 0 1.25rem; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.45; color: var(--sage-100); }
-  @media (min-width: 900px) { .paths__list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2.5rem, 6vw, 6rem); } }
-
-  .flag { padding-block: var(--section-y); background: var(--sand-30); }
-  .flag__grid { display: grid; gap: var(--space-l); align-items: center; }
-  .flag__img { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--sand-40); }
-  .flag__heading { margin: 0 0 1.5rem; max-width: 12em; }
-  .flag__lead {
-    margin: 0 0 1rem;
-    font-family: var(--font-serif);
-    font-size: var(--fs-lead);
-    line-height: 1.45;
-    color: var(--sage-80);
+  .flag { padding-block: clamp(1.5rem, 3vw, 2.5rem) var(--section-y); background: var(--sand-30); overflow-x: clip; }
+  .flag :global(.flag__crumbs) { margin-bottom: clamp(2.5rem, 6vw, 5rem); }
+  .flag__stage { display: grid; }
+  .flag__img { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--sand-40); }
+  .flag__stage :global(.flag__text) {
+    position: relative;
+    margin: -3rem var(--gutter) 0;
+    padding: clamp(1.75rem, 4vw, 3.25rem);
+    background: var(--salt-25);
   }
-  .flag__facts { display: grid; gap: 0; margin: 1.75rem 0 0; max-width: 30rem; border-top: 1px solid var(--sage-20); }
-  .flag__facts div {
-    display: grid;
-    grid-template-columns: 8.5rem minmax(0, 1fr);
-    gap: 1rem;
-    padding-block: 0.7rem;
-    border-bottom: 1px solid var(--sage-20);
-    font-size: var(--fs-small);
-  }
+  .flag__heading { margin: 0.75rem 0 1.25rem; max-width: 12em; }
+  .flag__lead { margin: 0 0 1rem; font-size: var(--fs-lead); line-height: 1.5; color: var(--sage-80); }
+  .flag__facts { display: grid; gap: 0; margin: 1.5rem 0 0; max-width: 30rem; border-top: 1px solid var(--sage-20); }
+  .flag__facts div { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 1rem; padding-block: 0.7rem; border-bottom: 1px solid var(--sage-20); font-size: var(--fs-small); }
   .flag__facts dt { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); padding-top: 0.1rem; }
   .flag__facts dd { margin: 0; color: var(--sage-100); }
-  .flag__note { margin: 1.25rem 0 0; font-family: var(--font-serif); font-size: var(--fs-lead); line-height: 1.4; color: var(--sage-80); }
-  .flag__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 2.25rem; margin-top: 2rem; }
-
+  .flag__note { margin: 1.25rem 0 0; font-family: var(--font-editorial); font-style: italic; font-size: var(--fs-lead); line-height: 1.4; color: var(--sage-80); }
+  .flag__stage :global(.flag__go) { margin-top: 1.75rem; }
   @media (min-width: 900px) {
-    .flag__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(2.5rem, 5vw, 6rem); }
-    .flag__img { aspect-ratio: 5 / 6; }
+    .flag__stage { grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: end; padding-right: var(--gutter); }
+    .flag__img { grid-column: 1 / 9; grid-row: 1; aspect-ratio: auto; height: min(78svh, 50rem); }
+    .flag__stage :global(.flag__text) { grid-column: 8 / 13; grid-row: 1; margin: 0 0 -4rem; align-self: end; }
   }
 
-  .menu-f { padding-block: var(--section-y); background: var(--salt-25); }
-  .menu-f :global(.fmt-who) {
-    margin: 0 0 0.75rem;
-    font-family: var(--font-ui);
-    font-size: var(--fs-label);
-    letter-spacing: var(--track-label);
-    color: var(--sage-80);
+  .paths { padding-block: var(--section-y); background: var(--salt-25); }
+  .paths__list { display: grid; gap: var(--space-xl); margin: clamp(2.5rem, 5vw, 4rem) 0 0; padding: 0; list-style: none; }
+  .paths__card { max-width: 34rem; }
+  .paths__pic { position: relative; display: block; overflow: hidden; background: var(--sand-40); margin-bottom: 1.5rem; }
+  .paths__card--arch .paths__pic { aspect-ratio: 4 / 5; border-radius: var(--arch); }
+  .paths__card--frame .paths__pic { aspect-ratio: 4 / 3; }
+  .paths__pic :global(img) { transition: scale 1400ms var(--ease-settle); }
+  @media (hover: hover) { .paths__card:hover .paths__pic :global(img) { scale: 1.04; } }
+  .paths__name { margin: 0 0 0.75rem; font-size: var(--fs-h3); }
+  .paths__name a { color: inherit; text-decoration: none; }
+  .paths__card p { margin: 0 0 1.25rem; font-family: var(--font-editorial); font-style: italic; font-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.45rem); line-height: 1.4; color: var(--sage-100); }
+  @media (min-width: 900px) {
+    .paths__list { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(3rem, 8vw, 9rem); align-items: start; }
+    .paths__card--frame { margin-top: clamp(6rem, 14vw, 12rem); max-width: none; }
   }
-  .menu-f__wait {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.5rem 2rem;
-    margin-top: clamp(2.5rem, 5vw, 4rem);
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--sage-20);
-  }
+
+  .menu-f { padding-block: var(--section-y); background: var(--sand-30); overflow-x: clip; }
+  .menu-f :global(.section-head) { margin-bottom: clamp(2rem, 4vw, 3rem); }
+  .menu-f :global(.fmt-who) { margin: 0 0 0.6rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); }
+  .menu-f__wait { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 2rem; margin-top: clamp(2.5rem, 5vw, 4rem); padding-top: 1.25rem; border-top: 1px solid var(--sage-20); }
   .menu-f__wait p { margin: 0; font-size: var(--fs-small); }
 </style>

@@ -95,7 +95,7 @@
     {
       "name": "Living spaces",
       "text": "Groups have exclusive use of the house. Open plan living leads out to the pool, the sauna and a fire, with the ocean beyond.",
-      "media": "venue-naiko-encounter-bay-living",
+      "media": "c-eb-living",
       "source": {
         "type": "venue_facts",
         "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
@@ -108,7 +108,7 @@
     {
       "name": "The pool",
       "text": "The pool sits below the deck and looks out to the ocean.",
-      "media": "venue-naiko-encounter-bay-pool",
+      "media": "c-eb-pool",
       "source": {
         "type": "venue_facts",
         "url": "https://naikoatthebluff.com.au/",
@@ -130,7 +130,7 @@
     {
       "name": "The coastal walk",
       "text": "A beautiful coastal walk at the bottom of the Naiko property",
-      "media": "venue-naiko-encounter-bay-walk",
+      "media": "c-eb-walk",
       "source": {
         "type": "document",
         "document": "FULL DAY (8HR) RETREAT NAIKO ENCOUNTER BAY 2026.pdf",
@@ -142,7 +142,7 @@
     {
       "name": "The villa",
       "text": "The Villa covers 305 square metres, including a double carport and storerooms, and sleeps up to 10 guests across two wings. Each wing has a master bedroom with an ensuite.",
-      "media": "venue-naiko-encounter-bay-villa",
+      "media": "c-eb-villa",
       "source": {
         "type": "venue_facts",
         "url": "https://naikoatthebluff.com.au/",
@@ -206,8 +206,8 @@
       "text": "coastal walk at the bottom of the property (guide p.7 caption)"
     }
   ],
-  "card_media": "venue-naiko-encounter-bay-card",
-  "map_media": "venue-naiko-encounter-bay-map",
+  "card_media": "c-card-naiko-encounter-bay",
+  "map_media": "c-eb-villa",
   "gallery": [
     "venue-naiko-encounter-bay-living",
     "venue-naiko-encounter-bay-pool",

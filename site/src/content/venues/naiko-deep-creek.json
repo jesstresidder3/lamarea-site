@@ -85,7 +85,7 @@
     {
       "name": "The deck",
       "text": "The front deck has outdoor lounge furniture and looks over the beach.",
-      "media": "venue-naiko-deep-creek-deck",
+      "media": "c-dc-deck",
       "source": {
         "type": "venue_facts",
         "url": "https://naikoretreat.com.au/",
@@ -96,7 +96,7 @@
     {
       "name": "The bath",
       "text": "The house is self-contained and sleeps up to six guests in three king bedrooms, each with an ensuite. The free-standing bath looks out to sea.",
-      "media": "venue-naiko-deep-creek-bath",
+      "media": "c-dc-bath",
       "source": {
         "type": "venue_facts",
         "url": "https://naikoretreat.com.au/",
@@ -129,7 +129,7 @@
     {
       "name": "The bedrooms",
       "text": "The eco conscious and secluded Retreat sleeps a maximum of six guests in three spacious, identical king bedrooms each with its own luxury ensuite bathroom. The king beds can be split into king single beds.",
-      "media": "venue-naiko-deep-creek-bedrooms",
+      "media": "c-dc-bedrooms",
       "source": {
         "type": "venue_site",
         "url": "https://naikoretreat.com.au/",

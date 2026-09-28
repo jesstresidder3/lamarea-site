@@ -9,7 +9,7 @@ author: "belle-redden"
 author_as_published: "Annabelle Redden"
 author_note: "From the post schema (JSON-LD)."
 byline: null
-hero: "journal-gnocchi"
+hero: "jr-gnocchi"
 image_credit: null
 excerpt: "A bright Mediterranean gnocchi filled with fresh herbs, coastal flavours and nourishing whole foods. Simple to cook at home and perfect for a relaxed night in."
 excerpt_basis: "Page meta description on lamarea.com.au, verbatim"

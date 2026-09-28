@@ -3,8 +3,12 @@
   Belle’s ten pillar icons, large, appearing one after another as the philosophy page opens ("as soon
   as people come to the philosophy page, yeah, I’d really love those sort of brand pillars to pop up",
   BD-37; "these need to be bigger and... more luxurious", BD-29). Each is a link that opens its pillar
-  in the FlexShowcase below (the showcase reads the hash). A soft fade and rise, staggered, once;
-  shown at rest under reduced motion. Owner: page builder B.
+  in the FlexShowcase below (the showcase reads the hash). Owner: page builder B, lane L4 rebuild.
+
+  L4 rebuild, 28-09-2026: no longer a toolbar of ten small icons. The ten are set as a contents page
+  in two columns of five: numeral, the icon at about 72px, the name in HV Muse. Each row slides in
+  from the right in turn as it reaches the screen (Belle's Tailor motion). Phones: one column.
+  Reduced motion: at rest.
 
   <PillarIcons pillars={pillars} />
 */
@@ -18,11 +22,12 @@ const { pillars, label = 'Our ten pillars', class: className } = Astro.props;
 <nav class:list={['picons', className]} aria-label={label}>
   <ol class="picons__list" role="list">
     {pillars.map((p, i) => (
-      <li class="picons__item" style={`--k:${i}`}>
+      <li class="picons__item" style={`--k:${i % 5}`}>
         <a class="picons__link" href={`#${p.id}`}>
-          <Icon name={p.data.icon.replace(/\.svg$/, '')} size="clamp(2.75rem, 6vw, 5.5rem)" class="picons__icon" />
           <span class="picons__num" aria-hidden="true">{pad2(i + 1)}</span>
-          <span class="picons__name">{p.data.name}</span>
+          <Icon name={p.data.icon.replace(/\.svg$/, '')} size="clamp(2.75rem, 1.8rem + 2.6vw, 4.5rem)" class="picons__icon" />
+          <span class="picons__name">{p.data.long_name ?? p.data.name}</span>
+          <svg class="picons__arrow" width="22" height="10" viewBox="0 0 22 10" aria-hidden="true" focusable="false"><line x1="0.5" y1="5" x2="21.25" y2="5" /><polyline points="16.25,0.5 21.25,5 16.25,9.5" /></svg>
         </a>
       </li>
     ))}
@@ -33,66 +38,69 @@ const { pillars, label = 'Our ten pillars', class: className } = Astro.props;
   .picons { width: 100%; }
   .picons__list {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: clamp(1.75rem, 3vw, 2.5rem) clamp(0.5rem, 2vw, 1.5rem);
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-flow: row;
+    column-gap: clamp(2rem, 6vw, 6rem);
     margin: 0;
     padding: 0;
     list-style: none;
+    border-top: 1px solid var(--rule);
   }
-  @media (min-width: 1000px) { .picons__list { grid-template-columns: repeat(10, minmax(0, 1fr)); } }
-  .picons__item { min-width: 0; }
+  @media (min-width: 900px) {
+    .picons__list { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(5, auto); grid-auto-flow: column; }
+  }
+  .picons__item { min-width: 0; border-bottom: 1px solid var(--rule); overflow-x: clip; }
   .picons__link {
     display: grid;
-    grid-template-rows: auto auto 1fr;
-    justify-items: center;
-    align-content: start;
-    height: 100%;
-    gap: 0.55rem;
-    padding: 0.5rem 0.25rem;
+    grid-template-columns: 2.25rem auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(0.9rem, 2vw, 1.75rem);
+    min-height: 2.75rem;
+    padding: clamp(0.9rem, 1.8vw, 1.35rem) 0;
     color: var(--sage-80);
-    text-align: center;
     text-decoration: none;
   }
-  .picons__link :global(.picons__icon) {
-    color: var(--sage-60);
-    transition: color var(--dur-fast) var(--ease-soft), transform 700ms var(--ease-soft);
-  }
-  .picons__num { font-family: var(--font-ui); font-size: 0.68rem; letter-spacing: var(--track-label); color: var(--muted); }
+  .picons__num { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
+  .picons__link :global(.picons__icon) { color: var(--sage-60); transition: color var(--dur-fast) var(--ease-soft); }
   .picons__name {
-    font-family: var(--font-serif);
-    font-size: clamp(0.95rem, 0.85rem + 0.35vw, 1.1rem);
-    line-height: 1.2;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.45rem, 1rem + 1.4vw, 2.35rem);
+    line-height: 1.08;
     color: var(--heading);
     text-wrap: balance;
   }
+  .picons__arrow { overflow: visible; color: var(--sage-60); opacity: 0; transform: translateX(-8px); transition: opacity var(--dur-fast) var(--ease-soft), transform 600ms var(--ease-settle); }
+  .picons__arrow :is(line, polyline) { fill: none; stroke: currentColor; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
   @media (hover: hover) {
-    .picons__link:hover :global(.picons__icon) { color: var(--sage-100); transform: translateY(-3px); }
+    .picons__link:hover :global(.picons__icon) { color: var(--sage-100); }
+    .picons__link:hover .picons__arrow { opacity: 1; transform: none; }
   }
-  .picons__link:focus-visible :global(.picons__icon) { color: var(--sage-100); }
+  .picons__link:focus-visible { outline-offset: 2px; }
+  .picons__link:focus-visible .picons__arrow { opacity: 1; transform: none; }
 
-  /* The pop-up on arrival: each icon fades and rises in turn, once, as the page opens. */
+  /* Each row slides in from the right as it reaches the screen, staggered down each column. */
   @media (prefers-reduced-motion: no-preference) {
-    .picons__item { animation: picon-in 900ms var(--ease-soft) both; animation-delay: calc(300ms + var(--k) * 110ms); }
+    @supports (animation-timeline: view()) {
+      .picons__link {
+        animation: picon-in linear both;
+        animation-timeline: view();
+        animation-range: entry 5% entry 80%;
+      }
+    }
+    @supports not (animation-timeline: view()) {
+      .picons__item { animation: picon-in 1000ms var(--ease-settle) both; animation-delay: calc(250ms + var(--k) * 120ms); }
+    }
   }
   @keyframes picon-in {
-    from { opacity: 0; transform: translateY(14px); }
+    from { opacity: 0; transform: translateX(12%); }
     to { opacity: 1; transform: none; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .picons__link :global(.picons__icon) { transition: none; }
+    .picons__link :global(.picons__icon), .picons__arrow { transition: none; }
   }
-  /* Phones: a two-column legend, icon beside its name, so no name is squeezed or broken. */
   @media (max-width: 599px) {
-    .picons__list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.25rem 1rem; }
-    .picons__link { grid-template-columns: 2.75rem minmax(0, 1fr); grid-template-rows: auto; justify-items: start; align-items: center; text-align: left; gap: 0.75rem; padding: 0.35rem 0; }
-    .picons__num { display: none; }
-    .picons__name { font-size: 1rem; }
-  }
-  /* The narrowest phones: a smaller icon column so "Personalisation" fits its cell (QA m5). */
-  @media (max-width: 399px) {
-    .picons__list { column-gap: 0.75rem; }
-    .picons__name { font-size: min(1rem, 4.4vw); }
-    .picons__link { grid-template-columns: 2.25rem minmax(0, 1fr); gap: 0.5rem; }
-    .picons__link :global(.picons__icon) { width: 2.25rem !important; height: 2.25rem !important; }
+    .picons__link { grid-template-columns: 1.75rem auto minmax(0, 1fr); }
+    .picons__arrow { display: none; }
   }
 </style>

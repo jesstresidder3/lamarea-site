@@ -13,6 +13,27 @@ const GRADE = 'Grade: lift shadows, warm white balance, keep the water green and
 const raw: MediaSlot[] = [
   // Hero ------------------------------------------------------------------
   {
+    // Home opening, 28-09-2026: Belle's DJI_0604 (from her WEBSITE Drive folder), seconds 90 to 104,
+    // a top-down glide from reef shadow into turquoise shallows ending at the rock edge with two boats.
+    id: 'home-hero-video', src: '/media/hero-emerald-shallows-drone.mp4', srcMobile: '/media/hero-emerald-shallows-drone-portrait.mp4', poster: '/media/hero-emerald-shallows-poster.jpg',
+    type: 'video',
+    alt: 'Looking straight down from the air over clear emerald water, reef shadows giving way to bright turquoise shallows beside a rocky shore where two small boats are moored, Fleurieu Peninsula',
+    aspect: '16 / 9',
+    suggested: 'DJI_0604.MP4, seconds 90 to 104',
+    tone: 'sea',
+    grade: 'A',
+  },
+  {
+    // The still the two halves of the opening hold as the scene parts (the video's first frame).
+    id: 'home-hero-still', src: '/media/hero-emerald-shallows-poster.jpg', srcMobile: '/media/hero-emerald-shallows-poster-portrait.jpg', position: '50% 50%',
+    type: 'image',
+    alt: 'Clear emerald water seen from directly above, reef shadows beneath the surface, Fleurieu Peninsula',
+    aspect: '16 / 9',
+    suggested: 'DJI_0604.MP4 frame at 90 seconds',
+    tone: 'sea',
+    grade: 'A',
+  },
+  {
     id: 'home-hero', src: '/media/bay-cliff-walk-drone.jpg', position: '64% 55%',
     type: 'image',
     alt: 'A bright bay of turquoise water and white surf below a grassy headland, with two walkers on the clifftop track, Fleurieu Peninsula, seen from the air',
@@ -34,27 +55,27 @@ const raw: MediaSlot[] = [
     grade: 'A',
   },
   {
-    id: 'menu-private-groups', src: '/media/table-lemons-sea-2.jpg', position: '50% 40%',
+    id: 'menu-private-groups', src: '/media/table-three-women-sea.jpg', position: '50% 40%',
     type: 'image',
-    alt: 'Two women setting a long table with lemons and linen beside windows onto the sea',
+    alt: 'Three women around the long table by the windows onto the sea',
     aspect: '4 / 5',
     suggested: 'la marea naiko jpegs, a group moment. Alternate: A Sunset Reset (May 2026 Joe’s Henley) group image',
     note: 'Guest consent needed before any retreat photograph with faces is used.',
     tone: 'sand',
   },
   {
-    id: 'menu-corporate', src: '/media/table-set-sea-light.jpg', position: '50% 45%',
+    id: 'menu-corporate', src: '/media/long-table-overhead-group.jpg', position: '52% 50%',
     type: 'image',
-    alt: 'Two women setting a long green linen table with lemons and wine, the sea bright beyond the glass',
+    alt: 'A group sharing lunch around the long table, seen from above',
     aspect: '4 / 5',
     suggested: 'Beresford Accom images (9 professional files). The Ray White shoot replaces it once the Dropbox opens and permission is given',
     tone: 'dusk',
     grade: 'A',
   },
   {
-    id: 'menu-the-day', src: '/media/long-table-overhead-3.jpg', position: '50% 45%',
+    id: 'menu-the-day', src: '/media/deck-sea-guests.jpg', position: '50% 45%',
     type: 'image',
-    alt: 'A shared lunch table from above, plates, lemons and herbs along green linen',
+    alt: 'Guests settling on the sunlit deck of the retreat house, the sea and sky beyond',
     aspect: '4 / 5',
     suggested: 'Food folder 229A8255.jpg',
     tone: 'sand',
@@ -135,18 +156,18 @@ const raw: MediaSlot[] = [
     grade: 'A',
   },
   {
-    id: 'day-move', src: '/media/mats-glass-room-sea.jpg', position: '50% 60%',
+    id: 'day-move', src: '/media/deck-breathwork-sky.jpg', position: '50% 60%',
     type: 'image',
-    alt: 'A group resting on mats in a glass-walled room above the sea',
+    alt: 'Guests lying on towels along the sunlit deck under a big sky',
     aspect: '16 / 10',
     suggested: 'movement.mp4 poster frame (branding pillar video), yoga or mat pilates',
     note: 'No photograph yet of the three rotation stations running (plan/11 Q10).',
     tone: 'sand',
   },
   {
-    id: 'day-nourish', src: '/media/fish-mussels-plate.jpg', position: '50% 50%',
+    id: 'day-nourish', src: '/media/long-table-overhead-group.jpg', position: '52% 50%',
     type: 'image',
-    alt: 'A plated course of fish with mussels, tomato and herb oil',
+    alt: 'A group sharing lunch around the long table, seen from above',
     aspect: '16 / 10',
     suggested: 'Food folder 229A8255.jpg',
     tone: 'sand',
@@ -154,9 +175,9 @@ const raw: MediaSlot[] = [
   {
     // Redesign 27-09-2026: Belle does not want the bath as a home image (T55, "that isn't, like, a summary
     // travel vibes"). Restore now shows guests by the fire, which is one of the Restore lines in her schedule.
-    id: 'day-restore', src: '/media/living-fire-sea.jpg', position: '50% 55%',
+    id: 'day-restore', src: '/media/deck-rest-faces.jpg', position: '50% 45%',
     type: 'image',
-    alt: 'Two guests resting by the wood fire in a living room with the sea beyond the windows',
+    alt: 'Guests resting with their eyes closed on the sunlit deck',
     aspect: '16 / 9',
     suggested: 'Beresford Accom images, the venue in late light (full-bleed panel, text sits lower left)',
     tone: 'sand',
@@ -192,7 +213,7 @@ const raw: MediaSlot[] = [
   {
     id: 'sg-dining', src: '/media/fish-mussels-plate.jpg', position: '50% 50%',
     type: 'image',
-    alt: 'A plated course of fish with mussels, tomato and herb oil',
+    alt: 'A group sharing lunch around the long table, seen from above',
     aspect: '4 / 5',
     suggested: 'Food folder 229A8255.jpg',
     tone: 'sand',
@@ -229,6 +250,63 @@ const raw: MediaSlot[] = [
     suggested: 'connection.mp4 poster frame (branding pillar video)',
     tone: 'salt',
   },
+  // Rebuild round 1, 28-09-2026 (L1): the home story and the shared closing ------------------
+  {
+    // Home, the Fleurieu coast beat (Belle T48 and T55): DJI_0604, 0.5 to 11.5 seconds.
+    id: 'home-fleurieu-video', src: '/media/fleurieu-cliffs-white-beach-drone.mp4', srcMobile: '/media/fleurieu-cliffs-white-beach-drone-portrait.mp4', poster: '/media/fleurieu-cliffs-white-beach-drone-poster.jpg',
+    type: 'video',
+    alt: 'Flying slowly along dark cliffs and golden summer hills on the Fleurieu Peninsula, a white beach at their foot and boats moored on emerald water under a clear blue sky',
+    aspect: '16 / 9',
+    suggested: 'DJI_0604.MP4, seconds 0.5 to 11.5. Swap for DJI_0781.MP4 (Drive 1bx_Ki9uMhwt-YpL9JBpKQKQPpDATvLEx) once downloaded',
+    tone: 'sea',
+    grade: 'A',
+  },
+  {
+    // P5 ClosingTide default, every page: DJI_0604, 50 to 61 seconds, the coastline pulling away.
+    id: 'closing-tide', src: '/media/fleurieu-coastline-receding-drone.mp4', srcMobile: '/media/fleurieu-coastline-receding-drone-portrait.mp4', poster: '/media/fleurieu-coastline-receding-drone-poster.jpg',
+    type: 'video',
+    alt: 'The Fleurieu coastline pulling away into the distance from the air, the water turning from emerald near the shore to deep blue, small boats at the foot of the cliffs',
+    aspect: '16 / 9',
+    suggested: 'DJI_0604.MP4, seconds 50 to 61',
+    tone: 'sea',
+    grade: 'A',
+  },
+  {
+    // The same ending as a still, for pages that already carry a video.
+    id: 'closing-tide-still', src: '/media/drone-hidden-cove-white-sand.jpg', position: '50% 55%',
+    type: 'image',
+    alt: 'A hidden white-sand cove inside pale cliffs above a turquoise reef, Fleurieu Peninsula, seen from the air',
+    aspect: '16 / 9',
+    suggested: 'DJI_0605.MP4 frame at 24 seconds',
+    tone: 'sea',
+    grade: 'A',
+  },
+  {
+    id: 'home-difference', src: '/media/drone-hidden-cove-white-sand.jpg', position: '50% 50%',
+    type: 'image',
+    alt: 'A hidden white-sand cove inside pale cliffs above a turquoise reef, Fleurieu Peninsula, seen from the air',
+    aspect: '4 / 5',
+    suggested: 'DJI_0605.MP4 frame at 24 seconds',
+    tone: 'sea',
+    grade: 'A',
+  },
+  {
+    id: 'home-difference-detail', src: '/media/kangaroo-paddock.jpg', position: '50% 60%',
+    type: 'image',
+    alt: 'A kangaroo standing in long grass under the trees',
+    aspect: '1 / 1',
+    suggested: 'Wildlife still from the Fleurieu',
+    tone: 'sand',
+  },
+  // Home, the food beat (T48, "to the food, and what that looks like")
+  { id: 'home-food-table', src: '/media/long-table-overhead.jpg', position: '50% 50%', type: 'image', alt: 'The long table from above, set with green linen, lemons, herbs and shared plates', aspect: '3 / 4', suggested: 'homepage3', tone: 'sand', grade: 'A' },
+  { id: 'home-food-kingfish', src: '/media/kingfish-plate.jpg', position: '50% 50%', type: 'image', alt: 'Slices of kingfish with orange and herb oil on a white plate', aspect: '1 / 1', suggested: 'Kingfish 2025', tone: 'sand', grade: 'A' },
+  { id: 'home-food-chef', src: '/media/chef-green-oil-detail.jpg', position: '50% 55%', type: 'image', alt: 'A chef finishing plated fish with a line of green herb oil', aspect: '3 / 2', suggested: '229A8911', tone: 'sand', grade: 'A' },
+  { id: 'home-food-tortelli', src: '/media/tortelli-plate.jpg', position: '50% 50%', type: 'image', alt: 'Handmade tortelli in a speckled bowl beside yellow flowers', aspect: '1 / 1', suggested: 'Tortelli 2025', tone: 'sand', grade: 'A' },
+  { id: 'home-food-sweet', src: '/media/balance-brownies-berries.jpg', position: '50% 40%', type: 'image', alt: 'A woman smiling as she is handed a plate of brownies and fresh berries', aspect: '3 / 4', suggested: 'Balance pillar image', tone: 'sand', grade: 'A' },
+  // Home, guests' words: one photograph per kind of day, never a plate
+  { id: 'home-experiences-lead', src: '/media/deck-stretch-sea.jpg', position: '50% 45%', type: 'image', alt: 'A guest in a side stretch on the deck, the sea and headland beyond', aspect: '4 / 5', suggested: 'homepage8', tone: 'salt', grade: 'A' },
+  { id: 'home-guests-retreat', src: '/media/beach-walk-bright.jpg', position: '50% 60%', type: 'image', alt: 'Two people walking along a sunlit beach below the cliffs', aspect: '4 / 5', suggested: '229A9426', tone: 'salt', grade: 'A' },
 ];
 
 export const slots: MediaSlot[] = raw.map((slot) => ({ ...slot, note: slot.note ? `${slot.note} ${GRADE}` : GRADE }));

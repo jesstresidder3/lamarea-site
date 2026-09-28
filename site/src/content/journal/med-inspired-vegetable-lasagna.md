@@ -9,7 +9,7 @@ author: null
 author_as_published: "Susie Styler"
 author_note: "From the post schema (JSON-LD). The sleep post also carries a visible byline \"Written By Annabelle Redden\". The recipe posts show no visible byline; \"Susie Styler\" is the Wix account name in the schema and should not be published without Belle's say."
 byline: null
-hero: "journal-lasagna"
+hero: "jr-lasagna"
 image_credit: null
 excerpt: "A cosy vegetable lasagne layered with Mediterranean ingredients, rich tomato flavours and plenty of veggies. Comforting, balanced and great for sharing."
 excerpt_basis: "Page meta description on lamarea.com.au, verbatim"

@@ -14,12 +14,13 @@
   7 Plan your day
 */
 import Base from '../../layouts/Base.astro';
-import MediaBand from '../../components/base/MediaBand.astro';
+import PageOpener from '../../components/base/PageOpener.astro';
+import ClosingTide from '../../components/base/ClosingTide.astro';
+import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
 import SectionHead from '../../components/base/SectionHead.astro';
 import NumberedMoments from '../../components/base/NumberedMoments.astro';
 import Accordion from '../../components/base/Accordion.astro';
 import ArrowLink from '../../components/base/ArrowLink.astro';
-import CtaBand from '../../components/base/CtaBand.astro';
 import Reveal from '../../components/base/Reveal.astro';
 import Icon from '../../components/base/Icon.astro';
 import FlexShowcase from '../../components/pillars/FlexShowcase.astro';
@@ -29,7 +30,6 @@ import PillarIcons from '../../components/pages/b/PillarIcons.astro';
 import Flag from '../../components/pages/b/Flag.astro';
 import { getPillars, getIntentions, pillarHref } from '../../lib/content';
 import { evidenceHtml } from '../../components/pages/b/copy';
-import { cta } from '../../data/settings';
 
 const pillars = await getPillars();
 const words = await getIntentions();
@@ -45,24 +45,20 @@ const evidence = pillars.map((p) => ({
 <Base
   title="Our philosophy, Fleurieu Peninsula retreats"
   description="La maréa’s ten pillars of lifestyle wellness: Mediterranean inspired, science backed and rooted in the Fleurieu Peninsula, with the evidence behind them."
-  headerTone="over-media"
 >
-  <!-- 1. Hero and the ten icons -->
-  <div class="ph-hero">
-    <MediaBand
-      media="philosophy-hero"
-      height="band"
-      hero
-      parallax={false}
-      text="over"
-      eyebrow="About"
-      heading="Our philosophy"
-      level={1}
-      body="At La maréa, we believe in holistic, multi-dimensional wellness."
-    />
-  </div>
-  <section class="ph-icons" aria-label="The ten pillars">
+  <!-- 1. Opener and the ten pillars as a contents page -->
+  <PageOpener
+    media="philosophy-opener"
+    lines={['Our', 'philosophy']}
+    eyebrow="About"
+    sub="At La maréa, we believe in holistic, multi-dimensional wellness."
+    caption="Fleurieu Peninsula"
+    shadeAt="bottom-left"
+  />
+  <div class="wrap ph-crumbs"><Breadcrumbs items={[{ label: 'About', href: '/our-story' }, { label: 'Our philosophy' }]} /></div>
+  <section class="section ph-icons" aria-labelledby="ph-icons-label">
     <div class="wrap">
+      <p class="label ph-icons__label" id="ph-icons-label">Ten pillars</p>
       <PillarIcons pillars={pillars} />
     </div>
   </section>
@@ -147,19 +143,14 @@ const evidence = pillars.map((p) => ({
   </section>
 
   <!-- 7. Plan your day -->
-  <CtaBand
-    line="Curate a day for your group"
-    params={{ source: 'philosophy' }}
-    note={cta.callNote}
-    tone="salt"
-    draft={{ line: true }}
-  />
+  <ClosingTide line="Curate a day for your group" lineDraft params={{ source: 'philosophy' }} />
 </Base>
 
 <style>
-  /* 1. On phones the band-height hero is too short to hold its words and the placeholder note. */
-  @media (max-width: 699px) { .ph-hero :global(.band__frame) { min-height: 30rem; } }
-  .ph-icons { padding: clamp(2rem, 4vw, 3rem) 0 clamp(1rem, 2vw, 1.5rem); border-bottom: 1px solid var(--rule); }
+  /* 1 */
+  .ph-crumbs { padding-top: clamp(1.5rem, 3vw, 2.5rem); }
+  .ph-icons { padding-top: clamp(2.5rem, 5vw, 4rem); }
+  .ph-icons__label { margin: 0 0 1.25rem; }
 
   /* 2 */
   .ph-name__grid { display: grid; gap: var(--space-l); align-items: center; }

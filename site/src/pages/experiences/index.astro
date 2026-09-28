@@ -13,20 +13,35 @@
   5 Plan your day
 */
 import Base from '../../layouts/Base.astro';
-import MediaBand from '../../components/base/MediaBand.astro';
 import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
 import SectionHead from '../../components/base/SectionHead.astro';
-import TextPair from '../../components/base/TextPair.astro';
-import CtaBand from '../../components/base/CtaBand.astro';
+import ArrowLink from '../../components/base/ArrowLink.astro';
+import SlideStrip from '../../components/base/SlideStrip.astro';
+import OffsetPair from '../../components/base/OffsetPair.astro';
+import ClosingTide from '../../components/base/ClosingTide.astro';
 import PaneSlider from '../../components/experiences/PaneSlider.astro';
-import Media from '../../components/media/Media.astro';
-import AfternoonTiles from '../../components/pages/b/AfternoonTiles.astro';
+import PairOpener from '../../components/pages/c/PairOpener.astro';
+import { experienceMedia } from '../../components/pages/c/experience-media';
+import { media as getMedia } from '../../data/media';
 import { getExperiences } from '../../lib/content';
 import { day } from '../../data/day';
-import { site, cta } from '../../data/settings';
+import { site } from '../../data/settings';
 
 const guided = await getExperiences('guided');
 const selfLed = await getExperiences('self_led');
+/* Each tile shows the experience's strongest frame; pilates and the Mediterranean table play Belle's
+   pillar reels (T53: sliders with videos). */
+const has = (id?: string) => { if (!id) return false; const m = getMedia(id); return Boolean(m.src || m.poster); };
+const mediaFor: Record<string, string> = {};
+for (const e of [...guided, ...selfLed]) {
+  const m = experienceMedia[e.id];
+  const pick = has(m?.tile) ? m!.tile : has(m?.lead) ? m!.lead : undefined;
+  if (pick) mediaFor[e.id] = pick;
+}
+/* The afternoon as a slide-in strip; anything without a photograph is named in the line under it. */
+const afternoon = selfLed.map((e) => ({ media: mediaFor[e.id] ?? e.data.media, title: e.data.name, href: `/experiences/${e.id}` }));
+const unpictured = selfLed.filter((e) => !has(mediaFor[e.id] ?? e.data.media));
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
@@ -45,20 +60,16 @@ const jsonLd = {
   headerTone="over-media"
   jsonLd={jsonLd}
 >
-  <div class="ex-hero">
-    <MediaBand
-      media="experiences-hero"
-      height="tall"
-      hero
-      parallax={false}
-      text="over"
-      eyebrow="Experiences"
-      heading="The experiences"
-      level={1}
-      body="What you do on the day: ten guided experiences, six to enjoy at your own pace, and the food."
-      draft={{ body: true }}
-    />
-  </div>
+  <PairOpener
+    media="c-experiences-opener"
+    second="c-xp-sauna-guests"
+    lines={['The', 'experiences']}
+    sub="What you do on the day: ten guided experiences, six to enjoy at your own pace, and the food."
+    subDraft
+    id="ex-title"
+  >
+    <ArrowLink slot="after" href="/experiences/full-day-retreat" label="See how they fit into the 8 hour day" />
+  </PairOpener>
 
   <div class="wrap ex-crumbs">
     <Breadcrumbs items={[{ label: 'Experiences' }]} />
@@ -72,10 +83,11 @@ const jsonLd = {
     intro="Luxury South Australian wellness experiences, curated to form La maréa."
     note={day.note}
     linkBase="/experiences/"
+    mediaFor={mediaFor}
     class="ex-guided"
   />
 
-  <section class="section band-warm ex-self" aria-labelledby="self-heading">
+  <section class="section ex-self" aria-labelledby="self-heading" data-ground="warm">
     <div class="wrap">
       <SectionHead
         eyebrow="Self-led, in the afternoon"
@@ -84,31 +96,37 @@ const jsonLd = {
         intro="There is space to rest, journal, explore the coastline, or simply unwind."
       />
     </div>
-    <AfternoonTiles items={selfLed} id="self-led" />
+    <SlideStrip items={afternoon} label="The unhurried afternoon" />
+    {unpictured.length > 0 && (
+      <p class="wrap ex-self__also">Also in the afternoon: {unpictured.map((e, i) => <>{i > 0 && (i === unpictured.length - 1 ? ' and ' : ', ')}<a href={`/experiences/${e.id}`}>{e.data.name.toLowerCase()}</a></>)}.</p>
+    )}
   </section>
 
   <section class="section ex-food" aria-labelledby="food-heading">
-    <div class="wrap">
-      <TextPair eyebrow="Food and sample menus" heading="Signature culinary experiences" headingId="food-heading" mediaSide="left" split="wide" link={{ label: 'See the food and sample menus', href: '/food' }}>
-        <div slot="media" class="ex-food__media"><Media media="food-fine-dining" aspect="3 / 2" /></div>
-        <p>Inspired by the elements of a Mediterranean lifestyle; plant based nourishment, connection, community & longevity.</p>
-        <p class="ex-food__small">A three course Mediterranean chef curated dining experience and a pasta making masterclass.</p>
-      </TextPair>
-    </div>
+    <OffsetPair large="c-xp-long-table-group" detail="c-food-tortelli-lemons" largeAspect="4 / 5" side="right">
+      <p class="ex-food__eyebrow">Food and sample menus</p>
+      <h2 id="food-heading">Signature culinary experiences</h2>
+      <p>Inspired by the elements of a Mediterranean lifestyle; plant based nourishment, connection, community & longevity.</p>
+      <p class="ex-food__small">A three course Mediterranean chef curated dining experience and a pasta making masterclass.</p>
+      <ArrowLink href="/food" label="See the food and sample menus" />
+    </OffsetPair>
   </section>
 
-  <CtaBand
+  <ClosingTide
     line="Curate your 8 hour immersive retreat"
     params={{ source: 'experiences' }}
-    note={cta.callNote}
-    draft={{ line: true }}
+    lineDraft
   />
 </Base>
 
 <style>
-  .ex-crumbs { padding-top: clamp(1rem, 2vw, 1.5rem); }
+  .ex-crumbs { padding-top: clamp(1.25rem, 2.5vw, 2rem); }
   :global(.pane-slider.ex-guided) { padding-top: clamp(2rem, 4vw, 3.5rem); }
   .ex-self :global(.section-head) { margin-bottom: clamp(2.5rem, 4vw, 3.5rem); }
-  .ex-food__media { width: 100%; }
+  .ex-self__also { margin-top: 1.75rem; font-family: var(--font-editorial); font-style: italic; font-size: var(--fs-caption); color: var(--sage-80); }
+  .ex-self__also a { color: inherit; text-underline-offset: 0.2em; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); }
+  .ex-food__eyebrow { margin: 0 0 1rem; font-family: var(--font-editorial); font-style: italic; font-size: 1.1875rem; color: var(--sage-80); }
+  .ex-food h2 { margin: 0 0 1.5rem; }
   .ex-food__small { margin-top: 1.25rem; font-size: var(--fs-small); color: var(--sage-80); }
+  .ex-food :global(.arrow-link) { margin-top: 1.5rem; }
 </style>

@@ -1,0 +1,74 @@
+---
+/*
+  AppOpener (L4 rebuild, 28-09-2026). The /app page opens type-led on salt: the page title large in
+  HV Muse, Belle's line and the link to register, and beside it a phone in the site's own look (a
+  hairline sage frame, the La maréa wordmark, one of Belle's pillar films playing inside). The phone
+  shows the look only: it names no feature, screen or price the app does not yet have (plan/11 item
+  70). Belle asked for the app to match the website (email of 28-09-2026).
+  Motion: the phone rises and settles as the page opens; reduced motion shows it at rest.
+*/
+import Media from '../../media/Media.astro';
+import Breadcrumbs from '../../base/Breadcrumbs.astro';
+import logo from '../../../assets/brand/logo-primary.svg?raw';
+
+interface Props { eyebrow: string; heading: string; lead: string; leadDraft?: boolean; film: string }
+const { eyebrow, heading, lead, leadDraft = false, film } = Astro.props;
+const hasActions = Astro.slots.has('default');
+---
+<section class="appo" aria-labelledby="appo-title">
+  <div class="wrap appo__grid">
+    <div class="appo__text">
+      <Breadcrumbs items={[{ label: heading }]} class="appo__crumbs" />
+      <p class="appo__eyebrow">{eyebrow}</p>
+      <h1 class="appo__title" id="appo-title">{heading}</h1>
+      <p class="appo__lead" data-draft={leadDraft ? '' : undefined}>{lead}</p>
+      {hasActions && <div class="appo__actions"><slot /></div>}
+    </div>
+    <div class="appo__stage" aria-hidden="true">
+      <div class="appo__phone">
+        <div class="appo__screen">
+          <Media media={film} aspect="fill" sizes="20rem" />
+          <span class="appo__shade"></span>
+          <span class="appo__logo" set:html={logo} />
+          <span class="appo__year">2027</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .appo { padding: calc(var(--header-h) + clamp(1.5rem, 4vw, 3rem)) 0 clamp(3rem, 7vw, 6rem); background: var(--salt-25); overflow: hidden; }
+  .appo__grid { display: grid; gap: clamp(2.5rem, 6vw, 4rem); align-items: center; }
+  .appo :global(.appo__crumbs) { margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+  .appo__eyebrow { margin: 0 0 1rem; font-family: var(--font-editorial); font-style: italic; font-size: 1.1875rem; color: var(--sage-80); }
+  .appo__title { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(2.75rem, 1rem + 5vw, 5.5rem); line-height: 0.98; color: var(--heading); max-width: 8em; }
+  .appo__lead { margin: clamp(1.5rem, 3vw, 2.25rem) 0 0; max-width: 28rem; font-size: var(--fs-body); line-height: 1.6; color: var(--sage-100); }
+  .appo__actions { margin-top: 1.75rem; }
+
+  .appo__stage { display: grid; justify-items: center; }
+  .appo__phone {
+    width: clamp(13rem, 22vw, 19rem);
+    aspect-ratio: 9 / 19.5;
+    padding: 0.55rem;
+    border: 1px solid var(--sage-40);
+    border-radius: 2.6rem;
+    background: var(--sand-30);
+    box-shadow: 0 30px 60px -30px rgb(60 70 40 / 0.35);
+  }
+  .appo__screen { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 2.1rem; background: var(--sand-40); }
+  .appo__shade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgb(20 50 64 / 0.38), rgb(20 50 64 / 0) 30%, rgb(20 50 64 / 0) 70%, rgb(20 50 64 / 0.35)); }
+  .appo__logo { position: absolute; top: 1.6rem; left: 50%; translate: -50% 0; width: 58%; color: var(--on-image); }
+  .appo__logo :global(svg) { width: 100%; height: auto; display: block; }
+  .appo__logo :global(svg *) { fill: currentColor; }
+  .appo__year { position: absolute; left: 0; right: 0; bottom: 1.5rem; text-align: center; font-family: var(--font-editorial); font-style: italic; font-size: 1.25rem; color: var(--on-image); }
+
+  @media (min-width: 900px) {
+    .appo { min-height: 100svh; display: grid; align-items: center; }
+    .appo__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.mo) .appo__phone { animation: appo-rise 1600ms var(--ease-settle) 300ms both; }
+  }
+  @keyframes appo-rise { from { opacity: 0; translate: 0 3rem; } to { opacity: 1; translate: 0 0; } }
+</style>

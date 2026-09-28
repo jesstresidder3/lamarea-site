@@ -9,7 +9,11 @@
   immersive wellness retreat with us looks like" (BD-52), shown "through imagery, beautiful imagery,
   um, you know, animations that move" (BD-54).
 
-  Six moments:
+  Lane L2 rebuild 28-09-2026: opens full bleed on the Naiko Deep Creek pan with the day's facts on
+  its lower edge, the morning rotation as three wide panels from the right, guests' words after the
+  day, the schedule folded into one row, and the page ends on the coast.
+
+  Earlier moments:
    1 the hero, the H1 naming the product, and who it is for
    2 forty words of Belle's guide and the facts a first-time visitor needs
    3 the pinned day in four parts (PinnedDay)
@@ -19,26 +23,32 @@
   No question circles and no eight words on this page. TouristTrip schema (no public price, so no Product or Offer).
 */
 import Base from '../../layouts/Base.astro';
-import MediaBand from '../../components/base/MediaBand.astro';
 import Breadcrumbs from '../../components/base/Breadcrumbs.astro';
 import AnswerBlock from '../../components/base/AnswerBlock.astro';
 import SectionHead from '../../components/base/SectionHead.astro';
 import DataTable from '../../components/base/DataTable.astro';
-import CtaBand from '../../components/base/CtaBand.astro';
 import ArrowLink from '../../components/base/ArrowLink.astro';
 import Reveal from '../../components/base/Reveal.astro';
 import PinnedDay from '../../components/day/PinnedDay.astro';
-import SteppedGallery from '../../components/venues/SteppedGallery.astro';
-import VenueIndex from '../../components/venues/VenueIndex.astro';
 import ReelFrame from '../../components/pages/b/ReelFrame.astro';
-import AtAGlance from '../../components/pages/b/AtAGlance.astro';
 import Flag from '../../components/pages/b/Flag.astro';
-import { hourByHour, steps } from '../../data/day';
+import { hourByHour, steps, day } from '../../data/day';
 import { site, cta, flagshipName } from '../../data/settings';
-import { getVenues } from '../../lib/content';
+import { getVenues, getTestimonials } from '../../lib/content';
+import PageOpener from '../../components/pages/a/PageOpener.astro';
+import PanelTrack from '../../components/pages/a/PanelTrack.astro';
+import GuestQuotes from '../../components/pages/a/GuestQuotes.astro';
+import ClosingTide from '../../components/base/ClosingTide.astro';
 import { includedHtml } from '../../components/pages/b/copy';
 
 const venues = await getVenues();
+const venuePanels = venues.map((v) => ({
+  media: v.data.card_media ?? `venue-${v.id}-card`,
+  name: v.data.name,
+  eyebrow: v.data.location_label ?? v.data.locality,
+  html: v.data.intro?.text ? `<p>${v.data.intro.text.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</p>` : undefined,
+  link: { label: `About ${v.data.name}`, href: `/places/${v.id}` },
+}));
 const rotation = steps.find((s) => s.order === 6)!;
 
 /* Moment 2: Belle's framing sentence from her full day retreat guide (p.15), verbatim. */
@@ -50,22 +60,28 @@ const stations = [
   {
     name: 'Individual restorative massage therapy',
     text: 'Experience 1 of 3. Each rotation runs 40 minutes, with a 10 minute changeover before the next.',
-    media: 'day-rotation-massage',
-    pictured: 'Massage therapy',
+    media: 'a-rotation-massage',
   },
   {
     name: 'Contrast therapy experience',
     text: 'Experience 2 of 3, 40 minutes. Sauna, breathwork and cold plunge.',
-    media: 'day-rotation-contrast',
-    pictured: 'Sauna, breathwork and cold plunge',
+    media: 'a-rotation-sauna',
   },
   {
     name: 'Lifestyle wellness workshop',
     text: 'Experience 3 of 3, 40 minutes. The Foundations of High Performance Wellbeing: Build Lifestyle Habits for Energy, Focus & Burnout Prevention.',
-    media: 'day-rotation-workshop',
-    pictured: 'The Foundations of High Performance Wellbeing',
+    media: 'a-rotation-workshop',
   },
 ];
+
+const esc = (v: string) => v.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const panels = stations.map((st) => ({ media: st.media, name: st.name, html: `<p>${esc(st.text)}</p>` }));
+
+/* One corporate and one private review after the day (vision review 27-09): guests' own words. */
+const all = await getTestimonials();
+const guestWords = ['google-justin-kurenda', 'google-donna-giannetta', 'google-alyse-hean', 'google-janelle-hueppauff']
+  .map((id) => all.find((t) => t.id === id))
+  .filter((t): t is NonNullable<typeof t> => Boolean(t));
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -82,27 +98,31 @@ const jsonLd = {
 <Base
   title="The 8 hour immersive retreat, Fleurieu Peninsula"
   description="The 8 hour immersive retreat on the Fleurieu Peninsula for private groups and corporate teams, hour by hour, with private return transport from Adelaide."
-  headerTone="over-media"
+  headerTone="immersive"
   jsonLd={jsonLd}
   class="page-day"
 >
-  <!-- 1. One video, one line. Wrapped because a direct child of Base would read slot as a slot name. -->
-  <div class="day-hero">
-  <MediaBand
-    media="day-hero"
-    height="screen"
-    hero
-    parallax={false}
-    text="over"
+  <!-- 1. The day opens on Naiko Deep Creek from the air, the facts on its lower edge -->
+  <PageOpener
+    id="day"
+    media="a-day-opener"
     eyebrow="Retreats"
-    heading="The 8 hour immersive retreat"
-    level={1}
-    body="One curated day on the Fleurieu Peninsula for your private or corporate group, 7am to 5pm, door to door from Adelaide."
-    draft={{ body: true }}
+    lines={['The 8 hour', 'immersive retreat']}
+    indents={[0, 1.2]}
+    line="One curated day on the Fleurieu Peninsula for your private or corporate group, 7am to 5pm, door to door from Adelaide."
+    lineDraft
+    caption="Naiko Deep Creek, Fleurieu Peninsula"
+    shade="strong"
+    facts={[
+      { label: 'At the venue', value: day.times.retreat, draft: true },
+      { label: 'Door to door', value: '7am to 5pm, from Adelaide', draft: true },
+      { label: 'Group size', value: '12 guests in our example day', href: '#schedule', draft: true },
+      { label: 'Who it is for', value: 'Private groups and corporate teams', draft: true },
+      { label: 'Places to Pause', value: 'The coast or the vineyards', href: '#where', draft: true },
+    ]}
   />
-  </div>
 
-  <!-- 2. What a full day retreat is, and the facts a first-time visitor needs -->
+  <!-- 2. What the day is, in Belle's words -->
   <section class="section day-intro" aria-labelledby="day-what">
     <div class="wrap">
       <Breadcrumbs items={[{ label: 'Retreats', href: '/retreats' }, { label: flagshipName }]} class="day-crumbs" />
@@ -112,26 +132,25 @@ const jsonLd = {
           <Flag>Verbatim from Belle’s full day retreat guide (p.15), including “groups objectives” without an apostrophe, left for Belle to correct. Her personalisation line sits with the example day just below, so it shows once.</Flag>
         </AnswerBlock>
       </Reveal>
-      <Reveal class="day-intro__glance">
-        <AtAGlance
-          label="The day at a glance"
-          items={[
-            { value: '8am to 4pm', label: 'At the venue', draft: true },
-            { value: '7am to 5pm', label: 'Door to door, private return transport from Adelaide', draft: true },
-            { value: 'Private groups and corporate teams', label: 'Who it is for', draft: true },
-            { value: 'On the coast or in the vineyards', label: 'Places to Pause', href: '#where', draft: true },
-          ]}
-        />
-      </Reveal>
     </div>
   </section>
 
-  <!-- 3. The pinned example day -->
-  <PinnedDay seeFullDay={false} heading="The day in four parts" eyebrow="Arrive, move, nourish, restore" params={{ format: 'full-day', source: 'day-page' }} />
+  <!-- 3. The pinned example day (L1). Its own Plan your day stays off: the page ends on one. -->
+  <PinnedDay seeFullDay={false} plan={false} heading="The day in four parts" eyebrow="Arrive, move, nourish, restore" params={{ format: 'full-day', source: 'day-page' }} />
 
-  <!-- 4. The reel beside the full schedule, one moment. The table sits in "See the full schedule" so
-       the panels and the reel carry the story and the day is not told three times (CD review 02 item 10). -->
-  <section class="section band-salt day-schedule" aria-labelledby="schedule-heading">
+  <!-- 4. The morning rotation: three stations come in from the right -->
+  <section class="day-rotation" aria-labelledby="rotation-heading">
+    <div class="wrap">
+      <Reveal><SectionHead eyebrow={rotation.range} heading="The morning rotation" id="rotation-heading" intro={rotation.display[0]} /></Reveal>
+    </div>
+    <PanelTrack items={panels} size="wide" label="The morning rotation, three stations" id="rotation" />
+  </section>
+
+  <!-- 5. Guests' words, one corporate and one private first -->
+  <GuestQuotes id="day-guests" heading="In our guests’ words" items={guestWords} media="a-private-walk" side="left" />
+
+  <!-- 6. The full schedule in one place, folded, with what is included and the reel -->
+  <section class="section band-salt day-schedule" id="schedule" aria-labelledby="schedule-heading">
     <div class="wrap day-schedule__grid">
       <div class="day-schedule__reel">
         <ReelFrame
@@ -143,9 +162,9 @@ const jsonLd = {
       </div>
       <div class="day-schedule__table">
         <Reveal><SectionHead heading="A day at *Beresford Estate*" id="schedule-heading" /></Reveal>
-        <details class="day-schedule__more" open>
+        <details class="day-schedule__more">
           <summary class="day-schedule__summary">
-            <span>See the full schedule</span>
+            <span>See the full schedule, hour by hour</span>
             <svg class="day-schedule__chev" viewBox="0 0 14 8" width="14" height="8" aria-hidden="true" focusable="false"><polyline points="1,1 7,7 13,1" /></svg>
           </summary>
           <DataTable
@@ -167,16 +186,8 @@ const jsonLd = {
     </div>
   </section>
 
-  <!-- 5. The morning rotation -->
-  <section class="section day-rotation" aria-labelledby="rotation-heading">
-    <div class="wrap">
-      <Reveal><SectionHead eyebrow={rotation.range} heading="The morning rotation" id="rotation-heading" intro={rotation.display[0]} /></Reveal>
-      <SteppedGallery items={stations} label="Three stations" aria="The morning rotation, three stations" id="rotation" />
-    </div>
-  </section>
-
-  <!-- 6. Where it can happen -->
-  <section class="section band-warm day-where" id="where" aria-labelledby="where-heading">
+  <!-- 7. Where it can happen -->
+  <section class="day-where" id="where" aria-labelledby="where-heading">
     <div class="wrap">
       <SectionHead
         eyebrow="Places to Pause"
@@ -186,16 +197,15 @@ const jsonLd = {
       >
         <ArrowLink slot="aside" href="/places" label="See the venues" />
       </SectionHead>
-      <VenueIndex venues={venues} label="Where the 8 hour immersive retreat can happen" />
     </div>
+    <PanelTrack items={venuePanels} size="card" label="Where the 8 hour immersive retreat can happen" id="day-venues" />
   </section>
 
-  <!-- Plan your day -->
-  <CtaBand
+  <ClosingTide
+    media="a-close-hills"
     line="Curate your 8 hour immersive retreat"
+    lineDraft
     params={{ format: 'full-day', source: 'day-page' }}
-    note={cta.callNote}
-    draft={{ line: true }}
   />
 </Base>
 
@@ -203,21 +213,22 @@ const jsonLd = {
   /* 2 */
   .day-intro { padding-top: clamp(1.5rem, 3vw, 2.5rem); }
   .day-intro :global(.day-crumbs) { margin-bottom: clamp(2.5rem, 5vw, 4.5rem); }
-  .day-intro :global(.day-intro__glance) { margin-top: clamp(3rem, 6vw, 5.5rem); }
 
   /* 4 */
+  .day-rotation { padding-block: var(--section-y); background: var(--sand-30); overflow-x: clip; }
+  .day-rotation :global(.section-head) { margin-bottom: clamp(2rem, 4vw, 3rem); }
+
+  /* 6 */
   .day-schedule__grid { display: grid; gap: var(--space-xl); }
   .day-schedule__reel { width: min(100%, 17.5rem); margin-inline: auto; }
   @media (min-width: 900px) {
     .day-schedule__grid { grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr); gap: clamp(3rem, 8vw, 8rem); align-items: start; }
     .day-schedule__reel { width: 100%; margin: 0; position: sticky; top: calc(var(--header-compact) + 2.5rem); padding-top: 0.5rem; }
   }
-  /* Until Belle's reel arrives, visitors see the schedule on its own rather than an empty 9:16 frame
-     (design review 27-09-2026). The notes layer keeps the frame for Jess and Belle. */
+  /* Until Belle's reel arrives, visitors see the schedule on its own rather than an empty 9:16 frame. */
   :global(html:not([data-media-notes='on'])) .day-schedule__reel:has(.media--placeholder) { display: none; }
   :global(html:not([data-media-notes='on'])) .day-schedule__grid:has(.day-schedule__reel .media--placeholder) { grid-template-columns: minmax(0, 46rem); }
 
-  /* 4, the schedule behind one quiet row */
   .day-schedule__more { border-top: 1px solid var(--sage-40); border-bottom: 1px solid var(--sage-20); }
   .day-schedule__summary {
     display: flex;
@@ -228,7 +239,7 @@ const jsonLd = {
     padding-block: 0.75rem;
     cursor: pointer;
     list-style: none;
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
     font-size: var(--fs-card);
     color: var(--heading);
   }
@@ -241,15 +252,15 @@ const jsonLd = {
     .day-schedule__chev { transition: transform var(--dur) var(--ease-soft); }
   }
 
-  /* 5 */
-  .day-rotation :global(.section-head) { margin-bottom: clamp(2.5rem, 4vw, 4rem); }
-
-  /* 4, what is included */
   .day-included { margin-top: clamp(2rem, 4vw, 3rem); }
-  .day-included__title { margin: 0 0 0.75rem; font-family: var(--font-serif); font-size: var(--fs-card); }
+  .day-included__title { margin: 0 0 0.75rem; font-family: var(--font-display); font-size: var(--fs-card); }
   .day-included :global(.b-groups) { display: grid; gap: 1.5rem 2.5rem; margin: 1.25rem 0 1.5rem; }
   @media (min-width: 700px) { .day-included :global(.b-groups) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .day-included :global(.b-group__title) { margin: 0 0 0.5rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--muted); }
   .day-included :global(.b-list) { margin: 0; padding: 0; list-style: none; }
   .day-included :global(.b-list li) { padding: 0.35rem 0; border-top: 1px solid var(--sage-20); font-size: var(--fs-small); line-height: 1.5; }
+
+  /* 7 */
+  .day-where { padding-block: var(--section-y); background: var(--sand-40); overflow-x: clip; }
+  .day-where :global(.section-head) { margin-bottom: clamp(2rem, 4vw, 3rem); }
 </style>

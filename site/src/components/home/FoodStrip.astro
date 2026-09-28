@@ -1,0 +1,38 @@
+---
+/*
+  Home, the food beat (rebuild round 1, 28-09-2026). Belle, T48: "from the luxury wellness
+  experiences to the food... and what that looks like". A P6 SlideStrip of plates from the day that
+  slides in from the right, with the heading from /food holding still at the left while the plates
+  pass under it. Words are Belle's, from the food page: "The flavours of the Fleurieu" and her
+  Mediterranean line. The plate captions name only what the photograph shows (marked draft for Belle).
+  No plate ever sits beside a guest's review (those carry their own photographs).
+*/
+import SlideStrip from '../base/SlideStrip.astro';
+import ArrowLink from '../base/ArrowLink.astro';
+
+const plates = [
+  { media: 'home-food-table', title: 'The long table', ratio: '3 / 4', href: '/food', draft: true },
+  { media: 'home-food-kingfish', title: 'Kingfish', ratio: '1 / 1', href: '/food', draft: true },
+  { media: 'home-food-chef', title: 'Finished at the pass', ratio: '3 / 2', href: '/food', draft: true },
+  { media: 'home-food-tortelli', title: 'Tortelli', ratio: '1 / 1', href: '/food', draft: true },
+  { media: 'home-food-sweet', title: 'Brownies and berries', ratio: '3 / 4', href: '/food', draft: true },
+];
+---
+<section class="fs" aria-labelledby="fs-heading" data-ground="warm">
+  <SlideStrip items={plates} label="Plates from the day" arrows={false}>
+    <div slot="head" class="fs__head">
+      <p class="fs__eyebrow">The food</p>
+      <h2 class="fs__heading" id="fs-heading">The flavours of the <span class="place">Fleurieu</span></h2>
+      <p class="fs__lead">Inspired by the elements of a Mediterranean lifestyle; plant based nourishment, connection, community &amp; longevity.</p>
+      <ArrowLink href="/food" label="Food and sample menus" />
+    </div>
+  </SlideStrip>
+</section>
+
+<style>
+  .fs { position: relative; padding-block: clamp(5rem, 10vh, 8rem); }
+  .fs__eyebrow { margin: 0 0 1rem; font-family: var(--font-editorial); font-style: italic; font-size: 1.1875rem; color: var(--sage-80); }
+  .fs__heading { margin: 0; font-size: clamp(2.25rem, 1.2rem + 2.4vw, 3.5rem); line-height: 1.04; }
+  .fs__heading .place { font-family: var(--font-editorial); font-style: italic; }
+  .fs__lead { margin: 1.25rem 0 1.25rem; font-size: var(--fs-small); line-height: 1.65; max-width: 20rem; color: var(--sage-100); }
+</style>

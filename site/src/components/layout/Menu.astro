@@ -199,9 +199,16 @@ let n = 0;
     letter-spacing: 0.005em;
     transition: translate 500ms var(--ease-settle), color 400ms var(--ease-settle);
   }
-  .menu__link[aria-current='page'] .menu__link-text { font-style: italic; }
+  /* Italic is for place names only, so the current page and hover draw a hairline under the name,
+     left to right over 400ms. */
+  .menu__link-text {
+    background: linear-gradient(currentColor, currentColor) 0 94% / 0% 1px no-repeat;
+    transition: translate 500ms var(--ease-settle), color 400ms var(--ease-settle), background-size 400ms var(--ease-settle);
+  }
+  .menu__link[aria-current='page'] .menu__link-text { background-size: 100% 1px; }
+  .menu__link:focus-visible .menu__link-text { background-size: 100% 1px; }
   @media (hover: hover) {
-    .menu__link:hover .menu__link-text { translate: 0.5rem 0; color: var(--sage-100); }
+    .menu__link:hover .menu__link-text { translate: 0.5rem 0; color: var(--sage-100); background-size: 100% 1px; }
     .menu__list:hover .menu__link:not(:hover) .menu__link-text { color: var(--sage-60); }
   }
   .menu__link:focus-visible .menu__link-text { translate: 0.5rem 0; }

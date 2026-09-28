@@ -57,7 +57,7 @@ export const SETTING: Option[] = [
 ];
 
 export const FORMAT: Option[] = [
-  { value: 'full-day', label: 'The 8 hour day' },
+  { value: 'full-day', label: 'The 8 hour immersive retreat' },
   { value: 'shorter', label: 'A shorter day' },
   { value: 'not-sure', label: 'Not sure yet' },
 ];

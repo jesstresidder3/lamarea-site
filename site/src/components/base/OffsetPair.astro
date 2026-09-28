@@ -1,0 +1,110 @@
+---
+/*
+  P2 OffsetPair, the editorial pair (art review 27-09-2026, shared pattern P2).
+  A tall 4:5 photograph on columns 1 to 6, a 1:1 detail on columns 8 to 10 set lower, and the words
+  on a sand panel that overlaps the large photograph's edge by one column, so they sit half on paper
+  and half on the picture. The two photographs move at scroll speeds 0.92 and 1.08 (data-drift,
+  scripts/motion.ts), so the pair breathes apart as it passes. Phones: the large photograph full width,
+  the detail at 40vw on the right overlapping its lower edge by 48px, then the words.
+  Reduced motion: the same layout, nothing drifts.
+  Missing photographs (P7): a missing detail simply drops out; a missing large photograph turns the
+  pair into words at full measure.
+
+  <OffsetPair large="story-coast" detail="story-kangaroo" caption="Deep Creek, Fleurieu Peninsula">
+    <h2>Growing up on the <span class="place">Fleurieu</span></h2>
+    <p>Belle's words...</p>
+  </OffsetPair>
+
+  Props
+  - large: media slot id for the 4:5 photograph (required)
+  - detail: media slot id for the 1:1 detail (optional)
+  - caption: P3 caption under the large photograph (optional)
+  - detailCaption: P3 caption under the detail (optional)
+  - side: 'left' (default, large photo on the left) or 'right' (mirrored)
+  - largeAspect: override the 4:5 (for example '3 / 4')
+  - class, id
+  - default slot: the words (heading, paragraphs, links). Headings are the page's own level
+*/
+import Media from '../media/Media.astro';
+import Caption from './Caption.astro';
+
+interface Props {
+  large: string;
+  detail?: string;
+  caption?: string;
+  detailCaption?: string;
+  side?: 'left' | 'right';
+  largeAspect?: string;
+  class?: string;
+  id?: string;
+}
+const { large, detail, caption, detailCaption, side = 'left', largeAspect = '4 / 5', class: className, id } = Astro.props;
+---
+<div class:list={['opair', `opair--${side}`, !detail && 'opair--single', className]} id={id}>
+  <figure class="opair__large" data-media-frame data-drift="0.92">
+    <Media media={large} aspect={largeAspect} sizes="(max-width: 899px) 100vw, 46vw" />
+    {caption && <Caption as="figcaption">{caption}</Caption>}
+  </figure>
+  <div class="opair__text"><slot /></div>
+  {detail && (
+    <figure class="opair__detail" data-media-frame data-drift="1.08">
+      <Media media={detail} aspect="1 / 1" sizes="(max-width: 899px) 40vw, 22vw" />
+      {detailCaption && <Caption as="figcaption">{detailCaption}</Caption>}
+    </figure>
+  )}
+</div>
+
+<style>
+  .opair { position: relative; display: grid; padding-inline: var(--gutter); }
+  .opair figure { margin: 0; }
+  .opair__large { position: relative; z-index: 0; }
+  .opair__text { position: relative; z-index: 1; }
+  .opair__text :global(> :first-child) { margin-top: 0; }
+  .opair__text :global(> :last-child) { margin-bottom: 0; }
+
+  /* Phones: large, then the detail overlapping its lower edge on the right, then the words. */
+  .opair__detail { width: 40vw; justify-self: end; margin-top: -3rem; position: relative; z-index: 1; margin-right: calc(var(--gutter) * -0.25); }
+  .opair--right .opair__detail { justify-self: start; }
+  .opair__text { padding-top: clamp(2rem, 6vw, 3rem); }
+  /* Phones: the caption keeps clear of the detail that overlaps the photograph's lower edge. */
+  @media (max-width: 899px) {
+    .opair:not(.opair--single) .opair__large :global(.cap) { padding-right: 44vw; }
+    .opair--right:not(.opair--single) .opair__large :global(.cap) { padding-right: 0; padding-left: 44vw; }
+  }
+  .opair__large { order: 1; }
+  .opair__detail { order: 2; }
+  .opair__text { order: 3; }
+
+  @media (min-width: 900px) {
+    .opair {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(1rem, 2vw, 2rem);
+      align-items: start;
+    }
+    .opair__large { grid-column: 1 / 7; grid-row: 1 / 3; }
+    .opair__text {
+      grid-column: 6 / 12;
+      grid-row: 1;
+      order: 0;
+      margin-top: clamp(4rem, 14vh, 9rem);
+      padding: clamp(2rem, 3.5vw, 3.5rem) clamp(2rem, 3.5vw, 3.5rem) clamp(2rem, 3.5vw, 3.5rem);
+      background: var(--page-tone, var(--sand-30));
+    }
+    .opair__detail { grid-column: 8 / 11; grid-row: 2; width: auto; justify-self: stretch; margin: clamp(3rem, 8vh, 7.5rem) 0 0; }
+
+    .opair--right .opair__large { grid-column: 7 / 13; }
+    .opair--right .opair__text { grid-column: 2 / 8; }
+    .opair--right .opair__detail { grid-column: 3 / 6; justify-self: stretch; }
+
+    .opair--single .opair__text { grid-row: 1; }
+  }
+
+  /* P7: no large photograph, so the words take the full measure. */
+  :global(html:not([data-media-notes='on'])) .opair:has(.opair__large .media--placeholder) .opair__text {
+    grid-column: 1 / -1;
+    max-width: 44rem;
+    margin-top: 0;
+    padding-inline: 0;
+    background: none;
+  }
+</style>

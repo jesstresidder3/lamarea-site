@@ -1,18 +1,18 @@
 ---
 /*
-  Places to Pause on home (Salt and Sun, signature feature 13).
-  The arch from Belle's style guide holds the venue photograph, drifting inside at 0.8 speed. Beside it,
-  a fine line map of the Fleurieu with one pin per venue, and the venues as a quiet list: the place
-  name, coast or vineyard, the sleeps figure and the drive from Adelaide, all from the venue records.
-  Hovering or focusing a venue lights its pin and, where that venue has its own photograph, brings it
-  into the arch. A venue without a photograph keeps the list line only: a Naiko photo never stands in
-  for another venue. Five star wording appears only where the record carries it.
-  Reduced motion: static arch, every pin visible, nothing drifts.
+  Places to Pause on home (Salt and Sun, signature feature 13; rebuilt round 1, 28-09-2026).
+  One arch per venue that has its own photograph (Belle's style guide shape), each photograph drifting
+  inside at 0.8 speed, with the venue's name set in HV Muse across the arch's base in salt. Venues
+  without a photograph drop out of the arch row (P7: a Naiko photo never stands in for another venue)
+  and stay in the list beside it. The list leads with the setting and the drive from Adelaide, with
+  the sleeps figure quieter after them, because the retreat is a day, not an overnight stay (audience
+  review). A fine line map of the Fleurieu lies behind the whole section at low opacity with one pin
+  per venue; hovering or focusing a venue lights its pin. A quiet link explains where the Fleurieu is.
+  Reduced motion: static arches, nothing drifts.
 */
 import Media from '../media/Media.astro';
 import ArrowLink from '../base/ArrowLink.astro';
 import { media as getMedia } from '../../data/media';
-import imageSizes from '../../data/media/image-sizes.json';
 import { map, project, toPercent, cropViewBox } from '../../lib/map';
 import { regionLabel } from '../../lib/text';
 import type { Venue } from '../../lib/content';
@@ -32,48 +32,54 @@ const {
   id = 'places',
 } = Astro.props;
 
-// The arch is tall, so each venue shows its first upright photograph (card, then its gallery), which
-// stays sharp inside the frame. Landscape aerials would be cropped to a sliver and soften.
-const sizes = imageSizes as Record<string, { w: number; h: number }>;
-const archSlot = (v: Venue) => {
-  const slots = [v.data.card_media, ...(v.data.gallery ?? [])].filter((id) => getMedia(id).src);
-  return slots.find((id) => { const d = sizes[getMedia(id).src!]; return d && d.h > d.w; }) ?? slots[0];
-};
-const withPhoto = (v: Venue) => Boolean(archSlot(v));
-const lead = venues.find(withPhoto) ?? venues[0];
+// Each arch shows the venue's own lead photograph (its card), then the first of its gallery.
+const archSlot = (v: Venue) => [v.data.card_media, ...(v.data.gallery ?? [])].find((sid) => sid && getMedia(sid).src);
+const arched = venues.filter((v) => Boolean(archSlot(v)));
+const adelaide = toPercent(project(-34.93, 138.6));
 const pins = venues
   .filter((v) => v.data.coordinates)
   .map((v) => ({ id: v.id, name: v.data.name, ...toPercent(project(v.data.coordinates!.lat, v.data.coordinates!.lng)) }));
 ---
 <section class="pa" id={id} aria-labelledby={`${id}-heading`} data-pa>
-  <div class="wrap pa__grid">
-    <div class="pa__arch-col">
-      <div class="pa__arch" data-speed="0.8">
-        {venues.filter(withPhoto).map((v) => (
-          <div class:list={['pa__photo', v.id === lead.id && 'is-on']} data-pa-photo={v.id}>
-            <Media media={archSlot(v)!} aspect="fill" sizes="(max-width: 899px) 90vw, 40vw" />
-          </div>
-        ))}
-      </div>
-      <p class="caption pa__caption" data-pa-caption>{lead.data.name}, <span>{lead.data.location_label}</span></p>
+  <div class="pa__map" aria-hidden="true">
+    <div class="pa__map-in">
+      <svg viewBox={cropViewBox} preserveAspectRatio="xMidYMid meet" focusable="false">
+        {map.land.map((d) => <path d={d} class="pa__land" />)}
+      </svg>
+      {pins.map((p) => (
+        <span class="pa__pin" data-pa-pin={p.id} style={`left:${p.left}%;top:${p.top}%`}><i></i></span>
+      ))}
+      <span class="pa__map-label" style={`left:${adelaide.left}%;top:${adelaide.top}%`}>Adelaide</span>
+    </div>
+  </div>
+
+  <div class="pa__grid">
+    <div class="pa__arches" data-count={arched.length}>
+      {arched.map((v, i) => (
+        <a class="pa__arch-link" href={`/places/${v.id}`} data-pa-venue={v.id} style={`--i:${i}`} data-cursor="View">
+          <span class="pa__arch" data-speed="0.8">
+            <Media media={archSlot(v)!} aspect="fill" sizes="(max-width: 899px) 86vw, 34vw" />
+          </span>
+          <span class="pa__arch-name">{v.data.name}</span>
+        </a>
+      ))}
     </div>
 
     <div class="pa__text">
       <h2 class="pa__heading" id={`${id}-heading`}>{heading}</h2>
       {intro && <p class="pa__intro">{intro}</p>}
 
-      <div class="pa__body">
       <ul class="pa__list" role="list">
         {venues.map((v) => {
           const d = v.data;
           return (
             <li>
-              <a class="pa__venue" href={`/places/${v.id}`} data-pa-venue={v.id} data-pa-has-photo={withPhoto(v) ? '' : undefined} data-pa-caption-text={`${d.name}, ${d.location_label}`}>
+              <a class="pa__venue" href={`/places/${v.id}`} data-pa-venue={v.id}>
                 <span class="pa__name">{d.name}</span>
                 <span class="pa__facts">
-                  <span>{regionLabel(d.region)}</span>
-                  {d.sleeps?.display && <span>Sleeps {d.sleeps.display}</span>}
+                  <span>{regionLabel(d.region)}, {d.location_label.split(',')[0]}</span>
                   {d.drive_from_adelaide?.text && <span>{d.drive_from_adelaide.text}</span>}
+                  {d.sleeps?.display && <span class="pa__sleeps">Sleeps {d.sleeps.display}</span>}
                 </span>
               </a>
             </li>
@@ -81,62 +87,80 @@ const pins = venues
         })}
       </ul>
 
-      <div class="pa__map" aria-hidden="true">
-        <svg viewBox={cropViewBox} preserveAspectRatio="xMidYMid meet" focusable="false">
-          {map.land.map((d) => <path d={d} class="pa__land" />)}
-        </svg>
-        {pins.map((p) => (
-          <span class:list={['pa__pin', p.id === lead.id && 'is-on']} data-pa-pin={p.id} style={`left:${p.left}%;top:${p.top}%`}><i></i></span>
-        ))}
-        <span class="pa__map-label" style={`left:${toPercent(project(-34.93, 138.6)).left}%;top:${toPercent(project(-34.93, 138.6)).top}%`}>Adelaide</span>
+      <div class="pa__links">
+        <ArrowLink href={link.href} label={link.label} />
+        <a class="text-link pa__where" href="/fleurieu-peninsula-retreats">Where is the <span class="place">Fleurieu Peninsula</span>?</a>
       </div>
-      </div>
-
-      <ArrowLink href={link.href} label={link.label} />
     </div>
   </div>
 </section>
 
 <script>
   document.querySelectorAll<HTMLElement>('[data-pa]').forEach((root) => {
-    const photos = Array.from(root.querySelectorAll<HTMLElement>('[data-pa-photo]'));
     const pins = Array.from(root.querySelectorAll<HTMLElement>('[data-pa-pin]'));
-    const caption = root.querySelector<HTMLElement>('[data-pa-caption]');
+    const light = (id?: string) => pins.forEach((p) => p.classList.toggle('is-on', p.dataset.paPin === id));
     root.querySelectorAll<HTMLElement>('[data-pa-venue]').forEach((a) => {
-      const on = () => {
-        const id = a.dataset.paVenue;
-        pins.forEach((p) => p.classList.toggle('is-on', p.dataset.paPin === id));
-        if (a.dataset.paHasPhoto !== undefined) {
-          photos.forEach((p) => p.classList.toggle('is-on', p.dataset.paPhoto === id));
-          if (caption && a.dataset.paCaptionText) caption.textContent = a.dataset.paCaptionText;
-        }
-      };
+      const on = () => light(a.dataset.paVenue);
       a.addEventListener('pointerenter', on);
       a.addEventListener('focus', on);
     });
+    root.addEventListener('pointerleave', () => light());
   });
 </script>
 
 <style>
-  .pa { padding-block: var(--section-y); }
-  .pa__grid { display: grid; gap: clamp(3rem, 6vw, 7rem); align-items: center; }
+  .pa { position: relative; padding-block: clamp(6rem, 12vh, 10rem); overflow: hidden; }
 
+  /* The map: a large line drawing behind the section, low and quiet. */
+  .pa__map { position: absolute; inset: 0; pointer-events: none; }
+  .pa__map-in { position: absolute; right: -6vw; top: 50%; translate: 0 -50%; height: 118%; aspect-ratio: 760 / 800; }
+  .pa__map svg { width: 100%; height: 100%; }
+  .pa__land { fill: color-mix(in srgb, var(--sand-100) 18%, transparent); stroke: color-mix(in srgb, var(--sage-40) 55%, transparent); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .pa__pin { position: absolute; width: 0; height: 0; }
+  .pa__pin i {
+    position: absolute;
+    left: -4px; top: -4px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--sage-40) 70%, transparent);
+    transition: background-color 400ms var(--ease-settle), box-shadow 400ms var(--ease-settle);
+  }
+  .pa__pin.is-on i { background: var(--sage-80); box-shadow: 0 0 0 6px color-mix(in srgb, var(--sand-100) 80%, transparent), 0 0 0 14px color-mix(in srgb, var(--sand-100) 35%, transparent); }
+  .pa__map-label { position: absolute; translate: 0.5rem -50%; font-family: var(--font-editorial); font-style: italic; font-size: 0.9375rem; color: var(--sage-60); }
+  .pa__map-label::before { content: ''; position: absolute; left: -0.6rem; top: 50%; width: 4px; height: 4px; margin-top: -2px; border-radius: 50%; background: var(--sage-60); }
+
+  .pa__grid { position: relative; display: grid; gap: clamp(3rem, 6vw, 6rem); padding-inline: var(--gutter); align-items: center; }
+
+  .pa__arches { display: flex; gap: clamp(1.25rem, 3vw, 3rem); align-items: flex-end; }
+  .pa__arch-link { position: relative; flex: 1; display: block; max-width: 34rem; color: var(--on-image); text-decoration: none; container-type: inline-size; }
+  .pa__arch-link:nth-child(2) { margin-bottom: 8vh; }
   .pa__arch {
     position: relative;
+    display: block;
     aspect-ratio: 2 / 3;
-    max-height: 82svh;
-    width: 100%;
-    margin-inline: auto;
+    max-height: 84svh;
     border-radius: var(--arch);
     overflow: hidden;
     background: var(--sand-40);
   }
-  .pa__photo { position: absolute; inset: 0; opacity: 0; transition: opacity 700ms var(--ease-settle); }
-  .pa__photo.is-on { opacity: 1; }
-  .pa__caption { text-align: center; margin-inline: auto; }
+  .pa__arch::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgb(20 50 64 / 0.42), rgb(20 50 64 / 0) 38%); pointer-events: none; }
+  .pa__arch-name {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(1.25rem, 3vw, 2.5rem);
+    z-index: 2;
+    text-align: center;
+    font-family: var(--font-display);
+    /* Sized to the arch, so three arches side by side keep each name inside its own frame. */
+    font-size: clamp(1.05rem, 14cqi, 3.5rem);
+    line-height: 1;
+    text-shadow: 0 1px 20px rgb(20 50 64 / 0.4);
+    padding-inline: 0.5rem;
+  }
 
   .pa__heading { margin: 0; font-size: var(--fs-section); line-height: 1.02; }
-  .pa__intro { margin: 1.75rem 0 0; font-size: var(--fs-lead); line-height: 1.6; max-width: 28rem; }
+  .pa__intro { margin: 1.5rem 0 0; font-size: var(--fs-lead); line-height: 1.6; max-width: 28rem; }
 
   .pa__list { margin: clamp(2rem, 4vw, 3rem) 0 0; padding: 0; list-style: none; border-top: 1px solid var(--rule); }
   .pa__venue {
@@ -152,38 +176,31 @@ const pins = venues
     font-size: clamp(1.625rem, 1.2rem + 1.2vw, 2.375rem);
     line-height: 1.1;
     color: var(--sage-80);
-    transition: translate 500ms var(--ease-settle), font-style 0s;
+    transition: translate 500ms var(--ease-settle);
   }
-  .pa__facts { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; font-size: var(--fs-small); color: var(--sage-80); letter-spacing: 0.02em; }
+  .pa__facts { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; font-size: var(--fs-small); color: var(--sage-100); letter-spacing: 0.02em; }
+  .pa__sleeps { color: var(--sage-80); }
   @media (hover: hover) {
-    .pa__venue:hover .pa__name { translate: 0.5rem 0; font-style: italic; }
+    .pa__venue:hover .pa__name { translate: 0.5rem 0; }
   }
-  .pa__venue:focus-visible .pa__name { font-style: italic; }
+  .pa__venue:focus-visible .pa__name { translate: 0.5rem 0; }
 
-  .pa__map { position: relative; width: min(100%, 17rem); aspect-ratio: 760 / 800; margin: 2rem 0 1rem; }
-  .pa__map svg { width: 100%; height: 100%; }
-  .pa__land { fill: color-mix(in srgb, var(--sand-100) 35%, transparent); stroke: var(--sage-40); stroke-width: 1; vector-effect: non-scaling-stroke; }
-  .pa__pin { position: absolute; width: 0; height: 0; }
-  .pa__pin i {
-    position: absolute;
-    left: -4px; top: -4px;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--sage-40);
-    transition: background-color 400ms var(--ease-settle), box-shadow 400ms var(--ease-settle);
-  }
-  .pa__pin.is-on i { background: var(--sage-80); box-shadow: 0 0 0 6px color-mix(in srgb, var(--sand-100) 80%, transparent), 0 0 0 14px color-mix(in srgb, var(--sand-100) 35%, transparent); }
-  .pa__map-label { position: absolute; translate: 0.5rem -50%; font-family: var(--font-editorial); font-style: italic; font-size: 0.9375rem; color: var(--sage-80); }
-  .pa__map-label::before { content: ''; position: absolute; left: -0.6rem; top: 50%; width: 4px; height: 4px; margin-top: -2px; border-radius: 50%; background: var(--sage-80); }
+  .pa__links { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 2.5rem; margin-top: 1.75rem; }
+  .pa__where { font-size: var(--fs-small); }
+  .pa__where .place { font-family: var(--font-editorial); font-style: italic; font-size: 1.08em; }
 
   @media (min-width: 900px) {
-    .pa__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
-    .pa__arch { max-width: 32rem; }
-    .pa__body { display: grid; grid-template-columns: minmax(0, 1fr) clamp(10rem, 14vw, 14rem); gap: clamp(2rem, 4vw, 4rem); align-items: start; }
-    .pa__map { margin: clamp(2rem, 4vw, 3rem) 0 0; width: 100%; }
+    .pa__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: clamp(3rem, 7vw, 8rem); }
+    .pa__grid:has(.pa__arches[data-count='3']) { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: clamp(2.5rem, 5vw, 5rem); }
+    .pa__text { max-width: 36rem; }
+  }
+  @media (max-width: 899px) {
+    .pa__map-in { height: 70%; top: auto; bottom: 0; translate: 0 0; right: -20vw; opacity: 0.8; }
+    .pa__arch { max-height: 70svh; }
+    .pa__map-label { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pa__photo, .pa__name, .pa__pin i { transition: none; }
+    .pa__name, .pa__pin i { transition: none; }
   }
 </style>

@@ -1,0 +1,180 @@
+---
+/*
+  GuestQuotes (lane L2, rebuild 28-09-2026). Guests' own words beside one photograph of a retreat,
+  never beside unrelated plates. One review at a time in Cormorant italic, trimmed to about 55 words
+  with "Read the full review" opening the rest in place, the guest line beneath (descriptor only, no
+  names until Belle has permission). Arrows and the keyboard arrow keys move between reviews; nothing
+  advances on its own. Reduced motion: the change is instant. Same behaviour as home's GuestWords
+  (L1), laid out for the buyer pages with a picture.
+
+  Props: items, heading, headingDraft, media (slot id for the photograph), detail (optional small
+  slot), caption, id, side ('left' | 'right' for the photo)
+*/
+import Media from '../../media/Media.astro';
+import { trimWords, monthYear } from '../../../lib/text';
+import type { Testimonial } from '../../../lib/content';
+
+interface Props {
+  items: Testimonial[];
+  heading: string;
+  headingDraft?: boolean;
+  media: string;
+  caption?: string;
+  id: string;
+  side?: 'left' | 'right';
+  max?: number;
+}
+const { items, heading, headingDraft = true, media, caption, id, side = 'left', max = 6 } = Astro.props;
+const list = items.filter((t) => t.data.quote).slice(0, max);
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+{list.length > 0 && (
+<section class:list={['gq', `gq--${side}`]} id={id} aria-labelledby={`${id}-heading`} data-gq>
+  <div class="wrap gq__grid">
+    <figure class="gq__pic">
+      <div class="gq__frame" data-speed="0.9"><Media media={media} aspect="fill" sizes="(max-width: 899px) 70vw, 36vw" /></div>
+      {caption && <figcaption class="gq__caption">{caption}</figcaption>}
+    </figure>
+    <div class="gq__words">
+      <h2 class="gq__heading" id={`${id}-heading`} data-draft={headingDraft ? '' : undefined}>{heading}</h2>
+      <div class="gq__stage" aria-live="polite">
+        {list.map((t, i) => {
+          const d = t.data;
+          const text = d.quote!.replace(/\s*\n+\s*/g, ' ');
+          const { short, trimmed } = trimWords(text, 55);
+          return (
+            <figure class:list={['gq__quote', i === 0 && 'is-on']} data-gq-quote={i} aria-hidden={i === 0 ? undefined : 'true'}>
+              <blockquote>
+                <p data-gq-short>“{short}{trimmed ? '' : '”'}</p>
+                {trimmed && <p class="gq__full" data-gq-full hidden>“{text}”</p>}
+              </blockquote>
+              {trimmed && <button type="button" class="gq__more text-link" data-gq-more aria-expanded="false" tabindex={i === 0 ? undefined : -1}>Read the full review</button>}
+              <figcaption class="gq__by">
+                <span data-draft>{d.descriptor}</span>
+                {d.source_type === 'google' && d.date && <span class="gq__src">Google review, {monthYear(d.date)}</span>}
+              </figcaption>
+            </figure>
+          );
+        })}
+      </div>
+      {list.length > 1 && (
+        <div class="gq__nav">
+          <button type="button" class="gq__arrow" data-gq-prev aria-label="Previous review">
+            <svg viewBox="0 0 40 12" width="40" height="12" aria-hidden="true" focusable="false"><path d="M39.5 6H1M6 1L1 6l5 5" /></svg>
+          </button>
+          <p class="gq__count"><span data-gq-now>01</span><span class="gq__count-rest"> / {pad(list.length)}</span></p>
+          <button type="button" class="gq__arrow" data-gq-next aria-label="Next review">
+            <svg viewBox="0 0 40 12" width="40" height="12" aria-hidden="true" focusable="false"><path d="M0.5 6H39M34 1l5 5-5 5" /></svg>
+          </button>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+)}
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gq]').forEach((root) => {
+    const quotes = Array.from(root.querySelectorAll<HTMLElement>('[data-gq-quote]'));
+    const now = root.querySelector<HTMLElement>('[data-gq-now]');
+    let i = 0;
+    const show = (n: number) => {
+      i = (n + quotes.length) % quotes.length;
+      quotes.forEach((q, k) => {
+        const on = k === i;
+        q.classList.toggle('is-on', on);
+        q.toggleAttribute('aria-hidden', !on);
+        q.querySelectorAll<HTMLElement>('button').forEach((b) => (on ? b.removeAttribute('tabindex') : b.setAttribute('tabindex', '-1')));
+      });
+      if (now) now.textContent = String(i + 1).padStart(2, '0');
+    };
+    root.querySelector('[data-gq-prev]')?.addEventListener('click', () => show(i - 1));
+    root.querySelector('[data-gq-next]')?.addEventListener('click', () => show(i + 1));
+    root.addEventListener('keydown', (e) => {
+      if ((e.target as HTMLElement).closest('.gq__nav') && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+        e.preventDefault();
+        show(i + (e.key === 'ArrowRight' ? 1 : -1));
+      }
+    });
+    root.querySelectorAll<HTMLButtonElement>('[data-gq-more]').forEach((b) => {
+      b.addEventListener('click', () => {
+        const q = b.closest('[data-gq-quote]')!;
+        const full = q.querySelector<HTMLElement>('[data-gq-full]');
+        const short = q.querySelector<HTMLElement>('[data-gq-short]');
+        const open = b.getAttribute('aria-expanded') !== 'true';
+        b.setAttribute('aria-expanded', String(open));
+        if (full) full.hidden = !open;
+        if (short) short.hidden = open;
+        b.textContent = open ? 'Show less' : 'Read the full review';
+      });
+    });
+  });
+</script>
+
+<style>
+  .gq { padding-block: var(--section-y); background: var(--salt-25); overflow-x: clip; }
+  .gq__grid { display: grid; gap: clamp(2.5rem, 7vw, 4rem); align-items: center; }
+  .gq__pic { margin: 0; width: min(72%, 26rem); }
+  .gq__frame { position: relative; aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--arch); background: var(--sand-40); }
+  .gq__caption { margin-top: 0.7rem; font-family: var(--font-editorial); font-style: italic; font-size: var(--fs-caption); color: var(--sage-80); }
+  :global(html:not([data-media-notes='on'])) .gq__pic:has(.media--placeholder) { display: none; }
+
+  .gq__heading {
+    margin: 0 0 clamp(1.75rem, 3.5vw, 2.75rem);
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: clamp(1.1875rem, 1.1rem + 0.3vw, 1.375rem);
+    line-height: 1.3;
+    color: var(--sage-80);
+  }
+  .gq__stage { display: grid; }
+  .gq__quote {
+    grid-area: 1 / 1;
+    margin: 0;
+    opacity: 0;
+    visibility: hidden;
+    translate: 1.25rem 0;
+    transition: opacity 900ms var(--ease-settle), translate 1100ms var(--ease-settle), visibility 0s linear 900ms;
+  }
+  .gq__quote.is-on { opacity: 1; visibility: visible; translate: 0 0; transition: opacity 900ms var(--ease-settle) 150ms, translate 1100ms var(--ease-settle) 150ms, visibility 0s; }
+  .gq__quote blockquote { margin: 0; }
+  .gq__quote blockquote p {
+    margin: 0;
+    max-width: 30em;
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: var(--fs-quote);
+    line-height: 1.32;
+    color: var(--sage-100);
+    text-indent: -0.4em;
+  }
+  .gq__full { font-size: clamp(1.2rem, 1rem + 0.7vw, 1.5rem) !important; }
+  .gq__more { margin-top: 1rem; border: 0; background: none; padding: 0 0 0.15em; font-family: var(--font-ui); font-size: var(--fs-small); letter-spacing: 0.04em; min-height: 2.75rem; }
+  .gq__by { display: grid; gap: 0.25rem; margin-top: clamp(1.25rem, 2.5vw, 2rem); font-family: var(--font-ui); font-size: var(--fs-small); letter-spacing: 0.06em; color: var(--sage-80); }
+  .gq__src { font-size: var(--fs-label); letter-spacing: 0.08em; }
+  .gq__nav { display: flex; align-items: center; gap: 1.5rem; margin-top: clamp(1.75rem, 3.5vw, 2.5rem); }
+  .gq__count { margin: 0; font-family: var(--font-editorial); font-size: 1.25rem; color: var(--sage-80); }
+  .gq__count-rest { color: var(--sage-60); }
+  .gq__arrow {
+    display: grid; place-items: center;
+    width: 3.25rem; height: 3.25rem;
+    border: 1px solid color-mix(in srgb, var(--sage-40) 60%, transparent);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--sage-80);
+    cursor: pointer;
+    transition: background-color 400ms var(--ease-settle);
+  }
+  .gq__arrow svg { width: 1.5rem; overflow: visible; }
+  .gq__arrow path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+  @media (hover: hover) { .gq__arrow:hover { background: var(--sand-60); } }
+
+  @media (min-width: 900px) {
+    .gq__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(3rem, 8vw, 9rem); }
+    .gq__pic { width: 100%; }
+    .gq--right .gq__pic { order: 2; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gq__quote, .gq__quote.is-on { transition: none; translate: none; }
+  }
+</style>

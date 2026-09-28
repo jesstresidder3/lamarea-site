@@ -1,0 +1,174 @@
+---
+/*
+  PairOpener (L3 rebuild, 28-09-2026): the P1 opener for pages whose best photographs are portraits,
+  which is most of Belle's retreat shoot. A 4:5 or 2:3 frame cropped to a 16:9 screen loses the
+  subject, so on wide screens two portraits stand side by side, each half the screen and full height,
+  like a magazine spread, and the title runs across the seam. Phones show the first portrait full
+  bleed, where a portrait fits the screen as it is.
+
+  Motion: the left frame washes up from the bottom edge (the P1 tide, 1400ms), the right one follows
+  200ms later from the top, so the spread opens like two pages. The lines rise after. On scroll the
+  shared page-opener script lifts the lines at three speeds and settles the first photograph.
+  Reduced motion: static.
+
+  Same words as PageOpener: lines, eyebrow, sub, caption, id. `second` is the right-hand photograph.
+*/
+import Media from '../../media/Media.astro';
+import Caption from '../../base/Caption.astro';
+import { emphasis } from '../../base/text';
+
+interface Props {
+  media: string;
+  second: string;
+  lines: string[];
+  eyebrow?: string;
+  sub?: string;
+  subDraft?: boolean;
+  caption?: string;
+  secondCaption?: string;
+  id?: string;
+}
+const { media, second, lines, eyebrow, sub, subDraft = false, caption, secondCaption, id = 'page-title' } = Astro.props;
+const hasAfter = Astro.slots.has('after');
+---
+<section class="pp" aria-labelledby={id} data-page-opener data-no-split data-no-blind>
+  <div class="pp__frame pp__frame--a" data-hero data-po-media>
+    <Media media={media} aspect="fill" priority sizes="(max-width: 899px) 100vw, 50vw" />
+  </div>
+  <div class="pp__frame pp__frame--b" aria-hidden="true">
+    <Media media={second} aspect="fill" eager sizes="50vw" />
+  </div>
+  <span class="pp__shade" aria-hidden="true"></span>
+
+  <div class="pp__words">
+    {eyebrow && <p class="pp__eyebrow">{eyebrow}</p>}
+    <h1 class="pp__title" id={id}>
+      {lines.map((l, i) => (
+        <span class={`pp__line pp__line--${i + 1}`} data-po-line={i}><span class="pp__line-in" set:html={emphasis(l)} /></span>
+      ))}
+    </h1>
+  </div>
+
+  {(sub || hasAfter) && (
+    <div class="pp__foot">
+      {sub && <p class="pp__sub" data-draft={subDraft ? '' : undefined}>{sub}</p>}
+      {hasAfter && <div class="pp__after"><slot name="after" /></div>}
+    </div>
+  )}
+  {(caption || secondCaption) && (
+    <div class="pp__caps">
+      {caption && <Caption tone="salt" class="pp__cap pp__cap--a">{caption}</Caption>}
+      {secondCaption && <Caption tone="salt" align="end" class="pp__cap pp__cap--b">{secondCaption}</Caption>}
+    </div>
+  )}
+</section>
+
+<script>
+  import '../../../scripts/page-opener';
+</script>
+
+<style>
+  .pp {
+    position: relative;
+    height: 100svh;
+    min-height: 38rem;
+    overflow: hidden;
+    color: var(--on-image);
+    background: var(--sand-40);
+  }
+  .pp__frame { position: absolute; top: 0; bottom: 0; overflow: hidden; }
+  .pp__frame--a { left: 0; width: 50%; }
+  .pp__frame--b { right: 0; width: 50%; }
+  .pp__frame :global(:is(img, video)) { filter: saturate(0.9) brightness(1.02); }
+  /* A hairline of sand between the two pages of the spread. */
+  .pp__frame--b { border-left: 3px solid var(--sand-30); }
+
+  .pp__shade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(60% 55% at 18% 18%, rgb(20 50 64 / 0.5), rgb(20 50 64 / 0.2) 50%, rgb(20 50 64 / 0) 76%),
+      linear-gradient(to top, rgb(20 50 64 / 0.46), rgb(20 50 64 / 0.16) 22%, rgb(20 50 64 / 0) 36%);
+  }
+  .pp__words {
+    position: absolute;
+    top: calc(var(--header-h) + clamp(2rem, 10svh, 7rem));
+    left: var(--gutter);
+    right: var(--gutter);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .pp__eyebrow { margin: 0 0 1.25rem; font-family: var(--font-editorial); font-style: italic; font-size: 1.1875rem; text-shadow: 0 1px 14px rgb(20 50 64 / 0.45); }
+  .pp__title {
+    margin: 0;
+    display: grid;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.75rem, 1rem + 4.4vw, 5.5rem);
+    line-height: 0.98;
+    letter-spacing: 0.004em;
+    color: inherit;
+    text-shadow: 0 2px 30px rgb(20 50 64 / 0.34);
+  }
+  .pp__line { display: block; }
+  .pp__line-in { display: inline-block; }
+  .pp__line--2 { padding-left: 1.3em; }
+  .pp__line--3 { padding-left: 0.5em; }
+  .pp__title :global(.place) { font-family: var(--font-editorial); font-style: italic; font-size: 1.06em; }
+  .pp__foot {
+    position: absolute;
+    left: var(--gutter);
+    bottom: clamp(4.5rem, 10svh, 6.5rem);
+    z-index: 2;
+    display: grid;
+    gap: 1rem;
+    max-width: 26rem;
+  }
+  .pp__sub { margin: 0; font-family: var(--font-ui); font-size: 0.9375rem; line-height: 1.6; letter-spacing: 0.03em; text-shadow: 0 1px 16px rgb(20 50 64 / 0.6); }
+  .pp__after :global(a) { color: var(--on-image); }
+  .pp__caps {
+    position: absolute;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: clamp(1.5rem, 4svh, 2.75rem);
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .pp :global(.pp__cap) { margin: 0; }
+  .pp :global(.pp__cap--b) { grid-column: 2; }
+
+  @media (max-width: 899px) {
+    .pp { height: 88svh; min-height: 34rem; }
+    .pp__frame--a { width: 100%; }
+    .pp__frame--b { display: none; }
+    .pp__shade {
+      background:
+        linear-gradient(to bottom, rgb(20 50 64 / 0.44), rgb(20 50 64 / 0.16) 42%, rgb(20 50 64 / 0) 60%),
+        linear-gradient(to top, rgb(20 50 64 / 0.62), rgb(20 50 64 / 0.3) 30%, rgb(20 50 64 / 0) 52%);
+    }
+    .pp__words { top: calc(var(--header-h) + 5svh); }
+    .pp__title { font-size: clamp(2.35rem, 1rem + 6.2vw, 2.9rem); line-height: 1.02; }
+    .pp__line--2 { padding-left: 0.6em; }
+    .pp__line--3 { padding-left: 0.2em; }
+    .pp__foot { right: var(--gutter); bottom: 3.75rem; max-width: none; }
+    .pp__caps { grid-template-columns: 1fr; bottom: 1.25rem; }
+    .pp :global(.pp__cap--b) { display: none; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.mo) .pp__frame--a { animation: pp-up 1400ms var(--ease-tide) both; }
+    :global(html.mo) .pp__frame--b { animation: pp-down 1400ms var(--ease-tide) 200ms both; }
+    :global(html.mo) .pp__line-in { animation: pp-rise 1300ms var(--ease-settle) both; }
+    :global(html.mo) .pp__line--1 .pp__line-in { animation-delay: 600ms; }
+    :global(html.mo) .pp__line--2 .pp__line-in { animation-delay: 740ms; }
+    :global(html.mo) .pp__line--3 .pp__line-in { animation-delay: 880ms; }
+    :global(html.mo) :is(.pp__eyebrow, .pp__foot, .pp__caps) { animation: pp-fade 1100ms var(--ease-settle) 1150ms both; }
+  }
+  @keyframes pp-up { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes pp-down { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes pp-rise { from { opacity: 0; translate: 0 0.45em; } to { opacity: 1; translate: 0 0; } }
+  @keyframes pp-fade { from { opacity: 0; } to { opacity: 1; } }
+</style>

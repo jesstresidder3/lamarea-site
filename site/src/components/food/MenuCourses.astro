@@ -1,0 +1,86 @@
+---
+/*
+  MenuCourses (L3 rebuild, 28-09-2026): the sample menu as a printed menu card, not an FAQ. Each
+  course is a row: the course name in HV Muse, the dishes set in Cormorant at 22px on a salt card
+  with hairlines, and one plate from the table sliding in from the right as the row reaches the
+  screen (art review L3 item 8; Belle, T33: things sliding in from the right). The plates are
+  photographs from the retreat table, not a picture of each named dish, so they carry no caption.
+  Reduced motion: the plates are simply there.
+
+  <MenuCourses courses={[{ course: 'Entrée', dishes: ['...'] }]} plates={['c-food-tortelli-lemons']} />
+*/
+import Media from '../media/Media.astro';
+
+interface Course { course: string; dishes: string[] }
+interface Props { courses: Course[]; plates?: string[]; note?: string }
+const { courses, plates = [], note } = Astro.props;
+---
+<ol class="mc" role="list">
+  {courses.map((c, i) => {
+    const plate = plates[i];
+    return (
+      <li class:list={['mc__row', !plate && 'mc__row--solo', i % 2 === 1 && 'mc__row--alt']} data-mc-row>
+        <div class="mc__card">
+          <p class="mc__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
+          <h3 class="mc__course">{c.course}</h3>
+          <ul class="mc__dishes" role="list">
+            {c.dishes.map((d) => <li>{d}</li>)}
+          </ul>
+        </div>
+        {plate && (
+          <div class="mc__plate" aria-hidden="true">
+            <Media media={plate} aspect="4 / 5" sizes="(max-width: 899px) 60vw, 26vw" showNote={false} />
+          </div>
+        )}
+      </li>
+    );
+  })}
+</ol>
+{note && <p class="mc__note">{note}</p>}
+
+<style>
+  .mc { display: grid; gap: clamp(2.5rem, 6vw, 5rem); margin: 0; padding: 0; list-style: none; }
+  .mc__row { display: grid; gap: 1.5rem; align-items: center; }
+  .mc__card {
+    position: relative;
+    z-index: 1;
+    padding: clamp(1.75rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3.5rem);
+    background: var(--salt-25);
+    border: 1px solid color-mix(in srgb, var(--sage-40) 40%, transparent);
+  }
+  .mc__num { margin: 0 0 0.75rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); }
+  .mc__course { margin: 0 0 1.25rem; font-family: var(--font-display); font-size: clamp(1.75rem, 1.3rem + 1.4vw, 2.6rem); line-height: 1.05; color: var(--heading); }
+  .mc__dishes { margin: 0; padding: 0; list-style: none; }
+  .mc__dishes li {
+    padding: 0.85rem 0;
+    border-top: 1px solid var(--sage-20);
+    font-family: var(--font-editorial);
+    font-size: clamp(1.2rem, 1.1rem + 0.35vw, 1.375rem);
+    line-height: 1.4;
+    color: var(--sage-100);
+  }
+  .mc__plate { width: 62%; justify-self: end; margin-top: -3rem; }
+  .mc__note { margin: clamp(1.5rem, 3vw, 2.5rem) 0 0; font-family: var(--font-editorial); font-style: italic; font-size: var(--fs-caption); color: var(--sage-80); }
+
+  @media (min-width: 900px) {
+    .mc__row { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+    .mc__card { grid-column: 1 / 8; grid-row: 1; }
+    .mc__plate { grid-column: 7 / 11; grid-row: 1; width: auto; justify-self: stretch; margin: 4rem 0 0; }
+    .mc__row--alt .mc__card { grid-column: 5 / 12; }
+    .mc__row--alt .mc__plate { grid-column: 2 / 6; margin: -3rem 0 0; }
+    .mc__row--solo .mc__card { grid-column: 1 / 9; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.js) .mc__plate { transition: opacity 1000ms var(--ease-settle), translate 1300ms var(--ease-settle); }
+    :global(html.js) .mc__row:not(.is-in) .mc__plate { opacity: 0; translate: 72px 0; }
+  }
+</style>
+
+<script>
+  const rows = document.querySelectorAll<HTMLElement>('[data-mc-row]');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -18% 0px' });
+  rows.forEach((r) => io.observe(r));
+</script>

@@ -19,7 +19,7 @@ const slim = Astro.url.pathname.startsWith('/enquire');
   <div class="wrap">
     {!slim && (<>
     <div class="footer__intro">
-      <Logo variant="circle" height="clamp(5.5rem, 4.5rem + 3vw, 7.5rem)" class="footer__submark" />
+      <Logo variant="circle" height="clamp(4rem, 3.4rem + 1.6vw, 5rem)" class="footer__submark" />
       <p class="footer__tide">
         <span>{footerLines.tide.display[0].replace(/\.$/, '')}</span>
         <span>{footerLines.tide.display[1]}</span>
@@ -73,7 +73,7 @@ const slim = Astro.url.pathname.startsWith('/enquire');
     </div>
     )}
 
-    <div class="footer__mark" aria-hidden="true"><Logo variant="primary" height="clamp(3.5rem, 13vw, 13rem)" /></div>
+    <div class="footer__mark" aria-hidden="true"><Logo variant="primary" height="clamp(2.25rem, 6.5vw, 6.5rem)" /></div>
     <div class="footer__base">
       <a class="footer__logo" href="/" aria-label="La maréa, home"><Logo variant="primary" height="1.4rem" /></a>
       <ul role="list" class="footer__legal">
@@ -88,38 +88,42 @@ const slim = Astro.url.pathname.startsWith('/enquire');
   .footer {
     background: var(--sand-60);
     color: var(--sage-100);
-    padding-top: var(--section-y);
-    padding-bottom: calc(var(--space-l) + env(safe-area-inset-bottom));
+    padding-top: clamp(3.5rem, 8vh, 6rem);
+    padding-bottom: calc(var(--space-m) + env(safe-area-inset-bottom));
   }
   .footer--slim { padding-top: var(--space-l); border-top: 1px solid color-mix(in srgb, var(--sage-40) 35%, transparent); }
   .footer ul { margin: 0; padding: 0; list-style: none; }
   .footer a { color: inherit; text-decoration: none; }
 
+  /* Belle's motto, said once and quietly. Pages that end on a ClosingTide carry it there instead. */
   .footer__intro {
-    display: grid;
-    justify-items: center;
-    gap: var(--space-m);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-s) var(--space-m);
     text-align: center;
-    padding-bottom: var(--space-xl);
+    padding-bottom: var(--space-l);
   }
+  :global(body:has([data-closing-tide])) .footer__intro { display: none; }
   .footer__intro :global(.footer__submark) { color: var(--sage-60); }
   .footer__tide {
     display: grid;
     gap: 0.1em;
     margin: 0;
     max-width: none;
-    font-family: var(--font-display);
-    font-size: var(--fs-h2);
-    line-height: 1.15;
-    letter-spacing: 0.01em;
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: clamp(1.1875rem, 1.05rem + 0.5vw, 1.5rem);
+    line-height: 1.35;
     color: var(--sage-80);
+    text-align: left;
     text-wrap: balance;
   }
-  .footer__tide span:last-child { font-style: italic; }
   .footer__mark {
     display: flex;
     justify-content: center;
-    padding-block: var(--space-xl) var(--space-m);
+    padding-block: var(--space-l) var(--space-s);
     color: color-mix(in srgb, var(--sage-40) 70%, transparent);
     overflow: hidden;
   }

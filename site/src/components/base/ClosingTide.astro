@@ -1,0 +1,171 @@
+---
+/*
+  P5 ClosingTide, one ending for every page (art review 27-09-2026, shared pattern P5).
+  Replaces the CtaBand plus the footer motto band, which stacked two flat sand panels at the end of
+  23 pages. One full-bleed photograph or clip at about 80svh that opens from an arch (Belle's style
+  guide shape) to full bleed as it rises, with the closing line, "Plan your day" and the call note in
+  salt over a soft local shade on its lower third. Belle's motto ("From chaos to calm, stress to
+  serenity. Let the tide guide you home.") sits under it as one small Cormorant italic line, so it is
+  said once. The footer starts straight after on sand 60, and drops its own motto band when a
+  ClosingTide is on the page.
+  Reduced motion: the frame is full bleed from the start. 
+
+  <ClosingTide line="Curate your 8 hour immersive retreat" params={{ source: 'retreats' }} />
+  <ClosingTide media="close-cove" line="Restore. Reconnect. Realign." lead="La maréa was created as an invitation to pause." />
+
+  Props
+  - line: the closing heading (asterisks mark place names only). Required
+  - lead: one line under it (optional)
+  - lineDraft / leadDraft: mark drafted words (data-draft)
+  - media: media slot id (default 'closing-tide', Belle's coastline pulling away into deep blue)
+  - params: prefill parameters for the "Plan your day" link (format, audience, source ...)
+  - link: override { label, href } (default cta.plan)
+  - note: the small line under the pill (default cta.callNote). Pass '' to hide
+  - motto: false hides the motto line (default true)
+  - level: heading level (default 2)
+  - id
+*/
+import Media from '../media/Media.astro';
+import { emphasis, withParams } from './text';
+import { cta, footerLines } from '../../data/settings';
+
+interface Props {
+  line: string;
+  lead?: string;
+  lineDraft?: boolean;
+  leadDraft?: boolean;
+  media?: string;
+  params?: Record<string, string | number | undefined>;
+  link?: { label: string; href: string };
+  note?: string;
+  motto?: boolean;
+  level?: 2 | 3;
+  id?: string;
+}
+const {
+  line,
+  lead,
+  lineDraft = false,
+  leadDraft = false,
+  media = 'closing-tide',
+  params,
+  link = cta.plan,
+  note = cta.callNote,
+  motto = true,
+  level = 2,
+  id = 'closing',
+} = Astro.props;
+const H = `h${level}` as 'h2' | 'h3';
+const mottoText = footerLines.tide.display.join(' ');
+---
+<section class="ct" aria-labelledby={`${id}-heading`} data-closing-tide data-no-blind>
+  <div class="ct__frame" data-ct-frame>
+    <Media media={media} aspect="fill" sizes="100vw" />
+    <span class="ct__shade" aria-hidden="true"></span>
+    <div class="ct__words">
+    <H class="ct__line" id={`${id}-heading`} data-no-split data-draft={lineDraft ? '' : undefined} set:html={emphasis(line)} />
+    {lead && <p class="ct__lead" data-draft={leadDraft ? '' : undefined}>{lead}</p>}
+    <a class="btn-filled btn-filled--large ct__cta" href={withParams(link.href, params)} data-magnetic>{link.label}</a>
+    {note && <p class="ct__note">{note}</p>}
+    </div>
+  </div>
+  {motto && <p class="ct__motto">{mottoText}</p>}
+</section>
+
+<style>
+  .ct { position: relative; }
+  .ct__frame {
+    position: relative;
+    height: clamp(30rem, 82svh, 60rem);
+    overflow: hidden;
+    background: var(--sand-40);
+  }
+  .ct__frame :global(:is(img, video)) { filter: saturate(0.9) brightness(1.03); }
+  .ct__shade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to top, rgb(20 50 64 / 0.5), rgb(20 50 64 / 0.26) 30%, rgb(20 50 64 / 0) 58%);
+  }
+  .ct__words {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(2.5rem, 8svh, 5rem);
+    display: grid;
+    justify-items: center;
+    padding-inline: var(--gutter);
+    text-align: center;
+    color: var(--on-image);
+    z-index: 2;
+  }
+  .ct__line {
+    margin: 0;
+    max-width: 16em;
+    font-size: var(--fs-section);
+    line-height: 1.04;
+    color: inherit;
+    text-shadow: 0 2px 28px rgb(20 50 64 / 0.35);
+    text-wrap: balance;
+  }
+  .ct__line :global(.place) { font-family: var(--font-editorial); font-style: italic; }
+  .ct__lead {
+    margin: clamp(1rem, 2vw, 1.5rem) auto 0;
+    max-width: 30rem;
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+    line-height: 1.4;
+    text-shadow: 0 1px 18px rgb(20 50 64 / 0.5);
+  }
+  .ct__cta { margin-top: clamp(1.75rem, 3vw, 2.5rem); }
+  .ct__note {
+    margin: 1rem auto 0;
+    max-width: 30rem;
+    text-wrap: balance;
+    font-size: var(--fs-small);
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 14px rgb(20 50 64 / 0.6);
+  }
+  .ct__motto {
+    position: relative;
+    margin: 0;
+    max-width: none;
+    padding: 1.5rem var(--gutter) 0;
+    text-align: center;
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: var(--fs-caption);
+    color: var(--sage-80);
+    background: var(--sand-60);
+  }
+  /* The pill already sits on a photograph, so it keeps its sand fill; the words are salt. */
+
+  /* P7: with no photograph the band is words on sand. */
+  :global(html:not([data-media-notes='on'])) .ct:has(.media--placeholder) .ct__frame { height: auto; padding-block: var(--section-y) 3rem; }
+  :global(html:not([data-media-notes='on'])) .ct:has(.media--placeholder) .ct__shade { display: none; }
+  :global(html:not([data-media-notes='on'])) .ct:has(.media--placeholder) .ct__words { position: relative; bottom: auto; color: var(--sage-100); }
+  :global(html:not([data-media-notes='on'])) .ct:has(.media--placeholder) :is(.ct__line, .ct__lead, .ct__note) { text-shadow: none; }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<HTMLElement>('[data-closing-tide]').forEach((el) => {
+      const frame = el.querySelector<HTMLElement>('[data-ct-frame]');
+      if (!frame) return;
+      const media = frame.querySelector<HTMLElement>('img, video');
+      // An arch: the sides pulled in, the top rounded to a half circle, opening to the full frame.
+      const wide = window.matchMedia('(min-width: 700px)').matches;
+      const side = wide ? 22 : 8;
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: { trigger: el, start: 'top 95%', end: 'top 20%', scrub: 0.6 },
+      });
+      tl.fromTo(frame, { clipPath: `inset(6% ${side}% 0% ${side}% round 50vw 50vw 0 0)` }, { clipPath: 'inset(0% 0% 0% 0% round 0vw 0vw 0 0)' }, 0);
+      if (media) tl.fromTo(media, { scale: 1.1 }, { scale: 1 }, 0);
+    });
+  }
+</script>

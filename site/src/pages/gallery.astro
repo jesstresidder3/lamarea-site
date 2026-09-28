@@ -1,32 +1,77 @@
 ---
 /*
-  /gallery (page builder D). Belle wants a gallery of previous retreats for "credibility and trust"
-  (BD-124). Opens on imagery, not a text heading (plan/12 fix 27): three photographs beside the H1,
-  above it on phones. Then the filters and the retreats, each photograph opening in place to its
-  caption. Starts with A Sunset Reset (May 2026, Joe's Henley) and the three 2026 retreats on the
-  live home page. Guest consent sits in the placeholder layer on every slot with people in frame.
+  /gallery (page builder D; rebuilt by lane L4, 28-09-2026). Belle wants a gallery of previous
+  retreats for "credibility and trust" (BD-124).
+
+  Order: the opener (the house above the cove at Naiko Deep Creek, full bleed), one line, then a wall
+  of real photographs from the retreat day at Naiko Deep Creek in mixed proportions, set like a
+  magazine picture spread (three columns on desktop, two on phones), each frame settling into place as
+  it arrives. The named retreats (A Sunset Reset and the three 2026 retreats) follow in GalleryGrid;
+  a retreat with no photographs yet steps aside when the notes layer is off (P7). One closing tide.
+  Guest consent sits in the notes layer (decision 29).
 */
 import Base from '../layouts/Base.astro';
-import PageIntro from '../components/pages/d/PageIntro.astro';
+import PageOpener from '../components/base/PageOpener.astro';
+import ClosingTide from '../components/base/ClosingTide.astro';
+import Breadcrumbs from '../components/base/Breadcrumbs.astro';
+import Caption from '../components/base/Caption.astro';
+import Media from '../components/media/Media.astro';
 import GalleryGrid from '../components/pages/d/GalleryGrid.astro';
-import CtaBand from '../components/base/CtaBand.astro';
+import ReviewNote from '../components/pages/d/ReviewNote.astro';
+
+const wall = Array.from({ length: 13 }, (_, i) => `gallery-wall-${i + 1}`);
 ---
 <Base
   title="Past retreats gallery"
-  description="Photographs from past La maréa wellness retreats in South Australia, from A Sunset Reset in May 2026 to a retreat at Beresford Estate, McLaren Vale."
+  description="Photographs from past La maréa wellness retreats on the Fleurieu Peninsula: the day at Naiko Deep Creek, the table, the deck and the sea."
 >
-  <PageIntro
-    variant="cluster"
-    mediaFirst
+  <PageOpener
+    media="gallery-opener"
+    lines={['Past', 'retreats']}
     eyebrow="About"
-    heading="Past retreats"
-    crumbs={[{ label: 'About', href: '/our-story' }, { label: 'Past retreats' }]}
-    lead="Photographs from the retreats and experiences we have curated so far. Open any image to read about the day."
-    leadDraft
-    media={['gallery-intro-1', 'gallery-intro-2', 'gallery-intro-3']}
+    sub="Photographs from the retreats and experiences we have curated so far."
+    subDraft
+    caption="Naiko Deep Creek, Fleurieu Peninsula"
+    shadeAt="top-left"
   />
+
+  <div class="wrap gal-crumbs"><Breadcrumbs items={[{ label: 'About', href: '/our-story' }, { label: 'Past retreats' }]} /></div>
+
+  <section class="section gal-wall" aria-labelledby="wall-heading">
+    <div class="wrap">
+      <header class="gal-wall__head">
+        <p class="label">A retreat day</p>
+        <h2 class="gal-wall__title" id="wall-heading" data-draft>At <span class="place">Naiko Deep Creek</span></h2>
+      </header>
+      <ul class="gal-wall__grid" role="list">
+        {wall.map((id, i) => (
+          <li class="gal-wall__item" style={`--i:${i % 3}`}>
+            <Media media={id} sizes="(max-width: 699px) 50vw, 33vw" />
+          </li>
+        ))}
+      </ul>
+      <Caption>Naiko Deep Creek, Fleurieu Peninsula</Caption>
+      <ReviewNote>Every guest in these frames needs to have given written consent before the gallery publishes (register W, decision 29). The frames come from the "Retreats, events and bookings" and "Wellness Partners" folders in Belle's Drive.</ReviewNote>
+    </div>
+  </section>
 
   <GalleryGrid />
 
-  <CtaBand line="Plan a day of your own" params={{ source: 'gallery' }} tone="salt" draft={{ line: true }} />
+  <ClosingTide line="Plan a day of your own" lineDraft params={{ source: 'gallery' }} />
 </Base>
+
+<style>
+  .gal-crumbs { padding-top: clamp(1.5rem, 3vw, 2.5rem); }
+  .gal-wall__head { display: grid; gap: 0.75rem; margin-bottom: clamp(2rem, 4vw, 3.5rem); }
+  .gal-wall__title { margin: 0; }
+  .gal-wall__title .place { font-family: var(--font-editorial); font-style: italic; }
+  .gal-wall__grid { columns: 2; column-gap: clamp(0.75rem, 1.6vw, 1.5rem); margin: 0; padding: 0; list-style: none; }
+  @media (min-width: 900px) { .gal-wall__grid { columns: 3; } }
+  .gal-wall__item { break-inside: avoid; margin-bottom: clamp(0.75rem, 1.6vw, 1.5rem); overflow: hidden; }
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .gal-wall__item :global(.media) { animation: gal-settle linear both; animation-timeline: view(); animation-range: entry 0% entry 90%; }
+    }
+  }
+  @keyframes gal-settle { from { opacity: 0.2; scale: 1.08; } to { opacity: 1; scale: 1; } }
+</style>

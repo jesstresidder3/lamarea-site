@@ -65,7 +65,7 @@
     {
       "name": "The vineyard",
       "text": "A 70 acre vineyard in Blewitt Springs, McLaren Vale.",
-      "media": "venue-beresford-estate-vineyard",
+      "media": "c-be-vineyard",
       "source": {
         "type": "venue_facts",
         "url": "https://www.beresfordestate.com.au/",
@@ -155,8 +155,8 @@
       "text": "70 acres (venue)"
     }
   ],
-  "card_media": "venue-beresford-estate-card",
-  "map_media": "venue-beresford-estate-map",
+  "card_media": "c-card-beresford-estate",
+  "map_media": "c-be-lawn",
   "gallery": [
     "venue-beresford-estate-vineyard",
     "venue-beresford-estate-plunge",

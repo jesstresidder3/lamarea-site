@@ -53,17 +53,6 @@ if (root) {
     wrap.hidden = false;
   }
 
-  // Both guides show when the audience is unknown (a direct visit or cleared storage, QA m10).
-  // With an answer, only that path's guide stays.
-  const audience = s('audience');
-  if (audience === 'private' || audience === 'corporate') {
-    root.querySelectorAll<HTMLElement>('[data-ty-guide]').forEach((g) => {
-      if (g.dataset.tyGuide !== audience) return g.remove();
-      const label = g.querySelector('.arrow-link__label');
-      if (label) label.textContent = audience === 'corporate' ? 'Your corporate group guide' : 'Your private group guide';
-    });
-  }
-
   const stub = root.querySelector<HTMLElement>('[data-ty-stub]');
   if (stub && state?.submitted && state.delivered === false) stub.hidden = false;
 }

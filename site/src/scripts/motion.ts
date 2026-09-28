@@ -14,6 +14,11 @@
   7 Sand wipe              same-site links cover the page with a sand panel before leaving. The
                            arrival half is pure CSS (motion.css), so it cannot stick.
   8 Dawn to dusk tone      body.tone-day: the page ground drifts from morning salt to dusk sand.
+  9 Drift                  [data-drift="0.92"] moves the whole element at that scroll speed (below 1
+                           it trails the page, above 1 it leads), so paired photographs breathe apart.
+  10 Ground drift          sections with data-ground="salt|sand|warm" ease the page ground towards
+                           their tone as they reach the middle of the screen (P4 handover). Off on
+                           pages with body.tone-day, which already drift.
 
   Reduced motion: only the wipe is skipped and everything renders at rest. No scroll hijack.
 */
@@ -230,6 +235,48 @@ function dayTone() {
   });
 }
 
+/* 9 Drift ---------------------------------------------------------------- */
+function drift() {
+  if (reduce) return;
+  document.querySelectorAll<HTMLElement>('[data-drift]').forEach((el) => {
+    const speed = Number(el.dataset.drift) || 1;
+    if (speed === 1) return;
+    const range = () => (1 - speed) * window.innerHeight * 0.5;
+    gsap.fromTo(el, { y: () => -range() }, {
+      y: () => range(),
+      ease: 'none',
+      scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true, invalidateOnRefresh: true },
+    });
+  });
+}
+
+/* 10 Ground drift -------------------------------------------------------- */
+function groundDrift() {
+  if (document.body.classList.contains('tone-day')) return;
+  const grounds = Array.from(document.querySelectorAll<HTMLElement>('main [data-ground]'));
+  if (!grounds.length) return;
+  const tones: Record<string, string> = { salt: '#faf9f5', sand: '#f8f3e4', warm: '#f5efda', deep: '#f0e5c7' };
+  const body = document.body;
+  body.classList.add('tone-ground');
+  const base = tones.sand;
+  body.style.setProperty('--page-tone', base);
+  const to = (tone: string) => {
+    if (reduce) { body.style.setProperty('--page-tone', tone); return; }
+    gsap.to(body, { '--page-tone': tone, duration: 1.2, ease: tide, overwrite: 'auto' });
+  };
+  grounds.forEach((g) => {
+    const tone = tones[g.dataset.ground ?? 'sand'] ?? base;
+    ScrollTrigger.create({
+      trigger: g,
+      start: 'top 55%',
+      end: 'bottom 45%',
+      onEnter: () => to(tone),
+      onEnterBack: () => to(tone),
+      onLeaveBack: (st) => { if (st.trigger === grounds[0]) to(base); },
+    });
+  });
+}
+
 function init() {
   splitHeadings();
   blinds();
@@ -239,6 +286,8 @@ function init() {
   magnetic();
   wipe();
   dayTone();
+  drift();
+  groundDrift();
   // Late layout changes (fonts, images) move trigger points: refresh once everything has loaded.
   window.addEventListener('load', () => ScrollTrigger.refresh());
 }

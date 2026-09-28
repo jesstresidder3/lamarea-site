@@ -1,0 +1,82 @@
+---
+/*
+  JournalCover (L4 rebuild, 28-09-2026). The journal opens like a magazine cover: the latest story's
+  photograph full bleed at about 90svh, the journal's own name small at the top as a masthead, and the
+  story's title large at the lower left with its date and reading time as a caption. The whole cover is
+  one link to the story. Motion follows the P1 opener: the photograph washes up from the bottom edge
+  and settles, the title rises in after it. Reduced motion: static.
+  P7: a story with no photograph gets a type-led cover on sand.
+
+  <JournalCover post={featured} minutes={minutesOf(featured)} masthead="Wellness journal and recipes" />
+*/
+import Media from '../media/Media.astro';
+import { media } from '../../data/media';
+import { formatDate, plain } from '../../lib/text';
+import type { Post } from '../../lib/content';
+
+interface Props { post: Post; minutes?: number; masthead: string; eyebrow?: string; intro?: string }
+const { post, minutes, masthead, eyebrow, intro } = Astro.props;
+const d = post.data;
+const hasPhoto = Boolean(media(d.hero).src);
+// The cover carries the title's first clause only; the story page carries the whole title.
+const coverTitle = plain(d.title).split(':')[0].trim();
+---
+<section class:list={['jcov', !hasPhoto && 'jcov--type']} aria-labelledby="jcov-masthead">
+  {hasPhoto && (
+    <div class="jcov__frame" aria-hidden="true">
+      <div class="jcov__media"><Media media={d.hero} aspect="fill" priority sizes="100vw" /></div>
+      <span class="jcov__shade"></span>
+    </div>
+  )}
+  <div class="jcov__top">
+    {eyebrow && <p class="jcov__eyebrow">{eyebrow}</p>}
+    <h1 class="jcov__masthead" id="jcov-masthead">{masthead}</h1>
+    {intro && <p class="jcov__intro">{intro}</p>}
+  </div>
+  <a class="jcov__story" href={`/journal/${post.id}`}>
+    <span class="jcov__k">The latest story</span>
+    <span class="jcov__title">{coverTitle}</span>
+    <span class="jcov__meta">
+      <time datetime={d.date.toISOString().slice(0, 10)}>{formatDate(d.date)}</time>{minutes ? `, ${minutes} minute read` : ''}
+    </span>
+  </a>
+</section>
+
+<style>
+  .jcov { position: relative; min-height: 90svh; display: grid; grid-template-rows: auto minmax(2rem, 1fr) auto; overflow: hidden; color: var(--on-image); background: var(--sand-40); }
+  .jcov__frame { position: absolute; inset: 0; }
+  .jcov__media { position: absolute; inset: 0; }
+  .jcov__media :global(:is(img, video)) { filter: saturate(0.92) brightness(1.02); }
+  .jcov__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, rgb(20 50 64 / 0.42), rgb(20 50 64 / 0) 34%),
+      linear-gradient(to top, rgb(20 50 64 / 0.55), rgb(20 50 64 / 0.12) 38%, rgb(20 50 64 / 0) 60%);
+  }
+  .jcov__top { position: relative; z-index: 1; padding: calc(var(--header-h) + clamp(1.5rem, 5svh, 3.5rem)) var(--gutter) 0; display: grid; gap: 0.75rem; max-width: 60rem; }
+  .jcov__eyebrow { margin: 0; font-family: var(--font-editorial); font-style: italic; font-size: 1.1875rem; text-shadow: 0 1px 14px rgb(20 50 64 / 0.45); }
+  .jcov__masthead { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: clamp(2.5rem, 1rem + 4vw, 4.5rem); line-height: 1; color: inherit; text-shadow: 0 2px 28px rgb(20 50 64 / 0.3); }
+  .jcov__intro { margin: 0.5rem 0 0; max-width: 32rem; font-size: 0.9375rem; line-height: 1.6; text-shadow: 0 1px 16px rgb(20 50 64 / 0.55); }
+  .jcov__story { position: relative; z-index: 1; grid-row: 3; display: grid; gap: 0.6rem; max-width: 40rem; padding: 0 var(--gutter) clamp(2rem, 6svh, 3.75rem); color: inherit; text-decoration: none; }
+  .jcov__k { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); text-shadow: 0 1px 12px rgb(20 50 64 / 0.6); }
+  .jcov__title { font-family: var(--font-display); font-size: clamp(1.75rem, 1.1rem + 1.8vw, 2.75rem); line-height: 1.08; text-shadow: 0 2px 24px rgb(20 50 64 / 0.4); text-wrap: balance; }
+  .jcov__meta { display: flex; align-items: baseline; gap: 0.75rem; font-family: var(--font-editorial); font-style: italic; font-size: var(--fs-caption); text-shadow: 0 1px 12px rgb(20 50 64 / 0.6); }
+  .jcov__meta::before { content: ''; width: 1.5rem; height: 1px; background: currentColor; opacity: 0.75; translate: 0 -0.3em; }
+  .jcov__story:focus-visible { outline: 1.5px solid var(--on-image); outline-offset: -8px; }
+  @media (hover: hover) { .jcov__story:hover .jcov__title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; } }
+
+  .jcov--type { color: var(--heading); min-height: 70svh; background: var(--sand-30); }
+  .jcov--type :is(.jcov__eyebrow, .jcov__masthead, .jcov__intro, .jcov__k, .jcov__title, .jcov__meta) { text-shadow: none; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html.mo) .jcov__frame { animation: jcov-tide 1400ms var(--ease-tide) both; }
+    :global(html.mo) .jcov__media { animation: jcov-settle 2600ms var(--ease-settle) both; }
+    :global(html.mo) :is(.jcov__masthead, .jcov__title) { animation: jcov-rise 1300ms var(--ease-settle) 500ms both; }
+    :global(html.mo) :is(.jcov__eyebrow, .jcov__intro, .jcov__k, .jcov__meta) { animation: jcov-fade 1100ms var(--ease-settle) 900ms both; }
+  }
+  @keyframes jcov-tide { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes jcov-settle { from { scale: 1.06; } to { scale: 1; } }
+  @keyframes jcov-rise { from { opacity: 0; translate: 0 0.4em; } to { opacity: 1; translate: 0 0; } }
+  @keyframes jcov-fade { from { opacity: 0; } to { opacity: 1; } }
+</style>

@@ -1,21 +1,35 @@
 ---
 /*
-  In our guests' words (Salt and Sun). One review at a time, in Cormorant italic, centred, with the
-  guest line beneath and a small counter. Reviews are verbatim; long ones are trimmed to about 55 words
-  with "Read the full review" opening the rest in place. No photographs on the quotes (the old food
-  photos were unrelated to what guests wrote). Arrows and the keyboard arrows move between reviews;
-  nothing advances on its own. Reduced motion: the change is instant.
+  In our guests' words (Salt and Sun; rebuilt round 1, 28-09-2026). Belle, T39: "client testimonials
+  set up with an image, and then... a bit of wording under that". One review at a time, each paired
+  with a 4:5 photograph of that kind of day (the review's own `image` slot: a morning on the deck for a
+  Wake Up to Wellness review, the sauna for contrast therapy), never a plate. The quote, in Cormorant
+  italic, sits on a sand panel overlapping the photograph's right edge (P2). Moving between reviews,
+  the next photograph washes across from the right (a tide wipe, 900ms) while the words cross-fade.
+  Reviews are verbatim; long ones are trimmed to about 55 words with "Read the full review" opening the
+  rest in place. Only reviews that have a photograph are shown here. Arrows and the keyboard arrows
+  move between reviews; nothing advances on its own. Reduced motion: the change is instant.
 */
+import Media from '../media/Media.astro';
+import { media as getMedia } from '../../data/media';
 import { trimWords, monthYear } from '../../lib/text';
 import type { Testimonial } from '../../lib/content';
 
 interface Props { items: Testimonial[]; heading?: string; headingDraft?: boolean; id?: string; max?: number }
 const { items, heading = 'In our guests’ words', headingDraft = true, id = 'guests', max = 8 } = Astro.props;
-const list = items.slice(0, max);
+const list = items.filter((t) => t.data.image && getMedia(t.data.image).src).slice(0, max);
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 <section class="gw" id={id} aria-labelledby={`${id}-heading`} data-gw>
-  <div class="wrap gw__inner">
+  <div class="gw__inner">
+    <div class="gw__photos" aria-hidden="true">
+      {list.map((t, i) => (
+        <div class:list={['gw__photo', i === 0 && 'is-on']} data-gw-photo={i}>
+          <Media media={t.data.image!} aspect="fill" sizes="(max-width: 899px) 86vw, 40vw" />
+        </div>
+      ))}
+    </div>
+    <div class="gw__panel">
     <h2 class="gw__heading" id={`${id}-heading`} data-draft={headingDraft ? '' : undefined}>{heading}</h2>
     <div class="gw__stage" aria-live="polite">
       {list.map((t, i) => {
@@ -48,12 +62,14 @@ const pad = (n: number) => String(n).padStart(2, '0');
         </button>
       </div>
     )}
+    </div>
   </div>
 </section>
 
 <script>
   document.querySelectorAll<HTMLElement>('[data-gw]').forEach((root) => {
     const quotes = Array.from(root.querySelectorAll<HTMLElement>('[data-gw-quote]'));
+    const photos = Array.from(root.querySelectorAll<HTMLElement>('[data-gw-photo]'));
     const now = root.querySelector<HTMLElement>('[data-gw-now]');
     let i = 0;
     const show = (n: number) => {
@@ -64,6 +80,11 @@ const pad = (n: number) => String(n).padStart(2, '0');
         q.toggleAttribute('aria-hidden', !on);
         q.querySelectorAll<HTMLElement>('button').forEach((b) => (on ? b.removeAttribute('tabindex') : b.setAttribute('tabindex', '-1')));
       });
+      photos.forEach((p, k) => {
+        p.classList.toggle('is-leaving', p.classList.contains('is-on') && k !== i);
+        p.classList.toggle('is-on', k === i);
+      });
+      window.setTimeout(() => photos.forEach((p) => p.classList.remove('is-leaving')), 950);
       if (now) now.textContent = String(i + 1).padStart(2, '0');
     };
     root.querySelector('[data-gw-prev]')?.addEventListener('click', () => show(i - 1));
@@ -90,10 +111,21 @@ const pad = (n: number) => String(n).padStart(2, '0');
 </script>
 
 <style>
-  .gw { padding-block: var(--section-y); }
-  .gw__inner { display: grid; justify-items: center; text-align: center; }
+  .gw { padding-block: clamp(6rem, 12vh, 10rem); }
+  .gw__inner { display: grid; padding-inline: var(--gutter); }
+  .gw__photos { position: relative; display: grid; aspect-ratio: 4 / 5; overflow: hidden; background: var(--sand-40); }
+  .gw__photo { grid-area: 1 / 1; position: relative; clip-path: inset(0 0 0 100%); transition: clip-path 900ms var(--ease-tide); }
+  .gw__photo.is-on { clip-path: inset(0 0 0 0); z-index: 1; }
+  .gw__photo.is-leaving { clip-path: inset(0 0 0 0); z-index: 0; }
+  .gw__panel {
+    position: relative;
+    z-index: 2;
+    margin: -3rem 0 0 1.25rem;
+    padding: 2rem 0 0 1.5rem;
+    background: var(--page-tone, var(--sand-30));
+  }
   .gw__heading {
-    margin: 0 0 clamp(2.5rem, 5vw, 4rem);
+    margin: 0 0 1.5rem;
     font-family: var(--font-editorial);
     font-style: italic;
     font-size: clamp(1.1875rem, 1.1rem + 0.3vw, 1.375rem);
@@ -101,36 +133,36 @@ const pad = (n: number) => String(n).padStart(2, '0');
     letter-spacing: 0;
     color: var(--sage-80);
   }
-  .gw__stage { display: grid; width: 100%; max-width: 54rem; }
+  .gw__stage { display: grid; width: 100%; }
   .gw__quote {
     grid-area: 1 / 1;
     margin: 0;
     display: grid;
-    justify-items: center;
+    justify-items: start;
     opacity: 0;
     visibility: hidden;
-    translate: 0 1rem;
-    transition: opacity 900ms var(--ease-settle), translate 1100ms var(--ease-settle), visibility 0s linear 900ms;
+    translate: 1.5rem 0;
+    transition: opacity 800ms var(--ease-settle), translate 1000ms var(--ease-settle), visibility 0s linear 800ms;
   }
-  .gw__quote.is-on { opacity: 1; visibility: visible; translate: 0 0; transition: opacity 900ms var(--ease-settle) 150ms, translate 1100ms var(--ease-settle) 150ms, visibility 0s; }
-  .gw__mark { font-family: var(--font-display); font-size: clamp(4rem, 3rem + 3vw, 6.5rem); line-height: 0.6; height: 0.45em; color: var(--sage-40); }
+  .gw__quote.is-on { opacity: 1; visibility: visible; translate: 0 0; transition: opacity 800ms var(--ease-settle) 250ms, translate 1000ms var(--ease-settle) 250ms, visibility 0s; }
+  .gw__mark { font-family: var(--font-display); font-size: clamp(4rem, 3rem + 3vw, 6rem); line-height: 0.6; height: 0.42em; color: var(--sage-40); }
   .gw__quote blockquote { margin: 0; }
   .gw__quote blockquote p {
-    margin: 0 auto;
-    max-width: 34em;
+    margin: 0;
+    max-width: 30em;
     font-family: var(--font-editorial);
     font-style: italic;
-    font-size: var(--fs-quote);
+    font-size: clamp(1.375rem, 1.1rem + 0.9vw, 2rem);
     line-height: 1.34;
     color: var(--sage-100);
-    text-wrap: balance;
+    text-wrap: pretty;
   }
-  .gw__full { font-size: clamp(1.25rem, 1rem + 0.8vw, 1.625rem) !important; }
-  .gw__more { margin-top: 1.25rem; border: 0; background: none; padding: 0 0 0.15em; font-family: var(--font-ui); font-size: var(--fs-small); letter-spacing: 0.04em; min-height: 2.75rem; }
-  .gw__by { display: grid; gap: 0.25rem; margin-top: clamp(1.5rem, 3vw, 2.25rem); font-family: var(--font-ui); font-size: var(--fs-small); letter-spacing: 0.06em; color: var(--sage-80); }
+  .gw__full { font-size: clamp(1.1875rem, 1rem + 0.6vw, 1.5rem) !important; }
+  .gw__more { margin-top: 1rem; border: 0; background: none; padding: 0 0 0.15em; font-family: var(--font-ui); font-size: var(--fs-small); letter-spacing: 0.04em; min-height: 2.75rem; }
+  .gw__by { display: grid; gap: 0.25rem; margin-top: clamp(1.25rem, 2.5vw, 2rem); font-family: var(--font-ui); font-size: var(--fs-small); letter-spacing: 0.06em; color: var(--sage-80); }
   .gw__src { font-size: var(--fs-label); letter-spacing: 0.08em; }
 
-  .gw__nav { display: flex; align-items: center; gap: 1.5rem; margin-top: clamp(2rem, 4vw, 3rem); }
+  .gw__nav { display: flex; align-items: center; gap: 1.5rem; margin-top: clamp(1.75rem, 3vw, 2.5rem); }
   .gw__count { margin: 0; font-family: var(--font-editorial); font-size: 1.25rem; font-variant-numeric: oldstyle-nums; color: var(--sage-80); }
   .gw__count-rest { color: var(--sage-60); }
   .gw__arrow {
@@ -146,7 +178,19 @@ const pad = (n: number) => String(n).padStart(2, '0');
   .gw__arrow path { fill: none; stroke: currentColor; stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
   @media (hover: hover) { .gw__arrow:hover { background: var(--sand-60); } }
 
+  @media (min-width: 900px) {
+    .gw__inner { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(1rem, 2vw, 2rem); align-items: center; }
+    .gw__photos { grid-column: 2 / 7; grid-row: 1; }
+    .gw__panel {
+      grid-column: 6 / 12;
+      grid-row: 1;
+      margin: 0;
+      padding: clamp(2.5rem, 4vw, 4rem);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .gw__quote, .gw__quote.is-on { transition: none; translate: none; }
+    .gw__photo { transition: none; }
   }
 </style>

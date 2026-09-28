@@ -41,10 +41,10 @@ const rest = d.location_label.slice(place.length);
         {d.intro && <p class="vp-intro">{d.intro.text}</p>}
 
         <dl class="vp-facts">
-          <div><dt>Sleeps</dt><dd>{d.sleeps.display ?? 'To confirm'}{d.sleeps.conflict && <span class="vp-flag" data-flag>{d.sleeps.conflict}</span>}</dd></div>
-          {d.day_capacity && <div><dt>Day retreats</dt><dd>{d.day_capacity.min} to {d.day_capacity.max} guests</dd></div>}
           {d.drive_from_adelaide && <div><dt>From Adelaide</dt><dd>{d.drive_from_adelaide.text}</dd></div>}
+          {d.day_capacity && <div><dt>Day retreats</dt><dd>{d.day_capacity.min} to {d.day_capacity.max} guests</dd></div>}
           <div><dt>Partner</dt><dd>{d.partner_label}</dd></div>
+          <div><dt>Sleeps</dt><dd>{d.sleeps.display ?? 'To confirm'}{d.sleeps.conflict && <span class="vp-flag" data-flag>{d.sleeps.conflict}</span>}</dd></div>
           {onSite.length > 0 && <div><dt>On site</dt><dd>{onSite.join(', ')}</dd></div>}
         </dl>
 

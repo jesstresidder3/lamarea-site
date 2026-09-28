@@ -10,9 +10,15 @@
   Wide screens with a fine pointer and motion allowed: pinned, scrubbed by scroll (scripts/gallery.ts).
   Otherwise: a native sideways scroll with snap and visible arrows.
 
+  Rebuild round 1 (28-09-2026, the P6 rhythm): the heading holds still at the left on a sand panel and
+  the strip passes under its soft edge. Frames follow the five-beat rhythm (tall 3:4, square, wide 3:2,
+  square, tall 3:4) and all sit on one baseline, so the row reads as a horizon. An optional lead
+  photograph (`lead`, a media slot) opens the strip at 60vh. Names are P3 captions.
+
   <ExperienceGallery items={[...guided, ...selfLed]} heading="Your retreat, your rhythm, your routine" />
 */
 import Media from '../media/Media.astro';
+import Caption from '../base/Caption.astro';
 import ArrowLink from '../base/ArrowLink.astro';
 import { media as getMedia } from '../../data/media';
 import { pad2, placeHtml } from '../../lib/text';
@@ -24,15 +30,16 @@ interface Props {
   eyebrow?: string;
   intro?: string;
   link?: { href: string; label: string };
+  /** A media slot that opens the strip as one tall photograph, not a link. */
+  lead?: string;
   id?: string;
 }
-const { items, heading, eyebrow, intro, link, id = 'experiences' } = Astro.props;
+const { items, heading, eyebrow, intro, link, lead, id = 'experiences' } = Astro.props;
 const shown = items.filter((e) => Boolean(getMedia(e.data.media).src || getMedia(e.data.media).poster));
-const sizes = ['l', 's', 'm', 'l', 'm', 's'] as const;
+const rhythm = ['tall', 'square', 'wide', 'square', 'tall'] as const;
 ---
 <section class="xg" id={id} aria-labelledby={`${id}-heading`} data-xg data-no-blind>
   <div class="xg__pin" data-xg-pin>
-    <div class="xg__track" data-xg-track>
       <div class="xg__intro">
         {eyebrow && <p class="xg__eyebrow">{eyebrow}</p>}
         <h2 class="xg__heading" id={`${id}-heading`} set:html={placeHtml(heading)} />
@@ -43,12 +50,18 @@ const sizes = ['l', 's', 'm', 'l', 'm', 's'] as const;
           <span class="xg__progress"><span data-xg-fill></span></span>
         </div>
       </div>
+    <div class="xg__track" data-xg-track>
       <ol class="xg__list" role="list" data-xg-list tabindex="0" aria-label={heading.replace(/\*/g, '')}>
+        {lead && (
+          <li class="xcard xcard--lead" aria-hidden="true">
+            <span class="xcard__frame"><Media media={lead} aspect="fill" sizes="(max-width: 899px) 78vw, 36vw" /></span>
+          </li>
+        )}
         {shown.map((e, i) => {
           const d = e.data;
           const href = d.kind === 'guided' ? `/experiences/${e.id}` : undefined;
           const Tag = href ? 'a' : 'div';
-          const size = sizes[i % sizes.length];
+          const size = rhythm[(i + 1) % rhythm.length];
           return (
             <li class:list={['xcard', `xcard--${size}`]} data-xg-card style={`--i:${i}`}>
               <Tag class="xcard__link lift-host" href={href} data-cursor={href ? 'View' : undefined}>
@@ -56,8 +69,7 @@ const sizes = ['l', 's', 'm', 'l', 'm', 's'] as const;
                   <Media media={d.media} aspect="fill" still sizes="(max-width: 899px) 78vw, 32vw" />
                 </span>
                 <span class="xcard__caption">
-                  <span class="xcard__num" aria-hidden="true">{pad2(i + 1)}</span>
-                  <span class="xcard__name">{d.name}</span>
+                  <Caption as="span" class="xcard__name">{d.name}</Caption>
                   {d.short && <span class="xcard__line" data-draft={d.short.source.type === 'draft_for_belle' ? '' : undefined}>{d.short.text}</span>}
                 </span>
               </Tag>
@@ -82,7 +94,7 @@ const sizes = ['l', 's', 'm', 'l', 'm', 's'] as const;
 </script>
 
 <style>
-  .xg { position: relative; padding-block: var(--section-y) 0; overflow-x: clip; }
+  .xg { position: relative; padding-block: clamp(6rem, 12vh, 10rem) 0; overflow-x: clip; }
   .xg__pin { position: relative; }
 
   /* Native sideways scroll (phones, touch, reduced motion): the intro sits above, the cards scroll. */
@@ -95,7 +107,7 @@ const sizes = ['l', 's', 'm', 'l', 'm', 's'] as const;
   }
   .xg__eyebrow { margin: 0 0 1rem; font-family: var(--font-editorial); font-style: italic; font-size: 1.1875rem; color: var(--sage-80); }
   .xg__heading { margin: 0; font-size: var(--fs-section); line-height: 1.02; }
-  .xg__lead { margin: 1.75rem 0 0; font-size: var(--fs-lead); line-height: 1.6; max-width: 22rem; }
+  .xg__lead { margin: 1.5rem 0 0; font-size: var(--fs-lead); line-height: 1.6; max-width: 22rem; }
   .xg :global(.xg__link) { margin-top: 1.25rem; }
   .xg__nav { display: flex; align-items: center; gap: 1.25rem; margin-top: 2rem; }
   .xg__count { margin: 0; font-family: var(--font-editorial); font-size: 1.25rem; font-variant-numeric: oldstyle-nums; color: var(--sage-80); white-space: nowrap; }
@@ -103,9 +115,11 @@ const sizes = ['l', 's', 'm', 'l', 'm', 's'] as const;
   .xg__progress { position: relative; flex: 1; max-width: 10rem; height: 1px; background: color-mix(in srgb, var(--sage-40) 45%, transparent); overflow: hidden; }
   .xg__progress span { position: absolute; inset: 0; background: var(--sage-80); transform-origin: left center; transform: scaleX(0.1); }
 
+  /* The five-beat rhythm, every frame on one baseline. --u is the height of a tall frame. */
   .xg__list {
+    --u: 74vw;
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     gap: clamp(1.25rem, 3vw, 3rem);
     margin: 0;
     padding: 0 var(--gutter) 1rem;
@@ -116,14 +130,19 @@ const sizes = ['l', 's', 'm', 'l', 'm', 's'] as const;
     scrollbar-width: none;
   }
   .xg__list::-webkit-scrollbar { display: none; }
-  .xcard { flex: none; scroll-snap-align: start; width: 72vw; }
-  .xcard__link { display: grid; gap: 1rem; color: inherit; text-decoration: none; }
-  .xcard__frame { position: relative; display: block; aspect-ratio: 4 / 5; background: var(--sand-40); overflow: hidden; }
-  .xcard--s .xcard__frame { aspect-ratio: 1 / 1; }
-  .xcard__caption { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.2rem 0.9rem; align-items: baseline; }
-  .xcard__num { font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: 0.1em; color: var(--sage-80); }
-  .xcard__name { font-family: var(--font-display); font-size: var(--fs-card); line-height: 1.15; color: var(--sage-80); }
-  .xcard__line { grid-column: 2; font-size: var(--fs-small); line-height: 1.55; color: var(--sage-100); max-width: 24rem; }
+  .xcard { flex: none; scroll-snap-align: start; padding-bottom: 5.5rem; }
+  .xcard--tall { width: calc(var(--u) * 0.75); }
+  .xcard--square { width: calc(var(--u) * 0.6); }
+  .xcard--wide { width: calc(var(--u) * 0.9); }
+  .xcard--lead { width: calc(var(--u) * 0.8); }
+  .xcard__link { position: relative; display: grid; color: inherit; text-decoration: none; }
+  .xcard__frame { position: relative; display: block; aspect-ratio: 3 / 4; background: var(--sand-40); overflow: hidden; }
+  .xcard--square .xcard__frame { aspect-ratio: 1 / 1; }
+  .xcard--wide .xcard__frame { aspect-ratio: 3 / 2; }
+  .xcard--lead .xcard__frame { aspect-ratio: 2 / 3; }
+  .xcard__caption { position: absolute; left: 0; right: 0; top: 100%; display: grid; gap: 0.2rem; align-content: start; }
+  .xg :global(.xcard__name) { font-size: 1.1875rem; color: var(--sage-80); }
+  .xcard__line { padding-left: 2.25rem; font-size: var(--fs-small); line-height: 1.55; color: var(--sage-100); max-width: 22rem; }
 
   .xg__arrows { display: flex; gap: 0.5rem; justify-content: flex-end; padding: 1rem var(--gutter) 0; }
   .xg__arrow {
@@ -140,24 +159,35 @@ const sizes = ['l', 's', 'm', 'l', 'm', 's'] as const;
   @media (hover: hover) { .xg__arrow:hover { background: var(--sand-60); } }
 
   @media (min-width: 700px) {
-    .xcard { width: 42vw; }
+    .xg__list { --u: 50vw; }
   }
 
-  /* Pinned gallery: wide screens, fine pointer, motion allowed. scripts/gallery.ts adds .is-pinned. */
+  /* Pinned: the heading holds still at the left on a sand panel and the strip passes under its soft
+     edge. scripts/gallery.ts adds .is-pinned and moves the track. */
   .xg.is-pinned { padding-top: 0; }
-  .xg.is-pinned .xg__pin { height: 100svh; display: flex; align-items: center; overflow: hidden; }
+  .xg.is-pinned .xg__pin { height: 100svh; overflow: hidden; }
+  .xg.is-pinned .xg__intro {
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: calc(var(--gutter) + clamp(19rem, 27vw, 26rem) + 4rem);
+    max-width: none;
+    padding: 0 4rem calc(12svh + 5.5rem) var(--gutter);
+    align-content: end;
+    background: linear-gradient(to right, var(--page-tone, var(--sand-30)) 78%, color-mix(in srgb, var(--page-tone, var(--sand-30)) 0%, transparent));
+  }
+  .xg.is-pinned .xg__heading { font-size: clamp(2.5rem, 1.2rem + 2.6vw, 4rem); }
   .xg.is-pinned .xg__track {
+    position: absolute;
+    left: 0;
+    bottom: 12svh;
     display: flex;
-    align-items: center;
-    padding: 0 var(--gutter);
-    gap: clamp(3rem, 6vw, 7rem);
+    padding-left: calc(var(--gutter) + clamp(19rem, 27vw, 26rem) + 1rem);
     will-change: transform;
   }
-  .xg.is-pinned .xg__intro { flex: none; width: clamp(20rem, 28vw, 27rem); align-self: center; padding: 0; }
-  .xg.is-pinned .xg__list { flex: none; align-items: center; gap: clamp(2.5rem, 4.5vw, 5rem); padding: 0 10vw 0 0; overflow: visible; scroll-snap-type: none; }
-  .xg.is-pinned .xcard--l { width: clamp(19rem, 25vw, 26rem); }
-  .xg.is-pinned .xcard--m { width: clamp(15rem, 19vw, 20rem); translate: 0 9svh; }
-  .xg.is-pinned .xcard--s { width: clamp(16rem, 21vw, 22rem); translate: 0 -10svh; }
+  .xg.is-pinned .xg__list { --u: min(62svh, 44vw); overflow: visible; scroll-snap-type: none; gap: clamp(2rem, 3.5vw, 4rem); padding: 0 10vw 0 0; }
   .xg.is-pinned .xcard__frame :global(img) { scale: 1.18; }
   .xg.is-pinned .xg__arrows { display: none; }
   .xg.is-pinned .lift-host:hover .lift-img :global(img) { scale: 1.22; }

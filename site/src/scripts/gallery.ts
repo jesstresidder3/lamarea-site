@@ -38,7 +38,7 @@ document.querySelectorAll<HTMLElement>('[data-xg]').forEach((section) => {
       scrollTrigger: {
         trigger: pin,
         start: 'top top',
-        end: () => `+=${distance() * 1.1}`,
+        end: () => `+=${distance() * 0.72}`,
         pin: true,
         scrub: 0.8,
         invalidateOnRefresh: true,

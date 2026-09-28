@@ -1,0 +1,90 @@
+---
+/*
+  ClosingTide (lane L2, rebuild 28-09-2026). The buyers' pages end on a photograph, not on two flat
+  sand bands in a row. One wide frame of the coast, the closing line in salt type over its calm lower
+  left, "Plan your day" into the funnel with its prefill parameters, and the line that says a call
+  with Belle comes next. The frame opens from an inset to full bleed as it rises (data-widen, the
+  site's framed opening in scripts/motion.ts) and the photo drifts slower than the page.
+
+  Props: media (slot id), line (the heading, *Place* for a place name), lineDraft, params (funnel
+  prefill), note (cta.callNote by default), caption, link (default cta.plan)
+*/
+import Media from '../../media/Media.astro';
+import ArrowLink from '../../base/ArrowLink.astro';
+import { emphasis, withParams } from '../../base/text';
+import { cta } from '../../../data/settings';
+
+interface Props {
+  media: string;
+  line: string;
+  lineDraft?: boolean;
+  params?: Record<string, string | number | undefined>;
+  note?: string;
+  caption?: string;
+  link?: { label: string; href: string };
+}
+const { media, line, lineDraft = false, params, note = cta.callNote, caption, link = cta.plan } = Astro.props;
+---
+<section class="ct" aria-labelledby="ct-line">
+  <div class="ct__frame" data-widen="6">
+    <div class="ct__media" data-speed="0.88"><Media media={media} aspect="fill" sizes="100vw" /></div>
+    <span class="ct__shade" aria-hidden="true"></span>
+    <div class="ct__words">
+      <h2 class="ct__line" id="ct-line" data-draft={lineDraft ? '' : undefined} set:html={emphasis(line)} />
+      <ArrowLink href={withParams(link.href, params)} label={link.label} size="large" class="ct__link" />
+      {note && <p class="ct__note">{note}</p>}
+    </div>
+    {caption && <p class="ct__caption">{caption}</p>}
+  </div>
+</section>
+
+<style>
+  .ct { background: var(--sand-30); padding-top: clamp(1rem, 3vw, 2rem); }
+  .ct__frame { position: relative; height: clamp(34rem, 88svh, 58rem); overflow: hidden; background: var(--sand-40); }
+  .ct__media { position: absolute; inset: 0; }
+  .ct__shade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(85% 70% at 0% 100%, rgb(20 44 52 / 0.52), rgb(20 44 52 / 0.2) 48%, rgb(20 44 52 / 0) 74%);
+  }
+  .ct__words {
+    position: absolute;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: clamp(2.5rem, 9svh, 6rem);
+    display: grid;
+    justify-items: start;
+    color: var(--on-image);
+    --heading: var(--on-image);
+    --text: var(--on-image);
+    --focus: var(--focus-on-dark, var(--salt-25));
+  }
+  .ct__line {
+    margin: 0;
+    max-width: 13em;
+    font-size: clamp(2.2rem, 1.1rem + 3.4vw, 4.25rem);
+    line-height: 1.02;
+    color: var(--on-image);
+    text-shadow: 0 2px 26px rgb(20 44 52 / 0.35);
+  }
+  .ct__line :global(.place) { font-family: var(--font-editorial); font-style: italic; }
+  .ct__words :global(.ct__link) { margin-top: clamp(1.5rem, 3vw, 2.25rem); color: var(--on-image); text-shadow: 0 1px 12px rgb(20 44 52 / 0.5); }
+  .ct__note { margin: 1rem 0 0; max-width: 26rem; font-size: var(--fs-small); line-height: 1.55; color: var(--on-image); text-shadow: 0 1px 12px rgb(20 44 52 / 0.6); }
+  .ct__caption {
+    position: absolute;
+    right: var(--gutter);
+    top: clamp(1.25rem, 4svh, 2rem);
+    margin: 0;
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: var(--fs-caption);
+    color: var(--on-image);
+    text-shadow: 0 1px 12px rgb(20 44 52 / 0.6);
+  }
+  @media (max-width: 699px) {
+    .ct__frame { height: 82svh; min-height: 30rem; }
+    .ct__shade { background: linear-gradient(to top, rgb(20 44 52 / 0.55), rgb(20 44 52 / 0.2) 45%, rgb(20 44 52 / 0) 68%); }
+  }
+</style>

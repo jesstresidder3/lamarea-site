@@ -1,0 +1,169 @@
+---
+/*
+  PanelTrack (lane L2, rebuild 28-09-2026). A row of tall photographic panels that comes in from the
+  right, The Tailor's slider that Belle asked for (T33, T53). Each panel sets its name across the
+  lower edge of its photograph, with a short text and one link on sand beneath.
+
+  Wide screens with motion allowed: the section holds while the scroll carries the row in from the
+  right, one panel after another (GSAP ScrollTrigger, scrubbed, no snapping back). Phones, touch-only
+  wide screens without JS, and reduced motion: the same row scrolls sideways inside its own frame with
+  snap points, and the page itself never scrolls sideways.
+
+  Props
+  - items: [{ media, name, eyebrow?, html?, link?: { label, href } }]
+  - size: 'wide' (about 62vw panels, for three) or 'card' (about 30vw, for four to six)
+  - label: accessible name for the row
+  - id
+*/
+import Media from '../../media/Media.astro';
+import ArrowLink from '../../base/ArrowLink.astro';
+import { emphasis } from '../../base/text';
+
+interface Item { media: string; name: string; eyebrow?: string; html?: string; link?: { label: string; href: string } }
+interface Props { items: Item[]; size?: 'wide' | 'card'; label: string; id: string }
+const { items, size = 'card', label, id } = Astro.props;
+---
+<div class:list={['pt', `pt--${size}`]} data-pt id={id}>
+  <div class="pt__viewport" data-pt-viewport>
+    <ol class="pt__track" data-pt-track role="list" aria-label={label} tabindex="0">
+      {items.map((it, i) => (
+        <li class="pt__panel" style={`--i:${i}`}>
+          <div class="pt__frame">
+            <Media media={it.media} aspect="fill" sizes={size === 'wide' ? '(max-width: 899px) 86vw, 62vw' : '(max-width: 899px) 78vw, 30vw'} />
+            <span class="pt__shade" aria-hidden="true"></span>
+            <p class="pt__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
+            <h3 class="pt__name" set:html={emphasis(it.name)} />
+          </div>
+          {(it.eyebrow || it.html || it.link) && (
+            <div class="pt__text">
+              {it.eyebrow && <p class="pt__eyebrow">{it.eyebrow}</p>}
+              {it.html && <div class="pt__body" set:html={it.html} />}
+              {it.link && <ArrowLink href={it.link.href} label={it.link.label} class="pt__link" />}
+            </div>
+          )}
+        </li>
+      ))}
+    </ol>
+  </div>
+</div>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-pt]').forEach((root) => {
+    const viewport = root.querySelector<HTMLElement>('[data-pt-viewport]');
+    const track = root.querySelector<HTMLElement>('[data-pt-track]');
+    if (!viewport || !track || reduce) return;
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 900px)', () => {
+      root.classList.add('is-pinned');
+      const distance = () => Math.max(0, track.scrollWidth - viewport.clientWidth);
+      const tween = gsap.fromTo(
+        track,
+        { x: () => viewport.clientWidth * 0.35 },
+        {
+          x: () => -distance(),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: root,
+            start: 'center center',
+            end: () => `+=${distance() + viewport.clientWidth * 0.35}`,
+            pin: true,
+            scrub: 0.8,
+            invalidateOnRefresh: true,
+          },
+        },
+      );
+      return () => {
+        tween.scrollTrigger?.kill();
+        tween.kill();
+        root.classList.remove('is-pinned');
+        gsap.set(track, { clearProps: 'x' });
+      };
+    });
+  });
+</script>
+
+<style>
+  .pt { position: relative; }
+  .pt__viewport {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+  }
+  .pt__viewport::-webkit-scrollbar { display: none; }
+  .pt__track {
+    display: flex;
+    gap: clamp(1rem, 2.4vw, 2.5rem);
+    width: max-content;
+    margin: 0;
+    padding: 0 0 0.5rem;
+    list-style: none;
+  }
+  .pt__track:focus-visible { outline: 1.5px solid var(--focus, var(--sage-80)); outline-offset: 6px; }
+  .pt__panel { scroll-snap-align: start; width: 78vw; max-width: 30rem; }
+  .pt--wide .pt__panel { width: 86vw; max-width: none; }
+  .pt__frame { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--sand-40); }
+  .pt--wide .pt__frame { aspect-ratio: 4 / 5; }
+  .pt__shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(38 36 20 / 0.5), rgb(38 36 20 / 0.12) 38%, rgb(38 36 20 / 0) 56%);
+    pointer-events: none;
+  }
+  .pt__num {
+    position: absolute;
+    top: 1rem;
+    left: 1.1rem;
+    margin: 0;
+    font-family: var(--font-ui);
+    font-size: var(--fs-label);
+    letter-spacing: var(--track-label);
+    color: var(--on-image);
+    text-shadow: 0 1px 10px rgb(38 36 20 / 0.5);
+  }
+  .pt__name {
+    position: absolute;
+    left: 1.1rem;
+    right: 1.1rem;
+    bottom: 1rem;
+    margin: 0;
+    font-size: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+    line-height: 1.02;
+    color: var(--on-image);
+    text-shadow: 0 2px 20px rgb(38 36 20 / 0.4);
+    text-wrap: balance;
+  }
+  .pt--wide .pt__name { font-size: clamp(2rem, 1.2rem + 3.2vw, 3.5rem); max-width: 12em; }
+  .pt__text { padding-top: 1.1rem; max-width: 30rem; }
+  .pt__eyebrow { margin: 0 0 0.5rem; font-family: var(--font-ui); font-size: var(--fs-label); letter-spacing: var(--track-label); color: var(--sage-80); }
+  .pt__body :global(p) { margin: 0 0 0.75rem; font-size: var(--fs-small); line-height: 1.65; color: var(--sage-100); }
+  .pt__text :global(.pt__link) { margin-top: 0.25rem; }
+
+  /* Empty photo frames step aside for visitors: the name moves onto sand. */
+  :global(html:not([data-media-notes='on'])) .pt__frame:has(.media--placeholder) { background: var(--sand-40); outline: 1px solid var(--sage-20); outline-offset: -1px; }
+  :global(html:not([data-media-notes='on'])) .pt__frame:has(.media--placeholder) :is(.pt__name, .pt__num) { color: var(--sage-80); text-shadow: none; }
+  :global(html:not([data-media-notes='on'])) .pt__frame:has(.media--placeholder) .pt__shade { display: none; }
+
+  @media (min-width: 900px) {
+    .pt__panel { width: 30vw; max-width: none; }
+    .pt--wide .pt__panel { width: 62vw; }
+    .pt--wide .pt__frame { aspect-ratio: 16 / 10; }
+    .pt__frame { aspect-ratio: 3 / 4; }
+    .pt__name { left: 1.75rem; right: 1.75rem; bottom: 1.5rem; }
+    .pt__num { top: 1.5rem; left: 1.75rem; }
+    /* Pinned: the row travels, so the viewport clips instead of scrolling. */
+    .pt.is-pinned { height: 100svh; display: flex; align-items: center; margin-bottom: calc(-1 * var(--section-y) + 1rem); }
+    .pt.is-pinned .pt__viewport { overflow: hidden; scroll-snap-type: none; width: 100%; }
+    .pt.is-pinned .pt__frame { max-height: 62svh; }
+    .pt.is-pinned.pt--card .pt__panel { width: min(30vw, 44svh); }
+    .pt.is-pinned.pt--card .pt__frame { aspect-ratio: 3 / 4; }
+  }
+</style>

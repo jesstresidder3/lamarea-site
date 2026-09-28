@@ -10,6 +10,7 @@
   Behaviour: ./thank-you.ts.
 */
 import Media from '../../media/Media.astro';
+import { media } from '../../../data/media';
 import Eyebrow from '../../base/Eyebrow.astro';
 import ArrowLink from '../../base/ArrowLink.astro';
 import { cta, contact } from '../../../data/settings';
@@ -19,6 +20,8 @@ import { REST, STORE_KEY } from './funnel-options';
 const labels = Object.fromEntries([...(await getExperiences('guided')).map((e) => [e.id, e.data.name]), [REST.value, REST.label]]);
 const venues = Object.fromEntries((await getVenues()).map((v) => [v.id, v.data.name]));
 const belle = contact.emails.find((e) => e.label === 'Belle');
+// Belle's portrait takes the frame once it exists; until then a calm room at Naiko Deep Creek in an arch.
+const belleIn = Boolean(media('enquire-thanks').src);
 ---
 <section class="ty" data-thanks data-store={STORE_KEY} aria-labelledby="ty-heading">
   <script type="application/json" data-ty-labels set:html={JSON.stringify({ experiences: labels, venues })} />
@@ -42,9 +45,7 @@ const belle = contact.emails.find((e) => e.label === 'Belle');
 
       <div class="ty__more">
         <p class="ty__label">While you wait</p>
-        <p class="ty__guide" data-ty-guide="private"><ArrowLink href="/guides/private-group-guide" label="Private group guide" /></p>
-        <p class="ty__guide" data-ty-guide="corporate"><ArrowLink href="/guides/corporate-group-guide" label="Corporate group guide" /></p>
-        <p class="ty__guide-note" data-draft>The guide is being finished and arrives by email when it is ready.</p>
+        <p class="ty__guide"><ArrowLink href={cta.seeFullDay.href} label={cta.seeFullDay.label} /></p>
       </div>
 
       <p class="ty__stub" data-ty-stub data-notes-only hidden>
@@ -53,7 +54,14 @@ const belle = contact.emails.find((e) => e.label === 'Belle');
     </div>
 
     <aside class="ty__aside" aria-label="Belle Redden">
-      <div class="ty__portrait"><Media media="enquire-thanks" aspect="fill" /></div>
+      <figure class="ty__pic">
+        {belleIn ? (
+          <div class="ty__portrait"><Media media="enquire-thanks" aspect="fill" /></div>
+        ) : (
+          <div class="ty__portrait ty__portrait--arch" data-speed="0.9"><Media media="a-thanks-bath" aspect="fill" sizes="(max-width: 959px) 80vw, 30vw" /></div>
+        )}
+        {!belleIn && <figcaption class="ty__caption">Naiko Deep Creek</figcaption>}
+      </figure>
       <p class="ty__who">Belle Redden, founder of La maréa</p>
       <ul class="ty__contact" role="list">
         {belle && <li><a class="text-link" href={`mailto:${belle.address}`}>{belle.address}</a></li>}
@@ -71,7 +79,7 @@ const belle = contact.emails.find((e) => e.label === 'Belle');
   .ty { padding-block: clamp(2.5rem, 7vw, 6rem) var(--section-y); background: var(--sand-30); min-height: calc(100svh - var(--header-h)); }
   .ty__grid { display: grid; gap: var(--space-xl) var(--space-l); align-items: start; }
   .ty__main { max-width: 40rem; }
-  .ty__heading { margin: 0; font-size: var(--fs-h1); line-height: 1.1; }
+  .ty__heading { margin: 0.5rem 0 0; font-size: clamp(3rem, 1.4rem + 5vw, 5.5rem); line-height: 1; }
   .ty__lead { margin: 1.25rem 0 0; font-family: var(--font-serif); font-size: clamp(1.3rem, 1.15rem + 0.6vw, 1.65rem); line-height: 1.35; color: var(--sage-80); max-width: 24em; }
   .ty__answers { margin-top: clamp(2rem, 4vw, 3rem); }
   .ty__answers[hidden] { display: none; }
@@ -90,7 +98,10 @@ const belle = contact.emails.find((e) => e.label === 'Belle');
   .ty__stub[hidden] { display: none; }
 
   .ty__aside { max-width: 24rem; }
+  .ty__pic { margin: 0; }
   .ty__portrait { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--sand-40); }
+  .ty__portrait--arch { border-radius: var(--arch); aspect-ratio: 3 / 4; }
+  .ty__caption { margin-top: 0.7rem; font-family: var(--font-editorial); font-style: italic; font-size: var(--fs-caption); color: var(--sage-80); }
   .ty__who { margin: 1rem 0 0.4rem; font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.25; color: var(--sage-80); }
   .ty__contact { margin: 0; padding: 0; list-style: none; font-size: var(--fs-small); }
   .ty__contact a { display: inline-flex; align-items: center; min-height: 2.75rem; }

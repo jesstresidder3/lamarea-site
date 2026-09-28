@@ -86,14 +86,16 @@ const base = id ?? uid('meals');
     bottom: 0;
     display: grid;
     gap: 0.3rem;
-    padding: 3rem 1.1rem 1.1rem;
-    background: linear-gradient(to top, rgb(35 32 14 / 0.42), rgb(35 32 14 / 0));
+    margin: 0.6rem;
+    padding: 0.85rem 1rem;
+    background: color-mix(in srgb, var(--salt-25) 94%, transparent);
+    color: var(--sage-100);
     transition: opacity var(--dur-fast) var(--ease-soft);
   }
-  .meal__name { font-family: var(--font-serif); font-size: var(--fs-card); line-height: 1.1; }
+  .meal__name { font-family: var(--font-display); font-size: var(--fs-card); line-height: 1.1; color: var(--sage-80); }
   .meal__time { font-family: var(--font-ui); font-size: 0.72rem; letter-spacing: 0.1em; }
   .meal[data-open] .meal__label { opacity: 0; }
-  .meal__trigger:focus-visible { outline-offset: -4px; outline-color: var(--salt-25); }
+  .meal__trigger:focus-visible { outline-offset: -4px; outline-color: var(--sage-80); }
   .meal--placeholder .meal__media :global(.ph) { filter: saturate(0.6); }
   /* While the slot still shows its light placeholder, the label takes sage ink and the gradient goes (QA M3). */
   .meal__trigger:has(.media--placeholder) { color: var(--sage-100); }
